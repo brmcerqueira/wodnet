@@ -16,7 +16,11 @@
                 "--inspect-wait",
                 "--allow-all",
                 "--config",
-                "./tsconfig.json",
+                "./tsconfig.json"
+            ],
+            "args": [
+                "--token=${env:KANKA_TOKEN}",
+                "--id=${env:KANKA_CAMPAIGN_ID}"
             ],
             "attachSimplePort": 9229
         }

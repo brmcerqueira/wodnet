@@ -1,5 +1,6 @@
-import { characterRender } from "./characterRender.tsx";
 import { base64url } from "./deps.ts";
+import * as kanka from "./kanka.ts";
+import { characterRender } from "./characterRender.tsx";
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -32,9 +33,13 @@ for await (const event of httpServer) {
         await event.respondWith(Response.json({ update: false }));
     }
     else if (url.searchParams.has("id")) {
+        const id = url.searchParams.get("id")!;
+        const character = await kanka.getCharacter(parseInt(decodeBase64(id)));
+        const characterAttributes = await kanka.getCharacterAttributes(character.entity_id);
+        
         await event.respondWith(new Response(textEncoder.encode(await characterRender({
-            id: url.searchParams.get("id")!,
-            name: "",
+            id: id,
+            name: character.name,
             player: "",
             generation: 0,
             attributes: {

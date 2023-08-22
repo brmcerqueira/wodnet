@@ -13,7 +13,9 @@
             "args": [
                 "run",
                 "--allow-all",
-                "main.ts"
+                "main.ts",
+                "--token=$KANKA_TOKEN",
+                "--id=$KANKA_CAMPAIGN_ID"       
             ],
             "group": {
                 "kind": "build",
