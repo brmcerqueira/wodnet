@@ -1,0 +1,71 @@
+table {
+    font-size: larger;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table td {
+    padding-left: 6px;
+} 
+
+hr {
+    clear: left;
+    margin-top: 6px;
+    margin-bottom: 6px;            
+}
+
+.section-status {
+    width: 32%;
+    margin-right: 4px;
+    float: left;                       
+}
+
+.section-status section {
+    margin-bottom: 10px;
+} 
+                
+.section-status h3 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+.section-status p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    text-align: center;
+    width: 100%;
+    font-size: 200%;
+    line-height: 0.6;
+}           
+
+.section-details {
+    width: 32%;
+    float: left;                        
+}
+
+.section-details table {
+    margin-bottom: 6px;
+}          
+
+.td-large {
+    font-size: 140%;
+    line-height: 0.6;
+}
+                                  
+.table-vantagens {
+    width: 32%;
+    float: left;
+    margin-right: 4px;          
+}
+                        
+.section-experiencia {
+    border-style: solid;            
+}                     
+
+.section-experiencia h5 {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 0px;             
+}
