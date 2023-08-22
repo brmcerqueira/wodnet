@@ -38,17 +38,15 @@ export type KankaCharacter = {
     family_id: number,
     families: number[],
     is_dead: boolean,
-    traits: [
-        {
-            id: number,
-            name: string,
-            entry: string,
-            section: string,
-            section_id: number,
-            is_private: boolean,
-            default_order: number
-        }
-    ]
+    traits: {
+        id: number,
+        name: string,
+        entry: string,
+        section: string,
+        section_id: number,
+        is_private: boolean,
+        default_order: number
+    }[]
 }
 
 export type KankaAttribute = {
