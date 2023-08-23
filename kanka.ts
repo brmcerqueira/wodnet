@@ -1,8 +1,6 @@
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 
-const host = `https://kanka.io/api/1.0/campaigns/${config.id}`;
-
 export type KankaResult<T> = {
     data: T
 }
@@ -64,7 +62,7 @@ export type KankaAttribute = {
 }
 
 async function go<T>(method: string, path: string): Promise<T> {
-    const jsonResponse = await fetch(`${host}/${path}`, {
+    const jsonResponse = await fetch(`https://kanka.io/api/1.0/campaigns/${config.id}/${path}`, {
         method: method,
         headers: {
             Authorization: `Bearer ${config.token}`,
