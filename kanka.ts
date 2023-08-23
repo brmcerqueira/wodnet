@@ -1,11 +1,7 @@
 import { config } from "./config.ts";
+import { logger } from "./logger.ts";
 
 const host = `https://kanka.io/api/1.0/campaigns/${config.id}`;
-
-const headersInit: HeadersInit = {
-    Authorization: `Bearer ${config.token}`,
-    "Content-type": "application/json"
-}
 
 export type KankaResult<T> = {
     data: T
@@ -67,22 +63,23 @@ export type KankaAttribute = {
     value: string
 }
 
-export async function getCharacter(id: number): Promise<KankaCharacter> {
-    const jsonResponse = await fetch(`${host}/characters/${id}`, {
-        method: "GET",
-        headers: headersInit
+async function go<T>(method: string, path: string): Promise<T> {
+    const jsonResponse = await fetch(`${host}/${path}`, {
+        method: method,
+        headers: {
+            Authorization: `Bearer ${config.token}`,
+            "Content-type": "application/json"
+        }
     });
-    const jsonData: KankaResult<KankaCharacter> = await jsonResponse.json();
-    console.log(jsonData);
+    const jsonData: KankaResult<T> = await jsonResponse.json();
+    logger.info(jsonData);
     return jsonData.data;
 }
 
+export async function getCharacter(id: number): Promise<KankaCharacter> {
+    return await go("GET", `characters/${id}`);
+}
+
 export async function getCharacterAttributes(id: number): Promise<KankaAttribute[]> {
-    const jsonResponse = await fetch(`${host}/entities/${id}/attributes`, {
-        method: "GET",
-        headers: headersInit
-    });
-    const jsonData: KankaResult<KankaAttribute[]> = await jsonResponse.json();
-    console.log(jsonData);
-    return jsonData.data;
+    return await go("GET", `entities/${id}/attributes`);
 }
