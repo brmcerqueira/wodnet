@@ -2,7 +2,8 @@ import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 
 export type KankaResult<T> = {
-    data: T
+    data: T,
+    sync: Date
 }
 
 export type KankaCharacter = {
@@ -61,7 +62,7 @@ export type KankaAttribute = {
     value: string
 }
 
-async function go<T>(method: string, path: string): Promise<T> {
+async function go<T>(method: string, path: string): Promise<KankaResult<T>> {
     const jsonResponse = await fetch(`https://kanka.io/api/1.0/campaigns/${config.id}/${path}`, {
         method: method,
         headers: {
@@ -71,13 +72,13 @@ async function go<T>(method: string, path: string): Promise<T> {
     });
     const jsonData: KankaResult<T> = await jsonResponse.json();
     logger.info(jsonData);
-    return jsonData.data;
+    return jsonData;
 }
 
-export async function getCharacter(id: number): Promise<KankaCharacter> {
+export async function getCharacter(id: number): Promise<KankaResult<KankaCharacter>> {
     return await go("GET", `characters/${id}`);
 }
 
-export async function getCharacterAttributes(id: number): Promise<KankaAttribute[]> {
+export async function getCharacterAttributes(id: number): Promise<KankaResult<KankaAttribute[]>> {
     return await go("GET", `entities/${id}/attributes`);
 }

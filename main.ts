@@ -1,7 +1,7 @@
 import { base64url } from "./deps.ts";
 
 import { characterRender } from "./characterRender.tsx";
-import { characterBuilder } from "./characterBuilder.ts";
+import { get } from "./characterManager.ts";
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -37,7 +37,7 @@ for await (const event of httpServer) {
         const id = url.searchParams.get("id")!;
         await event.respondWith(new Response(textEncoder.encode(
           await characterRender(
-            await characterBuilder(parseInt(decodeBase64(id)), id)).render())));
+            await get(parseInt(decodeBase64(id)), id)).render())));
     }  
     else {
         await respond404(event);
