@@ -19,8 +19,7 @@
                 "./tsconfig.json"
             ],
             "args": [
-                "--token=${env:KANKA_TOKEN}",
-                "--id=${env:KANKA_CAMPAIGN_ID}"
+                "--token=${env:KANKA_TOKEN}"
             ],
             "attachSimplePort": 9229
         }
