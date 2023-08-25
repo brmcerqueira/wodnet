@@ -1,5 +1,5 @@
-import React, { TsxComplexElement } from "./deps.ts";
-import { Character } from "./character.ts";
+import React, { TsxComplexElement } from "../deps.ts";
+import { Character } from "../character.ts";
 
 export const characterRender = (character: Character, campaignId: number, id: string): TsxComplexElement => (
     <html><head>

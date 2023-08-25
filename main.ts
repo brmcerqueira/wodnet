@@ -1,7 +1,7 @@
 import { base64url } from "./deps.ts";
 
-import { characterRender } from "./characterRender.tsx";
-import { check, get, links } from "./characterManager.ts";
+import { characterRender } from "./views/characterRender.tsx";
+import { check, get, start } from "./characterManager.ts";
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -17,16 +17,16 @@ for await (const event of httpServer) {
     const url = new URL(event.request.url);
 
     if (url.pathname == "/characterRender.css") {
-        await event.respondWith(new Response(await Deno.readFile("./characterRender.css"), {
+        await event.respondWith(new Response(await Deno.readFile("./views/characterRender.css"), {
             status: 200,
             headers: {
                 "Content-Type": "application/css"
             }
         }));
     }
-    else if (url.pathname == "/links" && url.searchParams.has("campaignId") && url.searchParams.has("type")) {
+    else if (url.pathname == "/start" && url.searchParams.has("campaignId") && url.searchParams.has("type")) {
         await event.respondWith(new Response(
-            JSON.stringify(await links(parseInt(url.searchParams.get("campaignId")!), url.searchParams.get("type")!)), {
+            JSON.stringify(await start(parseInt(url.searchParams.get("campaignId")!), url.searchParams.get("type")!)), {
             status: 200
         }));
     } 

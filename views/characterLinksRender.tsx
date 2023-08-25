@@ -1,6 +1,6 @@
-import React, { TsxComplexElement, base64url } from "./deps.ts";
-import * as kanka from "./kanka.ts";
-import { config } from "./config.ts";
+import React, { TsxComplexElement, base64url } from "../deps.ts";
+import * as kanka from "../kanka.ts";
+import { config } from "../config.ts";
 
 export const characterLinksRender = (characters: kanka.KankaCharacter[], campaignId: number): TsxComplexElement => (
     <ul>
