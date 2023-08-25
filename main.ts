@@ -24,9 +24,11 @@ for await (const event of httpServer) {
             }
         }));
     }
-    else if (url.pathname == "/start" && url.searchParams.has("campaignId") && url.searchParams.has("type")) {
+    else if (url.pathname == "/start" && url.searchParams.has("campaignId")) {
         await event.respondWith(new Response(
-            JSON.stringify(await start(parseInt(url.searchParams.get("campaignId")!), url.searchParams.get("type")!)), {
+            JSON.stringify(await start(parseInt(url.searchParams.get("campaignId")!), 
+            url.searchParams.has("type") ? url.searchParams.get("type")! : undefined, 
+            url.searchParams.has("templateId") ? parseInt(url.searchParams.get("templateId")!) : undefined)), {
             status: 200
         }));
     } 

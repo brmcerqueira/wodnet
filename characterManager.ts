@@ -2,6 +2,9 @@ import { Character } from "./character.ts";
 import { characterLinksRender } from "./views/characterLinksRender.tsx";
 import { locale } from "./i18n/locale.ts";
 import * as kanka from "./kanka.ts";
+import { attributes } from "./attributes.ts";
+
+const percent = 0;
 
 const cache: {
   [id: string]: Character
@@ -12,6 +15,7 @@ function getFromCache(key: string): Character {
     cache[key] = {
       sync: undefined,
       name: "",
+      clan: "",
       entityId: 0,
       player: "",
       generation: 0,
@@ -118,31 +122,64 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
   }
 
   if (character.entityId > 0) {
-    const attributes = await kanka.getCharacterAttributes(campaignId, character.entityId, character.sync);
-    if (attributes.sync) {
-      character.sync = attributes.sync;
+    const kankaAttributes = await kanka.getCharacterAttributes(campaignId, character.entityId, character.sync);
+    if (kankaAttributes.sync) {
+      character.sync = kankaAttributes.sync;
+      for (let index = 0; index < attributes.length; index++) {
+        const attribute = attributes[index];
+        for (let kankaIndex = 0; index < kankaAttributes.data.length; kankaIndex++) {
+          const kankaAttribute = kankaAttributes.data[kankaIndex];
+          if (kankaAttribute.name == attribute.name) {
+            attribute.parse(character, kankaAttribute.value);
+            break;
+          }
+        }
+      }
     } 
   }
 }
 
-export async function start(campaignId: number, type: string): Promise<number> {
-  const players = await kanka.getCharactersByType(campaignId, type);
-
-  const note: kanka.KankaNoteBody = {
-    name: locale.characterLinks,
-    entry: await characterLinksRender(players.data, campaignId).render()
+export async function start(campaignId: number, type?: string, templateId?: number): Promise<{
+  players: number,
+  percent: number
+}> {
+  const result = {
+    players: 0,
+    percent: percent
   }
 
-  const notes = await kanka.getNotesByName(campaignId, note.name);
+  if (type) {
+    const players = await kanka.getCharactersByType(campaignId, type);
 
-  if (notes.data.length > 0) {
-    await kanka.updateNote(campaignId, notes.data[0].id, note);
-  } 
-  else {
-    await kanka.createNote(campaignId, note);
+    const note: kanka.KankaNoteBody = {
+      name: locale.characterLinks,
+      entry: await characterLinksRender(players.data, campaignId).render()
+    }
+  
+    const notes = await kanka.getNotesByName(campaignId, note.name);
+  
+    if (notes.data.length > 0) {
+      await kanka.updateNote(campaignId, notes.data[0].id, note);
+    } 
+    else {
+      await kanka.createNote(campaignId, note);
+    }
+
+    result.players = players.data.length;
   }
 
-  return players.data.length;
+  if (templateId && percent == 0) {
+    for (let index = 0; index < attributes.length; index++) {
+      const attribute = attributes[index];
+      await kanka.createAttribute(campaignId, templateId, {
+        entity_id: templateId,
+        name: attribute.name,
+        value: attribute.value
+      });
+    }
+  }
+
+  return result;
 }
 
 export async function check(campaignId: number, id: number): Promise<boolean> {

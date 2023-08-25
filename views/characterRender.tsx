@@ -1,5 +1,6 @@
 import React, { TsxComplexElement } from "../deps.ts";
 import { Character } from "../character.ts";
+import { locale } from "../i18n/locale.ts";
 
 export const characterRender = (character: Character, campaignId: number, id: string): TsxComplexElement => (
     <html><head>
@@ -25,7 +26,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 <tbody>
                     <tr><td>Nome:</td><td>{character.name}</td><td>Geração:</td><td>{character.generation}</td><td>Ambição:</td><td>{character.name}</td></tr>
                     <tr><td>Jogador:</td><td>{character.player}</td><td>Predador:</td><td>{character.name}</td><td>Desejo:</td><td>{character.name}</td></tr>
-                    <tr><td>Crônica:</td><td>{character.name}</td><td>Clã:</td><td>{character.name}</td><td>Ressonância:</td><td>{character}</td></tr>
+                    <tr><td>Crônica:</td><td>{character.name}</td><td>{locale.clan}:</td><td>{character.clan}</td><td>Ressonância:</td><td>{character}</td></tr>
                 </tbody>
             </table>
             <hr />

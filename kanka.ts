@@ -47,6 +47,17 @@ export type KankaCharacter = {
   }[];
 };
 
+export type KankaAttributeBody = {
+  name: string;
+  entity_id: number;
+  value?: string;
+  default_order?: number;
+  type_id?: number;
+  is_private?: boolean;
+  is_pinned?: boolean;
+  api_key?: string;
+};
+
 export type KankaAttribute = {
   api_key: string;
   created_at: Date;
@@ -126,6 +137,14 @@ export async function createNote(
   note: KankaNoteBody,
 ): Promise<KankaResult<KankaNote>> {
   return await go("POST", campaignId, "notes", note);
+}
+
+export async function createAttribute(
+  campaignId: number,
+  entityId: number,
+  attribute: KankaAttributeBody,
+): Promise<KankaResult<KankaNote>> {
+  return await go("POST", campaignId, `entities/${entityId}/attributes`, attribute);
 }
 
 export async function updateNote(
