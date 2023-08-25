@@ -9,9 +9,9 @@ const cache: {
 function getFromCache(key: string): Character {
   if (cache[key] == undefined) {
     cache[key] = {
-      id: "",
+      sync: undefined,
       name: "",
-      sync: new Date(),
+      entityId: 0,
       player: "",
       generation: 0,
       attributes: {
@@ -106,24 +106,35 @@ function getFromCache(key: string): Character {
   return cache[key];
 }
 
-export async function get(id: number, encodeId: string): Promise<Character> {
-  const character: Character = getFromCache(id.toString());
+async function tryUpdate(character: Character, campaignId: number, id: number) {
+  if (character.sync == undefined) {
+    const kankaCharacter = await kanka.getCharacter(campaignId, id);
 
-  try {
-    const kankaCharacter = await kanka.getCharacter(id);
-
-    character.sync = kankaCharacter.sync;
-    character.id = encodeId;
-    character.name = kankaCharacter.data.name;
-    
-    const attributes = await kanka.getCharacterAttributes(kankaCharacter.data.entity_id);
-
-    character.sync = attributes.sync;
-  } 
-  catch (error) {
-    logger.error(error);
+    if (kankaCharacter.data) {
+      character.entityId = kankaCharacter.data.entity_id;
+      character.name = kankaCharacter.data.name;  
+    }
   }
 
-  return character;
+  if (character.entityId > 0) {
+    const attributes = await kanka.getCharacterAttributes(campaignId, character.entityId, character.sync);
+    if (attributes.sync) {
+      character.sync = attributes.sync;
+    } 
+  }
 }
 
+export async function check(campaignId: number, id: number): Promise<boolean> {
+  const character = getFromCache(id.toString());
+  const sync = character.sync;
+  await tryUpdate(character, campaignId, id);
+  return character.sync != sync;
+}
+
+export async function get(campaignId: number, id: number): Promise<Character> {
+  const character = getFromCache(id.toString());
+  if (character.sync == undefined) {
+    await tryUpdate(character, campaignId, id);
+  }
+  return character;
+}

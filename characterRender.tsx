@@ -1,22 +1,21 @@
 import { Character } from "./character.ts";
 import React, { TsxComplexElement } from "./deps.ts";
 
-export const characterRender = (character: Character): TsxComplexElement => (
+export const characterRender = (character: Character, campaignId: number, id: string): TsxComplexElement => (
     <html><head>
         <title>Character</title>
         <meta http-equiv="Content-Type" content="application/html; charset=utf-8" />
         <link media="all" rel="stylesheet" href="characterRender.css"></link>
         <script>{`
         setInterval(async () => {
-          const response = await fetch("check?id=${character.id}", {
+          const response = await fetch("check?campaignId=${campaignId}&id=${id}", {
               method: "GET"
           });
       
           const data = await response.json();
       
           if (data.update) {
-              const pdf = document.getElementById("pdf");
-              pdf.data = pdf.data;
+            window.location.reload();
           }
       }, 5000);
     `}</script>

@@ -20,8 +20,8 @@ export type Disciplines = {
 }
 
 export type Character = {
-    id: string,
-    sync: Date,
+    sync: Date | undefined,
+    entityId: number;
     name: string;
     player: string;
     generation: number;

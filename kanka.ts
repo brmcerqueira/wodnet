@@ -2,9 +2,12 @@ import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 
 export type KankaResult<T> = {
-    data: T,
-    sync: Date
+    data: T
 }
+
+export type KankaSyncResult = {
+    sync: Date
+} 
 
 export type KankaCharacter = {
     id: number,
@@ -62,23 +65,25 @@ export type KankaAttribute = {
     value: string
 }
 
-async function go<T>(method: string, path: string): Promise<KankaResult<T>> {
-    const jsonResponse = await fetch(`https://kanka.io/api/1.0/campaigns/${config.id}/${path}`, {
+async function go<T>(method: string, campaignId: number, path: string): Promise<T> {
+    const fullpath = `https://kanka.io/api/1.0/campaigns/${campaignId}/${path}`; 
+    logger.info(`${method} ${fullpath}`);
+    const jsonResponse = await fetch(fullpath, {
         method: method,
         headers: {
             Authorization: `Bearer ${config.token}`,
             "Content-type": "application/json"
         }
     });
-    const jsonData: KankaResult<T> = await jsonResponse.json();
+    const jsonData = await jsonResponse.json();
     logger.info(jsonData);
     return jsonData;
 }
 
-export async function getCharacter(id: number): Promise<KankaResult<KankaCharacter>> {
-    return await go("GET", `characters/${id}`);
+export async function getCharacter(campaignId: number, id: number): Promise<KankaResult<KankaCharacter>> {
+    return await go("GET", campaignId, `characters/${id}`);
 }
 
-export async function getCharacterAttributes(id: number): Promise<KankaResult<KankaAttribute[]>> {
-    return await go("GET", `entities/${id}/attributes`);
+export async function getCharacterAttributes(campaignId: number, id: number, date?: Date): Promise<KankaResult<KankaAttribute[]> & KankaSyncResult> {
+    return await go("GET", campaignId, `entities/${id}/attributes${date ? `/?lastSync=${date.toString()}` : ""}`);
 }
