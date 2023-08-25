@@ -1,6 +1,6 @@
 import { Character } from "./character.ts";
+import { characterLinksRender } from "./characterLinksRender.tsx";
 import * as kanka from "./kanka.ts";
-import { logger } from "./logger.ts";
 
 const cache: {
   [id: string]: Character
@@ -122,6 +122,26 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
       character.sync = attributes.sync;
     } 
   }
+}
+
+export async function links(campaignId: number, type: string): Promise<number> {
+  const players = await kanka.getCharactersByType(campaignId, type);
+
+  const note: kanka.KankaNoteBody = {
+    name: "Fichas - Links",
+    entry: await characterLinksRender(players.data, campaignId).render()
+  }
+
+  const notes = await kanka.getNotesByName(campaignId, note.name);
+
+  if (notes.data.length > 0) {
+    await kanka.updateNote(campaignId, notes.data[0].id, note);
+  } 
+  else {
+    await kanka.createNote(campaignId, note);
+  }
+
+  return players.data.length;
 }
 
 export async function check(campaignId: number, id: number): Promise<boolean> {

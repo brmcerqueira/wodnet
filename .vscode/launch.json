@@ -19,7 +19,8 @@
                 "./tsconfig.json"
             ],
             "args": [
-                "--token=${env:KANKA_TOKEN}"
+                "--token=${env:KANKA_TOKEN}",
+                "--host=http://localhost:3000"
             ],
             "attachSimplePort": 9229
         }

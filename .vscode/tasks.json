@@ -14,7 +14,8 @@
                 "run",
                 "--allow-all",
                 "main.ts",
-                "--token=$KANKA_TOKEN"      
+                "--token=$KANKA_TOKEN",
+                "--host=http://localhost:3000"      
             ],
             "group": {
                 "kind": "build",

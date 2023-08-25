@@ -1,7 +1,7 @@
 import { base64url } from "./deps.ts";
 
 import { characterRender } from "./characterRender.tsx";
-import { check, get } from "./characterManager.ts";
+import { check, get, links } from "./characterManager.ts";
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -24,6 +24,12 @@ for await (const event of httpServer) {
             }
         }));
     }
+    else if (url.pathname == "/links" && url.searchParams.has("campaignId") && url.searchParams.has("type")) {
+        await event.respondWith(new Response(
+            JSON.stringify(await links(parseInt(url.searchParams.get("campaignId")!), url.searchParams.get("type")!)), {
+            status: 200
+        }));
+    } 
     else if (url.pathname == "/check" && url.searchParams.has("campaignId") && url.searchParams.has("id")) {
         await event.respondWith(Response.json({ update: await check(parseInt(url.searchParams.get("campaignId")!), 
         parseInt(decodeBase64(url.searchParams.get("id")!)))}));

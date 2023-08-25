@@ -1,5 +1,5 @@
-import { Character } from "./character.ts";
 import React, { TsxComplexElement } from "./deps.ts";
+import { Character } from "./character.ts";
 
 export const characterRender = (character: Character, campaignId: number, id: string): TsxComplexElement => (
     <html><head>
@@ -8,16 +8,16 @@ export const characterRender = (character: Character, campaignId: number, id: st
         <link media="all" rel="stylesheet" href="characterRender.css"></link>
         <script>{`
         setInterval(async () => {
-          const response = await fetch("check?campaignId=${campaignId}&id=${id}", {
-              method: "GET"
-          });
-      
-          const data = await response.json();
-      
-          if (data.update) {
-            window.location.reload();
-          }
-      }, 5000);
+            const response = await fetch("check?campaignId=${campaignId}&id=${id}", {
+                method: "GET"
+            });
+        
+            const data = await response.json();
+        
+            if (data.update) {
+                window.location.reload();
+            }
+        }, 5000);
     `}</script>
     </head>
         <body>
