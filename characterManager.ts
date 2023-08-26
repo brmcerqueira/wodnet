@@ -1,12 +1,6 @@
 import { Character } from "./character.ts";
-import { characterLinksRender } from "./views/characterLinksRender.tsx";
-import { locale } from "./i18n/locale.ts";
 import * as kanka from "./kanka.ts";
 import { attributes } from "./attributes.ts";
-import { delay } from "./deps.ts";
-import { logger } from "./logger.ts";
-
-let percent = 0;
 
 const cache: {
   [id: string]: Character;
@@ -272,93 +266,6 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
         }
       }
     }
-  }
-}
-
-export async function start(
-  campaignId: number,
-  type?: string,
-  templateId?: number,
-): Promise<{
-  players: number;
-  percent: number;
-}> {
-  const result = {
-    players: 0,
-    percent: percent,
-  };
-
-  if (type) {
-    const players = await kanka.getCharactersByType(campaignId, type);
-
-    const note: kanka.KankaNoteBody = {
-      name: locale.characterLinks,
-      entry: await characterLinksRender(players.data, campaignId).render(),
-    };
-
-    const notes = await kanka.getNotesByName(campaignId, note.name);
-
-    if (notes.data.length > 0) {
-      await kanka.updateNote(campaignId, notes.data[0].id, note);
-    } else {
-      await kanka.createNote(campaignId, note);
-    }
-
-    result.players = players.data.length;
-  }
-
-  if (templateId && percent == 0) {
-    buildTemplate(campaignId, templateId);
-  }
-
-  return result;
-}
-
-async function buildTemplate(campaignId: number, templateId: number) {
-  const total = Object.keys(attributes).length;
-  let current = 1;
-  for (const name in attributes) {
-    const attribute = attributes[name];
-    await createAttribute(
-      campaignId,
-      templateId,
-      {
-        entity_id: templateId,
-        name: name,
-        value: attribute.value,
-        type_id: attribute.type ? attribute.type : 1,
-      },
-      current,
-      total,
-    );
-    current++;
-  }
-  percent = 0;
-}
-
-async function createAttribute(
-  campaignId: number,
-  templateId: number,
-  attribute: kanka.KankaAttributeBody,
-  current: number,
-  total: number,
-) {
-  const kankaAttribute = await kanka.createAttribute(
-    campaignId,
-    templateId,
-    attribute,
-  );
-
-  if (kankaAttribute.data) {
-    percent = current * 100 / total;
-    logger.info(`template: ${percent}%`);
-  } else {
-    const next = new Date();
-    next.setMinutes(next.getMinutes() + 1);
-    next.setSeconds(5);
-    next.setMilliseconds(0);
-    await delay(next.getTime() - new Date().getTime());
-    await createAttribute(campaignId, templateId, attribute, current, total);
   }
 }
 

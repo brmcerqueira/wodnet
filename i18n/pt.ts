@@ -1,6 +1,10 @@
 import { LocaleType } from "./localeType.ts";
 
 export const pt: LocaleType = {
+  app: "KC",
+  standard: "Padrão",
+  character: "Personagem",
+  player: "Jogador",
   clan: "Clã",
   clanOptions: [
     "Banu Haqim",
@@ -20,8 +24,9 @@ export const pt: LocaleType = {
     "Tzimisce",
     "Ventrue",
   ],
-  characterLinks: "Fichas - Links",
+  characterLinks: "Fichas",
   disciplines: {
+    name: "Disciplinas",
     animalism: {
       name: "Animalismo",
       bondFamulus: "● Vínculo de Servo",

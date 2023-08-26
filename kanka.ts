@@ -9,6 +9,47 @@ export type KankaSyncResult = {
   sync: Date;
 };
 
+export type KankaTag = {
+  id: number;
+  name: string;
+  entry: string,
+  image: string,
+  image_full: string,
+  image_thumb: string,
+  has_custom_image: boolean,
+  is_private: boolean,
+  entity_id: number,
+  tags: number[],
+  created_at: Date,
+  created_by: number,
+  updated_at: Date,
+  updated_by: number,
+  type: string,
+  tag_id: number,
+  colour: string,
+  entities: number[],
+  is_auto_applied: boolean,
+  is_hidden: boolean
+}
+
+export type KankaEntity = {
+  id: number;
+  name: string;
+  type: string,
+  child_id: number,
+  tags: number[];
+  is_private: boolean;
+  campaign_id: number,
+  is_attributes_private: boolean,
+  tooltip: string,
+  header_image: string,
+  image_uuid: string,
+  created_at: Date;
+  created_by: number;
+  updated_at: Date;
+  updated_by: number;
+};
+
 export type KankaCharacter = {
   id: number;
   name: string;
@@ -162,11 +203,11 @@ export async function getNotesByName(
   return await go("GET", campaignId, `notes/?name=${name}`);
 }
 
-export async function getCharactersByType(
+export async function getTagsByName(
   campaignId: number,
-  type: string,
-): Promise<KankaResult<KankaCharacter[]>> {
-  return await go("GET", campaignId, `characters/?type=${type}`);
+  name: string,
+): Promise<KankaResult<KankaTag[]>> {
+  return await go("GET", campaignId,`tags/?name=${name}`);
 }
 
 export async function getCharacter(
@@ -174,6 +215,13 @@ export async function getCharacter(
   id: number,
 ): Promise<KankaResult<KankaCharacter>> {
   return await go("GET", campaignId, `characters/${id}`);
+}
+
+export async function getEntity(
+  campaignId: number,
+  id: number,
+): Promise<KankaResult<KankaEntity>> {
+  return await go("GET", campaignId, `entities/${id}`);
 }
 
 export async function getCharacterAttributes(

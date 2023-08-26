@@ -1,8 +1,13 @@
 export type LocaleType = {
+  app: string;
+  standard: string,
+  character: string;
+  player: string;
   clan: string;
   clanOptions: string[];
   characterLinks: string;
   disciplines: {
+    name: string;
     animalism: {
       name: string;
       bondFamulus: string;
