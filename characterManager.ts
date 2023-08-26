@@ -125,14 +125,11 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
     const kankaAttributes = await kanka.getCharacterAttributes(campaignId, character.entityId, character.sync);
     if (kankaAttributes.sync) {
       character.sync = kankaAttributes.sync;
-      for (let index = 0; index < attributes.length; index++) {
-        const attribute = attributes[index];
-        for (let kankaIndex = 0; index < kankaAttributes.data.length; kankaIndex++) {
-          const kankaAttribute = kankaAttributes.data[kankaIndex];
-          if (kankaAttribute.name == attribute.name) {
-            attribute.parse(character, kankaAttribute.value);
-            break;
-          }
+      for (let index = 0; index < kankaAttributes.data.length; index++) {
+        const kankaAttribute = kankaAttributes.data[index];
+        const attribute = attributes[kankaAttribute.name];
+        if (attribute) {
+          attribute.parse(character, kankaAttribute.value);
         }
       }
     } 
@@ -169,12 +166,11 @@ export async function start(campaignId: number, type?: string, templateId?: numb
   }
 
   if (templateId && percent == 0) {
-    for (let index = 0; index < attributes.length; index++) {
-      const attribute = attributes[index];
+    for (const name in attributes) {
       await kanka.createAttribute(campaignId, templateId, {
         entity_id: templateId,
-        name: attribute.name,
-        value: attribute.value
+        name: name,
+        value: attributes[name].value
       });
     }
   }
