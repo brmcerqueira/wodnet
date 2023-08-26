@@ -143,7 +143,7 @@ export async function createAttribute(
   campaignId: number,
   entityId: number,
   attribute: KankaAttributeBody,
-): Promise<KankaResult<KankaNote>> {
+): Promise<KankaResult<KankaAttribute>> {
   return await go("POST", campaignId, `entities/${entityId}/attributes`, attribute);
 }
 

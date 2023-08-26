@@ -219,4 +219,6 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     </tbody>
                 </table>
             </section>
+            <hr/>
+            <p>{JSON.stringify(character)}</p>
         </body></html>);
