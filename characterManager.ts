@@ -6,12 +6,12 @@ const cache: {
   [id: string]: Character;
 } = {};
 
-function hashCode(data: any): number{
+function hashCode(data: any): number {
   const text = JSON.stringify(data);
   let hash = 0;
   for (let i = 0; i < text.length; i++) {
       const code = text.charCodeAt(i);
-      hash = ((hash<<5)-hash)+code;
+      hash = ((hash << 5)- hash) + code;
       hash = hash & hash;
   }
   return hash;

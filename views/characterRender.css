@@ -18,6 +18,7 @@ img {
     float: left;
     width: 8%;
     height: 17%;
+    border-radius: 2em;
 }
 
 .table-head {
@@ -27,6 +28,11 @@ img {
 .table-head tr:first-child {
     vertical-align: bottom;
     height: 6em;      
+}
+
+.body-dark {
+    background-color: black;
+    color: white;
 }
 
 .section-status {

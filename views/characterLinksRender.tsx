@@ -13,7 +13,7 @@ export const characterLinksRender = (entities: kanka.KankaEntity[], campaignId: 
             }
             return 0;
         }).map(entity =>
-            <li><a href={`${config.host}/?campaignId=${campaignId}&id=${base64url.encode(entity.id.toString())}`}>{entity.name}</a></li>
+            <li><a href={`${config.host}/dark?campaignId=${campaignId}&id=${base64url.encode(entity.id.toString())}`}>{entity.name}</a></li>
         )}
     </ul>
 );

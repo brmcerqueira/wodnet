@@ -1,12 +1,19 @@
 import React, { TsxComplexElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
+import { config } from "../config.ts";
 
-export const characterRender = (character: Character, campaignId: number, id: string): TsxComplexElement => (
-    <html><head>
-        <title>Character</title>
+export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean): TsxComplexElement => {
+    const title = `${character.name} (${character.player})`;
+
+    return <html><head>
+        <title>{title}</title>
         <meta http-equiv="Content-Type" content="application/html; charset=utf-8" />
-        <link media="all" rel="stylesheet" href="characterRender.css"></link>
+        <meta property="og:title" content={title}/>
+        <meta property="og:site_name" content={locale.app}/>
+        <meta property="og:image" content={character.image}/>
+        <meta property="og:url" content={`${config.host}/?campaignId=${campaignId}&id=${id}`}/>
+        <link media="all" rel="stylesheet" href="characterRender.css"/>
         <script>{`
         setInterval(async () => {
             const response = await fetch("check?campaignId=${campaignId}&id=${id}", {
@@ -21,7 +28,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
         }, 5000);
     `}</script>
     </head>
-        <body>
+        <body class={dark ? "body-dark" : ""}>
             <img src={character.image} alt={character.name}/>       
             <table class="table-head">
                 <tbody>
@@ -222,4 +229,5 @@ export const characterRender = (character: Character, campaignId: number, id: st
             </section>
             <hr/>
             <p>{JSON.stringify(character)}</p>
-        </body></html>);
+        </body></html>
+}

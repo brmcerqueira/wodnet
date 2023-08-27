@@ -52,7 +52,7 @@ for await (const event of httpServer) {
             }
             else {         
                 await event.respondWith(new Response(textEncoder.encode(
-                  await characterRender(await get(campaignId, decodeId), campaignId, id).render())));
+                  await characterRender(await get(campaignId, decodeId), campaignId, id, url.pathname == "/dark").render())));
             }
         }
         else {
