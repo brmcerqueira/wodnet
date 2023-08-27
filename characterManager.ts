@@ -10,6 +10,7 @@ function getFromCache(key: string): Character {
   if (cache[key] == undefined) {
     cache[key] = {
       sync: undefined,
+      image: "",
       name: "",
       clan: "",
       player: "",
@@ -98,6 +99,7 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
 
   if (kankaCharacter.data) {
     character.name = kankaCharacter.data.name;
+    character.image = kankaCharacter.data.child.image_full;
     for (
       let index = 0; index < kankaCharacter.data.attributes.length; index++
     ) {
@@ -115,13 +117,14 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
             break;
           case AttributeType.Standard:
           case AttributeType.MultilineTextBlock:
+            default:
             value = kankaAttribute.value;
             break;
         }
         attribute.parse(character, value);
       }
     }
-    character.sync = new Date();
+    character.sync = kankaCharacter.data.updated_at || kankaCharacter.data.created_at;
   }
 }
 

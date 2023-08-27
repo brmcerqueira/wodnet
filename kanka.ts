@@ -9,10 +9,15 @@ export type KankaSyncResult = {
   sync: Date;
 };
 
-export type KankaCharacterEntityRelated = {
+export type KankaCharacterEntityRelated<T> = {
   id: number,
   name: string,
-  attributes: KankaAttribute[]
+  attributes: KankaAttribute[],
+  child: T,
+  created_at: Date,
+  created_by: number,
+  updated_at: Date,
+  updated_by: number
 }
 
 export type KankaTag = {
@@ -269,7 +274,7 @@ export async function getEntity(
 export async function getEntityRelated(
   campaignId: number,
   id: number,
-): Promise<KankaResult<KankaCharacterEntityRelated>> {
+): Promise<KankaResult<KankaCharacterEntityRelated<KankaCharacter>>> {
   return await go("GET", campaignId, `entities/${id}?related=1`);
 }
 
