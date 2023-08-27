@@ -55,6 +55,10 @@ attributes[`${locale.generation.name}[range:4-16]`] = {
   parse: (c, v: number) => c.generation = v || 13,
   type: AttributeType.Number,
 };
+
+
+
+
 attributes[locale.advantages] = {
   type: AttributeType.Section,
 };
