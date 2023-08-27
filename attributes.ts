@@ -30,8 +30,30 @@ function treatDisciplineArray(array: string[], label: string, value: boolean) {
   }
 }
 
-attributes[`${locale.clan}[range:${locale.clanOptions.join(",")}]`] = {
+attributes[locale.player] = {
+  parse: (c, v: string) => c.player = v,
+};
+attributes[locale.sire] = {
+  parse: (c, v: string) => c.sire = v,
+};
+attributes[`${locale.resonance.name}[range:,${locale.resonance.options.join(",")}]`] = {
+  parse: (c, v: string) => c.resonance = v,
+};
+attributes[locale.ambition] = {
+  parse: (c, v: string) => c.ambition = v,
+};
+attributes[locale.desire] = {
+  parse: (c, v: string) => c.desire = v,
+};
+attributes[`${locale.predator.name}[range:${locale.predator.options.join(",")}]`] = {
+  parse: (c, v: string) => c.predator = v,
+};
+attributes[`${locale.clan.name}[range:${locale.clan.options.join(",")}]`] = {
   parse: (c, v: string) => c.clan = v,
+};
+attributes[`${locale.generation.name}[range:4-16]`] = {
+  parse: (c, v: number) => c.generation = v || 13,
+  type: AttributeType.Number,
 };
 attributes[locale.advantages] = {
   type: AttributeType.Section,

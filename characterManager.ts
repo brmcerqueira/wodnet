@@ -23,8 +23,13 @@ function getFromCache(key: string): Character {
       hashCode: undefined,
       image: "",
       name: "",
-      clan: "",
       player: "",
+      sire: "",
+      resonance: "",
+      ambition: "",
+      desire: "",
+      predator: "",
+      clan: "",
       generation: 0,
       attributes: {
         physical: {

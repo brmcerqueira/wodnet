@@ -24,9 +24,9 @@ export const characterRender = (character: Character, campaignId: number, id: st
         <body>
             <table>
                 <tbody>
-                    <tr><td>Nome:</td><td>{character.name}</td><td>Geração:</td><td>{character.generation}</td><td>Ambição:</td><td>{character.name}</td></tr>
-                    <tr><td>Jogador:</td><td>{character.player}</td><td>Predador:</td><td>{character.name}</td><td>Desejo:</td><td>{character.name}</td></tr>
-                    <tr><td>Crônica:</td><td>{character.name}</td><td>{locale.clan}:</td><td>{character.clan}</td><td>Ressonância:</td><td>{character}</td></tr>
+                    <tr><td>{locale.name}:</td><td>{character.name}</td><td>{locale.resonance.name}:</td><td>{character.resonance}</td><td>{locale.predator.name}:</td><td>{character.predator}</td></tr>
+                    <tr><td>{locale.player}:</td><td>{character.player}</td><td>{locale.ambition}:</td><td>{character.ambition}</td><td>{locale.clan.name}:</td><td>{character.clan}</td></tr>
+                    <tr><td>{locale.sire}:</td><td>{character.sire}</td><td>{locale.desire}:</td><td>{character.desire}</td><td>{locale.generation.name}:</td><td>{character.generation}{locale.generation.suffix}</td></tr>
                 </tbody>
             </table>
             <hr />

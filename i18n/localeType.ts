@@ -1,13 +1,31 @@
 export type LocaleType = {
   app: string;
-  standard: string,
+  standard: string;
   character: string;
   template: string;
   characterLinks: string;
+  name: string;
   player: string;
-  clan: string;
-  clanOptions: string[];
-  advantages: string; 
+  sire: string;
+  resonance: {
+    name: string;
+    options: string[];
+  };
+  ambition: string;
+  desire: string;
+  predator: {
+    name: string;
+    options: string[];
+  };
+  clan: {
+    name: string;
+    options: string[];
+  };
+  generation: {
+    name: string;
+    suffix: string;
+  };
+  advantages: string;
   flaws: string;
   disciplines: {
     name: string;

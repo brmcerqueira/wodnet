@@ -8,8 +8,13 @@ export type Character = {
   hashCode: number | undefined;
   image: string;
   name: string;
-  clan: string;
   player: string;
+  sire: string;
+  resonance: string;
+  ambition: string;
+  desire: string;
+  predator: string;
+  clan: string;
   generation: number;
   attributes: {
     physical: {
