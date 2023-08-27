@@ -1,3 +1,8 @@
+type OptionsLocale = {
+  name: string;
+  options: string[];
+}
+
 export type LocaleType = {
   app: string;
   standard: string;
@@ -7,24 +12,81 @@ export type LocaleType = {
   name: string;
   player: string;
   sire: string;
-  resonance: {
-    name: string;
-    options: string[];
-  };
+  resonance: OptionsLocale;
   ambition: string;
   desire: string;
-  predator: {
-    name: string;
-    options: string[];
-  };
-  clan: {
-    name: string;
-    options: string[];
-  };
+  predator: OptionsLocale;
+  clan: OptionsLocale;
   generation: {
     name: string;
     suffix: string;
   };
+  attributes: {
+    physical: {
+      strength: string;
+      dexterity: string;
+      stamina: string;
+    };
+    social: {
+      charisma: string;
+      manipulation: string;
+      composure: string;
+    };
+    mental: {
+      intelligence: string;
+      wits: string;
+      resolve: string;
+    };
+  };
+  skills: {
+    physical: {
+      athletics: string;
+      brawl: string;
+      craft: string;
+      drive: string;
+      firearms: string;
+      melee: string;
+      larceny: string;
+      stealth: string;
+      survival: string;
+    };
+    social: {
+      animalKen: string;
+      etiquette: string;
+      insight: string;
+      intimidation: string;
+      leadership: string;
+      performance: string;
+      persuasion: string;
+      streetwise: string;
+      subterfuge: string;
+    };
+    mental: {
+      academics: string;
+      awareness: string;
+      finance: string;
+      investigation: string;
+      medicine: string;
+      occult: string;
+      politics: string;
+      science: string;
+      technology: string;
+    };
+  };
+  health: string;
+  willpower: string;
+  damage: {
+    superficial: string;
+    aggravated: string;
+  };
+  humanity: string;
+  stains: string;
+  bloodPotency: string;
+  hunger: string;
+  experience: {
+    total: string;
+    spent: string;
+  };  
   advantages: string;
   flaws: string;
   disciplines: {
