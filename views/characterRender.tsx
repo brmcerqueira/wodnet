@@ -4,7 +4,7 @@ import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
 
 export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean): TsxComplexElement => {
-    const title = `${character.name} (${character.player})`;
+    const title = character.player != "" ? `${character.name} (${character.player})` : character.name;
 
     return <html><head>
         <title>{title}</title>
