@@ -674,19 +674,16 @@ attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
   parse: (c, v) => c.disciplines.thinBloodAlchemy.envelop = Boolean(v),
   type: AttributeType.Checkbox,
 };
-
 attributes[locale.disciplines.thinBloodAlchemy.defractionate] = {
   tag: tags.ThinBloodAlchemy,
   parse: (c, v) => c.disciplines.thinBloodAlchemy.defractionate = Boolean(v),
   type: AttributeType.Checkbox,
 };
-
 attributes[locale.disciplines.thinBloodAlchemy.airborneMomentum] = {
   tag: tags.ThinBloodAlchemy,
   parse: (c, v) => c.disciplines.thinBloodAlchemy.airborneMomentum = Boolean(v),
   type: AttributeType.Checkbox,
 };
-
 attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
   tag: tags.ThinBloodAlchemy,
   parse: (c, v) => c.disciplines.thinBloodAlchemy.awakenTheSleeper = Boolean(v),
