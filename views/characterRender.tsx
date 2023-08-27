@@ -18,7 +18,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
             if (data.update) {
                 window.location.reload();
             }
-        }, 60000);
+        }, 5000);
     `}</script>
     </head>
         <body>

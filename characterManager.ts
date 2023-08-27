@@ -1,6 +1,6 @@
 import { Character } from "./character.ts";
 import * as kanka from "./kanka.ts";
-import { attributes } from "./attributes.ts";
+import { attributes, AttributeType } from "./attributes.ts";
 
 const cache: {
   [id: string]: Character;
@@ -86,7 +86,7 @@ function getFromCache(key: string): Character {
         total: 0,
         spent: 0,
       },
-      disciplines: {}
+      disciplines: {},
     };
   }
 
@@ -98,11 +98,27 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
 
   if (kankaCharacter.data) {
     character.name = kankaCharacter.data.name;
-    for (let index = 0; index < kankaCharacter.data.attributes.length; index++) {
+    for (
+      let index = 0; index < kankaCharacter.data.attributes.length; index++
+    ) {
       const kankaAttribute = kankaCharacter.data.attributes[index];
       const attribute = attributes[kankaAttribute.name];
       if (attribute && attribute.parse) {
-        attribute.parse(character, kankaAttribute.value);
+        let value;
+        switch (attribute.type) {
+          case AttributeType.Checkbox:
+            value = kankaAttribute.value == "1";
+            break;
+          case AttributeType.RandomNumber:
+          case AttributeType.Number:
+            value = parseInt(kankaAttribute.value);
+            break;
+          case AttributeType.Standard:
+          case AttributeType.MultilineTextBlock:
+            value = kankaAttribute.value;
+            break;
+        }
+        attribute.parse(character, value);
       }
     }
     character.sync = new Date();
