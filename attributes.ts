@@ -25,8 +25,7 @@ function treatDisciplineArray(array: string[], label: string, value: boolean) {
   const index = array.indexOf(label);
   if (value && index == -1) {
     array.push(label);
-  }
-  else if (!value && index > -1) {
+  } else if (!value && index > -1) {
     array.splice(index, 1);
   }
 }
@@ -53,6 +52,9 @@ attributes[locale.disciplines.animalism.bondFamulus] = {
       locale.disciplines.animalism.bondFamulus,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -65,6 +67,9 @@ attributes[locale.disciplines.animalism.senseTheBeast] = {
       locale.disciplines.animalism.senseTheBeast,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -77,6 +82,9 @@ attributes[locale.disciplines.animalism.feralWhispers] = {
       locale.disciplines.animalism.feralWhispers,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -89,6 +97,9 @@ attributes[locale.disciplines.animalism.animalSucculence] = {
       locale.disciplines.animalism.animalSucculence,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -101,6 +112,9 @@ attributes[locale.disciplines.animalism.quellTheBeast] = {
       locale.disciplines.animalism.quellTheBeast,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -113,6 +127,9 @@ attributes[locale.disciplines.animalism.unlivingHive] = {
       locale.disciplines.animalism.unlivingHive,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -125,6 +142,9 @@ attributes[locale.disciplines.animalism.subsumeTheSpirit] = {
       locale.disciplines.animalism.subsumeTheSpirit,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -137,6 +157,9 @@ attributes[locale.disciplines.animalism.animalDominion] = {
       locale.disciplines.animalism.animalDominion,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -149,6 +172,9 @@ attributes[locale.disciplines.animalism.drawingOutTheBeast] = {
       locale.disciplines.animalism.drawingOutTheBeast,
       v,
     );
+    if (c.disciplines.animalism.length == 0) {
+      c.disciplines.animalism = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -165,6 +191,7 @@ attributes[locale.disciplines.auspex.heightenedSenses] = {
       locale.disciplines.auspex.heightenedSenses,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -177,6 +204,7 @@ attributes[locale.disciplines.auspex.senseTheUnseen] = {
       locale.disciplines.auspex.senseTheUnseen,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -189,6 +217,7 @@ attributes[locale.disciplines.auspex.premonition] = {
       locale.disciplines.auspex.premonition,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -201,6 +230,7 @@ attributes[locale.disciplines.auspex.scryTheSoul] = {
       locale.disciplines.auspex.scryTheSoul,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -213,6 +243,7 @@ attributes[locale.disciplines.auspex.shareTheSenses] = {
       locale.disciplines.auspex.shareTheSenses,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -225,6 +256,7 @@ attributes[locale.disciplines.auspex.spiritsTouch] = {
       locale.disciplines.auspex.spiritsTouch,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -237,6 +269,7 @@ attributes[locale.disciplines.auspex.clairvoyance] = {
       locale.disciplines.auspex.clairvoyance,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -249,6 +282,7 @@ attributes[locale.disciplines.auspex.possession] = {
       locale.disciplines.auspex.possession,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -261,6 +295,7 @@ attributes[locale.disciplines.auspex.telepathy] = {
       locale.disciplines.auspex.telepathy,
       v,
     );
+    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -277,6 +312,7 @@ attributes[locale.disciplines.dominate.cloudMemory] = {
       locale.disciplines.dominate.cloudMemory,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -289,6 +325,7 @@ attributes[locale.disciplines.dominate.compel] = {
       locale.disciplines.dominate.compel,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -301,6 +338,7 @@ attributes[locale.disciplines.dominate.mesmerize] = {
       locale.disciplines.dominate.mesmerize,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -313,6 +351,7 @@ attributes[locale.disciplines.dominate.dementation] = {
       locale.disciplines.dominate.dementation,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -325,6 +364,7 @@ attributes[locale.disciplines.dominate.theForgetfulMind] = {
       locale.disciplines.dominate.theForgetfulMind,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -337,6 +377,7 @@ attributes[locale.disciplines.dominate.submergedDirective] = {
       locale.disciplines.dominate.submergedDirective,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -349,6 +390,7 @@ attributes[locale.disciplines.dominate.rationalize] = {
       locale.disciplines.dominate.rationalize,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -361,6 +403,7 @@ attributes[locale.disciplines.dominate.massManipulation] = {
       locale.disciplines.dominate.massManipulation,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -373,6 +416,7 @@ attributes[locale.disciplines.dominate.terminalDecree] = {
       locale.disciplines.dominate.terminalDecree,
       v,
     );
+    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -391,6 +435,9 @@ attributes[locale.disciplines.bloodSorcery.corrosiveVitae] = {
       locale.disciplines.bloodSorcery.corrosiveVitae,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -405,6 +452,9 @@ attributes[locale.disciplines.bloodSorcery.aTasteForBlood] = {
       locale.disciplines.bloodSorcery.aTasteForBlood,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -419,6 +469,9 @@ attributes[locale.disciplines.bloodSorcery.extinguishVitae] = {
       locale.disciplines.bloodSorcery.extinguishVitae,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -433,6 +486,9 @@ attributes[locale.disciplines.bloodSorcery.bloodOfPotency] = {
       locale.disciplines.bloodSorcery.bloodOfPotency,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -447,6 +503,9 @@ attributes[locale.disciplines.bloodSorcery.scorpionsTouch] = {
       locale.disciplines.bloodSorcery.scorpionsTouch,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -461,6 +520,9 @@ attributes[locale.disciplines.bloodSorcery.theftOfVitae] = {
       locale.disciplines.bloodSorcery.theftOfVitae,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -475,6 +537,9 @@ attributes[locale.disciplines.bloodSorcery.baalsCaress] = {
       locale.disciplines.bloodSorcery.baalsCaress,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -489,6 +554,9 @@ attributes[locale.disciplines.bloodSorcery.cauldronOfBlood] = {
       locale.disciplines.bloodSorcery.cauldronOfBlood,
       v,
     );
+    if (c.disciplines.bloodSorcery.length == 0) {
+      c.disciplines.bloodSorcery = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -505,6 +573,9 @@ attributes[locale.disciplines.fortitude.resilience] = {
       locale.disciplines.fortitude.resilience,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -517,6 +588,9 @@ attributes[locale.disciplines.fortitude.unswayableMind] = {
       locale.disciplines.fortitude.unswayableMind,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -529,6 +603,9 @@ attributes[locale.disciplines.fortitude.toughness] = {
       locale.disciplines.fortitude.toughness,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -541,6 +618,9 @@ attributes[locale.disciplines.fortitude.enduringBeasts] = {
       locale.disciplines.fortitude.enduringBeasts,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -553,6 +633,9 @@ attributes[locale.disciplines.fortitude.defyBane] = {
       locale.disciplines.fortitude.defyBane,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -565,6 +648,9 @@ attributes[locale.disciplines.fortitude.fortifyTheInnerFacade] = {
       locale.disciplines.fortitude.fortifyTheInnerFacade,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -577,6 +663,9 @@ attributes[locale.disciplines.fortitude.draughtOfEndurance] = {
       locale.disciplines.fortitude.draughtOfEndurance,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -589,6 +678,9 @@ attributes[locale.disciplines.fortitude.fleshOfMarble] = {
       locale.disciplines.fortitude.fleshOfMarble,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -601,6 +693,9 @@ attributes[locale.disciplines.fortitude.prowessFromPain] = {
       locale.disciplines.fortitude.prowessFromPain,
       v,
     );
+    if (c.disciplines.fortitude.length == 0) {
+      c.disciplines.fortitude = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -617,6 +712,7 @@ attributes[locale.disciplines.protean.eyesOfTheBeast] = {
       locale.disciplines.protean.eyesOfTheBeast,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -629,6 +725,7 @@ attributes[locale.disciplines.protean.weightOfTheFeather] = {
       locale.disciplines.protean.weightOfTheFeather,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -641,6 +738,7 @@ attributes[locale.disciplines.protean.feralWeapons] = {
       locale.disciplines.protean.feralWeapons,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -653,6 +751,7 @@ attributes[locale.disciplines.protean.earthMeld] = {
       locale.disciplines.protean.earthMeld,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -665,6 +764,7 @@ attributes[locale.disciplines.protean.shapechange] = {
       locale.disciplines.protean.shapechange,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -677,6 +777,7 @@ attributes[locale.disciplines.protean.metamorphosis] = {
       locale.disciplines.protean.metamorphosis,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -689,6 +790,7 @@ attributes[locale.disciplines.protean.mistForm] = {
       locale.disciplines.protean.mistForm,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -701,6 +803,7 @@ attributes[locale.disciplines.protean.theUnfetteredHeart] = {
       locale.disciplines.protean.theUnfetteredHeart,
       v,
     );
+    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -717,6 +820,9 @@ attributes[locale.disciplines.obfuscate.cloakOfShadows] = {
       locale.disciplines.obfuscate.cloakOfShadows,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -729,6 +835,9 @@ attributes[locale.disciplines.obfuscate.silenceOfDeath] = {
       locale.disciplines.obfuscate.silenceOfDeath,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -741,6 +850,9 @@ attributes[locale.disciplines.obfuscate.unseenPassage] = {
       locale.disciplines.obfuscate.unseenPassage,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -753,6 +865,9 @@ attributes[locale.disciplines.obfuscate.ghostInTheMachine] = {
       locale.disciplines.obfuscate.ghostInTheMachine,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -765,6 +880,9 @@ attributes[locale.disciplines.obfuscate.maskOfAThousandFaces] = {
       locale.disciplines.obfuscate.maskOfAThousandFaces,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -777,6 +895,9 @@ attributes[locale.disciplines.obfuscate.conceal] = {
       locale.disciplines.obfuscate.conceal,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -789,6 +910,9 @@ attributes[locale.disciplines.obfuscate.vanish] = {
       locale.disciplines.obfuscate.vanish,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -801,6 +925,9 @@ attributes[locale.disciplines.obfuscate.cloakTheGathering] = {
       locale.disciplines.obfuscate.cloakTheGathering,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -813,6 +940,9 @@ attributes[locale.disciplines.obfuscate.impostorsGuise] = {
       locale.disciplines.obfuscate.impostorsGuise,
       v,
     );
+    if (c.disciplines.obfuscate.length == 0) {
+      c.disciplines.obfuscate = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -829,6 +959,7 @@ attributes[locale.disciplines.potence.lethalBody] = {
       locale.disciplines.potence.lethalBody,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -841,6 +972,7 @@ attributes[locale.disciplines.potence.soaringLeap] = {
       locale.disciplines.potence.soaringLeap,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -853,6 +985,7 @@ attributes[locale.disciplines.potence.prowess] = {
       locale.disciplines.potence.prowess,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -865,6 +998,7 @@ attributes[locale.disciplines.potence.brutalFeed] = {
       locale.disciplines.potence.brutalFeed,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -877,6 +1011,7 @@ attributes[locale.disciplines.potence.sparkOfRage] = {
       locale.disciplines.potence.sparkOfRage,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -889,6 +1024,7 @@ attributes[locale.disciplines.potence.uncannyGrip] = {
       locale.disciplines.potence.uncannyGrip,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -901,6 +1037,7 @@ attributes[locale.disciplines.potence.draughtOfMight] = {
       locale.disciplines.potence.draughtOfMight,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -913,6 +1050,7 @@ attributes[locale.disciplines.potence.earthshock] = {
       locale.disciplines.potence.earthshock,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -925,6 +1063,7 @@ attributes[locale.disciplines.potence.fistOfCaine] = {
       locale.disciplines.potence.fistOfCaine,
       v,
     );
+    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -941,6 +1080,7 @@ attributes[locale.disciplines.presence.awe] = {
       locale.disciplines.presence.awe,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -953,6 +1093,7 @@ attributes[locale.disciplines.presence.daunt] = {
       locale.disciplines.presence.daunt,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -965,6 +1106,7 @@ attributes[locale.disciplines.presence.lingeringKiss] = {
       locale.disciplines.presence.lingeringKiss,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -977,6 +1119,7 @@ attributes[locale.disciplines.presence.dreadGaze] = {
       locale.disciplines.presence.dreadGaze,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -989,6 +1132,7 @@ attributes[locale.disciplines.presence.entrancement] = {
       locale.disciplines.presence.entrancement,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1001,6 +1145,7 @@ attributes[locale.disciplines.presence.irresistibleVoice] = {
       locale.disciplines.presence.irresistibleVoice,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1013,6 +1158,7 @@ attributes[locale.disciplines.presence.summon] = {
       locale.disciplines.presence.summon,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1025,6 +1171,7 @@ attributes[locale.disciplines.presence.majesty] = {
       locale.disciplines.presence.majesty,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1037,6 +1184,7 @@ attributes[locale.disciplines.presence.starMagnetism] = {
       locale.disciplines.presence.starMagnetism,
       v,
     );
+    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1053,6 +1201,7 @@ attributes[locale.disciplines.celerity.catsGrace] = {
       locale.disciplines.celerity.catsGrace,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1065,6 +1214,7 @@ attributes[locale.disciplines.celerity.rapidReflexes] = {
       locale.disciplines.celerity.rapidReflexes,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1077,6 +1227,7 @@ attributes[locale.disciplines.celerity.fleetness] = {
       locale.disciplines.celerity.fleetness,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1089,6 +1240,7 @@ attributes[locale.disciplines.celerity.blink] = {
       locale.disciplines.celerity.blink,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1101,6 +1253,7 @@ attributes[locale.disciplines.celerity.traversal] = {
       locale.disciplines.celerity.traversal,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1113,6 +1266,7 @@ attributes[locale.disciplines.celerity.draughtOfElegance] = {
       locale.disciplines.celerity.draughtOfElegance,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1125,6 +1279,7 @@ attributes[locale.disciplines.celerity.unerringAim] = {
       locale.disciplines.celerity.unerringAim,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1137,6 +1292,7 @@ attributes[locale.disciplines.celerity.lightningStrike] = {
       locale.disciplines.celerity.lightningStrike,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1149,6 +1305,7 @@ attributes[locale.disciplines.celerity.splitSecond] = {
       locale.disciplines.celerity.splitSecond,
       v,
     );
+    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1165,6 +1322,7 @@ attributes[locale.disciplines.rituals.bloodWalk] = {
       locale.disciplines.rituals.bloodWalk,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1177,6 +1335,7 @@ attributes[locale.disciplines.rituals.clingingOfTheInsect] = {
       locale.disciplines.rituals.clingingOfTheInsect,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1189,6 +1348,7 @@ attributes[locale.disciplines.rituals.craftBloodstone] = {
       locale.disciplines.rituals.craftBloodstone,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1201,6 +1361,7 @@ attributes[locale.disciplines.rituals.wakeWithEveningsFreshness] = {
       locale.disciplines.rituals.wakeWithEveningsFreshness,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1213,6 +1374,7 @@ attributes[locale.disciplines.rituals.wardAgainstGhouls] = {
       locale.disciplines.rituals.wardAgainstGhouls,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1225,6 +1387,7 @@ attributes[locale.disciplines.rituals.communicateWithKindredSire] = {
       locale.disciplines.rituals.communicateWithKindredSire,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1237,6 +1400,7 @@ attributes[locale.disciplines.rituals.eyesOfBabel] = {
       locale.disciplines.rituals.eyesOfBabel,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1249,6 +1413,7 @@ attributes[locale.disciplines.rituals.illuminateTheTrailOfPrey] = {
       locale.disciplines.rituals.illuminateTheTrailOfPrey,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1261,6 +1426,7 @@ attributes[locale.disciplines.rituals.truthOfBlood] = {
       locale.disciplines.rituals.truthOfBlood,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1273,6 +1439,7 @@ attributes[locale.disciplines.rituals.wardAgainstSpirits] = {
       locale.disciplines.rituals.wardAgainstSpirits,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1285,6 +1452,7 @@ attributes[locale.disciplines.rituals.wardingCircleAgainstGhouls] = {
       locale.disciplines.rituals.wardingCircleAgainstGhouls,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1297,6 +1465,7 @@ attributes[locale.disciplines.rituals.dagonsCall] = {
       locale.disciplines.rituals.dagonsCall,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1309,6 +1478,7 @@ attributes[locale.disciplines.rituals.deflectionOfWoodenDoom] = {
       locale.disciplines.rituals.deflectionOfWoodenDoom,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1321,6 +1491,7 @@ attributes[locale.disciplines.rituals.essenceOfAir] = {
       locale.disciplines.rituals.essenceOfAir,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1333,6 +1504,7 @@ attributes[locale.disciplines.rituals.firewalker] = {
       locale.disciplines.rituals.firewalker,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1345,6 +1517,7 @@ attributes[locale.disciplines.rituals.wardAgainstLupines] = {
       locale.disciplines.rituals.wardAgainstLupines,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1357,6 +1530,7 @@ attributes[locale.disciplines.rituals.wardingCircleAgainstSpirits] = {
       locale.disciplines.rituals.wardingCircleAgainstSpirits,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1369,6 +1543,7 @@ attributes[locale.disciplines.rituals.defenseOfTheSacredHaven] = {
       locale.disciplines.rituals.defenseOfTheSacredHaven,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1381,6 +1556,7 @@ attributes[locale.disciplines.rituals.eyesOfTheNighthawk] = {
       locale.disciplines.rituals.eyesOfTheNighthawk,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1393,6 +1569,7 @@ attributes[locale.disciplines.rituals.incorporealPassage] = {
       locale.disciplines.rituals.incorporealPassage,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1405,6 +1582,7 @@ attributes[locale.disciplines.rituals.wardAgainstCainites] = {
       locale.disciplines.rituals.wardAgainstCainites,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1417,6 +1595,7 @@ attributes[locale.disciplines.rituals.wardingCircleAgainstLupines] = {
       locale.disciplines.rituals.wardingCircleAgainstLupines,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1429,6 +1608,7 @@ attributes[locale.disciplines.rituals.escapeToTrueSanctuary] = {
       locale.disciplines.rituals.escapeToTrueSanctuary,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1441,6 +1621,7 @@ attributes[locale.disciplines.rituals.heartOfStone] = {
       locale.disciplines.rituals.heartOfStone,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1453,6 +1634,7 @@ attributes[locale.disciplines.rituals.shaftOfBelatedDissolution] = {
       locale.disciplines.rituals.shaftOfBelatedDissolution,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1465,6 +1647,7 @@ attributes[locale.disciplines.rituals.wardingCircleAgainstCainites] = {
       locale.disciplines.rituals.wardingCircleAgainstCainites,
       v,
     );
+    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
   },
   type: AttributeType.Checkbox,
 };
@@ -1483,6 +1666,9 @@ attributes[locale.disciplines.thinBloodAlchemy.farReach] = {
       locale.disciplines.thinBloodAlchemy.farReach,
       v,
     );
+    if (c.disciplines.thinBloodAlchemy.length == 0) {
+      c.disciplines.thinBloodAlchemy = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -1497,6 +1683,9 @@ attributes[locale.disciplines.thinBloodAlchemy.haze] = {
       locale.disciplines.thinBloodAlchemy.haze,
       v,
     );
+    if (c.disciplines.thinBloodAlchemy.length == 0) {
+      c.disciplines.thinBloodAlchemy = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -1511,6 +1700,9 @@ attributes[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = {
       locale.disciplines.thinBloodAlchemy.profaneHierosGamos,
       v,
     );
+    if (c.disciplines.thinBloodAlchemy.length == 0) {
+      c.disciplines.thinBloodAlchemy = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -1525,6 +1717,9 @@ attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
       locale.disciplines.thinBloodAlchemy.envelop,
       v,
     );
+    if (c.disciplines.thinBloodAlchemy.length == 0) {
+      c.disciplines.thinBloodAlchemy = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -1539,6 +1734,9 @@ attributes[locale.disciplines.thinBloodAlchemy.defractionate] = {
       locale.disciplines.thinBloodAlchemy.defractionate,
       v,
     );
+    if (c.disciplines.thinBloodAlchemy.length == 0) {
+      c.disciplines.thinBloodAlchemy = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -1553,6 +1751,9 @@ attributes[locale.disciplines.thinBloodAlchemy.airborneMomentum] = {
       locale.disciplines.thinBloodAlchemy.airborneMomentum,
       v,
     );
+    if (c.disciplines.thinBloodAlchemy.length == 0) {
+      c.disciplines.thinBloodAlchemy = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };
@@ -1567,6 +1768,9 @@ attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
       locale.disciplines.thinBloodAlchemy.awakenTheSleeper,
       v,
     );
+    if (c.disciplines.thinBloodAlchemy.length == 0) {
+      c.disciplines.thinBloodAlchemy = undefined;
+    }
   },
   type: AttributeType.Checkbox,
 };

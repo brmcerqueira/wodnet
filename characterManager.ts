@@ -6,10 +6,21 @@ const cache: {
   [id: string]: Character;
 } = {};
 
+function hashCode(data: any): number{
+  const text = JSON.stringify(data);
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) {
+      const code = text.charCodeAt(i);
+      hash = ((hash<<5)-hash)+code;
+      hash = hash & hash;
+  }
+  return hash;
+}
+
 function getFromCache(key: string): Character {
   if (cache[key] == undefined) {
     cache[key] = {
-      sync: undefined,
+      hashCode: undefined,
       image: "",
       name: "",
       clan: "",
@@ -109,7 +120,7 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
         let value;
         switch (attribute.type) {
           case AttributeType.Checkbox:
-            value = kankaAttribute.value == "1";
+            value = kankaAttribute.value == "1" || kankaAttribute.value == "on";
             break;
           case AttributeType.RandomNumber:
           case AttributeType.Number:
@@ -124,20 +135,21 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
         attribute.parse(character, value);
       }
     }
-    character.sync = kankaCharacter.data.updated_at || kankaCharacter.data.created_at;
+    character.hashCode = undefined;
+    character.hashCode = hashCode(character);
   }
 }
 
 export async function check(campaignId: number, id: number): Promise<boolean> {
   const character = getFromCache(id.toString());
-  const sync = character.sync;
+  const hashCode = character.hashCode;
   await tryUpdate(character, campaignId, id);
-  return character.sync != sync;
+  return character.hashCode != hashCode;
 }
 
 export async function get(campaignId: number, id: number): Promise<Character> {
   const character = getFromCache(id.toString());
-  if (character.sync == undefined) {
+  if (character.hashCode == undefined) {
     await tryUpdate(character, campaignId, id);
   }
   return character;

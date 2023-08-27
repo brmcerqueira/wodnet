@@ -5,7 +5,7 @@ export type Damage = {
 };
 
 export type Character = {
-  sync: Date | undefined;
+  hashCode: number | undefined;
   image: string;
   name: string;
   clan: string;
