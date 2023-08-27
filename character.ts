@@ -6,7 +6,6 @@ export type Damage = {
 
 export type Character = {
   sync: Date | undefined;
-  entityId: number;
   name: string;
   clan: string;
   player: string;

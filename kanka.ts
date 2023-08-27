@@ -9,6 +9,12 @@ export type KankaSyncResult = {
   sync: Date;
 };
 
+export type KankaCharacterEntityRelated = {
+  id: number,
+  name: string,
+  attributes: KankaAttribute[]
+}
+
 export type KankaTag = {
   id: number;
   name: string;
@@ -260,6 +266,13 @@ export async function getEntity(
   return await go("GET", campaignId, `entities/${id}`);
 }
 
+export async function getEntityRelated(
+  campaignId: number,
+  id: number,
+): Promise<KankaResult<KankaCharacterEntityRelated>> {
+  return await go("GET", campaignId, `entities/${id}?related=1`);
+}
+
 export async function getCharacterAttributes(
   campaignId: number,
   id: number,
@@ -268,6 +281,6 @@ export async function getCharacterAttributes(
   return await go(
     "GET",
     campaignId,
-    `entities/${id}/attributes${date ? `/?sync=${date.toString()}` : ""}`,
+    `entities/${id}/attributes${date ? `/?lastSync=${date.toString()}` : ""}`,
   );
 }

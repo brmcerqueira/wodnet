@@ -12,7 +12,6 @@ function getFromCache(key: string): Character {
       sync: undefined,
       name: "",
       clan: "",
-      entityId: 0,
       player: "",
       generation: 0,
       attributes: {
@@ -95,31 +94,18 @@ function getFromCache(key: string): Character {
 }
 
 async function tryUpdate(character: Character, campaignId: number, id: number) {
-  if (character.sync == undefined) {
-    const kankaCharacter = await kanka.getCharacter(campaignId, id);
+  const kankaCharacter = await kanka.getEntityRelated(campaignId, id);
 
-    if (kankaCharacter.data) {
-      character.entityId = kankaCharacter.data.entity_id;
-      character.name = kankaCharacter.data.name;
-    }
-  }
-
-  if (character.entityId > 0) {
-    const kankaAttributes = await kanka.getCharacterAttributes(
-      campaignId,
-      character.entityId,
-      character.sync,
-    );
-    if (kankaAttributes.sync) {
-      character.sync = kankaAttributes.sync;
-      for (let index = 0; index < kankaAttributes.data.length; index++) {
-        const kankaAttribute = kankaAttributes.data[index];
-        const attribute = attributes[kankaAttribute.name];
-        if (attribute && attribute.parse) {
-          attribute.parse(character, kankaAttribute.value);
-        }
+  if (kankaCharacter.data) {
+    character.name = kankaCharacter.data.name;
+    for (let index = 0; index < kankaCharacter.data.attributes.length; index++) {
+      const kankaAttribute = kankaCharacter.data.attributes[index];
+      const attribute = attributes[kankaAttribute.name];
+      if (attribute && attribute.parse) {
+        attribute.parse(character, kankaAttribute.value);
       }
     }
+    character.sync = new Date();
   }
 }
 
