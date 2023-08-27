@@ -129,6 +129,20 @@ export type KankaNoteBody = {
   is_private?: boolean;
 };
 
+export type KankaTagBody = {
+  name: string;
+  entry?: string;
+  type?: string;
+  colour?: string;
+  tag_id?: number;
+  image_url?: string;
+  entity_image_uuid?: string;
+  entity_header_uuid?: string;
+  is_private?: boolean;
+  is_auto_applied?: boolean;
+  is_hidden?: boolean;
+};
+
 export type KankaNote = {
   id: number;
   name: string;
@@ -180,6 +194,13 @@ export async function createNote(
   return await go("POST", campaignId, "notes", note);
 }
 
+export async function createTag(
+  campaignId: number,
+  tag: KankaTagBody,
+): Promise<KankaResult<KankaTag>> {
+  return await go("POST", campaignId, "tags", tag);
+}
+
 export async function createAttribute(
   campaignId: number,
   entityId: number,
@@ -196,6 +217,14 @@ export async function updateNote(
   return await go("PUT", campaignId, `notes/${id}`, note);
 }
 
+export async function updateTag(
+  campaignId: number,
+  id: number,
+  tag: KankaTagBody,
+): Promise<KankaResult<KankaTag>> {
+  return await go("PUT", campaignId, `tags/${id}`, tag);
+}
+
 export async function getNotesByName(
   campaignId: number,
   name: string,
@@ -208,6 +237,13 @@ export async function getTagsByName(
   name: string,
 ): Promise<KankaResult<KankaTag[]>> {
   return await go("GET", campaignId,`tags/?name=${name}`);
+}
+
+export async function getTagsByType(
+  campaignId: number,
+  type: string,
+): Promise<KankaResult<KankaTag[]>> {
+  return await go("GET", campaignId,`tags/?type=${type}`);
 }
 
 export async function getCharacter(

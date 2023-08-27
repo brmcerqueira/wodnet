@@ -2,6 +2,7 @@ import { attributes } from "./attributes.ts";
 import { delay } from "./deps.ts";
 import { logger } from "./logger.ts";
 import * as kanka from "./kanka.ts";
+import * as tags from "./tags.ts";
 
 let percent = 0;
 
@@ -9,30 +10,46 @@ export function setup(
   campaignId: number,
 ): number {
   if (percent == 0) {
-    /*TODO templateId */
-    buildTemplate(campaignId, 0);
+    buildTemplate(campaignId);
   }
 
   return percent;
 }
 
-async function buildTemplate(campaignId: number, templateId: number) {
+async function buildTemplate(campaignId: number) {
   const total = Object.keys(attributes).length;
   let current = 1;
+
+  const map: {
+    [name: string]: number
+  } = {};
+
+  const kankaTags = await kanka.getTagsByType(campaignId, tags.Templates);
+
+  for (let index = 0; index < kankaTags.data.length; index++) {
+    const tag = kankaTags.data[index];
+    if (tag.entities.length > 0) {
+      map[tag.name] = tag.entities[0];  
+    }
+  }
+
   for (const name in attributes) {
     const attribute = attributes[name];
-    await createAttribute(
-      campaignId,
-      templateId,
-      {
-        entity_id: templateId,
-        name: name,
-        value: attribute.value,
-        type_id: attribute.type ? attribute.type : 1,
-      },
-      current,
-      total,
-    );
+    const templateId: number | undefined = map[attribute.tag ? attribute.tag.name : tags.Character.name];
+    if (templateId) {
+      await createAttribute(
+        campaignId,
+        templateId,
+        {
+          entity_id: templateId,
+          name: name,
+          value: attribute.value,
+          type_id: attribute.type ? attribute.type : 1,
+        },
+        current,
+        total,
+      );
+    }
     current++;
   }
   percent = 0;

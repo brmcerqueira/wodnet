@@ -2,54 +2,49 @@ import { locale } from "./i18n/locale.ts";
 import * as kanka from "./kanka.ts";
 
 export const Standard = buildTagKey(locale.standard);
-export const Disciplines = buildTagKey(locale.disciplines.name);
 export const CharacterLinks = buildTagKey(locale.characterLinks);
+export const Templates = buildTagKey(locale.template);
 
 export type Tag = { name: string, type: string }
 
 const tags: Tag[] = [];
 
 export const Player = buildTag(locale.player);
-export const Character = buildTag(locale.character);
-export const Animalism = buildTag(locale.disciplines.animalism.name, Disciplines);
-export const Auspex = buildTag(locale.disciplines.auspex.name, Disciplines);
-export const Dominate = buildTag(locale.disciplines.dominate.name, Disciplines);
-export const BloodSorcery = buildTag(locale.disciplines.bloodSorcery.name, Disciplines);
-export const Fortitude = buildTag(locale.disciplines.fortitude.name, Disciplines);
-export const Protean = buildTag(locale.disciplines.protean.name, Disciplines);
-export const Obfuscate = buildTag(locale.disciplines.obfuscate.name, Disciplines);
-export const Potence = buildTag(locale.disciplines.potence.name, Disciplines);
-export const Presence = buildTag(locale.disciplines.presence.name, Disciplines);
-export const Celerity = buildTag(locale.disciplines.celerity.name, Disciplines);
-export const Rituals = buildTag(locale.disciplines.rituals.name, Disciplines);
-export const ThinBloodAlchemy = buildTag(locale.disciplines.thinBloodAlchemy.name, Disciplines);
+export const Character = buildTag(locale.character, Templates);
+export const Animalism = buildTag(locale.disciplines.animalism.name, Templates);
+export const Auspex = buildTag(locale.disciplines.auspex.name, Templates);
+export const Dominate = buildTag(locale.disciplines.dominate.name, Templates);
+export const BloodSorcery = buildTag(locale.disciplines.bloodSorcery.name, Templates);
+export const Fortitude = buildTag(locale.disciplines.fortitude.name, Templates);
+export const Protean = buildTag(locale.disciplines.protean.name, Templates);
+export const Obfuscate = buildTag(locale.disciplines.obfuscate.name, Templates);
+export const Potence = buildTag(locale.disciplines.potence.name, Templates);
+export const Presence = buildTag(locale.disciplines.presence.name, Templates);
+export const Celerity = buildTag(locale.disciplines.celerity.name, Templates);
+export const Rituals = buildTag(locale.disciplines.rituals.name, Templates);
+export const ThinBloodAlchemy = buildTag(locale.disciplines.thinBloodAlchemy.name, Templates);
 
 export async function setup(
   campaignId: number,
-): Promise<string[]> {
-      /*TODO tags */
-    //const players = await kanka.getCharactersByType(campaignId, "type");
-
-    /*for (let index = 0; index < tags.length; index++) {
+): Promise<Tag[]> {
+    for (let index = 0; index < tags.length; index++) {
         const tag = tags[index];
-        
-    }*/
 
+        const kankaTag: kanka.KankaTagBody = {
+          name: tag.name,
+          type: tag.type
+        };
+      
+        const kankaTags = await kanka.getTagsByName(campaignId, tag.name);
+      
+        if (kankaTags.data.length > 0) {
+          await kanka.updateTag(campaignId, kankaTags.data[0].id, kankaTag);
+        } else {
+          await kanka.createTag(campaignId, kankaTag);
+        }
+    }
 
-
-  const note = {
-    name: locale.characterLinks,
-  };
-
-  const notes = await kanka.getNotesByName(campaignId, note.name);
-
-  if (notes.data.length > 0) {
-    await kanka.updateNote(campaignId, notes.data[0].id, note);
-  } else {
-    await kanka.createNote(campaignId, note);
-  }
-
-  return [];
+  return tags;
 }
 
 function buildTag(name: string, type?: string): Tag {

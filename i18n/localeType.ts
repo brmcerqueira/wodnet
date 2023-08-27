@@ -2,6 +2,7 @@ export type LocaleType = {
   app: string;
   standard: string,
   character: string;
+  template: string;
   player: string;
   clan: string;
   clanOptions: string[];

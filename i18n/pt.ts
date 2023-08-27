@@ -4,6 +4,7 @@ export const pt: LocaleType = {
   app: "KC",
   standard: "Padrão",
   character: "Personagem",
+  template: "Modelo",
   player: "Jogador",
   clan: "Clã",
   clanOptions: [
