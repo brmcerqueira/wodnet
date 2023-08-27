@@ -3,10 +3,12 @@ export type LocaleType = {
   standard: string,
   character: string;
   template: string;
+  characterLinks: string;
   player: string;
   clan: string;
   clanOptions: string[];
-  characterLinks: string;
+  advantages: string; 
+  flaws: string;
   disciplines: {
     name: string;
     animalism: {

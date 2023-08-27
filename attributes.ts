@@ -24,6 +24,12 @@ export const attributes: {
 attributes[`${locale.clan}[range:${locale.clanOptions.join(",")}]`] = {
   parse: (c, v) => c.clan = v,
 };
+attributes[locale.advantages] = {
+  type: AttributeType.Section,
+};
+attributes[locale.flaws] = {
+  type: AttributeType.Section,
+};
 attributes[locale.disciplines.animalism.name] = {
   tag: tags.Animalism,
   type: AttributeType.Section,

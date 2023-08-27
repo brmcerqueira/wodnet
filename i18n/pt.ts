@@ -5,6 +5,7 @@ export const pt: LocaleType = {
   standard: "Padrão",
   character: "Personagem",
   template: "Modelo",
+  characterLinks: "Fichas",
   player: "Jogador",
   clan: "Clã",
   clanOptions: [
@@ -25,7 +26,8 @@ export const pt: LocaleType = {
     "Tzimisce",
     "Ventrue",
   ],
-  characterLinks: "Fichas",
+  advantages: "Vantagens",
+  flaws: "Defeitos",
   disciplines: {
     name: "Disciplinas",
     animalism: {
