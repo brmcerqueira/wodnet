@@ -61,7 +61,11 @@ export const pt: LocaleType = {
     name: "Geração",
     suffix: "ª",
   },
+  physical: "Físicos",
+  social: "Sociais",
+  mental: "Mentais",
   attributes: {
+    name: "Atributos",
     physical: {
       strength: "Força",
       dexterity: "Destreza",
@@ -79,6 +83,7 @@ export const pt: LocaleType = {
     },
   },
   skills: {
+    name: "Habilidades",
     physical: {
       athletics: "Atletismo",
       brawl: "Briga",

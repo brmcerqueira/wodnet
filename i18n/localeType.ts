@@ -21,7 +21,11 @@ export type LocaleType = {
     name: string;
     suffix: string;
   };
+  physical: string;
+  social: string;
+  mental: string;
   attributes: {
+    name: string;
     physical: {
       strength: string;
       dexterity: string;
@@ -39,6 +43,7 @@ export type LocaleType = {
     };
   };
   skills: {
+    name: string;
     physical: {
       athletics: string;
       brawl: string;

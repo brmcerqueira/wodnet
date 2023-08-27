@@ -3,6 +3,18 @@ import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
 
+function dots(value: number, total: number): string {
+    let text = "";
+    for (let i = 1; i <= total; i++) {
+        if (i <= value) {
+            text += "●";
+        } else {
+            text += "○";
+        }
+    }
+    return text;
+}
+
 export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean): TsxComplexElement => {
     const title = character.player != "" ? `${character.name} (${character.player})` : character.name;
 
@@ -40,31 +52,31 @@ export const characterRender = (character: Character, campaignId: number, id: st
             <hr />
             <table>
                 <thead>
-                    <tr><th colspan="6">Atributos</th></tr>
-                    <tr><th colspan="2">Físicos</th><th colspan="2">Sociais</th><th colspan="2">Mentais</th></tr>
+                    <tr><th colspan="6">{locale.attributes.name}</th></tr>
+                    <tr><th colspan="2">{locale.physical}</th><th colspan="2">{locale.social}</th><th colspan="2">{locale.mental}</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Força</td><td class="td-large">●○○○○</td><td>Carisma</td><td class="td-large">●○○○○</td><td>Inteligência</td><td class="td-large">●○○○○</td></tr>
-                    <tr><td>Destreza</td><td class="td-large">●○○○○</td><td>Manipulação</td><td class="td-large">●○○○○</td><td>Raciocínio</td><td class="td-large">●○○○○</td></tr>
-                    <tr><td>Vigor</td><td class="td-large">●○○○○</td><td>Autocontrole</td><td class="td-large">●○○○○</td><td>Perseverança</td><td class="td-large">●○○○○</td></tr>
+                    <tr><td>{locale.attributes.physical.strength}</td><td class="td-large">{dots(character.attributes.physical.strength, 5)}</td><td>{locale.attributes.social.charisma}</td><td class="td-large">{dots(character.attributes.social.charisma, 5)}</td><td>{locale.attributes.mental.intelligence}</td><td class="td-large">{dots(character.attributes.mental.intelligence, 5)}</td></tr>
+                    <tr><td>{locale.attributes.physical.dexterity}</td><td class="td-large">{dots(character.attributes.physical.dexterity, 5)}</td><td>{locale.attributes.social.manipulation}</td><td class="td-large">{dots(character.attributes.social.manipulation, 5)}</td><td>{locale.attributes.mental.wits}</td><td class="td-large">{dots(character.attributes.mental.wits, 5)}</td></tr>
+                    <tr><td>{locale.attributes.physical.stamina}</td><td class="td-large">{dots(character.attributes.physical.stamina, 5)}</td><td>{locale.attributes.social.composure}</td><td class="td-large">{dots(character.attributes.social.composure, 5)}</td><td>{locale.attributes.mental.resolve}</td><td class="td-large">{dots(character.attributes.mental.resolve, 5)}</td></tr>
                 </tbody>
             </table>
             <hr />
             <table>
                 <thead>
-                    <tr><th colspan="6">Habilidades</th></tr>
-                    <tr><th colspan="2">Físicos</th><th colspan="2">Sociais</th><th colspan="2">Mentais</th></tr>
+                    <tr><th colspan="6">{locale.skills.name}</th></tr>
+                    <tr><th colspan="2">{locale.physical}</th><th colspan="2">{locale.social}</th><th colspan="2">{locale.mental}</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Armas Brancas</td><td class="td-large">○○○○○</td><td>Emp. c/Animais</td><td class="td-large">○○○○○</td><td>Acadêmicos</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Armas de Fogo</td><td class="td-large">○○○○○</td><td>Etiqueta</td><td class="td-large">○○○○○</td><td>Ciências</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Briga</td><td class="td-large">○○○○○</td><td>Intimidação</td><td class="td-large">○○○○○</td><td>Finanças</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Condução</td><td class="td-large">○○○○○</td><td>Intuição</td><td class="td-large">○○○○○</td><td>Investigação</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Esportes</td><td class="td-large">○○○○○</td><td>Lábia</td><td class="td-large">○○○○○</td><td>Medicina</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Furtividade</td><td class="td-large">○○○○○</td><td>Liderança</td><td class="td-large">○○○○○</td><td>Ocultismo</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Ofícios</td><td class="td-large">○○○○○</td><td>Manha</td><td class="td-large">○○○○○</td><td>Política</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Roubo</td><td class="td-large">○○○○○</td><td>Performance</td><td class="td-large">○○○○○</td><td>Prontidão</td><td class="td-large">○○○○○</td></tr>
-                    <tr><td>Sobrevivência</td><td class="td-large">○○○○○</td><td>Persuasão</td><td class="td-large">○○○○○</td><td>Tecnologia</td><td class="td-large">○○○○○</td></tr>
+                    <tr><td>{locale.skills.physical.melee}</td><td class="td-large">{dots(character.skills.physical.melee, 5)}</td><td>{locale.skills.social.animalKen}</td><td class="td-large">{dots(character.skills.social.animalKen, 5)}</td><td>{locale.skills.mental.science}</td><td class="td-large">{dots(character.skills.mental.science, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.firearms}</td><td class="td-large">{dots(character.skills.physical.firearms, 5)}</td><td>{locale.skills.social.etiquette}</td><td class="td-large">{dots(character.skills.social.etiquette, 5)}</td><td>{locale.skills.mental.academics}</td><td class="td-large">{dots(character.skills.mental.academics, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.athletics}</td><td class="td-large">{dots(character.skills.physical.athletics, 5)}</td><td>{locale.skills.social.intimidation}</td><td class="td-large">{dots(character.skills.social.intimidation, 5)}</td><td>{locale.skills.mental.finance}</td><td class="td-large">{dots(character.skills.mental.finance, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.brawl}</td><td class="td-large">{dots(character.skills.physical.brawl, 5)}</td><td>{locale.skills.social.leadership}</td><td class="td-large">{dots(character.skills.social.leadership, 5)}</td><td>{locale.skills.mental.investigation}</td><td class="td-large">{dots(character.skills.mental.investigation, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.drive}</td><td class="td-large">{dots(character.skills.physical.drive, 5)}</td><td>{locale.skills.social.streetwise}</td><td class="td-large">{dots(character.skills.social.streetwise, 5)}</td><td>{locale.skills.mental.medicine}</td><td class="td-large">{dots(character.skills.mental.medicine, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.stealth}</td><td class="td-large">{dots(character.skills.physical.stealth, 5)}</td><td>{locale.skills.social.performance}</td><td class="td-large">{dots(character.skills.social.performance, 5)}</td><td>{locale.skills.mental.occult}</td><td class="td-large">{dots(character.skills.mental.occult, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.larceny}</td><td class="td-large">{dots(character.skills.physical.larceny, 5)}</td><td>{locale.skills.social.persuasion}</td><td class="td-large">{dots(character.skills.social.persuasion, 5)}</td><td>{locale.skills.mental.awareness}</td><td class="td-large">{dots(character.skills.mental.awareness, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.craft}</td><td class="td-large">{dots(character.skills.physical.craft, 5)}</td><td>{locale.skills.social.insight}</td><td class="td-large">{dots(character.skills.social.insight, 5)}</td><td>{locale.skills.mental.politics}</td><td class="td-large">{dots(character.skills.mental.politics, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.survival}</td><td class="td-large">{dots(character.skills.physical.survival, 5)}</td><td>{locale.skills.social.subterfuge}</td><td class="td-large">{dots(character.skills.social.subterfuge, 5)}</td><td>{locale.skills.mental.technology}</td><td class="td-large">{dots(character.skills.mental.technology, 5)}</td></tr>
                 </tbody>
             </table>
             <hr />
