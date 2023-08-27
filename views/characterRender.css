@@ -14,6 +14,21 @@ hr {
     margin-bottom: 6px;            
 }
 
+img {
+    float: left;
+    width: 8%;
+    height: 17%;
+}
+
+.table-head {
+    width: 90%;         
+}
+
+.table-head tr:first-child {
+    vertical-align: bottom;
+    height: 6em;      
+}
+
 .section-status {
     width: 32%;
     margin-right: 4px;
@@ -53,17 +68,17 @@ hr {
     line-height: 0.6;
 }
                                   
-.table-vantagens {
+.table-advantages {
     width: 32%;
     float: left;
     margin-right: 4px;          
 }
                         
-.section-experiencia {
+.section-experience {
     border-style: solid;            
 }                     
 
-.section-experiencia h5 {
+.section-experience h5 {
     text-align: center;
     font-weight: bold;
     margin-top: 0px;

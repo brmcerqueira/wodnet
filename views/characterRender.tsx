@@ -22,7 +22,8 @@ export const characterRender = (character: Character, campaignId: number, id: st
     `}</script>
     </head>
         <body>
-            <table>
+            <img src={character.image} alt={character.name}/>       
+            <table class="table-head">
                 <tbody>
                     <tr><td>{locale.name}:</td><td>{character.name}</td><td>{locale.resonance.name}:</td><td>{character.resonance}</td><td>{locale.predator.name}:</td><td>{character.predator}</td></tr>
                     <tr><td>{locale.player}:</td><td>{character.player}</td><td>{locale.ambition}:</td><td>{character.ambition}</td><td>{locale.clan.name}:</td><td>{character.clan}</td></tr>
@@ -140,7 +141,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 </tbody>
             </table>
             <hr />
-            <table class="table-vantagens">
+            <table class="table-advantages">
                 <thead>
                     <tr><th colspan="2">Vantagens</th></tr>
                 </thead>
@@ -185,7 +186,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     <h3>Fome</h3>
                     <p>□□□□□</p>
                 </section>
-                <section class="section-experiencia">
+                <section class="section-experience">
                     <h5>Experiência</h5><br /><br /><br />
                 </section>
             </section>
