@@ -7,25 +7,25 @@ const filledSquare = "▣";
 const halfSquare = "◪";
 const blankSquare = "▢";
 
-function meter(value: number, total: number, blank: string, filled: string): string {
+function meter(total: number, put: (index: number) => string): string {
+    const indexSpace = total > 5 ? (Math.ceil(total / 2) + 1) : 0;
     let text = "";
     for (let i = 1; i <= total; i++) {
-        if (i == 6) {
+        if (i == indexSpace) {
             text += " ";
         }
 
-        if (i <= value) {
-            text += filled;
-        }
-        else {
-            text += blank;
-        }
+        text += put(i);
     }
     return text;
 }
 
+function dualMeter(value: number, total: number, blank: string, filled: string): string {
+    return meter(total, i => i <= value ? filled : blank);
+}
+
 function dots(value: number, total: number): string {
-    return meter(value, total, "○", "●");
+    return dualMeter(value, total, "○", "●");
 }
 
 function damage(superficial: number, aggravated: number, total: number): string {
@@ -34,43 +34,36 @@ function damage(superficial: number, aggravated: number, total: number): string 
     if (indexSuperficial > total) {
         indexAggravated += indexSuperficial - total;
     }
-    let text = "";
-    for (let i = 1; i <= total; i++) {
+    return meter(total, i => {
         if (i <= indexAggravated) {
-            text += filledSquare;
+            return filledSquare;
         } 
         else if (i <= indexSuperficial) {
-            text += halfSquare;
+            return halfSquare;
         } 
         else {
-            text += blankSquare;
+            return blankSquare;
         }
-    }
-    return text;
+    });
 }
 
 function humanity(total: number, stains: number): string {
-    let text = "";
-    for (let i = 1; i <= 10; i++) {
-        if (i == 6) {
-            text += " ";
-        }
-
+    const max = 10;
+    return meter(max, i => {
         if (i <= total) {
-            text += filledSquare;
+            return filledSquare;
         } 
-        else if (i <= 10 - stains) {
-            text += blankSquare;
+        else if (i <= max - stains) {
+            return blankSquare;
         } 
         else {
-            text += halfSquare;
+            return halfSquare;
         }
-    }
-    return text;
+    });
 }
 
 export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean): TsxComplexElement => {
-    const title = character.player != "" ? `${character.name} (${character.player})` : character.name;
+    const title = character.player != null && character.player != "" ? `${character.name} (${character.player})` : character.name;
 
     return <html><head>
         <title>{title}</title>
@@ -78,7 +71,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
         <meta property="og:title" content={title} />
         <meta property="og:site_name" content={locale.app} />
         <meta property="og:image" content={character.image} />
-        <meta property="og:url" content={`${config.host}/?campaignId=${campaignId}&id=${id}`} />
+        <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?campaignId=${campaignId}&id=${id}`} />
         <link media="all" rel="stylesheet" href="characterRender.css" />
         <script>{`
         setInterval(async () => {
@@ -124,7 +117,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     <tr>
                         <td class="td-dots">{dots(character.bloodPotency, 10)}</td>
                         <td class="td-boxes">{damage(character.health.superficial, character.health.aggravated, character.attributes.physical.stamina + 3)}</td>
-                        <td class="td-boxes">{meter(character.hunger, 5, blankSquare, filledSquare)}</td>
+                        <td class="td-boxes">{dualMeter(character.hunger, 5, blankSquare, filledSquare)}</td>
                         <td class="td-boxes">{damage(character.willpower.superficial, character.willpower.aggravated, character.attributes.social.composure + character.attributes.mental.resolve)}</td>
                         <td class="td-boxes">{humanity(character.humanity.total, character.humanity.stains)}</td>
                     </tr>
