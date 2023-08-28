@@ -35,6 +35,24 @@ img {
     color: white;
 }
 
+.table-details {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.table-details td {
+    text-align: center;
+    line-height: 0.6;
+}
+
+.td-dots {
+    font-size: 2em;
+}
+
+.td-boxes {
+    font-size: 1.3em;
+}
+
 .section-status {
     width: 32%;
     margin-right: 4px;

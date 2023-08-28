@@ -3,13 +3,67 @@ import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
 
-function dots(value: number, total: number): string {
+const filledSquare = "▣";
+const halfSquare = "◪";
+const blankSquare = "▢";
+
+function meter(value: number, total: number, blank: string, filled: string): string {
     let text = "";
     for (let i = 1; i <= total; i++) {
+        if (i == 6) {
+            text += " ";
+        }
+
         if (i <= value) {
-            text += "●";
-        } else {
-            text += "○";
+            text += filled;
+        }
+        else {
+            text += blank;
+        }
+    }
+    return text;
+}
+
+function dots(value: number, total: number): string {
+    return meter(value, total, "○", "●");
+}
+
+function damage(superficial: number, aggravated: number, total: number): string {
+    const indexSuperficial = aggravated + Math.ceil(superficial / 2);
+    let indexAggravated = aggravated;
+    if (indexSuperficial > total) {
+        indexAggravated += indexSuperficial - total;
+    }
+    let text = "";
+    for (let i = 1; i <= total; i++) {
+        if (i <= indexAggravated) {
+            text += filledSquare;
+        } 
+        else if (i <= indexSuperficial) {
+            text += halfSquare;
+        } 
+        else {
+            text += blankSquare;
+        }
+    }
+    return text;
+}
+
+function humanity(total: number, stains: number): string {
+    let text = "";
+    for (let i = 1; i <= 10; i++) {
+        if (i == 6) {
+            text += " ";
+        }
+
+        if (i <= total) {
+            text += filledSquare;
+        } 
+        else if (i <= 10 - stains) {
+            text += blankSquare;
+        } 
+        else {
+            text += halfSquare;
         }
     }
     return text;
@@ -21,11 +75,11 @@ export const characterRender = (character: Character, campaignId: number, id: st
     return <html><head>
         <title>{title}</title>
         <meta http-equiv="Content-Type" content="application/html; charset=utf-8" />
-        <meta property="og:title" content={title}/>
-        <meta property="og:site_name" content={locale.app}/>
-        <meta property="og:image" content={character.image}/>
-        <meta property="og:url" content={`${config.host}/?campaignId=${campaignId}&id=${id}`}/>
-        <link media="all" rel="stylesheet" href="characterRender.css"/>
+        <meta property="og:title" content={title} />
+        <meta property="og:site_name" content={locale.app} />
+        <meta property="og:image" content={character.image} />
+        <meta property="og:url" content={`${config.host}/?campaignId=${campaignId}&id=${id}`} />
+        <link media="all" rel="stylesheet" href="characterRender.css" />
         <script>{`
         setInterval(async () => {
             const response = await fetch("check?campaignId=${campaignId}&id=${id}", {
@@ -41,7 +95,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
     `}</script>
     </head>
         <body class={dark ? "body-dark" : ""}>
-            <img src={character.image} alt={character.name}/>       
+            <img src={character.image} alt={character.name} />
             <table class="table-head">
                 <tbody>
                     <tr><td>{locale.name}:</td><td>{character.name}</td><td>{locale.resonance.name}:</td><td>{character.resonance}</td><td>{locale.predator.name}:</td><td>{character.predator}</td></tr>
@@ -59,6 +113,21 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     <tr><td>{locale.attributes.physical.strength}</td><td class="td-large">{dots(character.attributes.physical.strength, 5)}</td><td>{locale.attributes.social.charisma}</td><td class="td-large">{dots(character.attributes.social.charisma, 5)}</td><td>{locale.attributes.mental.intelligence}</td><td class="td-large">{dots(character.attributes.mental.intelligence, 5)}</td></tr>
                     <tr><td>{locale.attributes.physical.dexterity}</td><td class="td-large">{dots(character.attributes.physical.dexterity, 5)}</td><td>{locale.attributes.social.manipulation}</td><td class="td-large">{dots(character.attributes.social.manipulation, 5)}</td><td>{locale.attributes.mental.wits}</td><td class="td-large">{dots(character.attributes.mental.wits, 5)}</td></tr>
                     <tr><td>{locale.attributes.physical.stamina}</td><td class="td-large">{dots(character.attributes.physical.stamina, 5)}</td><td>{locale.attributes.social.composure}</td><td class="td-large">{dots(character.attributes.social.composure, 5)}</td><td>{locale.attributes.mental.resolve}</td><td class="td-large">{dots(character.attributes.mental.resolve, 5)}</td></tr>
+                </tbody>
+            </table>
+            <hr />
+            <table class="table-details">
+                <thead>
+                    <tr><th>{locale.bloodPotency}</th><th>{locale.health}</th><th>{locale.hunger}</th><th>{locale.willpower}</th><th>{locale.humanity}</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="td-dots">{dots(character.bloodPotency, 10)}</td>
+                        <td class="td-boxes">{damage(character.health.superficial, character.health.aggravated, character.attributes.physical.stamina + 3)}</td>
+                        <td class="td-boxes">{meter(character.hunger, 5, blankSquare, filledSquare)}</td>
+                        <td class="td-boxes">{damage(character.willpower.superficial, character.willpower.aggravated, character.attributes.social.composure + character.attributes.mental.resolve)}</td>
+                        <td class="td-boxes">{humanity(character.humanity.total, character.humanity.stains)}</td>
+                    </tr>
                 </tbody>
             </table>
             <hr />
@@ -239,7 +308,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     </tbody>
                 </table>
             </section>
-            <hr/>
+            <hr />
             <p>{JSON.stringify(character)}</p>
         </body></html>
 }
