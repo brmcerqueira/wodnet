@@ -8,7 +8,6 @@ export type Character = {
   image: string;
   name: string;
   player: string;
-  sire: string;
   resonance: string;
   ambition: string;
   desire: string;

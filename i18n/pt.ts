@@ -8,7 +8,6 @@ export const pt: LocaleType = {
   characterLinks: "Fichas",
   name: "Nome",
   player: "Jogador",
-  sire: "Senhor",
   resonance: {
     name: "Ressonância",
     options: [
@@ -129,8 +128,9 @@ export const pt: LocaleType = {
   bloodPotency: "Potência de Sangue",
   hunger: "Fome",
   experience: {
-    total: "Experiência Total",
-    spent: "Experiência Gasta",
+    name: "Experiência",
+    total: "Total",
+    spent: "Gasta",
   },
   advantages: "Vantagens",
   flaws: "Defeitos",

@@ -11,7 +11,6 @@ export type LocaleType = {
   characterLinks: string;
   name: string;
   player: string;
-  sire: string;
   resonance: OptionsLocale;
   ambition: string;
   desire: string;
@@ -89,6 +88,7 @@ export type LocaleType = {
   bloodPotency: string;
   hunger: string;
   experience: {
+    name: string;
     total: string;
     spent: string;
   };  

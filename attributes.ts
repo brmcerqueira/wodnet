@@ -33,9 +33,6 @@ function treatDisciplineArray(array: string[], label: string, value: boolean) {
 attributes[locale.player] = {
   parse: (c, v: string) => c.player = v,
 };
-attributes[locale.sire] = {
-  parse: (c, v: string) => c.sire = v,
-};
 attributes[
   `${locale.resonance.name}[range:,${locale.resonance.options.join(",")}]`
 ] = {
@@ -55,23 +52,23 @@ attributes[
 attributes[`${locale.clan.name}[range:${locale.clan.options.join(",")}]`] = {
   parse: (c, v: string) => c.clan = v,
 };
-attributes[`${locale.generation.name}[range:4-16]`] = {
+attributes[`${locale.generation.name}[range:4,16]`] = {
   parse: (c, v: number) => c.generation = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.bloodPotency}[range:0-10]`] = {
+attributes[`${locale.bloodPotency}[range:0,10]`] = {
   parse: (c, v: number) => c.bloodPotency = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.hunger}[range:0-5]`] = {
+attributes[`${locale.hunger}[range:0,5]`] = {
   parse: (c, v: number) => c.hunger = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.humanity}[range:0-10]`] = {
+attributes[`${locale.humanity}[range:0,10]`] = {
   parse: (c, v: number) => c.humanity.total = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.stains}[range:0-10]`] = {
+attributes[`${locale.stains}[range:0,10]`] = {
   parse: (c, v: number) => c.humanity.stains = v,
   type: AttributeType.Number,
 };
@@ -91,173 +88,173 @@ attributes[`${locale.willpower} - ${locale.damage.aggravated}`] = {
   parse: (c, v: number) => c.willpower.aggravated = v,
   type: AttributeType.Number,
 };
-attributes[locale.experience.total] = {
+attributes[`${locale.experience.name} - ${locale.experience.total}`] = {
   parse: (c, v: number) => c.experience.total = v,
   type: AttributeType.Number,
 };
-attributes[locale.experience.spent] = {
+attributes[`${locale.experience.name} - ${locale.experience.spent}`] = {
   parse: (c, v: number) => c.experience.spent = v,
   type: AttributeType.Number,
 };
 attributes[`${locale.attributes.name} - ${locale.physical}`] = {
   type: AttributeType.Section,
 };
-attributes[`${locale.attributes.physical.strength}[range:1-5]`] = {
+attributes[`${locale.attributes.physical.strength}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.physical.strength = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.attributes.physical.dexterity}[range:1-5]`] = {
+attributes[`${locale.attributes.physical.dexterity}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.physical.dexterity = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.attributes.physical.stamina}[range:1-5]`] = {
+attributes[`${locale.attributes.physical.stamina}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.physical.stamina = v,
   type: AttributeType.Number,
 };
 attributes[`${locale.attributes.name} - ${locale.social}`] = {
   type: AttributeType.Section,
 };
-attributes[`${locale.attributes.social.charisma}[range:1-5]`] = {
+attributes[`${locale.attributes.social.charisma}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.social.charisma = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.attributes.social.manipulation}[range:1-5]`] = {
+attributes[`${locale.attributes.social.manipulation}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.social.manipulation = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.attributes.social.composure}[range:1-5]`] = {
+attributes[`${locale.attributes.social.composure}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.social.composure = v,
   type: AttributeType.Number,
 };
 attributes[`${locale.attributes.name} - ${locale.mental}`] = {
   type: AttributeType.Section,
 };
-attributes[`${locale.attributes.mental.intelligence}[range:1-5]`] = {
+attributes[`${locale.attributes.mental.intelligence}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.mental.intelligence = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.attributes.mental.wits}[range:1-5]`] = {
+attributes[`${locale.attributes.mental.wits}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.mental.wits = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.attributes.mental.resolve}[range:1-5]`] = {
+attributes[`${locale.attributes.mental.resolve}[range:1,5]`] = {
   parse: (c, v: number) => c.attributes.mental.resolve = v,
   type: AttributeType.Number,
 };
 attributes[`${locale.skills.name} - ${locale.physical}`] = {
   type: AttributeType.Section,
 };
-attributes[`${locale.skills.physical.melee}[range:0-5]`] = {
+attributes[`${locale.skills.physical.melee}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.melee = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.firearms}[range:0-5]`] = {
+attributes[`${locale.skills.physical.firearms}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.firearms = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.athletics}[range:0-5]`] = {
+attributes[`${locale.skills.physical.athletics}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.athletics = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.brawl}[range:0-5]`] = {
+attributes[`${locale.skills.physical.brawl}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.brawl = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.drive}[range:0-5]`] = {
+attributes[`${locale.skills.physical.drive}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.drive = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.stealth}[range:0-5]`] = {
+attributes[`${locale.skills.physical.stealth}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.stealth = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.larceny}[range:0-5]`] = {
+attributes[`${locale.skills.physical.larceny}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.larceny = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.craft}[range:0-5]`] = {
+attributes[`${locale.skills.physical.craft}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.craft = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.physical.survival}[range:0-5]`] = {
+attributes[`${locale.skills.physical.survival}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.physical.survival = v,
   type: AttributeType.Number,
 };
 attributes[`${locale.skills.name} - ${locale.social}`] = {
   type: AttributeType.Section,
 };
-attributes[`${locale.skills.social.animalKen}[range:0-5]`] = {
+attributes[`${locale.skills.social.animalKen}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.animalKen = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.etiquette}[range:0-5]`] = {
+attributes[`${locale.skills.social.etiquette}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.etiquette = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.intimidation}[range:0-5]`] = {
+attributes[`${locale.skills.social.intimidation}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.intimidation = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.leadership}[range:0-5]`] = {
+attributes[`${locale.skills.social.leadership}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.leadership = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.streetwise}[range:0-5]`] = {
+attributes[`${locale.skills.social.streetwise}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.streetwise = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.performance}[range:0-5]`] = {
+attributes[`${locale.skills.social.performance}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.performance = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.persuasion}[range:0-5]`] = {
+attributes[`${locale.skills.social.persuasion}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.persuasion = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.insight}[range:0-5]`] = {
+attributes[`${locale.skills.social.insight}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.insight = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.social.subterfuge}[range:0-5]`] = {
+attributes[`${locale.skills.social.subterfuge}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.social.subterfuge = v,
   type: AttributeType.Number,
 };
 attributes[`${locale.skills.name} - ${locale.mental}`] = {
   type: AttributeType.Section,
 };
-attributes[`${locale.skills.mental.science}[range:0-5]`] = {
+attributes[`${locale.skills.mental.science}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.science = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.academics}[range:0-5]`] = {
+attributes[`${locale.skills.mental.academics}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.academics = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.finance}[range:0-5]`] = {
+attributes[`${locale.skills.mental.finance}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.finance = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.investigation}[range:0-5]`] = {
+attributes[`${locale.skills.mental.investigation}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.investigation = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.medicine}[range:0-5]`] = {
+attributes[`${locale.skills.mental.medicine}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.medicine = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.occult}[range:0-5]`] = {
+attributes[`${locale.skills.mental.occult}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.occult = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.awareness}[range:0-5]`] = {
+attributes[`${locale.skills.mental.awareness}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.awareness = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.politics}[range:0-5]`] = {
+attributes[`${locale.skills.mental.politics}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.politics = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.skills.mental.technology}[range:0-5]`] = {
+attributes[`${locale.skills.mental.technology}[range:0,5]`] = {
   parse: (c, v: number) => c.skills.mental.technology = v,
   type: AttributeType.Number,
 };

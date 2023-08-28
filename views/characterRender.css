@@ -6,12 +6,12 @@ table {
 
 table td {
     padding-left: 6px;
-} 
+}
 
 hr {
     clear: left;
     margin-top: 6px;
-    margin-bottom: 6px;            
+    margin-bottom: 6px;
 }
 
 img {
@@ -22,17 +22,26 @@ img {
 }
 
 .table-head {
-    width: 90%;         
+    width: 90%;
 }
 
 .table-head tr:first-child {
     vertical-align: bottom;
-    height: 6em;      
+    height: 6em;
 }
 
 .body-dark {
     background-color: black;
     color: white;
+}
+
+.body-dark svg {
+    fill: white;
+}
+
+svg {
+    margin-right: 0.1em;
+    margin-left: 0.1em;
 }
 
 .table-details {
@@ -45,24 +54,16 @@ img {
     line-height: 0.6;
 }
 
-.td-dots {
-    font-size: 2em;
-}
-
-.td-boxes {
-    font-size: 1.3em;
-}
-
 .section-status {
     width: 32%;
     margin-right: 4px;
-    float: left;                       
+    float: left;
 }
 
 .section-status section {
     margin-bottom: 10px;
-} 
-                
+}
+
 .section-status h3 {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -76,35 +77,34 @@ img {
     width: 100%;
     font-size: 200%;
     line-height: 0.6;
-}           
+}
 
 .section-details {
     width: 32%;
-    float: left;                        
+    float: left;
 }
 
 .section-details table {
     margin-bottom: 6px;
-}          
+}
 
 .td-large {
-    font-size: 140%;
-    line-height: 0.6;
+    font-size: 130%;
 }
-                                  
+
 .table-advantages {
     width: 32%;
     float: left;
-    margin-right: 4px;          
+    margin-right: 4px;
 }
-                        
+
 .section-experience {
-    border-style: solid;            
-}                     
+    border-style: solid;
+}
 
 .section-experience h5 {
     text-align: center;
     font-weight: bold;
     margin-top: 0px;
-    margin-bottom: 0px;             
+    margin-bottom: 0px;
 }
