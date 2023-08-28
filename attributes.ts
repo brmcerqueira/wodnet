@@ -59,6 +59,46 @@ attributes[`${locale.generation.name}[range:4-16]`] = {
   parse: (c, v: number) => c.generation = v,
   type: AttributeType.Number,
 };
+attributes[`${locale.bloodPotency}[range:0-10]`] = {
+  parse: (c, v: number) => c.bloodPotency = v,
+  type: AttributeType.Number,
+};
+attributes[`${locale.hunger}[range:0-5]`] = {
+  parse: (c, v: number) => c.hunger = v,
+  type: AttributeType.Number,
+};
+attributes[`${locale.humanity}[range:0-10]`] = {
+  parse: (c, v: number) => c.humanity.total = v,
+  type: AttributeType.Number,
+};
+attributes[`${locale.stains}[range:0-10]`] = {
+  parse: (c, v: number) => c.humanity.stains = v,
+  type: AttributeType.Number,
+};
+attributes[`${locale.health} - ${locale.damage.superficial}`] = {
+  parse: (c, v: number) => c.health.superficial = v,
+  type: AttributeType.Number,
+};
+attributes[`${locale.health} - ${locale.damage.aggravated}`] = {
+  parse: (c, v: number) => c.health.aggravated = v,
+  type: AttributeType.Number,
+};
+attributes[`${locale.willpower} - ${locale.damage.superficial}`] = {
+  parse: (c, v: number) => c.willpower.superficial = v,
+  type: AttributeType.Number,
+};
+attributes[`${locale.willpower} - ${locale.damage.aggravated}`] = {
+  parse: (c, v: number) => c.willpower.aggravated = v,
+  type: AttributeType.Number,
+};
+attributes[locale.experience.total] = {
+  parse: (c, v: number) => c.experience.total = v,
+  type: AttributeType.Number,
+};
+attributes[locale.experience.spent] = {
+  parse: (c, v: number) => c.experience.spent = v,
+  type: AttributeType.Number,
+};
 attributes[`${locale.attributes.name} - ${locale.physical}`] = {
   type: AttributeType.Section,
 };

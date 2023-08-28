@@ -29,7 +29,7 @@ function dots(value: number, total: number): string {
 }
 
 function damage(superficial: number, aggravated: number, total: number): string {
-    const indexSuperficial = aggravated + Math.ceil(superficial / 2);
+    const indexSuperficial = aggravated + superficial;
     let indexAggravated = aggravated;
     if (indexSuperficial > total) {
         indexAggravated += indexSuperficial - total;
