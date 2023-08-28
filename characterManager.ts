@@ -86,12 +86,10 @@ function getFromCache(key: string): Character {
       health: {
         superficial: 0,
         aggravated: 0,
-        penalty: 0,
       },
       willpower: {
         superficial: 0,
         aggravated: 0,
-        penalty: 0,
       },
       humanity: {
         total: 0,
@@ -129,7 +127,7 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
             break;
           case AttributeType.RandomNumber:
           case AttributeType.Number:
-            value = parseInt(kankaAttribute.value);
+            value = parseInt(kankaAttribute.value) || 0;
             break;
           case AttributeType.Standard:
           case AttributeType.MultilineTextBlock:

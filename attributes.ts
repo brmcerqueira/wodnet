@@ -56,7 +56,7 @@ attributes[`${locale.clan.name}[range:${locale.clan.options.join(",")}]`] = {
   parse: (c, v: string) => c.clan = v,
 };
 attributes[`${locale.generation.name}[range:4-16]`] = {
-  parse: (c, v: number) => c.generation = v || 13,
+  parse: (c, v: number) => c.generation = v,
   type: AttributeType.Number,
 };
 attributes[`${locale.attributes.name} - ${locale.physical}`] = {
