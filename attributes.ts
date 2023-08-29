@@ -1999,3 +1999,15 @@ attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
   },
   type: AttributeType.Checkbox,
 };
+attributes[locale.specialties.name] = {
+  tag: tags.Specialties,
+  type: AttributeType.Section,
+};
+attributes[`${locale.specialties.skill}[range:${Object.values(locale.skills.physical).join(",")}${Object.values(locale.skills.social).join(",")}${Object.values(locale.skills.mental).join(",")}]`] = {
+  tag: tags.Specialties,
+  parse: (c, v: string) => {
+    if (c.specialties[v] == undefined) {
+      c.specialties[v] = [];
+    }
+  },
+};

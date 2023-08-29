@@ -140,11 +140,11 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="td-large"><Dots value={character.bloodPotency} total={10}/></td>
-                        <td class="td-large"><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3}/></td>
-                        <td class="td-large"><DualMeter value={character.hunger} total={5} blank={BlankSquare} filled={FilledSquare}/></td>
-                        <td class="td-large"><Damage superficial={character.willpower.superficial} aggravated={character.willpower.aggravated} total={character.attributes.social.composure + character.attributes.mental.resolve}/></td>
-                        <td class="td-large"><Humanity total={character.humanity.total} stains={character.humanity.stains}/></td>
+                        <td><Dots value={character.bloodPotency} total={10}/></td>
+                        <td><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3}/></td>
+                        <td><DualMeter value={character.hunger} total={5} blank={BlankSquare} filled={FilledSquare}/></td>
+                        <td><Damage superficial={character.willpower.superficial} aggravated={character.willpower.aggravated} total={character.attributes.social.composure + character.attributes.mental.resolve}/></td>
+                        <td><Humanity total={character.humanity.total} stains={character.humanity.stains}/></td>
                     </tr>
                 </tbody>
             </table>

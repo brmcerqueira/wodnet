@@ -78,6 +78,9 @@ export type Character = {
     total: number;
     spent: number;
   };
+  specialties: {
+    [skill: string]: string[]
+  };
   disciplines: {
     animalism?: string[];
     auspex?: string[];

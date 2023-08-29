@@ -7,6 +7,11 @@ export type LocaleType = {
   app: string;
   standard: string;
   character: string;
+  specialties: {
+    name: string,
+    skill: string,
+    specialty: string
+  };
   template: string;
   characterLinks: string;
   name: string;

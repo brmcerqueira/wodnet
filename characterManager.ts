@@ -24,7 +24,6 @@ function getFromCache(key: string): Character {
       image: "",
       name: "",
       player: "",
-      sire: "",
       resonance: "",
       ambition: "",
       desire: "",
@@ -101,7 +100,8 @@ function getFromCache(key: string): Character {
         total: 0,
         spent: 0,
       },
-      disciplines: {},
+      specialties: {},
+      disciplines: {},  
     };
   }
 

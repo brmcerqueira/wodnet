@@ -11,6 +11,7 @@ const tags: Tag[] = [];
 
 export const Player = buildTag(locale.player);
 export const Character = buildTag(locale.character, Templates);
+export const Specialties = buildTag(locale.specialties, Templates);
 export const Animalism = buildTag(locale.disciplines.animalism.name, Templates);
 export const Auspex = buildTag(locale.disciplines.auspex.name, Templates);
 export const Dominate = buildTag(locale.disciplines.dominate.name, Templates);

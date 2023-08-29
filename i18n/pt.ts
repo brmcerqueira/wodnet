@@ -4,6 +4,11 @@ export const pt: LocaleType = {
   app: "KC",
   standard: "Padrão",
   character: "Personagem",
+  specialties: {
+    name: "Especializações",
+    skill: "Habilidade",
+    specialty: "Especialização"
+  },
   template: "Modelo",
   characterLinks: "Fichas",
   name: "Nome",
