@@ -2037,24 +2037,23 @@ attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
   type: AttributeType.Checkbox,
 };
 attributes[locale.specialties.name] = {
-  tags: [
-    tags.PhysicalSpecialties,
-    tags.SocialSpecialties,
-    tags.MentalSpecialties,
-  ],
   type: AttributeType.Section,
   context: () =>
     <SpecialtyContext> {
-      generic: attributes[locale.specialties.specialty],
+      generic: {
+        parse(_c: Character, o: string, v: string, context: SpecialtyContext) {
+
+        }
+      },
       array: [],
     },
 };
+/*
 attributes[
   `${locale.specialties.skill}[range:${
     Object.values(locale.skills.physical).join(",")
   }]`
 ] = {
-  tags: [tags.PhysicalSpecialties],
   parse: specialtiesSkillParse,
 };
 attributes[
@@ -2062,7 +2061,6 @@ attributes[
     Object.values(locale.skills.social).join(",")
   }]`
 ] = {
-  tags: [tags.SocialSpecialties],
   parse: specialtiesSkillParse,
 };
 attributes[
@@ -2070,18 +2068,9 @@ attributes[
     Object.values(locale.skills.mental).join(",")
   }]`
 ] = {
-  tags: [tags.MentalSpecialties],
   parse: specialtiesSkillParse,
 };
-attributes[locale.specialties.specialty] = {
-  tags: [
-    tags.PhysicalSpecialties,
-    tags.SocialSpecialties,
-    tags.MentalSpecialties,
-  ],
-  parse: (_c: Character, _o: string, v: string, context: SpecialtyContext) =>
-    context.array.push(v),
-};
+*/
 attributes[locale.advantages] = {
   type: AttributeType.Section,
   context: (c) => {
