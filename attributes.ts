@@ -29,10 +29,6 @@ export type Context = {
   generic: Attribute;
 };
 
-type SpecialtyContext = {
-  array: string[];
-} & Context;
-
 type AdvantageFlawContext = {
   object: {
     [name: string]: number;
@@ -57,15 +53,6 @@ const advantageFlawAttributeParse: Attribute = {
     context.object[o] = v,
   type: AttributeType.Number,
 };
-
-function specialtiesSkillParse(
-  c: Character,
-  _o: string,
-  v: string,
-  context: SpecialtyContext,
-) {
-  c.specialties[v] = context.array;
-}
 
 attributes[locale.player] = {
   parse: (c, _o, v: string) => c.player = v,
@@ -2038,39 +2025,24 @@ attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
 };
 attributes[locale.specialties.name] = {
   type: AttributeType.Section,
-  context: () =>
-    <SpecialtyContext> {
+  context: (c) => {
+    for (const key in c.specialties) {
+      delete c.specialties[key];
+    }
+    return <Context> {
       generic: {
-        parse(_c: Character, o: string, v: string, context: SpecialtyContext) {
-
-        }
+        parse: (c: Character, o: string, v: string) => {
+          if (c.specialties[v] == undefined) {
+            c.specialties[v] = [];
+          }
+          if (c.specialties[v].indexOf(o) == -1) {
+            c.specialties[v].push(o);
+          }
+        },
       },
-      array: [],
-    },
+    };
+  },
 };
-/*
-attributes[
-  `${locale.specialties.skill}[range:${
-    Object.values(locale.skills.physical).join(",")
-  }]`
-] = {
-  parse: specialtiesSkillParse,
-};
-attributes[
-  `${locale.specialties.skill}[range:${
-    Object.values(locale.skills.social).join(",")
-  }]`
-] = {
-  parse: specialtiesSkillParse,
-};
-attributes[
-  `${locale.specialties.skill}[range:${
-    Object.values(locale.skills.mental).join(",")
-  }]`
-] = {
-  parse: specialtiesSkillParse,
-};
-*/
 attributes[locale.advantages] = {
   type: AttributeType.Section,
   context: (c) => {
