@@ -1,24 +1,20 @@
 import { attributes } from "./attributes.ts";
-import { delay } from "./deps.ts";
-import { logger } from "./logger.ts";
 import * as kanka from "./kanka.ts";
 import * as tags from "./tags.ts";
-
-let percent = 0;
+import { batch } from "./batch.ts";
 
 export function setup(
   campaignId: number,
 ): number {
-  if (percent == 0) {
-    buildTemplate(campaignId);
+  if (batch.percent == 0) {
+    buildTemplates(campaignId);
   }
 
-  return percent;
+  return batch.percent;
 }
 
-async function buildTemplate(campaignId: number) {
-  const total = Object.keys(attributes).length;
-  let current = 1;
+async function buildTemplates(campaignId: number) {
+  batch.total = Object.keys(attributes).length;
 
   const map: {
     [name: string]: number
@@ -39,47 +35,17 @@ async function buildTemplate(campaignId: number) {
     for (let index = 0; index < array.length; index++) {
       const templateId = map[array[index].name];
       if (templateId) {
-          await createAttribute(
-            campaignId,
-            templateId,
-            {
-              entity_id: templateId,
-              name: name,
-              value: attribute.value,
-              type_id: attribute.type ? attribute.type : 1,
-            },
-            current,
-            total,
-          );
+        await batch.run(() => kanka.createAttribute(
+          campaignId,
+          templateId,
+          {
+            entity_id: templateId,
+            name: name,
+            value: attribute.value,
+            type_id: attribute.type ? attribute.type : 1,
+          },
+        ));
       }
     }
-    current++;
-  }
-  percent = 0;
-}
-
-async function createAttribute(
-  campaignId: number,
-  templateId: number,
-  attribute: kanka.KankaAttributeBody,
-  current: number,
-  total: number,
-) {
-  const kankaAttribute = await kanka.createAttribute(
-    campaignId,
-    templateId,
-    attribute,
-  );
-
-  if (kankaAttribute.data) {
-    percent = current * 100 / total;
-    logger.info(`template: ${percent}%`);
-  } else {
-    const next = new Date();
-    next.setMinutes(next.getMinutes() + 1);
-    next.setSeconds(5);
-    next.setMilliseconds(0);
-    await delay(next.getTime() - new Date().getTime());
-    await createAttribute(campaignId, templateId, attribute, current, total);
   }
 }

@@ -28,7 +28,7 @@ for await (const event of httpServer) {
         const campaignId = parseInt(url.searchParams.get("campaignId")!);
         if (url.pathname == "/setup/tags") {
             await event.respondWith(new Response(
-                JSON.stringify(await tags.setup(campaignId)), {
+                JSON.stringify(tags.setup(campaignId)), {
                 status: 200
             }));
         }
