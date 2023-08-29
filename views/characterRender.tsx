@@ -1,23 +1,13 @@
-import React, { TsxComplexElement } from "../deps.ts";
+import React, { TsxComplexElement, TsxElement, TsxProperties } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
 
-const FilledCircle: TsxComplexElement = <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
-</svg>
-const BlankCircle: TsxComplexElement = <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-    <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
-</svg>
-const FilledSquare: TsxComplexElement = <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-    <path d="M0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96z" />
-</svg>
-const HalfSquare: TsxComplexElement = <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-    <path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
-</svg>
-const BlankSquare: TsxComplexElement = <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-    <path d="M384 80c8.8 0 16 7.2 16 16V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V96c0-8.8 7.2-16 16-16H384zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z" />
-</svg>
+const FilledCircle: TsxComplexElement = <span class="meter filledCircle"></span>
+const BlankCircle: TsxComplexElement = <span class="meter blankCircle"></span>
+const FilledSquare: TsxComplexElement = <span class="meter filledSquare"></span>
+const HalfSquare: TsxComplexElement = <span class="meter halfSquare"></span>
+const BlankSquare: TsxComplexElement = <span class="meter blankSquare"></span>
 
 function meter(total: number, put: (index: number) => TsxComplexElement): TsxComplexElement[] {
     const indexSpace = total > 5 ? (Math.ceil(total / 2) + 1) : 0;
@@ -74,6 +64,14 @@ function humanity(total: number, stains: number): TsxComplexElement[] {
     });
 }
 
+const Svg = (properties: {name: string, viewBox: string, height: string, dark: boolean}, children: TsxElement[]): TsxComplexElement => 
+<>
+--{properties.name}: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height={properties.height} viewBox={properties.viewBox}>{properties.dark && "<style>svg { fill: white } <\\/style>"}{children}</svg>');
+</>
+
+const SvgStyle = (_properties: TsxProperties, children: TsxElement[]): TsxComplexElement => 
+<style>:root {"{"}{children}{"}"}</style>
+
 export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean): TsxComplexElement => {
     const title = character.player != null && character.player != "" ? `${character.name} (${character.player})` : character.name;
 
@@ -84,6 +82,23 @@ export const characterRender = (character: Character, campaignId: number, id: st
         <meta property="og:site_name" content={locale.app} />
         <meta property="og:image" content={character.image} />
         <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?campaignId=${campaignId}&id=${id}`} />
+        <SvgStyle>
+            <Svg name="filledCircle" viewBox="0 0 512 512" height="1.8em" dark={dark}>
+                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
+            </Svg>
+            <Svg name="blankCircle" viewBox="0 0 512 512" height="1.8em" dark={dark}>
+                <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
+            </Svg>
+            <Svg name="filledSquare" viewBox="0 0 448 512" height="2em" dark={dark}>
+                <path d="M0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96z" />
+            </Svg>
+            <Svg name="halfSquare" viewBox="0 0 448 512" height="2em" dark={dark}>
+                <path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
+            </Svg>
+            <Svg name="blankSquare" viewBox="0 0 448 512" height="2em" dark={dark}>
+                <path d="M384 80c8.8 0 16 7.2 16 16V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V96c0-8.8 7.2-16 16-16H384zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z" />
+            </Svg>
+        </SvgStyle>
         <link media="all" rel="stylesheet" href="characterRender.css" />
         <script>{`
         setInterval(async () => {

@@ -35,13 +35,29 @@ img {
     color: white;
 }
 
-.body-dark svg {
-    fill: white;
-}
-
-svg {
+.meter {
     margin-right: 0.1em;
     margin-left: 0.1em;
+}
+
+.filledCircle::before {
+    content: var(--filledCircle);
+}
+
+.blankCircle::before {
+    content: var(--blankCircle);
+}
+
+.filledSquare::before {
+    content: var(--filledSquare);
+}
+
+.halfSquare::before {
+    content: var(--halfSquare);
+}
+
+.blankSquare::before {
+    content: var(--blankSquare);
 }
 
 .table-details {
