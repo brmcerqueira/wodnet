@@ -81,6 +81,12 @@ export type Character = {
   specialties: {
     [skill: string]: string[]
   };
+  advantages: {
+    [name: string]: number
+  };
+  flaws: {
+    [name: string]: number
+  };
   disciplines: {
     animalism?: string[];
     auspex?: string[];

@@ -35,20 +35,23 @@ async function buildTemplate(campaignId: number) {
 
   for (const name in attributes) {
     const attribute = attributes[name];
-    const templateId: number | undefined = map[attribute.tag ? attribute.tag.name : tags.Character.name];
-    if (templateId) {
-      await createAttribute(
-        campaignId,
-        templateId,
-        {
-          entity_id: templateId,
-          name: name,
-          value: attribute.value,
-          type_id: attribute.type ? attribute.type : 1,
-        },
-        current,
-        total,
-      );
+    const array: tags.Tag[] = attribute.tags ? attribute.tags : [tags.Character];
+    for (let index = 0; index < array.length; index++) {
+      const templateId = map[array[index].name];
+      if (templateId) {
+          await createAttribute(
+            campaignId,
+            templateId,
+            {
+              entity_id: templateId,
+              name: name,
+              value: attribute.value,
+              type_id: attribute.type ? attribute.type : 1,
+            },
+            current,
+            total,
+          );
+      }
     }
     current++;
   }

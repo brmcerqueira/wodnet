@@ -1,6 +1,6 @@
 import { Character } from "./character.ts";
 import * as kanka from "./kanka.ts";
-import { attributes, AttributeType } from "./attributes.ts";
+import { attributes, AttributeType, Context } from "./attributes.ts";
 
 const cache: {
   [id: string]: Character;
@@ -117,25 +117,33 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
     for (
       let index = 0; index < kankaCharacter.data.attributes.length; index++
     ) {
+      let context: Context | undefined;
       const kankaAttribute = kankaCharacter.data.attributes[index];
-      const attribute = attributes[kankaAttribute.name];
-      if (attribute && attribute.parse) {
-        let value;
-        switch (attribute.type) {
-          case AttributeType.Checkbox:
-            value = kankaAttribute.value == "1" || kankaAttribute.value == "on";
-            break;
-          case AttributeType.RandomNumber:
-          case AttributeType.Number:
-            value = parseInt(kankaAttribute.value) || 0;
-            break;
-          case AttributeType.Standard:
-          case AttributeType.MultilineTextBlock:
-            default:
-            value = kankaAttribute.value;
-            break;
+      const attribute = attributes[kankaAttribute.name] || (context && context.generic);
+      if (attribute) {
+        if (attribute.type == AttributeType.Section) {
+          if (attribute.context) {
+            context = attribute.context(character);
+          }
         }
-        attribute.parse(character, value);
+        else if (attribute.parse) {
+          let value;
+          switch (attribute.type) {
+            case AttributeType.Checkbox:
+              value = kankaAttribute.value == "1" || kankaAttribute.value == "on";
+              break;
+            case AttributeType.RandomNumber:
+            case AttributeType.Number:
+              value = parseInt(kankaAttribute.value) || 0;
+              break;
+            case AttributeType.Standard:
+            case AttributeType.MultilineTextBlock:
+              default:
+              value = kankaAttribute.value;
+              break;
+          }
+          attribute.parse(character, kankaAttribute.name, value, context);
+        }
       }
     }
     character.hashCode = undefined;
