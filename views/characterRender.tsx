@@ -9,34 +9,32 @@ const FilledSquare: TsxComplexElement = <span class="meter filledSquare"></span>
 const HalfSquare: TsxComplexElement = <span class="meter halfSquare"></span>
 const BlankSquare: TsxComplexElement = <span class="meter blankSquare"></span>
 
-function meter(total: number, put: (index: number) => TsxComplexElement): TsxComplexElement[] {
-    const indexSpace = total > 5 ? (Math.ceil(total / 2) + 1) : 0;
+const Meter = (properties: {total: number, put: (index: number) => TsxComplexElement}): TsxComplexElement => {
+    const indexSpace = properties.total > 5 ? (Math.ceil(properties.total / 2) + 1) : 0;
     const elements: TsxComplexElement[] = [];
-    for (let i = 1; i <= total; i++) {
+    for (let i = 1; i <= properties.total; i++) {
         if (i == indexSpace) {
             elements.push(<i>&ensp;</i>);
         }
 
-        elements.push(put(i));
+        elements.push(properties.put(i));
     }
-    return elements;
+    return <>{elements}</>;
 }
 
-function dualMeter(value: number, total: number, blank: TsxComplexElement, filled: TsxComplexElement): TsxComplexElement[] {
-    return meter(total, i => i <= value ? filled : blank);
-}
+const DualMeter = (properties: {value: number, total: number, blank: TsxComplexElement, filled: TsxComplexElement}): TsxComplexElement => 
+<Meter total={properties.total} put={ i => i <= properties.value ? properties.filled : properties.blank}/>;
 
-function dots(value: number, total: number): TsxComplexElement[] {
-    return dualMeter(value, total, BlankCircle, FilledCircle);
-}
+const Dots = (properties: {value: number, total: number}): TsxComplexElement => 
+<DualMeter value={properties.value} total={properties.total} blank={BlankCircle} filled={FilledCircle}/>;
 
-function damage(superficial: number, aggravated: number, total: number): TsxComplexElement[] {
-    const indexSuperficial = aggravated + superficial;
-    let indexAggravated = aggravated;
-    if (indexSuperficial > total) {
-        indexAggravated += indexSuperficial - total;
+const Damage = (properties: {superficial: number, aggravated: number, total: number}): TsxComplexElement => {
+    const indexSuperficial = properties.aggravated + properties.superficial;
+    let indexAggravated = properties.aggravated;
+    if (indexSuperficial > properties.total) {
+        indexAggravated += indexSuperficial - properties.total;
     }
-    return meter(total, i => {
+    return <Meter total={properties.total} put={i => {
         if (i <= indexAggravated) {
             return FilledSquare;
         }
@@ -46,22 +44,22 @@ function damage(superficial: number, aggravated: number, total: number): TsxComp
         else {
             return BlankSquare;
         }
-    });
+    }}/>;
 }
 
-function humanity(total: number, stains: number): TsxComplexElement[] {
+const Humanity = (properties: {total: number, stains: number}): TsxComplexElement => {
     const max = 10;
-    return meter(max, i => {
-        if (i <= total) {
+    return <Meter total={max} put={i => {
+        if (i <= properties.total) {
             return FilledSquare;
         }
-        else if (i <= max - stains) {
+        else if (i <= max - properties.stains) {
             return BlankSquare;
         }
         else {
             return HalfSquare;
         }
-    });
+    }}/>;
 }
 
 const Svg = (properties: {name: string, viewBox: string, height: string, dark: boolean}, children: TsxElement[]): TsxComplexElement => 
@@ -130,9 +128,9 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     <tr><th colspan="2">{locale.physical}</th><th colspan="2">{locale.social}</th><th colspan="2">{locale.mental}</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>{locale.attributes.physical.strength}</td><td>{dots(character.attributes.physical.strength, 5)}</td><td>{locale.attributes.social.charisma}</td><td>{dots(character.attributes.social.charisma, 5)}</td><td>{locale.attributes.mental.intelligence}</td><td>{dots(character.attributes.mental.intelligence, 5)}</td></tr>
-                    <tr><td>{locale.attributes.physical.dexterity}</td><td>{dots(character.attributes.physical.dexterity, 5)}</td><td>{locale.attributes.social.manipulation}</td><td>{dots(character.attributes.social.manipulation, 5)}</td><td>{locale.attributes.mental.wits}</td><td>{dots(character.attributes.mental.wits, 5)}</td></tr>
-                    <tr><td>{locale.attributes.physical.stamina}</td><td>{dots(character.attributes.physical.stamina, 5)}</td><td>{locale.attributes.social.composure}</td><td>{dots(character.attributes.social.composure, 5)}</td><td>{locale.attributes.mental.resolve}</td><td>{dots(character.attributes.mental.resolve, 5)}</td></tr>
+                    <tr><td>{locale.attributes.physical.strength}</td><td><Dots value={character.attributes.physical.strength} total={5}/></td><td>{locale.attributes.social.charisma}</td><td><Dots value={character.attributes.social.charisma} total={5}/></td><td>{locale.attributes.mental.intelligence}</td><td><Dots value={character.attributes.mental.intelligence} total={5}/></td></tr>
+                    <tr><td>{locale.attributes.physical.dexterity}</td><td><Dots value={character.attributes.physical.dexterity} total={5}/></td><td>{locale.attributes.social.manipulation}</td><td><Dots value={character.attributes.social.manipulation} total={5}/></td><td>{locale.attributes.mental.wits}</td><td><Dots value={character.attributes.mental.wits} total={5}/></td></tr>
+                    <tr><td>{locale.attributes.physical.stamina}</td><td><Dots value={character.attributes.physical.stamina} total={5}/></td><td>{locale.attributes.social.composure}</td><td><Dots value={character.attributes.social.composure} total={5}/></td><td>{locale.attributes.mental.resolve}</td><td><Dots value={character.attributes.mental.resolve} total={5}/></td></tr>
                 </tbody>
             </table>
             <hr />
@@ -142,11 +140,11 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="td-large">{dots(character.bloodPotency, 10)}</td>
-                        <td class="td-large">{damage(character.health.superficial, character.health.aggravated, character.attributes.physical.stamina + 3)}</td>
-                        <td class="td-large">{dualMeter(character.hunger, 5, BlankSquare, FilledSquare)}</td>
-                        <td class="td-large">{damage(character.willpower.superficial, character.willpower.aggravated, character.attributes.social.composure + character.attributes.mental.resolve)}</td>
-                        <td class="td-large">{humanity(character.humanity.total, character.humanity.stains)}</td>
+                        <td class="td-large"><Dots value={character.bloodPotency} total={10}/></td>
+                        <td class="td-large"><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3}/></td>
+                        <td class="td-large"><DualMeter value={character.hunger} total={5} blank={BlankSquare} filled={FilledSquare}/></td>
+                        <td class="td-large"><Damage superficial={character.willpower.superficial} aggravated={character.willpower.aggravated} total={character.attributes.social.composure + character.attributes.mental.resolve}/></td>
+                        <td class="td-large"><Humanity total={character.humanity.total} stains={character.humanity.stains}/></td>
                     </tr>
                 </tbody>
             </table>
@@ -157,15 +155,15 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     <tr><th colspan="2">{locale.physical}</th><th colspan="2">{locale.social}</th><th colspan="2">{locale.mental}</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>{locale.skills.physical.melee}</td><td>{dots(character.skills.physical.melee, 5)}</td><td>{locale.skills.social.animalKen}</td><td>{dots(character.skills.social.animalKen, 5)}</td><td>{locale.skills.mental.science}</td><td>{dots(character.skills.mental.science, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.firearms}</td><td>{dots(character.skills.physical.firearms, 5)}</td><td>{locale.skills.social.etiquette}</td><td>{dots(character.skills.social.etiquette, 5)}</td><td>{locale.skills.mental.academics}</td><td>{dots(character.skills.mental.academics, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.athletics}</td><td>{dots(character.skills.physical.athletics, 5)}</td><td>{locale.skills.social.intimidation}</td><td>{dots(character.skills.social.intimidation, 5)}</td><td>{locale.skills.mental.finance}</td><td>{dots(character.skills.mental.finance, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.brawl}</td><td>{dots(character.skills.physical.brawl, 5)}</td><td>{locale.skills.social.leadership}</td><td>{dots(character.skills.social.leadership, 5)}</td><td>{locale.skills.mental.investigation}</td><td>{dots(character.skills.mental.investigation, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.drive}</td><td>{dots(character.skills.physical.drive, 5)}</td><td>{locale.skills.social.streetwise}</td><td>{dots(character.skills.social.streetwise, 5)}</td><td>{locale.skills.mental.medicine}</td><td>{dots(character.skills.mental.medicine, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.stealth}</td><td>{dots(character.skills.physical.stealth, 5)}</td><td>{locale.skills.social.performance}</td><td>{dots(character.skills.social.performance, 5)}</td><td>{locale.skills.mental.occult}</td><td>{dots(character.skills.mental.occult, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.larceny}</td><td>{dots(character.skills.physical.larceny, 5)}</td><td>{locale.skills.social.persuasion}</td><td>{dots(character.skills.social.persuasion, 5)}</td><td>{locale.skills.mental.awareness}</td><td>{dots(character.skills.mental.awareness, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.craft}</td><td>{dots(character.skills.physical.craft, 5)}</td><td>{locale.skills.social.insight}</td><td>{dots(character.skills.social.insight, 5)}</td><td>{locale.skills.mental.politics}</td><td>{dots(character.skills.mental.politics, 5)}</td></tr>
-                    <tr><td>{locale.skills.physical.survival}</td><td>{dots(character.skills.physical.survival, 5)}</td><td>{locale.skills.social.subterfuge}</td><td>{dots(character.skills.social.subterfuge, 5)}</td><td>{locale.skills.mental.technology}</td><td>{dots(character.skills.mental.technology, 5)}</td></tr>
+                    <tr><td>{locale.skills.physical.melee}</td><td><Dots value={character.skills.physical.melee} total={5}/></td><td>{locale.skills.social.animalKen}</td><td><Dots value={character.skills.social.animalKen} total={5}/></td><td>{locale.skills.mental.science}</td><td><Dots value={character.skills.mental.science} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.firearms}</td><td><Dots value={character.skills.physical.firearms} total={5}/></td><td>{locale.skills.social.etiquette}</td><td><Dots value={character.skills.social.etiquette} total={5}/></td><td>{locale.skills.mental.academics}</td><td><Dots value={character.skills.mental.academics} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.athletics}</td><td><Dots value={character.skills.physical.athletics} total={5}/></td><td>{locale.skills.social.intimidation}</td><td><Dots value={character.skills.social.intimidation} total={5}/></td><td>{locale.skills.mental.finance}</td><td><Dots value={character.skills.mental.finance} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.brawl}</td><td><Dots value={character.skills.physical.brawl} total={5}/></td><td>{locale.skills.social.leadership}</td><td><Dots value={character.skills.social.leadership} total={5}/></td><td>{locale.skills.mental.investigation}</td><td><Dots value={character.skills.mental.investigation} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.drive}</td><td><Dots value={character.skills.physical.drive} total={5}/></td><td>{locale.skills.social.streetwise}</td><td><Dots value={character.skills.social.streetwise} total={5}/></td><td>{locale.skills.mental.medicine}</td><td><Dots value={character.skills.mental.medicine} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.stealth}</td><td><Dots value={character.skills.physical.stealth} total={5}/></td><td>{locale.skills.social.performance}</td><td><Dots value={character.skills.social.performance} total={5}/></td><td>{locale.skills.mental.occult}</td><td><Dots value={character.skills.mental.occult} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.larceny}</td><td><Dots value={character.skills.physical.larceny} total={5}/></td><td>{locale.skills.social.persuasion}</td><td><Dots value={character.skills.social.persuasion} total={5}/></td><td>{locale.skills.mental.awareness}</td><td><Dots value={character.skills.mental.awareness} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.craft}</td><td><Dots value={character.skills.physical.craft} total={5}/></td><td>{locale.skills.social.insight}</td><td><Dots value={character.skills.social.insight} total={5}/></td><td>{locale.skills.mental.politics}</td><td><Dots value={character.skills.mental.politics} total={5}/></td></tr>
+                    <tr><td>{locale.skills.physical.survival}</td><td><Dots value={character.skills.physical.survival} total={5}/></td><td>{locale.skills.social.subterfuge}</td><td><Dots value={character.skills.social.subterfuge} total={5}/></td><td>{locale.skills.mental.technology}</td><td><Dots value={character.skills.mental.technology} total={5}/></td></tr>
                 </tbody>
             </table>
             <hr />
