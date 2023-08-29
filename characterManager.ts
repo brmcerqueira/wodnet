@@ -10,9 +10,9 @@ function hashCode(data: any): number {
   const text = JSON.stringify(data);
   let hash = 0;
   for (let i = 0; i < text.length; i++) {
-      const code = text.charCodeAt(i);
-      hash = ((hash << 5)- hash) + code;
-      hash = hash & hash;
+    const code = text.charCodeAt(i);
+    hash = ((hash << 5) - hash) + code;
+    hash = hash & hash;
   }
   return hash;
 }
@@ -101,7 +101,9 @@ function getFromCache(key: string): Character {
         spent: 0,
       },
       specialties: {},
-      disciplines: {},  
+      advantages: {},
+      flaws: {},
+      disciplines: {},
     };
   }
 
@@ -114,23 +116,31 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
   if (kankaCharacter.data) {
     character.name = kankaCharacter.data.name;
     character.image = kankaCharacter.data.child.image_full;
-    for (
-      let index = 0; index < kankaCharacter.data.attributes.length; index++
-    ) {
-      let context: Context | undefined;
-      const kankaAttribute = kankaCharacter.data.attributes[index];
-      const attribute = attributes[kankaAttribute.name] || (context && context.generic);
+
+    let context: Context | undefined;
+
+    kankaCharacter.data.attributes.sort((r, l) => {
+      if (r.default_order < l.default_order) {
+        return -1;
+      }
+      if (r.default_order > l.default_order) {
+        return 1;
+      }
+      return 0;
+    }).forEach((kankaAttribute) => {
+      const attribute = attributes[kankaAttribute.name] ||
+        (context && context.generic);
       if (attribute) {
         if (attribute.type == AttributeType.Section) {
           if (attribute.context) {
             context = attribute.context(character);
           }
-        }
-        else if (attribute.parse) {
+        } else if (attribute.parse) {
           let value;
           switch (attribute.type) {
             case AttributeType.Checkbox:
-              value = kankaAttribute.value == "1" || kankaAttribute.value == "on";
+              value = kankaAttribute.value == "1" ||
+                kankaAttribute.value == "on";
               break;
             case AttributeType.RandomNumber:
             case AttributeType.Number:
@@ -138,14 +148,14 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
               break;
             case AttributeType.Standard:
             case AttributeType.MultilineTextBlock:
-              default:
+            default:
               value = kankaAttribute.value;
               break;
           }
           attribute.parse(character, kankaAttribute.name, value, context);
         }
       }
-    }
+    });
     character.hashCode = undefined;
     character.hashCode = hashCode(character);
   }
