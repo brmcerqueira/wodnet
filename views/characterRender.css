@@ -40,83 +40,44 @@ img {
     margin-left: 0.1em;
 }
 
-.filledCircle::before {
-    content: var(--filledCircle);
+.filled-circle::before {
+    content: var(--filled-circle);
 }
 
-.blankCircle::before {
-    content: var(--blankCircle);
+.blank-circle::before {
+    content: var(--blank-circle);
 }
 
-.filledSquare::before {
-    content: var(--filledSquare);
+.filled-square::before {
+    content: var(--filled-square);
 }
 
-.halfSquare::before {
-    content: var(--halfSquare);
+.half-square::before {
+    content: var(--half-square);
 }
 
-.blankSquare::before {
-    content: var(--blankSquare);
+.blank-square::before {
+    content: var(--blank-square);
 }
 
-.table-details {
+.table-status {
     margin-top: 1.5em;
     margin-bottom: 1.5em;
 }
 
-.table-details td {
+.table-status td {
     text-align: center;
     line-height: 0.6;
 }
 
-.section-status {
-    width: 32%;
-    margin-right: 4px;
+.table-details {
+    width: 33%;
     float: left;
+    margin-bottom: 0.5em;
 }
 
-.section-status section {
-    margin-bottom: 10px;
-}
-
-.section-status h3 {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    text-align: center;
-}
-
-.section-status p {
-    margin-top: 2px;
-    margin-bottom: 2px;
-    text-align: center;
-    width: 100%;
-    font-size: 200%;
-    line-height: 0.6;
-}
-
-.section-details {
-    width: 32%;
+.table-discipline {
+    width: 16em;
     float: left;
-}
-
-.section-details table {
-    margin-bottom: 6px;
-}
-
-.table-advantages {
-    width: 32%;
-    float: left;
-    margin-right: 4px;
-}
-
-.section-experience {
-    border-style: solid;
-}
-
-.section-experience h5 {
-    text-align: center;
-    font-weight: bold;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-bottom: 0.5em;
 }

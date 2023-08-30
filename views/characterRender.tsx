@@ -3,11 +3,11 @@ import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
 
-const FilledCircle: TsxComplexElement = <span class="meter filledCircle"></span>
-const BlankCircle: TsxComplexElement = <span class="meter blankCircle"></span>
-const FilledSquare: TsxComplexElement = <span class="meter filledSquare"></span>
-const HalfSquare: TsxComplexElement = <span class="meter halfSquare"></span>
-const BlankSquare: TsxComplexElement = <span class="meter blankSquare"></span>
+const FilledCircle: TsxComplexElement = <span class="meter filled-circle"/>
+const BlankCircle: TsxComplexElement = <span class="meter blank-circle"/>
+const FilledSquare: TsxComplexElement = <span class="meter filled-square"/>
+const HalfSquare: TsxComplexElement = <span class="meter half-square"/>
+const BlankSquare: TsxComplexElement = <span class="meter blank-square"/>
 
 function keys<T extends object>(o: T): (keyof T)[] {
     return Object.keys(o) as (keyof T)[];
@@ -93,19 +93,19 @@ export const characterRender = (character: Character, campaignId: number, id: st
         <meta property="og:image" content={character.image} />
         <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?campaignId=${campaignId}&id=${id}`} />
         <SvgStyle>
-            <Svg name="filledCircle" viewBox="0 0 512 512" height="1.8em" dark={dark}>
+            <Svg name="filled-circle" viewBox="0 0 512 512" height="1em" dark={dark}>
                 <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z" />
             </Svg>
-            <Svg name="blankCircle" viewBox="0 0 512 512" height="1.8em" dark={dark}>
+            <Svg name="blank-circle" viewBox="0 0 512 512" height="1em" dark={dark}>
                 <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
             </Svg>
-            <Svg name="filledSquare" viewBox="0 0 448 512" height="2em" dark={dark}>
+            <Svg name="filled-square" viewBox="0 0 448 512" height="1.2em" dark={dark}>
                 <path d="M0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96z" />
             </Svg>
-            <Svg name="halfSquare" viewBox="0 0 448 512" height="2em" dark={dark}>
+            <Svg name="half-square" viewBox="0 0 448 512" height="1.2em" dark={dark}>
                 <path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
             </Svg>
-            <Svg name="blankSquare" viewBox="0 0 448 512" height="2em" dark={dark}>
+            <Svg name="blank-square" viewBox="0 0 448 512" height="1.2em" dark={dark}>
                 <path d="M384 80c8.8 0 16 7.2 16 16V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V96c0-8.8 7.2-16 16-16H384zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z" />
             </Svg>
         </SvgStyle>
@@ -146,7 +146,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 </tbody>
             </table>
             <hr />
-            <table class="table-details">
+            <table class="table-status">
                 <thead>
                     <tr><th>{locale.bloodPotency}</th><th>{locale.health}</th><th>{locale.hunger}</th><th>{locale.willpower}</th><th>{locale.humanity}</th></tr>
                 </thead>
@@ -179,25 +179,26 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 </tbody>
             </table>
             <hr />
-            <table class="table-advantages">
+            <table class="table-details">
                 <thead>
                     <tr><th colspan="2">{locale.specialties.specialty}</th></tr>
                 </thead>
                 <tbody>{keys(character.specialties).map(skill => character.specialties[skill].map(specialty => <tr><td>{specialty}</td><td>{skill}</td></tr>))}</tbody>
             </table>
-            <table class="table-advantages">
+            <table class="table-details">
                 <thead>
                     <tr><th colspan="2">{locale.advantages}</th></tr>
                 </thead>
                 <tbody>{keys(character.advantages).map(key => <tr><td>{key}</td><td><Dots value={character.advantages[key]} total={5}/></td></tr>)}</tbody>
             </table>
-            <table class="table-advantages">
+            <table class="table-details">
                 <thead>
                     <tr><th colspan="2">{locale.flaws}</th></tr>
                 </thead>
                 <tbody>{keys(character.flaws).map(key => <tr><td>{key}</td><td><Dots value={character.flaws[key]} total={5}/></td></tr>)}</tbody>
             </table>
-            {keys(character.disciplines).map(key => <table class="table-advantages">
+            <hr />
+            {keys(character.disciplines).map(key => <table class="table-discipline">
                 <thead>
                     <tr><th colspan="2">{locale.disciplines[key].name}</th></tr>
                 </thead>
@@ -206,167 +207,5 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     return <tr><td><Dots value={discipline.value} total={discipline.value}/></td><td>{discipline.name}</td></tr>
                 })}</tbody>
                 </table>)}
-            <hr />
-            <table>
-                <thead>
-                    <tr><th colspan="8">Disciplinas</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>____________</td><td>○○○○○</td>
-                        <td>____________</td><td>○○○○○</td>
-                        <td>____________</td><td>○○○○○</td>
-                        <td>____________</td><td>○○○○○</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">1 ___________________</td>
-                        <td colspan="2">1 ___________________</td>
-                        <td colspan="2">1 ___________________</td>
-                        <td colspan="2">1 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">2 ___________________</td>
-                        <td colspan="2">2 ___________________</td>
-                        <td colspan="2">2 ___________________</td>
-                        <td colspan="2">2 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">3 ___________________</td>
-                        <td colspan="2">3 ___________________</td>
-                        <td colspan="2">3 ___________________</td>
-                        <td colspan="2">3 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">4 ___________________</td>
-                        <td colspan="2">4 ___________________</td>
-                        <td colspan="2">4 ___________________</td>
-                        <td colspan="2">4 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">5 ___________________</td>
-                        <td colspan="2">5 ___________________</td>
-                        <td colspan="2">5 ___________________</td>
-                        <td colspan="2">5 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td>____________</td><td>○○○○○</td>
-                        <td>____________</td><td>○○○○○</td>
-                        <td>____________</td><td>○○○○○</td>
-                        <td>____________</td><td>○○○○○</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">1 ___________________</td>
-                        <td colspan="2">1 ___________________</td>
-                        <td colspan="2">1 ___________________</td>
-                        <td colspan="2">1 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">2 ___________________</td>
-                        <td colspan="2">2 ___________________</td>
-                        <td colspan="2">2 ___________________</td>
-                        <td colspan="2">2 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">3 ___________________</td>
-                        <td colspan="2">3 ___________________</td>
-                        <td colspan="2">3 ___________________</td>
-                        <td colspan="2">3 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">4 ___________________</td>
-                        <td colspan="2">4 ___________________</td>
-                        <td colspan="2">4 ___________________</td>
-                        <td colspan="2">4 ___________________</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">5 ___________________</td>
-                        <td colspan="2">5 ___________________</td>
-                        <td colspan="2">5 ___________________</td>
-                        <td colspan="2">5 ___________________</td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr />
-            <table class="table-advantages">
-                <thead>
-                    <tr><th colspan="2">Vantagens</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                    <tr><td>___________________</td><td>○○○○○</td></tr>
-                </tbody>
-            </table>
-            <section class="section-status">
-                <section>
-                    <h3>Vitalidade</h3>
-                    <p>○○○○○ ○○○○○</p>
-                    <p>□□□□□ □□□□□</p>
-                </section>
-                <section>
-                    <h3>Força de Vontade</h3>
-                    <p>○○○○○ ○○○○○</p>
-                    <p>□□□□□ □□□□□</p>
-                </section>
-                <section>
-                    <h3>Potência de Sangue</h3>
-                    <p>○○○○○ ○○○○○</p>
-                </section>
-                <section>
-                    <h3>Humanidade</h3>
-                    <p>□□□□□ □□□□□</p>
-                </section>
-                <section>
-                    <h3>Fome</h3>
-                    <p>□□□□□</p>
-                </section>
-                <section class="section-experience">
-                    <h5>Experiência</h5><br /><br /><br />
-                </section>
-            </section>
-            <section class="section-details">
-                <table>
-                    <thead>
-                        <tr><th colspan="2">Especializações</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>______________</td><td>(__________)</td></tr>
-                        <tr><td>______________</td><td>(__________)</td></tr>
-                        <tr><td>______________</td><td>(__________)</td></tr>
-                        <tr><td>______________</td><td>(__________)</td></tr>
-                    </tbody>
-                </table>
-                <table>
-                    <thead>
-                        <tr><th>Alicerces &amp; Convicções</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                        <tr><td>__________________________</td></tr>
-                    </tbody>
-                </table>
-            </section>
-            <hr />
-            <p>{JSON.stringify(character)}</p>
         </body></html>
 }
