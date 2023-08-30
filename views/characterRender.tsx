@@ -9,6 +9,18 @@ const FilledSquare: TsxComplexElement = <span class="meter filledSquare"></span>
 const HalfSquare: TsxComplexElement = <span class="meter halfSquare"></span>
 const BlankSquare: TsxComplexElement = <span class="meter blankSquare"></span>
 
+function keys<T extends object>(o: T): (keyof T)[] {
+    return Object.keys(o) as (keyof T)[];
+}
+
+function treatDiscipline(text: string): { name: string, value: number } {
+    const index = text.lastIndexOf("●") + 1;
+    return {
+        name: text.substring(index).trimStart(),
+        value: index
+    }
+}
+
 const Meter = (properties: {total: number, put: (index: number) => TsxComplexElement}): TsxComplexElement => {
     const indexSpace = properties.total > 5 ? (Math.ceil(properties.total / 2) + 1) : 0;
     const elements: TsxComplexElement[] = [];
@@ -166,6 +178,34 @@ export const characterRender = (character: Character, campaignId: number, id: st
                     <tr><td>{locale.skills.physical.survival}</td><td><Dots value={character.skills.physical.survival} total={5}/></td><td>{locale.skills.social.subterfuge}</td><td><Dots value={character.skills.social.subterfuge} total={5}/></td><td>{locale.skills.mental.technology}</td><td><Dots value={character.skills.mental.technology} total={5}/></td></tr>
                 </tbody>
             </table>
+            <hr />
+            <table class="table-advantages">
+                <thead>
+                    <tr><th colspan="2">{locale.specialties.specialty}</th></tr>
+                </thead>
+                <tbody>{keys(character.specialties).map(skill => character.specialties[skill].map(specialty => <tr><td>{specialty}</td><td>{skill}</td></tr>))}</tbody>
+            </table>
+            <table class="table-advantages">
+                <thead>
+                    <tr><th colspan="2">{locale.advantages}</th></tr>
+                </thead>
+                <tbody>{keys(character.advantages).map(key => <tr><td>{key}</td><td><Dots value={character.advantages[key]} total={5}/></td></tr>)}</tbody>
+            </table>
+            <table class="table-advantages">
+                <thead>
+                    <tr><th colspan="2">{locale.flaws}</th></tr>
+                </thead>
+                <tbody>{keys(character.flaws).map(key => <tr><td>{key}</td><td><Dots value={character.flaws[key]} total={5}/></td></tr>)}</tbody>
+            </table>
+            {keys(character.disciplines).map(key => <table class="table-advantages">
+                <thead>
+                    <tr><th colspan="2">{locale.disciplines[key].name}</th></tr>
+                </thead>
+                <tbody>{character.disciplines[key]?.map(name => {
+                    const discipline = treatDiscipline(name);
+                    return <tr><td><Dots value={discipline.value} total={discipline.value}/></td><td>{discipline.name}</td></tr>
+                })}</tbody>
+                </table>)}
             <hr />
             <table>
                 <thead>
