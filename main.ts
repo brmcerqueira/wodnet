@@ -4,6 +4,7 @@ import { check, get } from "./characterManager.ts";
 import * as tags from "./tags.ts";
 import * as templates from "./templates.ts";
 import * as links from "./characterLinks.ts";
+import { config } from "./config.ts";
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -18,7 +19,7 @@ async function respond404(event: Deno.RequestEvent) {
     }));
   }
 
-const connection = Deno.listen({ port: 3000 });
+const connection = Deno.listen({ port: parseInt(config.port) });
 const httpServer = Deno.serveHttp(await connection.accept());
 
 for await (const event of httpServer) {

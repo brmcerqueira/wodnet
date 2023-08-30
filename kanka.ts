@@ -181,10 +181,7 @@ async function go<T>(
   body?: any,
 ): Promise<T> {
   const fullpath = `https://kanka.io/api/1.0/campaigns/${campaignId}/${path}`;
-  logger.info(`${method} ${fullpath}`);
-  if (body) {
-    logger.info(body);
-  }
+  logger.info("request: %v %v %v", method, fullpath, body ? JSON.stringify(body) : "");
   const jsonResponse = await fetch(fullpath, {
     method: method,
     headers: {
@@ -194,7 +191,7 @@ async function go<T>(
     body: body ? JSON.stringify(body) : undefined,
   });
   const jsonData = await jsonResponse.json();
-  logger.info(jsonData);
+  logger.info("response: %v", JSON.stringify(jsonData));
   return jsonData;
 }
 
