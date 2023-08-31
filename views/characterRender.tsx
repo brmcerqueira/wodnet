@@ -181,7 +181,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
             <hr />
             <table class="table-details">
                 <thead>
-                    <tr><th colspan="2">{locale.specialties.specialty}</th></tr>
+                    <tr><th colspan="2">{locale.specialties.name}</th></tr>
                 </thead>
                 <tbody>{keys(character.specialties).map(skill => character.specialties[skill].map(specialty => <tr><td>{specialty}</td><td>{skill}</td></tr>))}</tbody>
             </table>
@@ -200,7 +200,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
             <hr />
             {keys(character.disciplines).map(key => <table class="table-discipline">
                 <thead>
-                    <tr><th colspan="2">{locale.disciplines[key].name}</th></tr>
+                    <tr><th>{locale.disciplines[key].name}</th><th><Dots value={character.disciplines[key]!.length} total={5}/></th></tr>
                 </thead>
                 <tbody>{character.disciplines[key]?.map(name => {
                     const discipline = treatDiscipline(name);

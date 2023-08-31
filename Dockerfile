@@ -9,4 +9,4 @@ COPY deps.ts .
 RUN deno cache deps.ts
 COPY . .
 RUN deno cache main.ts
-CMD ["sh", "-c", "deno run --allow-all --config ./tsconfig.json main.ts"]
+CMD ["sh", "-c", "deno run --allow-all main.ts"]
