@@ -2,6 +2,7 @@ import React, { TsxComplexElement, TsxElement, TsxProperties } from "../deps.ts"
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
+import { keys } from "./utils.ts";
 
 const FilledCircle: TsxComplexElement = <span class="meter filled-circle"/>
 const BlankCircle: TsxComplexElement = <span class="meter blank-circle"/>
@@ -9,8 +10,9 @@ const FilledSquare: TsxComplexElement = <span class="meter filled-square"/>
 const HalfSquare: TsxComplexElement = <span class="meter half-square"/>
 const BlankSquare: TsxComplexElement = <span class="meter blank-square"/>
 
-function keys<T extends object>(o: T): (keyof T)[] {
-    return Object.keys(o) as (keyof T)[];
+function treatDetails(text: string): string {
+    const index = text.indexOf("[");
+    return text.substring(0, index > -1 ? index : text.length);
 }
 
 function treatDiscipline(text: string): { name: string, value: number } {
@@ -82,7 +84,7 @@ const Svg = (properties: {name: string, viewBox: string, height: string, dark: b
 const SvgStyle = (_properties: TsxProperties, children: TsxElement[]): TsxComplexElement => 
 <style>:root {"{"}{children}{"}"}</style>
 
-export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean): TsxComplexElement => {
+export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean, update: number): TsxComplexElement => {
     const title = character.player != null && character.player != "" ? `${character.name} (${character.player})` : character.name;
 
     return <html><head>
@@ -121,10 +123,10 @@ export const characterRender = (character: Character, campaignId: number, id: st
             if (data.update) {
                 window.location.reload();
             }
-        }, 30000);
+        }, ${update});
     `}</script>
     </head>
-        <body class={dark ? "body-dark" : ""}>
+        <body class={dark && "body-dark"}>
             <img src={character.image} alt={character.name} />
             <table class="table-head">
                 <tbody>
@@ -183,19 +185,19 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 <thead>
                     <tr><th colspan="2">{locale.specialties.name}</th></tr>
                 </thead>
-                <tbody>{keys(character.specialties).map(skill => character.specialties[skill].map(specialty => <tr><td>{specialty}</td><td>{skill}</td></tr>))}</tbody>
+                <tbody>{keys(character.specialties).map(skill => character.specialties[skill].map(specialty => <tr><td>{treatDetails(specialty)}</td><td>{skill}</td></tr>))}</tbody>
             </table>
             <table class="table-details">
                 <thead>
                     <tr><th colspan="2">{locale.advantages}</th></tr>
                 </thead>
-                <tbody>{keys(character.advantages).map(key => <tr><td>{key}</td><td><Dots value={character.advantages[key]} total={5}/></td></tr>)}</tbody>
+                <tbody>{keys(character.advantages).map(key => <tr><td>{treatDetails(key as string)}</td><td><Dots value={character.advantages[key]} total={5}/></td></tr>)}</tbody>
             </table>
             <table class="table-details">
                 <thead>
                     <tr><th colspan="2">{locale.flaws}</th></tr>
                 </thead>
-                <tbody>{keys(character.flaws).map(key => <tr><td>{key}</td><td><Dots value={character.flaws[key]} total={5}/></td></tr>)}</tbody>
+                <tbody>{keys(character.flaws).map(key => <tr><td>{treatDetails(key as string)}</td><td><Dots value={character.flaws[key]} total={5}/></td></tr>)}</tbody>
             </table>
             <hr />
             <p class="p-discipline">{locale.disciplines.name}</p>

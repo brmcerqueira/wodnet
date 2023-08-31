@@ -14,6 +14,7 @@ export type LocaleType = {
   };
   template: string;
   characterLinks: string;
+  change: string;
   name: string;
   player: string;
   resonance: OptionsLocale;
@@ -96,7 +97,14 @@ export type LocaleType = {
     name: string;
     total: string;
     spent: string;
-  };  
+  };
+  apply: {
+    specialtyPhysical: string;
+    specialtySocial: string;
+    specialtyMental: string;
+    advantage: string;
+    flaw: string;
+  }  
   advantages: string;
   flaws: string;
   disciplines: {

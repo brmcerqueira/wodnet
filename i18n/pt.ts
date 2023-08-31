@@ -11,6 +11,7 @@ export const pt: LocaleType = {
   },
   template: "Modelo",
   characterLinks: "Fichas",
+  change: "Trocar",
   name: "Nome",
   player: "Jogador",
   resonance: {
@@ -136,6 +137,13 @@ export const pt: LocaleType = {
     name: "Experiência",
     total: "Total",
     spent: "Gasta",
+  },
+  apply: {
+    specialtyPhysical: "Especialização - Físicos",
+    specialtySocial: "Especialização - Sociais",
+    specialtyMental: "Especialização - Mentais",
+    advantage: "Vantagem",
+    flaw: "Defeito",
   },
   advantages: "Vantagens",
   flaws: "Defeitos",
