@@ -76,6 +76,12 @@ img {
     margin-bottom: 0.5em;
 }
 
+.p-discipline {
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+}
+
 .table-discipline {
     width: 16em;
     float: left;

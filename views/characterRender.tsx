@@ -198,6 +198,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 <tbody>{keys(character.flaws).map(key => <tr><td>{key}</td><td><Dots value={character.flaws[key]} total={5}/></td></tr>)}</tbody>
             </table>
             <hr />
+            <p class="p-discipline">{locale.disciplines.name}</p>
             {keys(character.disciplines).map(key => <table class="table-discipline">
                 <thead>
                     <tr><th>{locale.disciplines[key].name}</th><th><Dots value={character.disciplines[key]!.length} total={5}/></th></tr>
