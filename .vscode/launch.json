@@ -14,9 +14,7 @@
             "runtimeArgs": [
                 "run",
                 "--inspect-wait",
-                "--allow-all",
-                "--config",
-                "./tsconfig.json"
+                "--allow-all"
             ],
             "env": {
                 "HOST": "http://localhost:3000"
