@@ -1,7 +1,9 @@
 import { logger } from "./logger.ts";
 
 export const config = {
-    token: Deno.env.get("KANKA_TOKEN"),
+    kankaToken: Deno.env.get("KANKA_TOKEN"),
+    discordToken: Deno.env.get("DISCORD_TOKEN"),
+    storytellerId: Deno.env.get("STORYTELLER_ID"), 
     host: Deno.env.get("HOST"),
     port: Deno.env.has("PORT") ? parseInt(Deno.env.get("PORT")!) : 3000
 };

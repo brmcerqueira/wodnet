@@ -1,16 +1,16 @@
 type OptionsLocale = {
   name: string;
   options: string[];
-}
+};
 
 export type LocaleType = {
   app: string;
   standard: string;
   character: string;
   specialties: {
-    name: string,
-    skill: string,
-    specialty: string
+    name: string;
+    skill: string;
+    specialty: string;
   };
   template: string;
   characterLinks: string;
@@ -104,7 +104,7 @@ export type LocaleType = {
     specialtyMental: string;
     advantage: string;
     flaw: string;
-  }  
+  };
   advantages: string;
   flaws: string;
   disciplines: {
@@ -265,6 +265,42 @@ export type LocaleType = {
       defractionate: string;
       airborneMomentum: string;
       awakenTheSleeper: string;
+    };
+  };
+  loading: string;
+  welcome: string;
+  roll: {
+    bestialFailure: string;
+    failure: string;
+    success: string;
+    regularCritical: string;
+    messyCritical: string;
+    dices: string;
+    difficulty: string;
+    successes: string;
+    status: string;
+    modifier: string;
+  };
+  commands: {
+    roll: {
+      name: string;
+      description: string;
+      dices: {
+        name: string;
+        description: string;
+      };
+      hunger: {
+        name: string;
+        description: string;
+      };
+      difficulty: {
+        name: string;
+        description: string;
+      };
+      descriptionField: {
+        name: string;
+        description: string;
+      };
     };
   };
 };

@@ -1,7 +1,7 @@
 import React, { TsxComplexElement, base64url } from "../deps.ts";
 import * as kanka from "../kanka.ts";
 import { config } from "../config.ts";
-import { keys } from "./utils.ts";
+import { keys } from "../utils.ts";
 import { ApplyType } from "../characterManager.ts";
 import { locale } from "../i18n/locale.ts";
 

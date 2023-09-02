@@ -1,6 +1,7 @@
 import { base64url } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import { apply, ApplyType, check, get } from "./characterManager.ts";
+import * as bot from "./bot.ts";
 import * as tags from "./tags.ts";
 import * as templates from "./templates.ts";
 import * as links from "./characterLinks.ts";
@@ -20,6 +21,8 @@ async function respond404(event: Deno.RequestEvent) {
     }),
   );
 }
+
+await bot.start();
 
 const connection = Deno.listen({ port: config.port });
 const httpServer = Deno.serveHttp(await connection.accept());

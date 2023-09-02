@@ -185,7 +185,7 @@ async function go<T>(
   const jsonResponse = await fetch(fullpath, {
     method: method,
     headers: {
-      Authorization: `Bearer ${config.token}`,
+      Authorization: `Bearer ${config.kankaToken}`,
       "Content-type": "application/json",
     },
     body: body ? JSON.stringify(body) : undefined,

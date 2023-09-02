@@ -7,7 +7,7 @@ export const pt: LocaleType = {
   specialties: {
     name: "Especializações",
     skill: "Habilidade",
-    specialty: "Especialização"
+    specialty: "Especialização",
   },
   template: "Modelo",
   characterLinks: "Fichas",
@@ -305,6 +305,42 @@ export const pt: LocaleType = {
       defractionate: "●●● Defracionar",
       airborneMomentum: "●●●● Impulso no Ar",
       awakenTheSleeper: "●●●●● Acordar o Dorminhoco",
+    },
+  },
+  loading: "Carregando...",
+  welcome: "Wodbot 5.0 entrou!",
+  roll: {
+    bestialFailure: "Falha Bestial",
+    failure: "Falha",
+    success: "Sucesso",
+    regularCritical: "Crítico",
+    messyCritical: "Crítico Bestial",
+    dices: "Dados",
+    difficulty: "Dificuldade",
+    successes: "Sucessos",
+    status: "Status",
+    modifier: "Modificador",
+  },
+  commands: {
+    roll: {
+      name: "jogar",
+      description: "Jogue dados de dez faces",
+      dices: {
+        name: "dados",
+        description: "Quantidade de dados",
+      },
+      hunger: {
+        name: "fome",
+        description: "Quantidade de fome do vampiro",
+      },
+      difficulty: {
+        name: "dificuldade",
+        description: "Dificuldade da jogada",
+      },
+      descriptionField: {
+        name: "descrição",
+        description: "Descrição da jogada",
+      },
     },
   },
 };

@@ -2,7 +2,7 @@ import React, { TsxComplexElement, TsxElement, TsxProperties } from "../deps.ts"
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
-import { keys } from "./utils.ts";
+import { keys } from "../utils.ts";
 
 const FilledCircle: TsxComplexElement = <span class="meter filled-circle"/>
 const BlankCircle: TsxComplexElement = <span class="meter blank-circle"/>
