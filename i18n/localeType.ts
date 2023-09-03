@@ -270,6 +270,9 @@ export type LocaleType = {
   loading: string;
   welcome: string;
   reRollHelperText: string;
+  unauthorized: string;
+  storytellerChangeDifficulty: string;
+  storytellerChangeModifier: string;
   roll: {
     bestialFailure: string;
     failure: string;
@@ -299,6 +302,22 @@ export type LocaleType = {
         description: string;
       };
       descriptionField: {
+        name: string;
+        description: string;
+      };
+    };
+    setDifficulty: {
+      name: string;
+      description: string;
+      difficulty: {
+        name: string;
+        description: string;
+      };
+    };
+    setModifier: {
+      name: string;
+      description: string;
+      modifier: {
         name: string;
         description: string;
       };

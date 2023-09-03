@@ -310,6 +310,9 @@ export const pt: LocaleType = {
   loading: "Carregando...",
   welcome: "Wodbot 5.0 entrou!",
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
+  unauthorized: "Função não autorizada!",
+  storytellerChangeDifficulty: "O narrador mudou a dificuldade.",
+  storytellerChangeModifier: "O narrador mudou o modificador.",
   roll: {
     bestialFailure: "Falha Bestial",
     failure: "Falha",
@@ -341,6 +344,22 @@ export const pt: LocaleType = {
       descriptionField: {
         name: "descrição",
         description: "Descrição da jogada",
+      },
+    },
+    setDifficulty: {
+      name: "dificuldade",
+      description: "Dificuldade determinada pelo narrador",
+      difficulty: {
+        name: "valor",
+        description: "Valor da nova dificuldade",
+      },
+    },
+    setModifier: {
+      name: "modificador",
+      description: "Modificador determinado pelo narrador",
+      modifier: {
+        name: "valor",
+        description: "Valor do novo modificador",
       },
     },
   },
