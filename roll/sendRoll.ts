@@ -6,7 +6,6 @@ import {
   MessageComponentData,
   MessageComponentType,
 } from "../deps.ts";
-import { buildId, ReRoll } from "./scope.ts";
 import { buildRollMessage } from "./buildRollMessage.ts";
 import * as data from "./data.ts";
 
@@ -50,7 +49,6 @@ export async function sendRoll(
   };
 
   if (margin > 0) {
-    const scopes = [ReRoll];
 
     const buttons: MessageComponentData[] = [{
       type: MessageComponentType.Button,
@@ -59,7 +57,7 @@ export async function sendRoll(
         name: "1️⃣",
       },
       style: ButtonStyle.SECONDARY,
-      customID: buildId(1, ...scopes),
+      customID: "1",
     }];
 
     options.components = [{
@@ -75,7 +73,7 @@ export async function sendRoll(
           name: "2️⃣",
         },
         style: ButtonStyle.SECONDARY,
-        customID: buildId(2, ...scopes),
+        customID: "2",
       });
     }
 
@@ -87,7 +85,7 @@ export async function sendRoll(
           name: "3️⃣",
         },
         style: ButtonStyle.SECONDARY,
-        customID: buildId(3, ...scopes),
+        customID: "3",
       });
     }
   }

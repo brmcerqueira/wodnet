@@ -269,6 +269,7 @@ export type LocaleType = {
   };
   loading: string;
   welcome: string;
+  reRollHelperText: string;
   roll: {
     bestialFailure: string;
     failure: string;

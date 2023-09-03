@@ -309,6 +309,7 @@ export const pt: LocaleType = {
   },
   loading: "Carregando...",
   welcome: "Wodbot 5.0 entrou!",
+  reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   roll: {
     bestialFailure: "Falha Bestial",
     failure: "Falha",
