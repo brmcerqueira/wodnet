@@ -44,7 +44,15 @@ export async function characterSelectSolver(
               {
                 type: MessageComponentType.SELECT,
                 customID: "entityId",
-                options: options,
+                options: options.sort((r, l) => {
+                  if (r.label < l.label) {
+                    return -1;
+                  }
+                  if (r.label > l.label) {
+                    return 1;
+                  }
+                  return 0;
+                }),
                 placeholder:
                   locale.storytellerChangeCurrentCharacter.placeholder,
               },
