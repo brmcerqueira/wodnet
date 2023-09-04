@@ -4,50 +4,23 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build",
+            "label": "Start",
             "type": "shell",  
-            "command": "docker",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "args": [
-                "build",
-                "-t",
-                "kanka-character:latest",
-                "."    
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "Run",
-            "type": "shell",  
-            "command": "docker",
+            "command": "deno",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "args": [
                 "run",
-                "--rm",
-                "-p",
-                "8080:80",
-                "--env",
-                "KANKA_TOKEN=$KANKA_TOKEN",
-                "--env",
-                "CAMPAIGN_ID=$CAMPAIGN_ID",
-                "--env",
-                "DISCORD_TOKEN=$DISCORD_TOKEN",
-                "--env",
-                "STORYTELLER_ID=$STORYTELLER_ID",
-                "--env",
-                "HOST=http://localhost:8080",
-                "kanka-character:latest"    
+                "--allow-all",
+                "main.ts"     
             ],
+            "env": {
+                "HOST": "http://localhost:3000"
+            },
             "group": {
                 "kind": "build",
-                "isDefault": false
+                "isDefault": true
             }
         }
     ]
