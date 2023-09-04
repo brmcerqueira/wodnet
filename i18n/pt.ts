@@ -316,6 +316,7 @@ export const pt: LocaleType = {
   storytellerChangeCurrentCharacter: {
     name: "Qual personagem você quer jogar?",
     placeholder: "Escolha um personagem",
+    chosen: "O personagem escolhido foi...",
   },
   roll: {
     bestialFailure: "Falha Bestial",

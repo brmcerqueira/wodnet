@@ -1,5 +1,6 @@
 import { Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
+import { characterSelectSolver } from "./solver/characterSelectSolver.ts";
 import { rollSolver } from "./solver/rollSolver.ts";
 import { setCurrentCharacterSolver } from "./solver/setCurrentCharacterSolver.ts";
 import { setDifficultySolver } from "./solver/setDifficultySolver.ts";
@@ -121,5 +122,5 @@ commands[locale.commands.setModifier.name] = {
 
 commands[locale.commands.character.name] = {
   description: locale.commands.character.description,
-  solve: setCurrentCharacterSolver
+  solve: characterSelectSolver
 };

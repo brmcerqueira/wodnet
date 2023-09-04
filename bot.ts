@@ -5,7 +5,9 @@ import {
   GatewayIntents,
   Interaction,
   InteractionApplicationCommandData,
+  InteractionMessageComponentData,
   InteractionType,
+  MessageComponentType,
 } from "./deps.ts";
 import { locale } from "./i18n/locale.ts";
 import { config } from "./config.ts";
@@ -14,6 +16,7 @@ import { emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
 import { CommandOptionType, commands } from "./roll/commands.ts";
+import { setCurrentCharacterSolver } from "./roll/solver/setCurrentCharacterSolver.ts";
 
 const keyCommands = keys(commands);
 
@@ -49,17 +52,19 @@ export async function start() {
             type: 1,
             name: name,
             description: command.description,
-            options: command.options ? keys(command.options).map((key) => {
-              const option = command.options![key];
-              return {
-                name: key,
-                description: option.description,
-                type: option.type,
-                required: option.required,
-                min_value: option.min_value,
-                max_value: option.max_value,
-              };
-            }) : undefined,
+            options: command.options
+              ? keys(command.options).map((key) => {
+                const option = command.options![key];
+                return {
+                  name: key,
+                  description: option.description,
+                  type: option.type,
+                  required: option.required,
+                  min_value: option.min_value,
+                  max_value: option.max_value,
+                };
+              })
+              : undefined,
           },
         );
       }
@@ -95,7 +100,15 @@ export async function start() {
       !interaction.user.bot &&
       interaction.type == InteractionType.MESSAGE_COMPONENT
     ) {
-      await reRollSolver(interaction);
+      const data = interaction.data as InteractionMessageComponentData;
+      if (
+        data.component_type == MessageComponentType.SELECT &&
+        data.custom_id == "entityId"
+      ) {
+        await setCurrentCharacterSolver(interaction, parseInt(data.values![0]));
+      } else {
+        await reRollSolver(interaction, parseInt(data.custom_id));
+      }
     } else if (
       !interaction.user.bot &&
       interaction.type == InteractionType.APPLICATION_COMMAND
@@ -107,7 +120,7 @@ export async function start() {
           const command = commands[name];
           let values: any = undefined;
 
-          if (command.options) {     
+          if (command.options) {
             values = {};
             keys(command.options).forEach((key) => {
               const discordOption = data.options.find((o) => o.name == key);

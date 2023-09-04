@@ -276,6 +276,7 @@ export type LocaleType = {
   storytellerChangeCurrentCharacter: {
     name: string;
     placeholder: string;
+    chosen: string;
   };
   roll: {
     bestialFailure: string;

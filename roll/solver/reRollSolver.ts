@@ -1,10 +1,10 @@
 import { reRoll } from "../diceRollManager.ts";
 import * as data from "../data.ts";
-import { Interaction, InteractionMessageComponentData, InteractionResponseType, sprintf } from "../../deps.ts";
+import { Interaction, InteractionResponseType, sprintf } from "../../deps.ts";
 import { buildRollMessage } from "../buildRollMessage.ts";
 import { locale } from "../../i18n/locale.ts";
 
-export async function reRollSolver(interaction: Interaction) {
+export async function reRollSolver(interaction: Interaction, dices: number) {
     const roll = data.lastRolls[interaction.user.id];
     if (roll) {
         delete data.lastRolls[interaction.user.id];
@@ -14,9 +14,6 @@ export async function reRollSolver(interaction: Interaction) {
                 embeds: [roll.embed],
                 components: []
             });
-
-            const data = interaction.data as InteractionMessageComponentData;
-            const dices = parseInt(data.custom_id);
 
             const message = buildRollMessage(reRoll(roll.result, dices), interaction.guild!.id, 
                 interaction.user.id, sprintf(locale.reRollHelperText, dices));
