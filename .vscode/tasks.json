@@ -36,6 +36,8 @@
                 "--env",
                 "KANKA_TOKEN=$KANKA_TOKEN",
                 "--env",
+                "CAMPAIGN_ID=$CAMPAIGN_ID",
+                "--env",
                 "DISCORD_TOKEN=$DISCORD_TOKEN",
                 "--env",
                 "STORYTELLER_ID=$STORYTELLER_ID",

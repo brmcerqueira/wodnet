@@ -313,6 +313,10 @@ export const pt: LocaleType = {
   unauthorized: "Função não autorizada!",
   storytellerChangeDifficulty: "O narrador mudou a dificuldade.",
   storytellerChangeModifier: "O narrador mudou o modificador.",
+  storytellerChangeCurrentCharacter: {
+    name: "Qual personagem você quer jogar?",
+    placeholder: "Escolha um personagem",
+  },
   roll: {
     bestialFailure: "Falha Bestial",
     failure: "Falha",
@@ -361,6 +365,11 @@ export const pt: LocaleType = {
         name: "valor",
         description: "Valor do novo modificador",
       },
+    },
+    character: {
+      name: "personagem",
+      description:
+        "O narrador escolhe o personagem corrente para ser usado na parada de dados",
     },
   },
 };

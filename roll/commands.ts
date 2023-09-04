@@ -1,6 +1,7 @@
 import { Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { rollSolver } from "./solver/rollSolver.ts";
+import { setCurrentCharacterSolver } from "./solver/setCurrentCharacterSolver.ts";
 import { setDifficultySolver } from "./solver/setDifficultySolver.ts";
 import { setModifierSolver } from "./solver/setModifierSolver.ts";
 
@@ -34,8 +35,8 @@ export type CommandOptions = {
 export const commands: {
   [name: string]: {
     description: string;
-    solve: (interaction: Interaction, values: any) => Promise<void>
-    options: CommandOptions
+    solve: (interaction: Interaction, values?: any) => Promise<void>
+    options?: CommandOptions
   }
 } = {}
 
@@ -116,4 +117,9 @@ commands[locale.commands.setModifier.name] = {
     min_value: -10,
     max_value: 10,
   }).build
+};
+
+commands[locale.commands.character.name] = {
+  description: locale.commands.character.description,
+  solve: setCurrentCharacterSolver
 };

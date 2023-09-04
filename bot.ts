@@ -49,8 +49,8 @@ export async function start() {
             type: 1,
             name: name,
             description: command.description,
-            options: keys(command.options).map((key) => {
-              const option = command.options[key];
+            options: command.options ? keys(command.options).map((key) => {
+              const option = command.options![key];
               return {
                 name: key,
                 description: option.description,
@@ -59,7 +59,7 @@ export async function start() {
                 min_value: option.min_value,
                 max_value: option.max_value,
               };
-            }),
+            }) : undefined,
           },
         );
       }
@@ -105,24 +105,29 @@ export async function start() {
         const name = keyCommands[index];
         if (data.name == name) {
           const command = commands[name];
-          const values: any = {};
-          keys(command.options).forEach((key) => {
-            const discordOption = data.options.find((o) => o.name == key);
-            if (discordOption) {
-              const option = command.options[key];
-              switch (option.type) {
-                case CommandOptionType.BOOLEAN:
-                  values[option.property] = discordOption.value == "true";
-                  break;
-                case CommandOptionType.INTEGER:
-                  values[option.property] = parseInt(discordOption.value);
-                  break;
-                default:
-                  values[option.property] = discordOption.value;
-                  break;
+          let values: any = undefined;
+
+          if (command.options) {     
+            values = {};
+            keys(command.options).forEach((key) => {
+              const discordOption = data.options.find((o) => o.name == key);
+              if (discordOption) {
+                const option = command.options![key];
+                switch (option.type) {
+                  case CommandOptionType.BOOLEAN:
+                    values[option.property] = discordOption.value == "true";
+                    break;
+                  case CommandOptionType.INTEGER:
+                    values[option.property] = parseInt(discordOption.value);
+                    break;
+                  default:
+                    values[option.property] = discordOption.value;
+                    break;
+                }
               }
-            }
-          });
+            });
+          }
+
           await command.solve(interaction, values);
           break;
         }
