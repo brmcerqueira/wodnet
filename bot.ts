@@ -110,55 +110,61 @@ export async function start() {
   });
 
   client.on("interactionCreate", async (interaction: Interaction) => {
-    if (
-      !interaction.user.bot &&
-      interaction.type == InteractionType.MESSAGE_COMPONENT
-    ) {
-      const data = interaction.data as InteractionMessageComponentData;
-      await reRollSolver(interaction, parseInt(data.custom_id));
-    } else if (
-      !interaction.user.bot &&
-      (interaction.type == InteractionType.APPLICATION_COMMAND ||
-        interaction.type == InteractionType.AUTOCOMPLETE)
-    ) {
-      const data = interaction.data as InteractionApplicationCommandData;
-      for (let index = 0; index < keyCommands.length; index++) {
-        const name = keyCommands[index];
-        if (data.name == name) {
-          const command = commands[name];
-          let values: any = undefined;
+    try {
+      if (
+        !interaction.user.bot &&
+        interaction.type == InteractionType.MESSAGE_COMPONENT
+      ) {
+        const data = interaction.data as InteractionMessageComponentData;
+        await reRollSolver(interaction, parseInt(data.custom_id));
+      } else if (
+        !interaction.user.bot &&
+        (interaction.type == InteractionType.APPLICATION_COMMAND ||
+          interaction.type == InteractionType.AUTOCOMPLETE)
+      ) {
+        const data = interaction.data as InteractionApplicationCommandData;
+        for (let index = 0; index < keyCommands.length; index++) {
+          const name = keyCommands[index];
+          if (data.name == name) {
+            const command = commands[name];
+            let values: any = undefined;
 
-          if (command.options) {
-            values = {};
-            keys(command.options).forEach((key) => {
-              const discordOption = data.options.find((o) => o.name == key);
-              if (discordOption) {
-                let value: any = undefined;
-                const option = command.options![key];
-                switch (option.type) {
-                  case CommandOptionType.BOOLEAN:
-                    value = discordOption.value == "true";
-                    break;
-                  case CommandOptionType.INTEGER:
-                    value = parseInt(discordOption.value);
-                    break;
-                  default:
-                    value = discordOption.value;
-                    break;
+            if (command.options) {
+              values = {};
+              keys(command.options).forEach((key) => {
+                const discordOption = data.options.find((o) => o.name == key);
+                if (discordOption) {
+                  let value: any = undefined;
+                  const option = command.options![key];
+                  switch (option.type) {
+                    case CommandOptionType.BOOLEAN:
+                      value = discordOption.value == "true";
+                      break;
+                    case CommandOptionType.INTEGER:
+                      value = parseInt(discordOption.value);
+                      break;
+                    default:
+                      value = discordOption.value;
+                      break;
+                  }
+
+                  values[option.property] = option.autocomplete
+                    ? {
+                      value: value,
+                      focused: discordOption.focused,
+                    }
+                    : value;
                 }
+              });
+            }
 
-                values[option.property] = option.autocomplete ? {
-                  value: value,
-                  focused: discordOption.focused
-                }: value;
-              }
-            });
+            await command.solve(interaction, values);
+            break;
           }
-
-          await command.solve(interaction, values);
-          break;
         }
       }
+    } catch (error) {
+      logger.error(error);
     }
   });
 

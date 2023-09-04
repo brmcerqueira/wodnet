@@ -29,7 +29,7 @@ export async function dicePoolAutocompleteSolver(
     });
   } else {
     const character = config.storytellerId == interaction.user.id
-      ? getFromCache(data.currentCharacter!)
+      ? (data.currentCharacter ? getFromCache(data.currentCharacter!) : undefined)
       : getByDiscordId(interaction.user.id);
     if (character) {
       const result = dicePools[values.dicePool.value](character);
