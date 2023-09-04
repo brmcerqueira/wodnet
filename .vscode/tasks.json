@@ -8,16 +8,16 @@
             "type": "shell",  
             "command": "deno",
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "HOST": "http://localhost:3000"
+                }
             },
             "args": [
                 "run",
                 "--allow-all",
                 "main.ts"     
             ],
-            "env": {
-                "HOST": "http://localhost:3000"
-            },
             "group": {
                 "kind": "build",
                 "isDefault": true
