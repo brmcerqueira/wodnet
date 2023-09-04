@@ -273,11 +273,7 @@ export type LocaleType = {
   unauthorized: string;
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
-  storytellerChangeCurrentCharacter: {
-    name: string;
-    placeholder: string;
-    chosen: string;
-  };
+  storytellerChangeCurrentCharacter: string;
   roll: {
     bestialFailure: string;
     failure: string;
@@ -327,9 +323,13 @@ export type LocaleType = {
         description: string;
       };
     };
-    character: {
+    setCharacter: {
       name: string;
       description: string;
+      character: {
+        name: string;
+        description: string;
+      };
     };
   };
 };

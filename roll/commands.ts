@@ -1,8 +1,7 @@
 import { Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { characterSelectSolver } from "./solver/characterSelectSolver.ts";
+import { characterAutocompleteSolver } from "./solver/characterAutocompleteSolver.ts";
 import { rollSolver } from "./solver/rollSolver.ts";
-import { setCurrentCharacterSolver } from "./solver/setCurrentCharacterSolver.ts";
 import { setDifficultySolver } from "./solver/setDifficultySolver.ts";
 import { setModifierSolver } from "./solver/setModifierSolver.ts";
 
@@ -27,6 +26,7 @@ export type CommandOption = {
   required: boolean;
   min_value?: number;
   max_value?: number;
+  autocomplete?: boolean;
 }
 
 export type CommandOptions = {
@@ -58,7 +58,7 @@ class BuildOptions {
   }
 }
 
-function option<T extends CommandOption>(name: string, option: T): BuildOptions {
+function option(name: string, option: CommandOption): BuildOptions {
   return new BuildOptions().option(name, option)
 }
 
@@ -120,7 +120,14 @@ commands[locale.commands.setModifier.name] = {
   }).build
 };
 
-commands[locale.commands.character.name] = {
-  description: locale.commands.character.description,
-  solve: characterSelectSolver
+commands[locale.commands.setCharacter.name] = {
+  description: locale.commands.setCharacter.description,
+  solve: characterAutocompleteSolver,
+  options: option(locale.commands.setCharacter.character.name, {
+    property: "character",
+    description: locale.commands.setCharacter.character.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    autocomplete: true
+  }).build
 };

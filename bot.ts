@@ -16,7 +16,7 @@ import { emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
 import { CommandOptionType, commands } from "./roll/commands.ts";
-import { setCurrentCharacterSolver } from "./roll/solver/setCurrentCharacterSolver.ts";
+import { loadAll } from "./characterManager.ts";
 
 const keyCommands = keys(commands);
 
@@ -32,6 +32,17 @@ const client = new Client({
     GatewayIntents.MESSAGE_CONTENT,
   ],
 });
+
+async function deleteCommand(name: string) {
+  await client.rest.endpoints.deleteGlobalApplicationCommand(
+    client.applicationID!,
+    (await client.rest.endpoints
+      .getGlobalApplicationCommands(
+        client.applicationID!,
+      ) as unknown as ApplicationCommandPayload[]).find((c) => c.name == name)!
+      .id,
+  );
+}
 
 export async function start() {
   client.on("ready", async () => {
@@ -62,6 +73,7 @@ export async function start() {
                   required: option.required,
                   min_value: option.min_value,
                   max_value: option.max_value,
+                  autocomplete: option.autocomplete,
                 };
               })
               : undefined,
@@ -92,6 +104,8 @@ export async function start() {
       }
     }
 
+    await loadAll(config.campaignId);
+
     logger.info(locale.welcome);
   });
 
@@ -101,17 +115,11 @@ export async function start() {
       interaction.type == InteractionType.MESSAGE_COMPONENT
     ) {
       const data = interaction.data as InteractionMessageComponentData;
-      if (
-        data.component_type == MessageComponentType.SELECT &&
-        data.custom_id == "entityId"
-      ) {
-        await setCurrentCharacterSolver(interaction, parseInt(data.values![0]));
-      } else {
-        await reRollSolver(interaction, parseInt(data.custom_id));
-      }
+      await reRollSolver(interaction, parseInt(data.custom_id));
     } else if (
       !interaction.user.bot &&
-      interaction.type == InteractionType.APPLICATION_COMMAND
+      (interaction.type == InteractionType.APPLICATION_COMMAND ||
+        interaction.type == InteractionType.AUTOCOMPLETE)
     ) {
       const data = interaction.data as InteractionApplicationCommandData;
       for (let index = 0; index < keyCommands.length; index++) {
@@ -125,18 +133,24 @@ export async function start() {
             keys(command.options).forEach((key) => {
               const discordOption = data.options.find((o) => o.name == key);
               if (discordOption) {
+                let value: any = undefined;
                 const option = command.options![key];
                 switch (option.type) {
                   case CommandOptionType.BOOLEAN:
-                    values[option.property] = discordOption.value == "true";
+                    value = discordOption.value == "true";
                     break;
                   case CommandOptionType.INTEGER:
-                    values[option.property] = parseInt(discordOption.value);
+                    value = parseInt(discordOption.value);
                     break;
                   default:
-                    values[option.property] = discordOption.value;
+                    value = discordOption.value;
                     break;
                 }
+
+                values[option.property] = option.autocomplete ? {
+                  value: value,
+                  focused: discordOption.focused
+                }: value;
               }
             });
           }

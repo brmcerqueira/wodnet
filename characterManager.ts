@@ -1,10 +1,12 @@
 import { Character } from "./character.ts";
 import * as kanka from "./kanka.ts";
+import * as tags from "./tags.ts";
 import { attributes, AttributeType, Context } from "./attributes.ts";
 import { locale } from "./i18n/locale.ts";
+import { keys } from "./utils.ts";
 
 const cache: {
-  [id: string]: Character;
+  [id: number]: Character;
 } = {};
 
 export enum ApplyType {
@@ -26,10 +28,11 @@ function hashCode(data: any): number {
   return hash;
 }
 
-function getFromCache(key: string): Character {
+function getFromCache(key: number): Character {
   if (cache[key] == undefined) {
     cache[key] = {
       hashCode: undefined,
+      id: key,
       image: "",
       name: "",
       player: "",
@@ -123,6 +126,7 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
   const kankaCharacter = await kanka.getEntityRelated(campaignId, id);
 
   if (kankaCharacter.data) {
+    character.id = id;
     character.name = kankaCharacter.data.name;
     character.image = kankaCharacter.data.child.image_full;
 
@@ -173,18 +177,48 @@ function sortAttribute(r: kanka.KankaAttribute, l: kanka.KankaAttribute): number
 }
 
 export async function check(campaignId: number, id: number): Promise<boolean> {
-  const character = getFromCache(id.toString());
+  const character = getFromCache(id);
   const hashCode = character.hashCode;
   await tryUpdate(character, campaignId, id);
   return character.hashCode != hashCode;
 }
 
 export async function get(campaignId: number, id: number): Promise<Character> {
-  const character = getFromCache(id.toString());
+  const character = getFromCache(id);
   if (character.hashCode == undefined) {
     await tryUpdate(character, campaignId, id);
   }
   return character;
+}
+
+export async function loadAll(campaignId: number): Promise<void> {
+  const kankaTags = await kanka.getTagsByName(
+    campaignId,
+    tags.Player.name,
+  );
+
+  if (kankaTags.data && kankaTags.data.length > 0) {
+    const tag = kankaTags.data[0];
+    for (let index = 0; index < tag.entities.length; index++) {
+      const id = tag.entities[index];
+      const character = getFromCache(id);
+      if (character.hashCode == undefined) {
+        await tryUpdate(character, campaignId, id);
+      }
+    }
+  }
+}
+
+export function search(term: string): Character[] {
+  return keys(cache).map(key => cache[key]).filter(c => c.name.indexOf(term) > -1).sort((r, l) => {
+    if (r.name < l.name) {
+      return -1;
+    }
+    if (r.name > l.name) {
+      return 1;
+    }
+    return 0;
+  });
 }
 
 export async function apply(

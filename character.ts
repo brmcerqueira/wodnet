@@ -5,6 +5,7 @@ export type Damage = {
 
 export type Character = {
   hashCode: number | undefined;
+  id: number;
   image: string;
   name: string;
   player: string;
