@@ -235,7 +235,7 @@ export async function loadAll(campaignId: number): Promise<void> {
 
 export function search(term: string): Character[] {
   return keys(cache).map((key) => cache[key]).filter((c) =>
-    c.name.indexOf(term) > -1
+    c.name.toLowerCase().indexOf(term.toLowerCase()) > -1
   ).sort((r, l) => {
     if (r.name < l.name) {
       return -1;

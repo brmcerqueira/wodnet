@@ -19,7 +19,7 @@ export async function dicePoolAutocompleteSolver(
     await interaction.respond({
       type: InteractionResponseType.APPLICATION_COMMAND_AUTOCOMPLETE_RESULT,
       choices: keys(dicePools).filter((key) =>
-        (key as string).indexOf(values.dicePool.value) > -1
+        (key as string).toLowerCase().indexOf(values.dicePool.value.toLowerCase()) > -1
       ).map((key) => {
         return {
           value: key as string,
