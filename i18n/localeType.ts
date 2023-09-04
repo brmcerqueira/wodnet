@@ -274,18 +274,16 @@ export type LocaleType = {
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
   storytellerChangeCurrentCharacter: string;
-  roll: {
-    bestialFailure: string;
-    failure: string;
-    success: string;
-    regularCritical: string;
-    messyCritical: string;
-    dices: string;
-    difficulty: string;
-    successes: string;
-    status: string;
-    modifier: string;
-  };
+  bestialFailure: string;
+  failure: string;
+  success: string;
+  regularCritical: string;
+  messyCritical: string;
+  dices: string;
+  difficulty: string;
+  successes: string;
+  status: string;
+  modifier: string;
   commands: {
     roll: {
       name: string;
@@ -331,5 +329,14 @@ export type LocaleType = {
         description: string;
       };
     };
+    dicePools: {
+      name: string;
+      description: string;
+      dicePool: {
+        name: string;
+        description: string;
+      };
+    };
   };
+  dicePools: string[]
 };

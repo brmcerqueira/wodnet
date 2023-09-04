@@ -51,43 +51,43 @@ export function buildRollMessage(
 
   switch (result.status) {
     case RollStatus.BestialFailure:
-      statusLabel = locale.roll.bestialFailure;
+      statusLabel = locale.bestialFailure;
       embed.color = colors.Red;
       break;
     case RollStatus.Failure:
-      statusLabel = locale.roll.failure;
+      statusLabel = locale.failure;
       embed.color = colors.Orange;
       break;
     case RollStatus.Success:
-      statusLabel = locale.roll.success;
+      statusLabel = locale.success;
       embed.color = colors.Green;
       break;
     case RollStatus.RegularCritical:
-      statusLabel = locale.roll.regularCritical;
+      statusLabel = locale.regularCritical;
       embed.color = colors.Blue;
       break;
     case RollStatus.MessyCritical:
-      statusLabel = locale.roll.messyCritical;
+      statusLabel = locale.messyCritical;
       embed.color = colors.Purple;
       break;
   }
 
   embed.fields = [{
-    name: locale.roll.dices,
+    name: locale.dices,
     value: result.hunger > 0
       ? `${result.amount} / ${result.hunger}`
       : result.amount.toString(),
     inline: true,
   }, {
-    name: locale.roll.difficulty,
+    name: locale.difficulty,
     value: result.difficulty.toString(),
     inline: true,
   }, {
-    name: locale.roll.successes,
+    name: locale.successes,
     value: result.successes.toString(),
     inline: true,
   }, {
-    name: locale.roll.status,
+    name: locale.status,
     value: `**${statusLabel}**`,
     inline: true,
   }, {
@@ -98,7 +98,7 @@ export function buildRollMessage(
 
   if (result.modifier != 0) {
     embed.fields.splice(2, 0, {
-      name: locale.roll.modifier,
+      name: locale.modifier,
       value: result.modifier.toString(),
       inline: true,
     });

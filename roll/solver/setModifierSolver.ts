@@ -16,7 +16,7 @@ export async function setModifierSolver(
         title: locale.storytellerChangeModifier,
         color: colors.Gray,
         fields: [{
-          name: locale.roll.modifier,
+          name: locale.modifier,
           value: `**${data.modifier}**`,
           inline: true,
         }],

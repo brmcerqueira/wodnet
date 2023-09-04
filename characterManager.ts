@@ -17,6 +17,10 @@ export enum ApplyType {
   Flaw,
 }
 
+function penalty(left: number): number {
+  return left <= 0 ? 3 : (left >= 1 && left <= 3 ? (3 - left) : 0);
+}
+
 function hashCode(data: any): number {
   const text = JSON.stringify(data);
   let hash = 0;
@@ -28,11 +32,12 @@ function hashCode(data: any): number {
   return hash;
 }
 
-function getFromCache(key: number): Character {
+export function getFromCache(key: number): Character {
   if (cache[key] == undefined) {
     cache[key] = {
       hashCode: undefined,
       id: key,
+      discordId: "",
       image: "",
       name: "",
       player: "",
@@ -97,10 +102,12 @@ function getFromCache(key: number): Character {
       health: {
         superficial: 0,
         aggravated: 0,
+        penalty: 0,
       },
       willpower: {
         superficial: 0,
         aggravated: 0,
+        penalty: 0,
       },
       humanity: {
         total: 0,
@@ -132,45 +139,62 @@ async function tryUpdate(character: Character, campaignId: number, id: number) {
 
     let context: Context | undefined;
 
-    kankaCharacter.data.attributes.sort(sortAttribute).forEach(kankaAttribute => {
-      const attribute = attributes[kankaAttribute.name] ||
-        (context && context.generic);
-      if (attribute) {
-        if (attribute.type == AttributeType.Section) {
-          if (attribute.context) {
-            context = attribute.context(character);
+    kankaCharacter.data.attributes.sort(sortAttribute).forEach(
+      (kankaAttribute) => {
+        const attribute = attributes[kankaAttribute.name] ||
+          (context && context.generic);
+        if (attribute) {
+          if (attribute.type == AttributeType.Section) {
+            if (attribute.context) {
+              context = attribute.context(character);
+            }
+          } else if (attribute.parse) {
+            let value;
+            switch (attribute.type) {
+              case AttributeType.Checkbox:
+                value = kankaAttribute.value == "1" ||
+                  kankaAttribute.value == "on";
+                break;
+              case AttributeType.RandomNumber:
+              case AttributeType.Number:
+                value = parseInt(kankaAttribute.value) || 0;
+                break;
+              case AttributeType.Standard:
+              case AttributeType.MultilineTextBlock:
+              default:
+                value = kankaAttribute.value;
+                break;
+            }
+            attribute.parse(character, kankaAttribute.name, value, context);
           }
-        } else if (attribute.parse) {
-          let value;
-          switch (attribute.type) {
-            case AttributeType.Checkbox:
-              value = kankaAttribute.value == "1" ||
-                kankaAttribute.value == "on";
-              break;
-            case AttributeType.RandomNumber:
-            case AttributeType.Number:
-              value = parseInt(kankaAttribute.value) || 0;
-              break;
-            case AttributeType.Standard:
-            case AttributeType.MultilineTextBlock:
-            default:
-              value = kankaAttribute.value;
-              break;
-          }
-          attribute.parse(character, kankaAttribute.name, value, context);
         }
-      }
-    });
+      },
+    );
+
+    character.health.penalty = penalty(
+      (character.attributes.physical.stamina + 3) -
+        (character.health.superficial + character.health.aggravated),
+    );
+
+    character.willpower.penalty = penalty(
+      (character.attributes.social.composure +
+        character.attributes.mental.resolve) -
+        (character.willpower.superficial + character.willpower.aggravated),
+    );
+
     character.hashCode = undefined;
     character.hashCode = hashCode(character);
   }
 }
 
-function sortAttribute(r: kanka.KankaAttribute, l: kanka.KankaAttribute): number {
-  if(r.default_order < l.default_order) {
+function sortAttribute(
+  r: kanka.KankaAttribute,
+  l: kanka.KankaAttribute,
+): number {
+  if (r.default_order < l.default_order) {
     return -1;
   }
-  if(r.default_order > l.default_order) {
+  if (r.default_order > l.default_order) {
     return 1;
   }
   return 0;
@@ -210,7 +234,9 @@ export async function loadAll(campaignId: number): Promise<void> {
 }
 
 export function search(term: string): Character[] {
-  return keys(cache).map(key => cache[key]).filter(c => c.name.indexOf(term) > -1).sort((r, l) => {
+  return keys(cache).map((key) => cache[key]).filter((c) =>
+    c.name.indexOf(term) > -1
+  ).sort((r, l) => {
     if (r.name < l.name) {
       return -1;
     }
@@ -219,6 +245,16 @@ export function search(term: string): Character[] {
     }
     return 0;
   });
+}
+
+export function getByDiscordId(id: string): Character | undefined{
+  for (const key in cache) {
+    const character = cache[key];
+    if (character.discordId == id) {
+      return character
+    }
+  }
+  return undefined;
 }
 
 export async function apply(
@@ -261,10 +297,10 @@ export async function apply(
       case ApplyType.Advantage:
         {
           const order = getAttributeOrder(
-            attributes,locale.advantages,
+            attributes,
+            locale.advantages,
           );
-          body.name =
-            `${generateAttributeName()}[range:1,5]`;
+          body.name = `${generateAttributeName()}[range:1,5]`;
           body.type_id = 6;
           body.default_order = order;
         }
@@ -272,10 +308,10 @@ export async function apply(
       case ApplyType.Flaw:
         {
           const order = getAttributeOrder(
-            attributes, locale.flaws,          
+            attributes,
+            locale.flaws,
           );
-          body.name =
-            `${generateAttributeName()}[range:1,5]`;
+          body.name = `${generateAttributeName()}[range:1,5]`;
           body.type_id = 6;
           body.default_order = order;
         }
@@ -308,9 +344,7 @@ function buildSpecialtyAttribute(
   attributes: kanka.KankaAttribute[],
 ) {
   const order = getAttributeOrder(attributes, locale.specialties.name);
-  body.name = `${generateAttributeName()}[range:${
-    Object.values(o).join(",")
-  }]`;
+  body.name = `${generateAttributeName()}[range:${Object.values(o).join(",")}]`;
   body.default_order = order;
 }
 
@@ -322,7 +356,7 @@ function getAttributeOrder(
     const attribute = attributes[i];
     if (attribute.name == section) {
       return attribute.default_order + 1;
-    } 
+    }
   }
 
   return -1;

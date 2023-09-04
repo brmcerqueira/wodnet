@@ -1,6 +1,7 @@
 import { Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { characterAutocompleteSolver } from "./solver/characterAutocompleteSolver.ts";
+import { dicePoolAutocompleteSolver } from "./solver/dicePoolAutocompleteSolver.ts";
 import { rollSolver } from "./solver/rollSolver.ts";
 import { setDifficultySolver } from "./solver/setDifficultySolver.ts";
 import { setModifierSolver } from "./solver/setModifierSolver.ts";
@@ -126,6 +127,18 @@ commands[locale.commands.setCharacter.name] = {
   options: option(locale.commands.setCharacter.character.name, {
     property: "character",
     description: locale.commands.setCharacter.character.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    autocomplete: true
+  }).build
+};
+
+commands[locale.commands.dicePools.name] = {
+  description: locale.commands.dicePools.description,
+  solve: dicePoolAutocompleteSolver,
+  options: option(locale.commands.dicePools.dicePool.name, {
+    property: "dicePool",
+    description: locale.commands.dicePools.dicePool.description,
     type: CommandOptionType.STRING,
     required: true,
     autocomplete: true

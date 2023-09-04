@@ -1,11 +1,13 @@
 export type Damage = {
   superficial: number;
   aggravated: number;
+  penalty: number;
 };
 
 export type Character = {
   hashCode: number | undefined;
   id: number;
+  discordId: string;
   image: string;
   name: string;
   player: string;

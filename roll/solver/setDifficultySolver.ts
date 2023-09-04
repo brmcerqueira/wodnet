@@ -16,7 +16,7 @@ export async function setDifficultySolver(
         title: locale.storytellerChangeDifficulty,
         color: colors.Gray,
         fields: [{
-          name: locale.roll.difficulty,
+          name: locale.difficulty,
           value: `**${data.difficulty}**`,
           inline: true,
         }],
