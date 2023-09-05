@@ -1,28 +1,28 @@
 import { Character } from "../character.ts"
 import { locale } from "../i18n/locale.ts";
 
-export type DicePoolResult = {
+export type ActionResult = {
     dices: number,
     modifier: number, 
     difficulty: number
 }
 
-export type DicePoolBuilder = (character: Character) => DicePoolResult;
+export type ActionBuilder = (character: Character) => ActionResult;
 
-export type DicePools = {
-    [name: string]: DicePoolBuilder
+export type Actions = {
+    [name: string]: ActionBuilder
 }
 
-function createDicePools(array: DicePoolBuilder[]): DicePools {
-    const result: DicePools = {};
+function createActions(array: ActionBuilder[]): Actions {
+    const result: Actions = {};
     for (let index = 0; index < array.length; index++) {
-        const name = locale.dicePools.length > index ? locale.dicePools[index] : index.toString();
+        const name = locale.actions.length > index ? locale.actions[index] : index.toString();
         result[name] = array[index];
     }
     return result;
 }
 
-export const dicePools = createDicePools([
+export const actions = createActions([
     c => {
         return {
             dices: c.attributes.social.manipulation + c.skills.social.intimidation,

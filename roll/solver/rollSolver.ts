@@ -1,7 +1,7 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
 import { sendRoll } from "../sendRoll.ts";
 
-export async function rollSolver(interaction: Interaction, data: {
+export async function rollSolver(interaction: Interaction, values: {
   dices: number;
   hunger?: number;
   difficulty?: number;
@@ -18,10 +18,10 @@ export async function rollSolver(interaction: Interaction, data: {
     },
     interaction.guild!.id,
     interaction.user.id,
-    data.dices,
-    data.hunger || 0,
-    data.difficulty || 1,
+    values.dices,
+    values.hunger || 0,
+    values.difficulty || 1,
     0,
-    data.description,
+    values.description,
   );
 }

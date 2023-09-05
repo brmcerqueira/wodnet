@@ -1,46 +1,54 @@
 import { Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { characterAutocompleteSolver } from "./solver/characterAutocompleteSolver.ts";
-import { dicePoolAutocompleteSolver } from "./solver/dicePoolAutocompleteSolver.ts";
+import { actionAutocompleteSolver } from "./solver/actionAutocompleteSolver.ts";
 import { rollSolver } from "./solver/rollSolver.ts";
 import { setDifficultySolver } from "./solver/setDifficultySolver.ts";
 import { setModifierSolver } from "./solver/setModifierSolver.ts";
+import { dicePoolSolver } from "./solver/dicePoolSolver.ts";
+import { keys } from "../utils.ts";
 
 export enum CommandOptionType {
   SUB_COMMAND = 1,
   SUB_COMMAND_GROUP = 2,
-  STRING = 3,	
+  STRING = 3,
   INTEGER = 4,
   BOOLEAN = 5,
-  USER = 6,	
+  USER = 6,
   CHANNEL = 7,
-  ROLE = 8,	
+  ROLE = 8,
   MENTIONABLE = 9,
   NUMBER = 10,
-  ATTACHMENT = 11
+  ATTACHMENT = 11,
 }
+
+export type CommandChoice = {
+  name: string;
+  value: any;
+};
 
 export type CommandOption = {
   property: string;
   description: string;
   type: CommandOptionType;
   required: boolean;
-  min_value?: number;
-  max_value?: number;
+  minValue?: number;
+  maxValue?: number;
   autocomplete?: boolean;
-}
+  choices?: CommandChoice[];
+};
 
 export type CommandOptions = {
-  [name: string]: CommandOption
-}
+  [name: string]: CommandOption;
+};
 
 export const commands: {
   [name: string]: {
     description: string;
-    solve: (interaction: Interaction, values?: any) => Promise<void>
-    options?: CommandOptions
-  }
-} = {}
+    solve: (interaction: Interaction, values?: any) => Promise<void>;
+    options?: CommandOptions;
+  };
+} = {};
 
 class BuildOptions {
   private _data: CommandOptions;
@@ -60,8 +68,23 @@ class BuildOptions {
 }
 
 function option(name: string, option: CommandOption): BuildOptions {
-  return new BuildOptions().option(name, option)
+  return new BuildOptions().option(name, option);
 }
+
+function buildChoices<T extends object>(o: T): CommandChoice[] {
+  return keys(o).map((key) => {
+    return {
+      name: o[key],
+      value: key,
+    };
+  });
+}
+
+const attributeChoices = [
+  ...buildChoices(locale.attributes.physical),
+  ...buildChoices(locale.attributes.social),
+  ...buildChoices(locale.attributes.mental),
+];
 
 commands[locale.commands.roll.name] = {
   description: locale.commands.roll.description,
@@ -71,28 +94,28 @@ commands[locale.commands.roll.name] = {
     description: locale.commands.roll.dices.description,
     type: CommandOptionType.INTEGER,
     required: true,
-    min_value: 1,
-    max_value: 30,
+    minValue: 1,
+    maxValue: 30,
   }).option(locale.commands.roll.hunger.name, {
     property: "hunger",
     description: locale.commands.roll.hunger.description,
     type: CommandOptionType.INTEGER,
     required: false,
-    min_value: 1,
-    max_value: 5,
+    minValue: 1,
+    maxValue: 5,
   }).option(locale.commands.roll.difficulty.name, {
     property: "difficulty",
     description: locale.commands.roll.difficulty.description,
     type: CommandOptionType.INTEGER,
     required: false,
-    min_value: 2,
-    max_value: 9,
+    minValue: 2,
+    maxValue: 9,
   }).option(locale.commands.roll.descriptionField.name, {
     property: "description",
     description: locale.commands.roll.descriptionField.description,
     type: CommandOptionType.STRING,
     required: false,
-  }).build
+  }).build,
 };
 
 commands[locale.commands.setDifficulty.name] = {
@@ -103,9 +126,9 @@ commands[locale.commands.setDifficulty.name] = {
     description: locale.commands.setDifficulty.difficulty.description,
     type: CommandOptionType.INTEGER,
     required: true,
-    min_value: 1,
-    max_value: 10,
-  }).build
+    minValue: 1,
+    maxValue: 10,
+  }).build,
 };
 
 commands[locale.commands.setModifier.name] = {
@@ -116,9 +139,9 @@ commands[locale.commands.setModifier.name] = {
     description: locale.commands.setModifier.modifier.description,
     type: CommandOptionType.INTEGER,
     required: true,
-    min_value: -10,
-    max_value: 10,
-  }).build
+    minValue: -10,
+    maxValue: 10,
+  }).build,
 };
 
 commands[locale.commands.setCharacter.name] = {
@@ -129,18 +152,65 @@ commands[locale.commands.setCharacter.name] = {
     description: locale.commands.setCharacter.character.description,
     type: CommandOptionType.STRING,
     required: true,
-    autocomplete: true
-  }).build
+    autocomplete: true,
+  }).build,
 };
 
 commands[locale.commands.dicePools.name] = {
   description: locale.commands.dicePools.description,
-  solve: dicePoolAutocompleteSolver,
-  options: option(locale.commands.dicePools.dicePool.name, {
-    property: "dicePool",
-    description: locale.commands.dicePools.dicePool.description,
+  solve: dicePoolSolver,
+  options: option(locale.commands.dicePools.attribute.name, {
+    property: "attribute",
+    description: locale.commands.dicePools.attribute.description,
     type: CommandOptionType.STRING,
     required: true,
-    autocomplete: true
-  }).build
+    choices: attributeChoices,
+  }).option(locale.commands.dicePools.secondaryAttribute.name, {
+    property: "secondaryAttribute",
+    description: locale.commands.dicePools.secondaryAttribute.description,
+    type: CommandOptionType.STRING,
+    required: false,
+    choices: attributeChoices,
+  }).option(locale.commands.dicePools.skillPhysical.name, {
+    property: "skillPhysical",
+    description: locale.commands.dicePools.skillPhysical.description,
+    type: CommandOptionType.STRING,
+    required: false,
+    choices: buildChoices(locale.skills.physical),
+  }).option(locale.commands.dicePools.skillSocial.name, {
+    property: "skillSocial",
+    description: locale.commands.dicePools.skillSocial.description,
+    type: CommandOptionType.STRING,
+    required: false,
+    choices: buildChoices(locale.skills.social),
+  }).option(locale.commands.dicePools.skillMental.name, {
+    property: "skillMental",
+    description: locale.commands.dicePools.skillMental.description,
+    type: CommandOptionType.STRING,
+    required: false,
+    choices: buildChoices(locale.skills.mental),
+  }).option(locale.commands.dicePools.discipline.name, {
+    property: "discipline",
+    description: locale.commands.dicePools.discipline.description,
+    type: CommandOptionType.STRING,
+    required: false,
+    choices: keys(locale.disciplines).filter(key => key != "name").map((key) => {
+      return {
+        name: (locale.disciplines[key] as any).name,
+        value: key,
+      };
+    }),
+  }).build,
+};
+
+commands[locale.commands.actions.name] = {
+  description: locale.commands.actions.description,
+  solve: actionAutocompleteSolver,
+  options: option(locale.commands.actions.action.name, {
+    property: "action",
+    description: locale.commands.actions.action.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    autocomplete: true,
+  }).build,
 };

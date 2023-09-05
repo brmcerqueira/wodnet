@@ -5,23 +5,27 @@ import { buildRollMessage } from "../buildRollMessage.ts";
 import { locale } from "../../i18n/locale.ts";
 
 export async function reRollSolver(interaction: Interaction, dices: number) {
-    const roll = data.lastRolls[interaction.user.id];
-    if (roll) {
-        delete data.lastRolls[interaction.user.id];
-        if ((roll.result.amount - roll.result.hunger) > 0) {
-            await interaction.respond({
-                type: InteractionResponseType.UPDATE_MESSAGE,
-                embeds: [roll.embed],
-                components: []
-            });
+  const roll = data.lastRolls[interaction.user.id];
+  if (roll) {
+    delete data.lastRolls[interaction.user.id];
+    if ((roll.result.amount - roll.result.hunger) > 0) {
+      await interaction.respond({
+        type: InteractionResponseType.UPDATE_MESSAGE,
+        embeds: [roll.embed],
+        components: [],
+      });
 
-            const message = buildRollMessage(reRoll(roll.result, dices), interaction.guild!.id, 
-                interaction.user.id, sprintf(locale.reRollHelperText, dices));
+      const message = buildRollMessage(
+        reRoll(roll.result, dices),
+        interaction.guild!.id,
+        interaction.user.id,
+        sprintf(locale.reRollHelperText, dices),
+      );
 
-            await interaction.message!.channel.send({
-                content: message.content,
-                embeds: [message.embed]
-            });
-        }
+      await interaction.message!.channel.send({
+        content: message.content,
+        embeds: [message.embed],
+      });
     }
+  }
 }

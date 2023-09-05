@@ -71,9 +71,10 @@ export async function start() {
                   description: option.description,
                   type: option.type,
                   required: option.required,
-                  min_value: option.min_value,
-                  max_value: option.max_value,
+                  min_value: option.minValue,
+                  max_value: option.maxValue,
                   autocomplete: option.autocomplete,
+                  choices: option.choices,
                 };
               })
               : undefined,

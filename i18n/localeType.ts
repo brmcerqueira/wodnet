@@ -3,6 +3,10 @@ type OptionsLocale = {
   options: string[];
 };
 
+type CommandOption = {
+  name: string;
+  description: string;
+};
 export type LocaleType = {
   app: string;
   standard: string;
@@ -288,55 +292,41 @@ export type LocaleType = {
     roll: {
       name: string;
       description: string;
-      dices: {
-        name: string;
-        description: string;
-      };
-      hunger: {
-        name: string;
-        description: string;
-      };
-      difficulty: {
-        name: string;
-        description: string;
-      };
-      descriptionField: {
-        name: string;
-        description: string;
-      };
-    };
-    setDifficulty: {
-      name: string;
-      description: string;
-      difficulty: {
-        name: string;
-        description: string;
-      };
-    };
-    setModifier: {
-      name: string;
-      description: string;
-      modifier: {
-        name: string;
-        description: string;
-      };
-    };
-    setCharacter: {
-      name: string;
-      description: string;
-      character: {
-        name: string;
-        description: string;
-      };
+      dices: CommandOption;
+      hunger: CommandOption;
+      difficulty: CommandOption;
+      descriptionField: CommandOption;
     };
     dicePools: {
       name: string;
       description: string;
-      dicePool: {
-        name: string;
-        description: string;
-      };
+      attribute: CommandOption;
+      secondaryAttribute: CommandOption;
+      skillPhysical: CommandOption;
+      skillSocial: CommandOption;
+      skillMental: CommandOption;
+      discipline: CommandOption;
+    };
+    actions: {
+      name: string;
+      description: string;
+      action: CommandOption;
+    };
+    setDifficulty: {
+      name: string;
+      description: string;
+      difficulty: CommandOption;
+    };
+    setModifier: {
+      name: string;
+      description: string;
+      modifier: CommandOption;
+    };
+    setCharacter: {
+      name: string;
+      description: string;
+      character: CommandOption;
     };
   };
-  dicePools: string[]
+  actions: string[];
 };

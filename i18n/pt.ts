@@ -345,6 +345,42 @@ export const pt: LocaleType = {
         description: "Descrição da jogada",
       },
     },
+    dicePools: {
+      name: "parada-de-dados",
+      description: "O jogador joga uma parada de dados de acordo com sua ficha",
+      attribute: {
+        name: "atributo",
+        description: "Nome do atributo",
+      },
+      secondaryAttribute: {
+        name: "atributo-2",
+        description: "Nome do segundo atributo",
+      },
+      skillPhysical: {
+        name: "habilidade-física",
+        description: "Nome da habilidade física",
+      },
+      skillSocial: {
+        name: "habilidade-social",
+        description: "Nome da habilidade social",
+      },
+      skillMental: {
+        name: "habilidade-mental",
+        description: "Nome da habilidade mental",
+      },
+      discipline: {
+        name: "disciplina",
+        description: "Nome da disciplina",
+      },
+    },
+    actions: {
+      name: "ação",
+      description: "O jogador executa uma ação de acordo com sua ficha",
+      action: {
+        name: "nome",
+        description: "Nome da ação",
+      },
+    },
     setDifficulty: {
       name: "dificuldade",
       description: "Dificuldade determinada pelo narrador",
@@ -370,16 +406,8 @@ export const pt: LocaleType = {
         description: "Nome do personagem",
       },
     },
-    dicePools: {
-      name: "parada-de-dados",
-      description: "O jogador joga uma parada de dados de acordo com sua ficha",
-      dicePool: {
-        name: "nome",
-        description: "Nome da parada de dados",
-      },
-    },
   },
-  dicePools: [
+  actions: [
     "Ameaçar veladamente [Manipulação + Intimidação]",
     "Ataque com os punhos [Força + Briga]",
     "Cantar [Carisma + Performance]",

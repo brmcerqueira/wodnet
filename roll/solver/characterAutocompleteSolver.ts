@@ -1,6 +1,6 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
 import { isStoryteller } from "../isStoryteller.ts";
-import { search, get } from "../../characterManager.ts";
+import { get, search } from "../../characterManager.ts";
 import { config } from "../../config.ts";
 import { locale } from "../../i18n/locale.ts";
 import * as colors from "../colors.ts";
@@ -26,8 +26,7 @@ export async function characterAutocompleteSolver(
           };
         }),
       });
-    }
-    else {
+    } else {
       const id = parseInt(values.character.value);
       data.setCurrentCharacter(id);
       await interaction.respond({
