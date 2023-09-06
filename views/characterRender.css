@@ -13,3 +13,13 @@ i {
     background-color: black;
     color: white;
 }
+
+.trait {
+    min-height: 2em;
+}
+
+.overflow-ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

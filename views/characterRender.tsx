@@ -108,166 +108,293 @@ export const characterRender = (character: Character, campaignId: number, id: st
         </head>
         <body class={dark && "body-dark"}>
             <div class="container">
-                <div class="row align-items-end">
-                    <div class="col-sm-2"><img class="float-end" src={character.image} alt={character.name} /></div>
-                    <div class="col-sm-10">
+                <div class="row align-items-end mt-2">
+                    <div class="col-sm-3 mb-2 text-center">
+                        <img class="float-sm-end" src={character.image} alt={character.name} />
+                    </div>
+                    <div class="col-sm-3 mb-2">
                         <div class="row align-items-center">
-                            <div class="col"><b>{locale.name}:</b> {character.name}</div>
-                            <div class="col"><b>{locale.resonance.name}:</b> {character.resonance}</div>
-                            <div class="col"><b>{locale.predator.name}:</b> {character.predator}</div>
-                        </div>
-                        <div class="row  align-items-center">
-                            <div class="col"><b>{locale.player}:</b> {character.player}</div>
-                            <div class="col"><b>{locale.ambition}:</b> {character.ambition}</div>
-                            <div class="col"><b>{locale.clan.name}:</b> {character.clan}</div>
+                            <div class="col text-end"><b>{locale.name}:</b></div>
+                            <div class="col text-start overflow-ellipsis">{character.name}</div>
                         </div>
                         <div class="row align-items-center">
-                            <div class="col"><b>{locale.experience.name}:</b> {character.experience.total} / {character.experience.spent}</div>
-                            <div class="col"><b>{locale.desire}:</b> {character.desire}</div>
-                            <div class="col"><b>{locale.generation.name}:</b> {character.generation}{locale.generation.suffix}</div>
+                            <div class="col text-end"><b>{locale.player}:</b></div>
+                            <div class="col text-start overflow-ellipsis">{character.player}</div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.experience.name}:</b></div>
+                            <div class="col text-start">{character.experience.total} / {character.experience.spent}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.resonance.name}:</b></div>
+                            <div class="col text-start overflow-ellipsis">{character.resonance}</div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.ambition}:</b></div>
+                            <div class="col text-start overflow-ellipsis">{character.ambition}</div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.desire}:</b></div>
+                            <div class="col text-start overflow-ellipsis">{character.desire}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.predator.name}:</b></div>
+                            <div class="col text-start overflow-ellipsis">{character.predator}</div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.clan.name}:</b></div>
+                            <div class="col text-start overflow-ellipsis">{character.clan}</div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.generation.name}:</b></div>
+                            <div class="col text-start">{character.generation}{locale.generation.suffix}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <hr />
             <div class="container">
-                <div class="row align-items-center">
+                <div class="row align-items-center mb-2">
                     <div class="col text-center"><b>{locale.attributes.name}</b></div>
                 </div>
-                <div class="row align-items-center mb-2">
-                    <div class="col text-center"><b>{locale.physical}</b></div>
-                    <div class="col text-center"><b>{locale.social}</b></div>
-                    <div class="col text-center"><b>{locale.mental}</b></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.attributes.physical.strength}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.physical.strength} total={5} /></div>
-                    <div class="col text-end"><b>{locale.attributes.social.charisma}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.social.charisma} total={5} /></div>
-                    <div class="col text-end"><b>{locale.attributes.mental.intelligence}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.mental.intelligence} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.attributes.physical.dexterity}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.physical.dexterity} total={5} /></div>
-                    <div class="col text-end"><b>{locale.attributes.social.manipulation}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.social.manipulation} total={5} /></div>
-                    <div class="col text-end"><b>{locale.attributes.mental.wits}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.mental.wits} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.attributes.physical.stamina}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.physical.stamina} total={5} /></div>
-                    <div class="col text-end"><b>{locale.attributes.social.composure}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.social.composure} total={5} /></div>
-                    <div class="col text-end"><b>{locale.attributes.mental.resolve}</b></div>
-                    <div class="col text-center"><Dots value={character.attributes.mental.resolve} total={5} /></div>
-                </div>
-            </div>
-            <hr />
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col text-center"><b>{locale.bloodPotency}</b></div>
-                    <div class="col text-center"><b>{locale.health}</b></div>
-                    <div class="col text-center"><b>{locale.hunger}</b></div>
-                    <div class="col text-center"><b>{locale.willpower}</b></div>
-                    <div class="col text-center"><b>{locale.humanity}</b></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-center"><Dots value={character.bloodPotency} total={10} /></div>
-                    <div class="col text-center"><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3} /></div>
-                    <div class="col text-center"><DualMeter value={character.hunger} total={5} empty={Square} fill={XSquare} /></div>
-                    <div class="col text-center"><Damage superficial={character.willpower.superficial} aggravated={character.willpower.aggravated} total={character.attributes.social.composure + character.attributes.mental.resolve} /></div>
-                    <div class="col text-center"><Humanity total={character.humanity.total} stains={character.humanity.stains} /></div>
-                </div>
-            </div>
-            <hr />
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col text-center"><b>{locale.skills.name}</b></div>
-                </div>
-                <div class="row align-items-center mb-2">
-                    <div class="col text-center"><b>{locale.physical}</b></div>
-                    <div class="col text-center"><b>{locale.social}</b></div>
-                    <div class="col text-center"><b>{locale.mental}</b></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.melee}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.melee} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.animalKen}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.animalKen} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.science}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.science} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.firearms}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.firearms} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.etiquette}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.etiquette} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.academics}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.academics} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.athletics}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.athletics} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.intimidation}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.intimidation} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.finance}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.finance} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.brawl}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.brawl} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.leadership}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.leadership} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.investigation}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.investigation} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.drive}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.drive} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.streetwise}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.streetwise} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.medicine}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.medicine} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.stealth}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.stealth} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.performance}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.performance} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.occult}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.occult} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.larceny}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.larceny} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.persuasion}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.persuasion} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.awareness}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.awareness} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.craft}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.craft} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.insight}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.insight} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.politics}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.politics} total={5} /></div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col text-end"><b>{locale.skills.physical.survival}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.physical.survival} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.social.subterfuge}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.social.subterfuge} total={5} /></div>
-                    <div class="col text-end"><b>{locale.skills.mental.technology}</b></div>
-                    <div class="col text-center"><Dots value={character.skills.mental.technology} total={5} /></div>
+                <div class="row">
+                    <div class="col-sm-4 mb-2">
+                        <div class="row align-items-center">
+                            <div class="col text-center mb-2"><b>{locale.physical}</b></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.physical.strength}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.physical.strength} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.physical.dexterity}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.physical.dexterity} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.physical.stamina}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.physical.stamina} total={5} /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="row align-items-center mb-2">
+                            <div class="col text-center"><b>{locale.social}</b></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.social.charisma}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.social.charisma} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.social.manipulation}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.social.manipulation} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.social.composure}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.social.composure} total={5} /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="row align-items-center mb-2">
+                            <div class="col text-center"><b>{locale.mental}</b></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.mental.intelligence}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.mental.intelligence} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.mental.wits}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.mental.wits} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.attributes.mental.resolve}</b></div>
+                            <div class="col text-center"><Dots value={character.attributes.mental.resolve} total={5} /></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr />
             <div class="container">
                 <div class="row">
+                    <div class="col-sm-3">
+                        <div class="row align-items-center">
+                            <div class="col text-center"><b>{locale.bloodPotency}</b></div>
+                        </div>
+                        <div class="row align-items-center trait">
+                            <div class="col text-center"><Dots value={character.bloodPotency} total={10} /></div>
+                        </div>
+                    </div>
                     <div class="col-sm-2">
+                        <div class="row align-items-center">
+                            <div class="col text-center"><b>{locale.health}</b></div>
+                        </div>
+                        <div class="row align-items-center trait">
+                            <div class="col text-center"><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3} /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="row align-items-center">
+                            <div class="col text-center"><b>{locale.hunger}</b></div>
+                        </div>
+                        <div class="row align-items-center trait">
+                            <div class="col text-center"><DualMeter value={character.hunger} total={5} empty={Square} fill={XSquare} /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="row align-items-center">
+                            <div class="col text-center"><b>{locale.willpower}</b></div>
+                        </div>
+                        <div class="row align-items-center trait">
+                            <div class="col text-center"><Damage superficial={character.willpower.superficial} aggravated={character.willpower.aggravated} total={character.attributes.social.composure + character.attributes.mental.resolve} /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="row align-items-center">
+                            <div class="col text-center"><b>{locale.humanity}</b></div>
+                        </div>
+                        <div class="row align-items-center trait">
+                            <div class="col text-center"><Humanity total={character.humanity.total} stains={character.humanity.stains} /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="container">
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center"><b>{locale.skills.name}</b></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 mb-2">
+                        <div class="row align-items-center mb-2">
+                            <div class="col text-center"><b>{locale.physical}</b></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.melee}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.melee} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.firearms}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.firearms} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.athletics}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.athletics} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.brawl}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.brawl} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.drive}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.drive} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.stealth}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.stealth} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.larceny}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.larceny} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.craft}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.craft} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.physical.survival}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.survival} total={5} /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="row align-items-center mb-2">
+                            <div class="col text-center"><b>{locale.social}</b></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.animalKen}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.animalKen} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.etiquette}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.etiquette} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.intimidation}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.intimidation} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.leadership}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.leadership} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.streetwise}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.streetwise} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.performance}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.performance} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.persuasion}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.persuasion} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.insight}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.insight} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.social.subterfuge}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.social.subterfuge} total={5} /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-2">
+                        <div class="row align-items-center mb-2">
+                            <div class="col text-center"><b>{locale.mental}</b></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.science}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.science} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.academics}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.academics} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.finance}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.finance} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.investigation}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.investigation} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.medicine}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.medicine} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.occult}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.occult} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.awareness}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.awareness} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.politics}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.politics} total={5} /></div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col text-end"><b>{locale.skills.mental.technology}</b></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.technology} total={5} /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2 mb-2">
                         <div class="row align-items-center mb-2">
                             <div class="col text-center"><b>{locale.specialties.name}</b></div>
                         </div>
@@ -277,7 +404,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                                 <div class="col text-start">({skill})</div>
                             </div>))}
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-5 mb-2">
                         <div class="row align-items-center mb-2">
                             <div class="col text-center"><b>{locale.advantages}</b></div>
                         </div>
@@ -287,7 +414,7 @@ export const characterRender = (character: Character, campaignId: number, id: st
                                 <div class="col text-center"><Dots value={character.advantages[key]} total={5} /></div>
                             </div>)}
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-5 mb-2">
                         <div class="row align-items-center mb-2">
                             <div class="col text-center"><b>{locale.flaws}</b></div>
                         </div>
@@ -304,9 +431,9 @@ export const characterRender = (character: Character, campaignId: number, id: st
                 <div class="row align-items-center mb-2">
                     <div class="col text-center"><b>{locale.disciplines.name}</b></div>
                 </div>
-                <div class="row row-cols-3">
+                <div class="row">
                     {keys(character.disciplines).map(key =>
-                        <div class="col mb-5">
+                        <div class="col-sm-4 mb-5">
                             <div class="row align-items-center mb-2">
                                 <div class="col text-end"><b>{locale.disciplines[key].name}</b></div>
                                 <div class="col text-center"><Dots value={character.disciplines[key]!.length} total={5} /></div>
