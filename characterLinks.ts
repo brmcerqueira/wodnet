@@ -2,17 +2,14 @@ import { characterLinksRender } from "./views/characterLinksRender.tsx";
 import * as kanka from "./kanka.ts";
 import * as tags from "./tags.ts";
 
-export async function setup(
-  campaignId: number,
-): Promise<number> {
+export async function setup(): Promise<number> {
   const entities: kanka.KankaEntity[] = [];
 
-  const kankaTags = await kanka.getTagsByName(campaignId, tags.Player.name);
+  const kankaTags = await kanka.getTagsByName(tags.Player.name);
 
   if (kankaTags.data.length > 0) {
     for (let index = 0; index < kankaTags.data[0].entities.length; index++) {
       const entity = await kanka.getEntity(
-        campaignId,
         kankaTags.data[0].entities[index],
       );
       if (entity.data) {
@@ -23,15 +20,15 @@ export async function setup(
     if (entities.length > 0) {
       const note: kanka.KankaNoteBody = {
         name: tags.CharacterLinks,
-        entry: await characterLinksRender(entities, campaignId).render(),
+        entry: await characterLinksRender(entities).render(),
       };
 
-      const notes = await kanka.getNotesByName(campaignId, note.name);
+      const notes = await kanka.getNotesByName(note.name);
 
       if (notes.data.length > 0) {
-        await kanka.updateNote(campaignId, notes.data[0].id, note);
+        await kanka.updateNote(notes.data[0].id, note);
       } else {
-        await kanka.createNote(campaignId, note);
+        await kanka.createNote(note);
       }
     }
   }

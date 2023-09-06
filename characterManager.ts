@@ -38,6 +38,7 @@ export function getFromCache(key: number): Character {
       hashCode: undefined,
       id: key,
       discordId: "",
+      details: "", 
       image: "",
       name: "",
       player: "",
@@ -129,8 +130,8 @@ export function getFromCache(key: number): Character {
   return cache[key];
 }
 
-async function tryUpdate(character: Character, campaignId: number, id: number) {
-  const kankaCharacter = await kanka.getEntityRelated(campaignId, id);
+async function tryUpdate(character: Character, id: number) {
+  const kankaCharacter = await kanka.getEntityRelated(id);
 
   if (kankaCharacter.data) {
     character.id = id;
@@ -200,24 +201,23 @@ function sortAttribute(
   return 0;
 }
 
-export async function check(campaignId: number, id: number): Promise<boolean> {
+export async function check(id: number): Promise<boolean> {
   const character = getFromCache(id);
   const hashCode = character.hashCode;
-  await tryUpdate(character, campaignId, id);
+  await tryUpdate(character, id);
   return character.hashCode != hashCode;
 }
 
-export async function get(campaignId: number, id: number): Promise<Character> {
+export async function get(id: number): Promise<Character> {
   const character = getFromCache(id);
   if (character.hashCode == undefined) {
-    await tryUpdate(character, campaignId, id);
+    await tryUpdate(character, id);
   }
   return character;
 }
 
-export async function loadAll(campaignId: number): Promise<void> {
+export async function loadAll(): Promise<void> {
   const kankaTags = await kanka.getTagsByName(
-    campaignId,
     tags.Player.name,
   );
 
@@ -227,7 +227,7 @@ export async function loadAll(campaignId: number): Promise<void> {
       const id = tag.entities[index];
       const character = getFromCache(id);
       if (character.hashCode == undefined) {
-        await tryUpdate(character, campaignId, id);
+        await tryUpdate(character, id);
       }
     }
   }
@@ -247,22 +247,21 @@ export function search(term: string): Character[] {
   });
 }
 
-export function getByDiscordId(id: string): Character | undefined{
+export function getByDiscordId(id: string): Character | undefined {
   for (const key in cache) {
     const character = cache[key];
     if (character.discordId == id) {
-      return character
+      return character;
     }
   }
   return undefined;
 }
 
 export async function apply(
-  campaignId: number,
   id: number,
   type: ApplyType,
 ): Promise<boolean> {
-  const result = await kanka.getCharacterAttributes(campaignId, id);
+  const result = await kanka.getCharacterAttributes(id);
 
   if (result.data) {
     const attributes = result.data.sort(sortAttribute);
@@ -323,7 +322,6 @@ export async function apply(
     }
 
     const resultAttribute = await kanka.createAttribute(
-      campaignId,
       id,
       body,
     );

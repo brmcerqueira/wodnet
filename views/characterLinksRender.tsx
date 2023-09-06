@@ -14,7 +14,7 @@ function parseLabel<T extends object>(o: T, key: string): string {
     return result ? result[1] : "";
 }
 
-export const characterLinksRender = (entities: kanka.KankaEntity[], campaignId: number): TsxComplexElement => 
+export const characterLinksRender = (entities: kanka.KankaEntity[]): TsxComplexElement =>
     <ul>
         {entities.sort((r, l) => {
             if (r.name < l.name) {
@@ -25,8 +25,13 @@ export const characterLinksRender = (entities: kanka.KankaEntity[], campaignId: 
             }
             return 0;
         }).map(entity =>
-            <li><a href={`${config.host}/dark?campaignId=${campaignId}&id=${encodeId(entity)}`}>{entity.name}</a>
-            <ul>{keys(ApplyType).filter(e => isNaN(parseInt(e))).map(key => <li><a href={`${config.host}/apply?campaignId=${campaignId}&id=${encodeId(entity)}&type=${key}`}>+ {parseLabel(locale.apply, key)}</a></li>)}</ul>
+            <li>
+                <a href={`${config.host}/dark?id=${encodeId(entity)}`}>{entity.name}</a>
+                <ul>{keys(ApplyType).filter(e => isNaN(parseInt(e))).map(key =>
+                    <li>
+                        <a href={`${config.host}/apply?id=${encodeId(entity)}&type=${key}`}>+ {parseLabel(locale.apply, key)}</a>
+                    </li>)}
+                </ul>
             </li>
         )}
     </ul>

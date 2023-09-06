@@ -19,6 +19,8 @@ export type LocaleType = {
   template: string;
   characterLinks: string;
   change: string;
+  discordId: string;
+  details: string;
   name: string;
   player: string;
   resonance: OptionsLocale;
@@ -271,8 +273,6 @@ export type LocaleType = {
       awakenTheSleeper: string;
     };
   };
-  loading: string;
-  welcome: string;
   reRollHelperText: string;
   unauthorized: string;
   storytellerChangeDifficulty: string;

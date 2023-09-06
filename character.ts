@@ -8,6 +8,7 @@ export type Character = {
   hashCode: number | undefined;
   id: number;
   discordId: string;
+  details: string;
   image: string;
   name: string;
   player: string;

@@ -7,7 +7,6 @@ import {
   InteractionApplicationCommandData,
   InteractionMessageComponentData,
   InteractionType,
-  MessageComponentType,
 } from "./deps.ts";
 import { locale } from "./i18n/locale.ts";
 import { config } from "./config.ts";
@@ -33,20 +32,9 @@ const client = new Client({
   ],
 });
 
-async function deleteCommand(name: string) {
-  await client.rest.endpoints.deleteGlobalApplicationCommand(
-    client.applicationID!,
-    (await client.rest.endpoints
-      .getGlobalApplicationCommands(
-        client.applicationID!,
-      ) as unknown as ApplicationCommandPayload[]).find((c) => c.name == name)!
-      .id,
-  );
-}
-
-export async function start() {
-  client.on("ready", async () => {
-    logger.info(locale.loading);
+client.on("ready", async () => {
+  try {
+    logger.info("Loading Wodbot...");
 
     const discordCommands = await client.rest.endpoints
       .getGlobalApplicationCommands(
@@ -86,7 +74,9 @@ export async function start() {
     const emojisArray = keys(emojis);
 
     for (const guild of await client.guilds.array()) {
-      const guildEmojis = await client.rest.endpoints.listGuildEmojis(guild.id);
+      const guildEmojis = await client.rest.endpoints.listGuildEmojis(
+        guild.id,
+      );
 
       for (let index = 0; index < emojisArray.length; index++) {
         const name = emojisArray[index];
@@ -105,69 +95,78 @@ export async function start() {
       }
     }
 
-    await loadAll(config.campaignId);
+    await loadAll();
 
-    logger.info(locale.welcome);
-  });
+    logger.info("Wodbot online!");
+  } catch (error) {
+    logger.error(error);
+  }
+}).on("interactionCreate", async (interaction: Interaction) => {
+  try {
+    logger.info(
+      "request: %v %v",
+      interaction.type, 
+      JSON.stringify(interaction.data)
+    );
+    if (
+      !interaction.user.bot &&
+      interaction.type == InteractionType.MESSAGE_COMPONENT
+    ) {
+      const data = interaction.data as InteractionMessageComponentData;
+      await reRollSolver(interaction, parseInt(data.custom_id));
+    } else if (
+      !interaction.user.bot &&
+      (interaction.type == InteractionType.APPLICATION_COMMAND ||
+        interaction.type == InteractionType.AUTOCOMPLETE)
+    ) {
+      const data = interaction.data as InteractionApplicationCommandData;
+      for (let index = 0; index < keyCommands.length; index++) {
+        const name = keyCommands[index];
+        if (data.name == name) {
+          const command = commands[name];
+          let values: any = undefined;
 
-  client.on("interactionCreate", async (interaction: Interaction) => {
-    try {
-      if (
-        !interaction.user.bot &&
-        interaction.type == InteractionType.MESSAGE_COMPONENT
-      ) {
-        const data = interaction.data as InteractionMessageComponentData;
-        await reRollSolver(interaction, parseInt(data.custom_id));
-      } else if (
-        !interaction.user.bot &&
-        (interaction.type == InteractionType.APPLICATION_COMMAND ||
-          interaction.type == InteractionType.AUTOCOMPLETE)
-      ) {
-        const data = interaction.data as InteractionApplicationCommandData;
-        for (let index = 0; index < keyCommands.length; index++) {
-          const name = keyCommands[index];
-          if (data.name == name) {
-            const command = commands[name];
-            let values: any = undefined;
-
-            if (command.options) {
-              values = {};
-              keys(command.options).forEach((key) => {
-                const discordOption = data.options.find((o) => o.name == key);
-                if (discordOption) {
-                  let value: any = undefined;
-                  const option = command.options![key];
-                  switch (option.type) {
-                    case CommandOptionType.BOOLEAN:
-                      value = discordOption.value == "true";
-                      break;
-                    case CommandOptionType.INTEGER:
-                      value = parseInt(discordOption.value);
-                      break;
-                    default:
-                      value = discordOption.value;
-                      break;
-                  }
-
-                  values[option.property] = option.autocomplete
-                    ? {
-                      value: value,
-                      focused: discordOption.focused,
-                    }
-                    : value;
+          if (command.options) {
+            values = {};
+            keys(command.options).forEach((key) => {
+              const discordOption = data.options.find((o) => o.name == key);
+              if (discordOption) {
+                let value: any = undefined;
+                const option = command.options![key];
+                switch (option.type) {
+                  case CommandOptionType.BOOLEAN:
+                    value = discordOption.value == "true";
+                    break;
+                  case CommandOptionType.INTEGER:
+                    value = parseInt(discordOption.value);
+                    break;
+                  default:
+                    value = discordOption.value;
+                    break;
                 }
-              });
-            }
 
-            await command.solve(interaction, values);
-            break;
+                values[option.property] = option.autocomplete
+                  ? {
+                    value: value,
+                    focused: discordOption.focused,
+                  }
+                  : value;
+              }
+            });
           }
+
+          await command.solve(interaction, values);
+          break;
         }
       }
-    } catch (error) {
-      logger.error(error);
     }
-  });
+  } catch (error) {
+    logger.error(error);
+  }
+});
 
-  await client.connect();
+export async function connect() {
+  if (client.upSince == undefined) {
+    await client.connect();
+  }
 }

@@ -77,7 +77,7 @@ const Humanity = (properties: { total: number, stains: number }): TsxComplexElem
     }} />;
 }
 
-export const characterRender = (character: Character, campaignId: number, id: string, dark: boolean, update: number): TsxComplexElement => {
+export const characterRender = (character: Character, id: string, dark: boolean, update: number): TsxComplexElement => {
     const title = character.player != null && character.player != "" ? `${character.name} (${character.player})` : character.name;
 
     return <html>
@@ -88,13 +88,13 @@ export const characterRender = (character: Character, campaignId: number, id: st
             <meta property="og:title" content={title} />
             <meta property="og:site_name" content={locale.app} />
             <meta property="og:image" content={character.image} />
-            <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?campaignId=${campaignId}&id=${id}`} />
+            <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?id=${id}`} />
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
             <link media="all" rel="stylesheet" href="characterRender.css" />
             <script>{`
                     setInterval(async () => {
-                        const response = await fetch("check?campaignId=${campaignId}&id=${id}", {
+                        const response = await fetch("check?id=${id}", {
                             method: "GET"
                         });
                     
@@ -448,6 +448,15 @@ export const characterRender = (character: Character, campaignId: number, id: st
                         </div>)}
                 </div>
             </div>
+            <hr />
+            <div class="container">
+                <div class="row align-items-center mb-2">
+                    <div class="col text-center"><b>{locale.details}</b></div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">{character.details}</div>
+                </div>
+            </div>  
         </body>
     </html>
 }

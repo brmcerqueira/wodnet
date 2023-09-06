@@ -12,6 +12,8 @@ export const pt: LocaleType = {
   template: "Modelo",
   characterLinks: "Fichas",
   change: "Trocar",
+  discordId: "Discord Id",
+  details: "Detalhes",
   name: "Nome",
   player: "Jogador",
   resonance: {
@@ -307,8 +309,6 @@ export const pt: LocaleType = {
       awakenTheSleeper: "●●●●● Acordar o Dorminhoco",
     },
   },
-  loading: "Carregando...",
-  welcome: "Wodbot 5.0 entrou!",
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",
   storytellerChangeDifficulty: "O narrador mudou a dificuldade.",

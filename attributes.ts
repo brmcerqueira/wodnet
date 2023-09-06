@@ -80,6 +80,13 @@ attributes[`${locale.generation.name}[range:4,16]`] = {
   parse: (c, _o, v: number) => c.generation = v,
   type: AttributeType.Number,
 };
+attributes[locale.discordId] = {
+  parse: (c, _o, v: string) => c.discordId = v,
+};
+attributes[locale.details] = {
+  parse: (c, _o, v: string) => c.details = v,
+  type: AttributeType.MultilineTextBlock,
+};
 attributes[`${locale.bloodPotency}[range:0,10]`] = {
   parse: (c, _o, v: number) => c.bloodPotency = v,
   type: AttributeType.Number,

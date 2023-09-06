@@ -1,7 +1,6 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
 import { isStoryteller } from "../isStoryteller.ts";
 import { get, search } from "../../characterManager.ts";
-import { config } from "../../config.ts";
 import { locale } from "../../i18n/locale.ts";
 import * as colors from "../colors.ts";
 import * as data from "../data.ts";
@@ -36,7 +35,7 @@ export async function characterAutocompleteSolver(
           color: colors.Gray,
           fields: [{
             name: locale.character,
-            value: `**${(await get(config.campaignId, id)).name}**`,
+            value: `**${(await get(id)).name}**`,
             inline: true,
           }],
         }],

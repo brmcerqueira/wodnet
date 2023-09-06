@@ -32,16 +32,16 @@ export const ThinBloodAlchemy = buildTag(
 );
 
 export function setup(
-  campaignId: number,
+  
 ): number {
   if (batch.percent == 0) {
-    buildTags(campaignId);
+    buildTags();
   }
 
   return batch.percent;
 }
 
-async function buildTags(campaignId: number) {
+async function buildTags() {
   batch.total = tags.length;
 
   for(let index = 0;index < tags.length;index++) {
@@ -53,11 +53,11 @@ async function buildTags(campaignId: number) {
     };
 
     await batch.run(async () => {
-      const kankaTags = await kanka.getTagsByName(campaignId, tag.name);
+      const kankaTags = await kanka.getTagsByName( tag.name);
 
       return kankaTags.data.length > 0
-        ? await kanka.updateTag(campaignId, kankaTags.data[0].id, kankaTag)
-        : await kanka.createTag(campaignId, kankaTag);
+        ? await kanka.updateTag( kankaTags.data[0].id, kankaTag)
+        : await kanka.createTag( kankaTag);
     });
   }
 }

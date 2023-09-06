@@ -6,6 +6,8 @@ import * as tags from "./tags.ts";
 import * as templates from "./templates.ts";
 import * as links from "./characterLinks.ts";
 import { config } from "./config.ts";
+import { logger } from "./logger.ts";
+import { locale } from "./i18n/locale.ts";
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -14,95 +16,107 @@ function decodeBase64(data: string): string {
   return textDecoder.decode(base64url.decode(data));
 }
 
-async function respond404(event: Deno.RequestEvent) {
+async function respondStatus(event: Deno.RequestEvent, status: number) {
   await event.respondWith(
     new Response(null, {
-      status: 404,
+      status: status,
     }),
   );
 }
 
-await bot.start();
+logger.debug("config: %v", JSON.stringify(config));
 
 const connection = Deno.listen({ port: config.port });
 const httpServer = Deno.serveHttp(await connection.accept());
 
+logger.info("Server online!");
+
 for await (const event of httpServer) {
-  const url = new URL(event.request.url);
+  try {
+    logger.info(
+      "request: %v %v",
+      event.request.method, 
+      event.request.url,
+    );
 
-  const campaignId = url.searchParams.has("campaignId") ? parseInt(url.searchParams.get("campaignId")!) : config.campaignId;
+    const url = new URL(event.request.url);
 
-  if (url.pathname == "/characterRender.css") {
-    await event.respondWith(
-      new Response(await Deno.readFile("./views/characterRender.css"), {
-        status: 200,
-        headers: {
-          "Content-Type": "application/css",
-        },
-      }),
-    );
-  } else if (url.pathname == "/setup/tags") {
-    await event.respondWith(
-      new Response(
-        JSON.stringify(tags.setup(campaignId)),
-        {
-          status: 200,
-        },
-      ),
-    );
-  } else if (url.pathname == "/setup/templates") {
-    await event.respondWith(
-      new Response(
-        JSON.stringify(templates.setup(campaignId)),
-        {
-          status: 200,
-        },
-      ),
-    );
-  } else if (url.pathname == "/setup/links") {
-    await event.respondWith(
-      new Response(
-        JSON.stringify(await links.setup(campaignId)),
-        {
-          status: 200,
-        },
-      ),
-    );
-  } else if (url.searchParams.has("id")) {
-    const id = url.searchParams.get("id")!;
-    const decodeId = parseInt(decodeBase64(id));
-    if (url.pathname == "/apply" && url.searchParams.has("type")) {
+    if (url.pathname == "/characterRender.css") {
       await event.respondWith(
-        Response.json(
-          await apply(
-            campaignId,
-            decodeId,
-            ApplyType[
-              url.searchParams.get("type")! as keyof typeof ApplyType
-            ],
-          ),
+        new Response(await Deno.readFile("./views/characterRender.css"), {
+          status: 200,
+          headers: {
+            "Content-Type": "application/css",
+          },
+        }),
+      );
+    } else if (url.pathname == "/discord") {
+      await bot.connect();
+      await respondStatus(event, 200);
+    } else if (url.pathname == "/setup/tags") {
+      await event.respondWith(
+        new Response(
+          JSON.stringify(tags.setup()),
+          {
+            status: 200,
+          },
         ),
       );
-    } else if (url.pathname == "/check") {
+    } else if (url.pathname == "/setup/templates") {
       await event.respondWith(
-        Response.json({ update: await check(campaignId, decodeId) }),
+        new Response(
+          JSON.stringify(templates.setup()),
+          {
+            status: 200,
+          },
+        ),
       );
+    } else if (url.pathname == "/setup/links") {
+      await event.respondWith(
+        new Response(
+          JSON.stringify(await links.setup()),
+          {
+            status: 200,
+          },
+        ),
+      );
+    } else if (url.searchParams.has("id")) {
+      const id = url.searchParams.get("id")!;
+      const decodeId = parseInt(decodeBase64(id));
+      if (url.pathname == "/apply" && url.searchParams.has("type")) {
+        await event.respondWith(
+          Response.json(
+            await apply(
+              decodeId,
+              ApplyType[
+                url.searchParams.get("type")! as keyof typeof ApplyType
+              ],
+            ),
+          ),
+        );
+      } else if (url.pathname == "/check") {
+        await event.respondWith(
+          Response.json({ update: await check(decodeId) }),
+        );
+      } else {
+        await event.respondWith(
+          new Response(textEncoder.encode(
+            await characterRender(
+              await get(decodeId),
+              id,
+              url.pathname == "/dark",
+              url.searchParams.has("update")
+                ? parseInt(url.searchParams.get("update")!)
+                : 30000,
+            ).render(),
+          )),
+        );
+      }
     } else {
-      await event.respondWith(
-        new Response(textEncoder.encode(
-          await characterRender(
-            await get(campaignId, decodeId),
-            campaignId,
-            id,
-            url.pathname == "/dark",
-            url.searchParams.has("update")
-              ? parseInt(url.searchParams.get("update")!)
-              : 30000,
-          ).render(),
-        )),
-      );
+      await respondStatus(event, 404);
     }
-  } else {
-    await respond404(event);
+  } catch (error) {
+    logger.error(error);
+    await respondStatus(event, 500);
   }
 }
