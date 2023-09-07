@@ -25,13 +25,6 @@ function createActions(array: ActionBuilder[]): Actions {
 export const actions = createActions([
     c => {
         return {
-            dices: c.attributes.social.manipulation + c.skills.social.intimidation,
-            modifier: 0,
-            difficulty: 1
-        };
-    },
-    c => {
-        return {
             dices: c.attributes.physical.strength + c.skills.physical.brawl,
             modifier: -c.health.penalty,
             difficulty: 1
@@ -40,7 +33,7 @@ export const actions = createActions([
     c => {
         return {
             dices: c.attributes.social.charisma + c.skills.social.performance,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
@@ -61,49 +54,49 @@ export const actions = createActions([
     c => {
         return {
             dices: c.attributes.mental.wits + c.skills.social.intimidation,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
     c => {
         return {
             dices: c.attributes.mental.intelligence + c.skills.physical.larceny,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
     c => {
         return {
             dices: c.attributes.social.charisma + c.skills.social.streetwise,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
     c => {
         return {
             dices: c.attributes.mental.wits + c.skills.physical.drive,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
     c => {
         return {
             dices: c.attributes.social.manipulation + c.skills.social.animalKen,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
     c => {
         return {
             dices: c.attributes.mental.wits + c.skills.physical.drive,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
     c => {
         return {
             dices: c.attributes.mental.wits + c.skills.physical.survival,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
@@ -116,22 +109,15 @@ export const actions = createActions([
     },
     c => {
         return {
-            dices: c.attributes.social.charisma + c.skills.social.intimidation,
-            modifier: 0,
-            difficulty: 1
-        };
-    },
-    c => {
-        return {
             dices: c.attributes.mental.intelligence + c.skills.mental.occult,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
     c => {
         return {
             dices: c.attributes.mental.wits + c.skills.physical.craft,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     },
@@ -145,7 +131,162 @@ export const actions = createActions([
     c => {
         return {
             dices: c.attributes.social.manipulation + c.skills.social.persuasion,
-            modifier: 0,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.charisma + c.skills.social.performance,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.charisma + c.skills.social.insight,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.manipulation + c.skills.social.subterfuge,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.mental.wits + c.skills.social.insight,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.charisma + c.skills.social.subterfuge,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.composure + c.skills.social.insight,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.manipulation + c.skills.social.insight,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.composure + c.attributes.mental.wits,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.manipulation + c.skills.social.intimidation,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.composure + c.attributes.mental.resolve,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.manipulation + c.skills.social.intimidation,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.composure + c.attributes.mental.resolve,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.physical.strength + c.skills.social.intimidation,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.composure + c.attributes.mental.resolve,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.physical.strength + c.skills.social.intimidation,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.charisma + c.skills.social.performance,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.mental.intelligence + c.skills.social.insight,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.composure + c.skills.social.etiquette,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.charisma + c.skills.social.insight,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.social.manipulation + c.skills.physical.athletics,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    },
+    c => {
+        return {
+            dices: c.attributes.mental.wits + c.skills.social.subterfuge,
+            modifier: -c.willpower.penalty,
+            difficulty: 1
+        };
+    }
+    ,
+    c => {
+        return {
+            dices: c.attributes.social.charisma + c.skills.social.subterfuge,
+            modifier: -c.willpower.penalty,
             difficulty: 1
         };
     }
