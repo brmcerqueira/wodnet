@@ -35,23 +35,43 @@ type AdvantageFlawContext = {
   };
 } & Context;
 
+type DisciplineKeyType = keyof Character["disciplines"];
+
+type DisciplineContext = {
+  key: DisciplineKeyType;
+} & Context;
+
 export const attributes: {
   [name: string]: Attribute;
 } = {};
-
-function treatDisciplineArray(array: string[], label: string, value: boolean) {
-  const index = array.indexOf(label);
-  if (value && index == -1) {
-    array.push(label);
-  } else if (!value && index > -1) {
-    array.splice(index, 1);
-  }
-}
 
 const advantageFlawAttributeParse: Attribute = {
   parse: (_c, o, v: number, context: AdvantageFlawContext) =>
     context.object[o] = v,
   type: AttributeType.Number,
+};
+
+const disciplineAttributeParse: Attribute = {
+  parse(c, o, v: boolean, context: DisciplineContext) {
+    if (c.disciplines[context.key] == undefined) {
+      c.disciplines[context.key] = [];
+    }
+
+    const array = c.disciplines[context.key]!;
+
+    const index = array.indexOf(o);
+
+    if (v && index == -1) {
+      array.push(o);
+    } else if (!v && index > -1) {
+      array.splice(index, 1);
+    }
+
+    if (c.disciplines[context.key]!.length == 0) {
+      c.disciplines[context.key] = undefined;
+    }
+  },
+  type: AttributeType.Checkbox,
 };
 
 attributes[locale.player] = {
@@ -289,1747 +309,6 @@ attributes[`${locale.skills.mental.technology}[range:0,5]`] = {
   parse: (c, _o, v: number) => c.skills.mental.technology = v,
   type: AttributeType.Number,
 };
-attributes[locale.advantages] = {
-  type: AttributeType.Section,
-};
-attributes[locale.flaws] = {
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.animalism.name] = {
-  tags: [tags.Animalism],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.animalism.bondFamulus] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.bondFamulus,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.senseTheBeast] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.senseTheBeast,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.feralWhispers] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.feralWhispers,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.animalSucculence] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.animalSucculence,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.quellTheBeast] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.quellTheBeast,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.unlivingHive] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.unlivingHive,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.subsumeTheSpirit] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.subsumeTheSpirit,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.animalDominion] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.animalDominion,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.animalism.drawingOutTheBeast] = {
-  tags: [tags.Animalism],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.animalism == undefined) c.disciplines.animalism = [];
-    treatDisciplineArray(
-      c.disciplines.animalism,
-      locale.disciplines.animalism.drawingOutTheBeast,
-      v,
-    );
-    if (c.disciplines.animalism.length == 0) {
-      c.disciplines.animalism = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.name] = {
-  tags: [tags.Auspex],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.auspex.heightenedSenses] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.heightenedSenses,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.senseTheUnseen] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.senseTheUnseen,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.premonition] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.premonition,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.scryTheSoul] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.scryTheSoul,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.shareTheSenses] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.shareTheSenses,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.spiritsTouch] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.spiritsTouch,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.clairvoyance] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.clairvoyance,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.possession] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.possession,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.auspex.telepathy] = {
-  tags: [tags.Auspex],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.auspex == undefined) c.disciplines.auspex = [];
-    treatDisciplineArray(
-      c.disciplines.auspex,
-      locale.disciplines.auspex.telepathy,
-      v,
-    );
-    if (c.disciplines.auspex.length == 0) c.disciplines.auspex = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.name] = {
-  tags: [tags.Dominate],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.dominate.cloudMemory] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.cloudMemory,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.compel] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.compel,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.mesmerize] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.mesmerize,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.dementation] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.dementation,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.theForgetfulMind] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.theForgetfulMind,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.submergedDirective] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.submergedDirective,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.rationalize] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.rationalize,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.massManipulation] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.massManipulation,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.dominate.terminalDecree] = {
-  tags: [tags.Dominate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.dominate == undefined) c.disciplines.dominate = [];
-    treatDisciplineArray(
-      c.disciplines.dominate,
-      locale.disciplines.dominate.terminalDecree,
-      v,
-    );
-    if (c.disciplines.dominate.length == 0) c.disciplines.dominate = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.name] = {
-  tags: [tags.BloodSorcery],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.bloodSorcery.corrosiveVitae] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.corrosiveVitae,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.aTasteForBlood] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.aTasteForBlood,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.extinguishVitae] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.extinguishVitae,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.bloodOfPotency] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.bloodOfPotency,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.scorpionsTouch] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.scorpionsTouch,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.theftOfVitae] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.theftOfVitae,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.baalsCaress] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.baalsCaress,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.bloodSorcery.cauldronOfBlood] = {
-  tags: [tags.BloodSorcery],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.bloodSorcery == undefined) {
-      c.disciplines.bloodSorcery = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.bloodSorcery,
-      locale.disciplines.bloodSorcery.cauldronOfBlood,
-      v,
-    );
-    if (c.disciplines.bloodSorcery.length == 0) {
-      c.disciplines.bloodSorcery = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.name] = {
-  tags: [tags.Fortitude],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.fortitude.resilience] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.resilience,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.unswayableMind] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.unswayableMind,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.toughness] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.toughness,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.enduringBeasts] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.enduringBeasts,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.defyBane] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.defyBane,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.fortifyTheInnerFacade] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.fortifyTheInnerFacade,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.draughtOfEndurance] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.draughtOfEndurance,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.fleshOfMarble] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.fleshOfMarble,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.fortitude.prowessFromPain] = {
-  tags: [tags.Fortitude],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.fortitude == undefined) c.disciplines.fortitude = [];
-    treatDisciplineArray(
-      c.disciplines.fortitude,
-      locale.disciplines.fortitude.prowessFromPain,
-      v,
-    );
-    if (c.disciplines.fortitude.length == 0) {
-      c.disciplines.fortitude = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.name] = {
-  tags: [tags.Protean],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.protean.eyesOfTheBeast] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.eyesOfTheBeast,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.weightOfTheFeather] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.weightOfTheFeather,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.feralWeapons] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.feralWeapons,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.earthMeld] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.earthMeld,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.shapechange] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.shapechange,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.metamorphosis] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.metamorphosis,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.mistForm] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.mistForm,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.protean.theUnfetteredHeart] = {
-  tags: [tags.Protean],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.protean == undefined) c.disciplines.protean = [];
-    treatDisciplineArray(
-      c.disciplines.protean,
-      locale.disciplines.protean.theUnfetteredHeart,
-      v,
-    );
-    if (c.disciplines.protean.length == 0) c.disciplines.protean = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.name] = {
-  tags: [tags.Obfuscate],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.obfuscate.cloakOfShadows] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.cloakOfShadows,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.silenceOfDeath] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.silenceOfDeath,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.unseenPassage] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.unseenPassage,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.ghostInTheMachine] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.ghostInTheMachine,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.maskOfAThousandFaces] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.maskOfAThousandFaces,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.conceal] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.conceal,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.vanish] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.vanish,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.cloakTheGathering] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.cloakTheGathering,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.obfuscate.impostorsGuise] = {
-  tags: [tags.Obfuscate],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.obfuscate == undefined) c.disciplines.obfuscate = [];
-    treatDisciplineArray(
-      c.disciplines.obfuscate,
-      locale.disciplines.obfuscate.impostorsGuise,
-      v,
-    );
-    if (c.disciplines.obfuscate.length == 0) {
-      c.disciplines.obfuscate = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.name] = {
-  tags: [tags.Potence],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.potence.lethalBody] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.lethalBody,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.soaringLeap] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.soaringLeap,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.prowess] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.prowess,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.brutalFeed] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.brutalFeed,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.sparkOfRage] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.sparkOfRage,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.uncannyGrip] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.uncannyGrip,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.draughtOfMight] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.draughtOfMight,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.earthshock] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.earthshock,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.potence.fistOfCaine] = {
-  tags: [tags.Potence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.potence == undefined) c.disciplines.potence = [];
-    treatDisciplineArray(
-      c.disciplines.potence,
-      locale.disciplines.potence.fistOfCaine,
-      v,
-    );
-    if (c.disciplines.potence.length == 0) c.disciplines.potence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.name] = {
-  tags: [tags.Presence],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.presence.awe] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.awe,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.daunt] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.daunt,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.lingeringKiss] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.lingeringKiss,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.dreadGaze] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.dreadGaze,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.entrancement] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.entrancement,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.irresistibleVoice] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.irresistibleVoice,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.summon] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.summon,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.majesty] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.majesty,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.presence.starMagnetism] = {
-  tags: [tags.Presence],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.presence == undefined) c.disciplines.presence = [];
-    treatDisciplineArray(
-      c.disciplines.presence,
-      locale.disciplines.presence.starMagnetism,
-      v,
-    );
-    if (c.disciplines.presence.length == 0) c.disciplines.presence = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.name] = {
-  tags: [tags.Celerity],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.celerity.catsGrace] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.catsGrace,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.rapidReflexes] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.rapidReflexes,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.fleetness] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.fleetness,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.blink] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.blink,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.traversal] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.traversal,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.draughtOfElegance] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.draughtOfElegance,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.unerringAim] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.unerringAim,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.lightningStrike] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.lightningStrike,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.celerity.splitSecond] = {
-  tags: [tags.Celerity],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.celerity == undefined) c.disciplines.celerity = [];
-    treatDisciplineArray(
-      c.disciplines.celerity,
-      locale.disciplines.celerity.splitSecond,
-      v,
-    );
-    if (c.disciplines.celerity.length == 0) c.disciplines.celerity = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.name] = {
-  tags: [tags.Rituals],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.rituals.bloodWalk] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.bloodWalk,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.clingingOfTheInsect] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.clingingOfTheInsect,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.craftBloodstone] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.craftBloodstone,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wakeWithEveningsFreshness] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wakeWithEveningsFreshness,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardAgainstGhouls] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardAgainstGhouls,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.communicateWithKindredSire] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.communicateWithKindredSire,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.eyesOfBabel] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.eyesOfBabel,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.illuminateTheTrailOfPrey] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.illuminateTheTrailOfPrey,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.truthOfBlood] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.truthOfBlood,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardAgainstSpirits] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardAgainstSpirits,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardingCircleAgainstGhouls] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardingCircleAgainstGhouls,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.dagonsCall] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.dagonsCall,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.deflectionOfWoodenDoom] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.deflectionOfWoodenDoom,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.essenceOfAir] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.essenceOfAir,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.firewalker] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.firewalker,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardAgainstLupines] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardAgainstLupines,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardingCircleAgainstSpirits] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardingCircleAgainstSpirits,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.defenseOfTheSacredHaven] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.defenseOfTheSacredHaven,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.eyesOfTheNighthawk] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.eyesOfTheNighthawk,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.incorporealPassage] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.incorporealPassage,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardAgainstCainites] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardAgainstCainites,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardingCircleAgainstLupines] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardingCircleAgainstLupines,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.escapeToTrueSanctuary] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.escapeToTrueSanctuary,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.heartOfStone] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.heartOfStone,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.shaftOfBelatedDissolution] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.shaftOfBelatedDissolution,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.rituals.wardingCircleAgainstCainites] = {
-  tags: [tags.Rituals],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.rituals == undefined) c.disciplines.rituals = [];
-    treatDisciplineArray(
-      c.disciplines.rituals,
-      locale.disciplines.rituals.wardingCircleAgainstCainites,
-      v,
-    );
-    if (c.disciplines.rituals.length == 0) c.disciplines.rituals = undefined;
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.thinBloodAlchemy.name] = {
-  tags: [tags.ThinBloodAlchemy],
-  type: AttributeType.Section,
-};
-attributes[locale.disciplines.thinBloodAlchemy.farReach] = {
-  tags: [tags.ThinBloodAlchemy],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.thinBloodAlchemy == undefined) {
-      c.disciplines.thinBloodAlchemy = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.thinBloodAlchemy,
-      locale.disciplines.thinBloodAlchemy.farReach,
-      v,
-    );
-    if (c.disciplines.thinBloodAlchemy.length == 0) {
-      c.disciplines.thinBloodAlchemy = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.thinBloodAlchemy.haze] = {
-  tags: [tags.ThinBloodAlchemy],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.thinBloodAlchemy == undefined) {
-      c.disciplines.thinBloodAlchemy = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.thinBloodAlchemy,
-      locale.disciplines.thinBloodAlchemy.haze,
-      v,
-    );
-    if (c.disciplines.thinBloodAlchemy.length == 0) {
-      c.disciplines.thinBloodAlchemy = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = {
-  tags: [tags.ThinBloodAlchemy],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.thinBloodAlchemy == undefined) {
-      c.disciplines.thinBloodAlchemy = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.thinBloodAlchemy,
-      locale.disciplines.thinBloodAlchemy.profaneHierosGamos,
-      v,
-    );
-    if (c.disciplines.thinBloodAlchemy.length == 0) {
-      c.disciplines.thinBloodAlchemy = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
-  tags: [tags.ThinBloodAlchemy],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.thinBloodAlchemy == undefined) {
-      c.disciplines.thinBloodAlchemy = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.thinBloodAlchemy,
-      locale.disciplines.thinBloodAlchemy.envelop,
-      v,
-    );
-    if (c.disciplines.thinBloodAlchemy.length == 0) {
-      c.disciplines.thinBloodAlchemy = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.thinBloodAlchemy.defractionate] = {
-  tags: [tags.ThinBloodAlchemy],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.thinBloodAlchemy == undefined) {
-      c.disciplines.thinBloodAlchemy = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.thinBloodAlchemy,
-      locale.disciplines.thinBloodAlchemy.defractionate,
-      v,
-    );
-    if (c.disciplines.thinBloodAlchemy.length == 0) {
-      c.disciplines.thinBloodAlchemy = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.thinBloodAlchemy.airborneMomentum] = {
-  tags: [tags.ThinBloodAlchemy],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.thinBloodAlchemy == undefined) {
-      c.disciplines.thinBloodAlchemy = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.thinBloodAlchemy,
-      locale.disciplines.thinBloodAlchemy.airborneMomentum,
-      v,
-    );
-    if (c.disciplines.thinBloodAlchemy.length == 0) {
-      c.disciplines.thinBloodAlchemy = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
-attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
-  tags: [tags.ThinBloodAlchemy],
-  parse: (c, _o, v: boolean) => {
-    if (c.disciplines.thinBloodAlchemy == undefined) {
-      c.disciplines.thinBloodAlchemy = [];
-    }
-    treatDisciplineArray(
-      c.disciplines.thinBloodAlchemy,
-      locale.disciplines.thinBloodAlchemy.awakenTheSleeper,
-      v,
-    );
-    if (c.disciplines.thinBloodAlchemy.length == 0) {
-      c.disciplines.thinBloodAlchemy = undefined;
-    }
-  },
-  type: AttributeType.Checkbox,
-};
 attributes[locale.specialties.name] = {
   type: AttributeType.Section,
   context: (c) => {
@@ -2073,4 +352,608 @@ attributes[locale.flaws] = {
       object: c.flaws,
     };
   },
+};
+attributes[locale.disciplines.animalism.name] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "animalism",
+    };
+  },
+},
+  attributes[locale.disciplines.animalism.bondFamulus] = {
+    tags: [tags.Animalism],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.animalism.senseTheBeast] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.animalism.feralWhispers] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.animalism.animalSucculence] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.animalism.quellTheBeast] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.animalism.unlivingHive] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.animalism.subsumeTheSpirit] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.animalism.animalDominion] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.animalism.drawingOutTheBeast] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.name] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "auspex",
+    };
+  },
+},
+  attributes[locale.disciplines.auspex.heightenedSenses] = {
+    tags: [tags.Auspex],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.auspex.senseTheUnseen] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.premonition] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.scryTheSoul] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.shareTheSenses] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.spiritsTouch] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.clairvoyance] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.possession] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.telepathy] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.name] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "dominate",
+    };
+  },
+},
+  attributes[locale.disciplines.dominate.cloudMemory] = {
+    tags: [tags.Dominate],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.dominate.compel] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.mesmerize] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.dementation] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.theForgetfulMind] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.submergedDirective] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.rationalize] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.massManipulation] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.terminalDecree] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.bloodSorcery.name] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "bloodSorcery",
+    };
+  },
+},
+  attributes[locale.disciplines.bloodSorcery.corrosiveVitae] = {
+    tags: [tags.BloodSorcery],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.bloodSorcery.aTasteForBlood] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.bloodSorcery.extinguishVitae] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.bloodSorcery.bloodOfPotency] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.bloodSorcery.scorpionsTouch] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.bloodSorcery.theftOfVitae] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.bloodSorcery.baalsCaress] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.bloodSorcery.cauldronOfBlood] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.name] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "fortitude",
+    };
+  },
+},
+  attributes[locale.disciplines.fortitude.resilience] = {
+    tags: [tags.Fortitude],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.fortitude.unswayableMind] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.toughness] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.enduringBeasts] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.defyBane] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.fortifyTheInnerFacade] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.draughtOfEndurance] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.fleshOfMarble] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.prowessFromPain] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.name] = {
+  tags: [tags.Protean],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "protean",
+    };
+  },
+},
+  attributes[locale.disciplines.protean.eyesOfTheBeast] = {
+    tags: [tags.Protean],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.protean.weightOfTheFeather] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.feralWeapons] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.earthMeld] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.shapechange] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.metamorphosis] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.mistForm] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.theUnfetteredHeart] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.name] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "obfuscate",
+    };
+  },
+},
+  attributes[locale.disciplines.obfuscate.cloakOfShadows] = {
+    tags: [tags.Obfuscate],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.obfuscate.silenceOfDeath] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.unseenPassage] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.ghostInTheMachine] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.maskOfAThousandFaces] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.conceal] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.vanish] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.cloakTheGathering] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.impostorsGuise] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.name] = {
+  tags: [tags.Potence],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "potence",
+    };
+  },
+},
+  attributes[locale.disciplines.potence.lethalBody] = {
+    tags: [tags.Potence],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.potence.soaringLeap] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.prowess] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.brutalFeed] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.sparkOfRage] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.uncannyGrip] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.draughtOfMight] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.earthshock] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.potence.fistOfCaine] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.name] = {
+  tags: [tags.Presence],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "presence",
+    };
+  },
+},
+  attributes[locale.disciplines.presence.awe] = {
+    tags: [tags.Presence],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.presence.daunt] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.lingeringKiss] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.dreadGaze] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.entrancement] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.irresistibleVoice] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.summon] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.majesty] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.starMagnetism] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.name] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "celerity",
+    };
+  },
+},
+  attributes[locale.disciplines.celerity.catsGrace] = {
+    tags: [tags.Celerity],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.celerity.rapidReflexes] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.fleetness] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.blink] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.traversal] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.draughtOfElegance] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.unerringAim] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.lightningStrike] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.celerity.splitSecond] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.name] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "rituals",
+    };
+  },
+},
+  attributes[locale.disciplines.rituals.bloodWalk] = {
+    tags: [tags.Rituals],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.rituals.clingingOfTheInsect] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.craftBloodstone] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wakeWithEveningsFreshness] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardAgainstGhouls] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.communicateWithKindredSire] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.eyesOfBabel] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.illuminateTheTrailOfPrey] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.truthOfBlood] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardAgainstSpirits] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardingCircleAgainstGhouls] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.dagonsCall] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.deflectionOfWoodenDoom] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.essenceOfAir] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.firewalker] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardAgainstLupines] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardingCircleAgainstSpirits] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.defenseOfTheSacredHaven] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.eyesOfTheNighthawk] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.incorporealPassage] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardAgainstCainites] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardingCircleAgainstLupines] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.escapeToTrueSanctuary] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.heartOfStone] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.shaftOfBelatedDissolution] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.wardingCircleAgainstCainites] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.thinBloodAlchemy.name] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Section,
+  context: () => {
+    return <DisciplineContext> {
+      generic: disciplineAttributeParse,
+      key: "thinBloodAlchemy",
+    };
+  },
+},
+  attributes[locale.disciplines.thinBloodAlchemy.farReach] = {
+    tags: [tags.ThinBloodAlchemy],
+    type: AttributeType.Checkbox,
+  };
+attributes[locale.disciplines.thinBloodAlchemy.haze] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.thinBloodAlchemy.defractionate] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.thinBloodAlchemy.airborneMomentum] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Checkbox,
 };

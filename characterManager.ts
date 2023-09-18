@@ -38,7 +38,7 @@ export function getFromCache(key: number): Character {
       hashCode: undefined,
       id: key,
       discordId: "",
-      details: "", 
+      details: "",
       image: "",
       name: "",
       player: "",
@@ -149,24 +149,27 @@ async function tryUpdate(character: Character, id: number) {
             if (attribute.context) {
               context = attribute.context(character);
             }
-          } else if (attribute.parse) {
-            let value;
-            switch (attribute.type) {
-              case AttributeType.Checkbox:
-                value = kankaAttribute.value == "1" ||
-                  kankaAttribute.value == "on";
-                break;
-              case AttributeType.RandomNumber:
-              case AttributeType.Number:
-                value = parseInt(kankaAttribute.value) || 0;
-                break;
-              case AttributeType.Standard:
-              case AttributeType.MultilineTextBlock:
-              default:
-                value = kankaAttribute.value;
-                break;
+          } else {
+            const parse = attribute.parse || context?.generic.parse;
+            if (parse) {
+              let value;
+              switch (attribute.type) {
+                case AttributeType.Checkbox:
+                  value = kankaAttribute.value == "1" ||
+                    kankaAttribute.value == "on";
+                  break;
+                case AttributeType.RandomNumber:
+                case AttributeType.Number:
+                  value = parseInt(kankaAttribute.value) || 0;
+                  break;
+                case AttributeType.Standard:
+                case AttributeType.MultilineTextBlock:
+                default:
+                  value = kankaAttribute.value;
+                  break;
+              }
+              parse(character, kankaAttribute.name, value, context);
             }
-            attribute.parse(character, kankaAttribute.name, value, context);
           }
         }
       },
