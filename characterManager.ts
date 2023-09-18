@@ -302,7 +302,7 @@ export async function apply(
             attributes,
             locale.advantages,
           );
-          body.name = `${generateAttributeName()}[range:1,5]`;
+          body.name = `${locale.advantages}${generateAttributeHash()}[range:1,5]`;
           body.type_id = 6;
           body.default_order = order;
         }
@@ -313,7 +313,7 @@ export async function apply(
             attributes,
             locale.flaws,
           );
-          body.name = `${generateAttributeName()}[range:1,5]`;
+          body.name = `${locale.flaws}${generateAttributeHash()}[range:1,5]`;
           body.type_id = 6;
           body.default_order = order;
         }
@@ -335,8 +335,8 @@ export async function apply(
   return false;
 }
 
-function generateAttributeName(): string {
-  return `<${locale.change}${Math.abs(hashCode(new Date()))}>`;
+function generateAttributeHash(): string {
+  return Math.abs(hashCode(new Date())).toString();
 }
 
 function buildSpecialtyAttribute(
@@ -345,7 +345,7 @@ function buildSpecialtyAttribute(
   attributes: kanka.KankaAttribute[],
 ) {
   const order = getAttributeOrder(attributes, locale.specialties.name);
-  body.name = `${generateAttributeName()}[range:${Object.values(o).join(",")}]`;
+  body.name = `${locale.specialties.specialty}${generateAttributeHash()}[range:${Object.values(o).join(",")}]`;
   body.default_order = order;
 }
 

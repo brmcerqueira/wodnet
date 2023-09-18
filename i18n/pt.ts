@@ -11,7 +11,6 @@ export const pt: LocaleType = {
   },
   template: "Modelo",
   characterLinks: "Fichas",
-  change: "Trocar",
   discordId: "Discord Id",
   details: "Detalhes",
   name: "Nome",

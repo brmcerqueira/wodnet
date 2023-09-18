@@ -18,7 +18,6 @@ export type LocaleType = {
   };
   template: string;
   characterLinks: string;
-  change: string;
   discordId: string;
   details: string;
   name: string;
