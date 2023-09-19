@@ -362,11 +362,11 @@ attributes[locale.disciplines.animalism.name] = {
       key: "animalism",
     };
   },
-},
-  attributes[locale.disciplines.animalism.bondFamulus] = {
-    tags: [tags.Animalism],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.animalism.bondFamulus] = {
+  tags: [tags.Animalism],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.animalism.senseTheBeast] = {
   tags: [tags.Animalism],
   type: AttributeType.Checkbox,
@@ -408,12 +408,16 @@ attributes[locale.disciplines.auspex.name] = {
       key: "auspex",
     };
   },
-},
-  attributes[locale.disciplines.auspex.heightenedSenses] = {
-    tags: [tags.Auspex],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.auspex.heightenedSenses] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.auspex.senseTheUnseen] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.auspex.obeah] = {
   tags: [tags.Auspex],
   type: AttributeType.Checkbox,
 };
@@ -445,6 +449,10 @@ attributes[locale.disciplines.auspex.telepathy] = {
   tags: [tags.Auspex],
   type: AttributeType.Checkbox,
 };
+attributes[locale.disciplines.auspex.unburdeningTheBestialSoul] = {
+  tags: [tags.Auspex],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.dominate.name] = {
   tags: [tags.Dominate],
   type: AttributeType.Section,
@@ -454,11 +462,11 @@ attributes[locale.disciplines.dominate.name] = {
       key: "dominate",
     };
   },
-},
-  attributes[locale.disciplines.dominate.cloudMemory] = {
-    tags: [tags.Dominate],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.dominate.cloudMemory] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.dominate.compel] = {
   tags: [tags.Dominate],
   type: AttributeType.Checkbox,
@@ -468,6 +476,10 @@ attributes[locale.disciplines.dominate.mesmerize] = {
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.dementation] = {
+  tags: [tags.Dominate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.dominate.domitorsFavor] = {
   tags: [tags.Dominate],
   type: AttributeType.Checkbox,
 };
@@ -500,11 +512,11 @@ attributes[locale.disciplines.bloodSorcery.name] = {
       key: "bloodSorcery",
     };
   },
-},
-  attributes[locale.disciplines.bloodSorcery.corrosiveVitae] = {
-    tags: [tags.BloodSorcery],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.bloodSorcery.corrosiveVitae] = {
+  tags: [tags.BloodSorcery],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.bloodSorcery.aTasteForBlood] = {
   tags: [tags.BloodSorcery],
   type: AttributeType.Checkbox,
@@ -542,11 +554,11 @@ attributes[locale.disciplines.fortitude.name] = {
       key: "fortitude",
     };
   },
-},
-  attributes[locale.disciplines.fortitude.resilience] = {
-    tags: [tags.Fortitude],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.fortitude.resilience] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.fortitude.unswayableMind] = {
   tags: [tags.Fortitude],
   type: AttributeType.Checkbox,
@@ -556,6 +568,10 @@ attributes[locale.disciplines.fortitude.toughness] = {
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.enduringBeasts] = {
+  tags: [tags.Fortitude],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.fortitude.valeren] = {
   tags: [tags.Fortitude],
   type: AttributeType.Checkbox,
 };
@@ -601,6 +617,10 @@ attributes[locale.disciplines.protean.feralWeapons] = {
   tags: [tags.Protean],
   type: AttributeType.Checkbox,
 };
+attributes[locale.disciplines.protean.vicissitude] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.protean.earthMeld] = {
   tags: [tags.Protean],
   type: AttributeType.Checkbox,
@@ -609,7 +629,15 @@ attributes[locale.disciplines.protean.shapechange] = {
   tags: [tags.Protean],
   type: AttributeType.Checkbox,
 };
+attributes[locale.disciplines.protean.fleshcrafting] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.protean.metamorphosis] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.horridForm] = {
   tags: [tags.Protean],
   type: AttributeType.Checkbox,
 };
@@ -618,6 +646,10 @@ attributes[locale.disciplines.protean.mistForm] = {
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.theUnfetteredHeart] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.protean.oneWithTheLand] = {
   tags: [tags.Protean],
   type: AttributeType.Checkbox,
 };
@@ -630,11 +662,11 @@ attributes[locale.disciplines.obfuscate.name] = {
       key: "obfuscate",
     };
   },
-},
-  attributes[locale.disciplines.obfuscate.cloakOfShadows] = {
-    tags: [tags.Obfuscate],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.obfuscate.cloakOfShadows] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.obfuscate.silenceOfDeath] = {
   tags: [tags.Obfuscate],
   type: AttributeType.Checkbox,
@@ -643,11 +675,19 @@ attributes[locale.disciplines.obfuscate.unseenPassage] = {
   tags: [tags.Obfuscate],
   type: AttributeType.Checkbox,
 };
+attributes[locale.disciplines.obfuscate.chimerstry] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.obfuscate.ghostInTheMachine] = {
   tags: [tags.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.maskOfAThousandFaces] = {
+  tags: [tags.Obfuscate],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.obfuscate.fataMorgana] = {
   tags: [tags.Obfuscate],
   type: AttributeType.Checkbox,
 };

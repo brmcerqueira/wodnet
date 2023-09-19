@@ -130,6 +130,7 @@ export type LocaleType = {
       name: string;
       heightenedSenses: string;
       senseTheUnseen: string;
+      obeah: string,
       premonition: string;
       scryTheSoul: string;
       shareTheSenses: string;
@@ -137,6 +138,7 @@ export type LocaleType = {
       clairvoyance: string;
       possession: string;
       telepathy: string;
+      unburdeningTheBestialSoul: string;
     };
     dominate: {
       name: string;
@@ -144,6 +146,7 @@ export type LocaleType = {
       compel: string;
       mesmerize: string;
       dementation: string;
+      domitorsFavor: string;
       theForgetfulMind: string;
       submergedDirective: string;
       rationalize: string;
@@ -167,6 +170,7 @@ export type LocaleType = {
       unswayableMind: string;
       toughness: string;
       enduringBeasts: string;
+      valeren: string;
       defyBane: string;
       fortifyTheInnerFacade: string;
       draughtOfEndurance: string;
@@ -178,19 +182,25 @@ export type LocaleType = {
       eyesOfTheBeast: string;
       weightOfTheFeather: string;
       feralWeapons: string;
+      vicissitude: string;
       earthMeld: string;
       shapechange: string;
+      fleshcrafting: string;
       metamorphosis: string;
+      horridForm: string;
       mistForm: string;
       theUnfetteredHeart: string;
+      oneWithTheLand: string;
     };
     obfuscate: {
       name: string;
       cloakOfShadows: string;
       silenceOfDeath: string;
       unseenPassage: string;
+      chimerstry: string;
       ghostInTheMachine: string;
       maskOfAThousandFaces: string;
+      fataMorgana: string;
       conceal: string;
       vanish: string;
       cloakTheGathering: string;
