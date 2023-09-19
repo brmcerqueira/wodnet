@@ -36,6 +36,9 @@ class Batch {
       this.current++;
       this._percent = this.current * 100 / this._total;
       logger.info("batch: %v", this._percent);
+      if (this._percent == 100) {
+        this.reset();
+      }
     } else {
       const next = new Date();
       next.setMinutes(next.getMinutes() + 1);

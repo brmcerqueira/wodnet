@@ -31,9 +31,7 @@ export const ThinBloodAlchemy = buildTag(
   Templates,
 );
 
-export function setup(
-  
-): number {
+export function setup(): number {
   if (batch.percent == 0) {
     buildTags();
   }
@@ -44,7 +42,7 @@ export function setup(
 async function buildTags() {
   batch.total = tags.length;
 
-  for(let index = 0;index < tags.length;index++) {
+  for (let index = 0; index < tags.length; index++) {
     const tag = tags[index];
 
     const kankaTag: kanka.KankaTagBody = {
@@ -53,11 +51,11 @@ async function buildTags() {
     };
 
     await batch.run(async () => {
-      const kankaTags = await kanka.getTagsByName( tag.name);
+      const kankaTags = await kanka.getTagsByName(tag.name);
 
       return kankaTags.data.length > 0
-        ? await kanka.updateTag( kankaTags.data[0].id, kankaTag)
-        : await kanka.createTag( kankaTag);
+        ? await kanka.updateTag(kankaTags.data[0].id, kankaTag)
+        : await kanka.createTag(kankaTag);
     });
   }
 }
