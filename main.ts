@@ -7,7 +7,6 @@ import * as templates from "./templates.ts";
 import * as links from "./characterLinks.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
-import { locale } from "./i18n/locale.ts";
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
