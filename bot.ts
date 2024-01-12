@@ -8,7 +8,6 @@ import {
   InteractionMessageComponentData,
   InteractionType,
 } from "./deps.ts";
-import { locale } from "./i18n/locale.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";

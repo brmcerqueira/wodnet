@@ -180,7 +180,7 @@ async function go<T>(
   body?: any,
 ): Promise<T> {
   const fullpath =
-    `https://kanka.io/api/1.0/campaigns/${config.campaignId}/${path}`;
+    `https://api.kanka.io/1.0/campaigns/${config.campaignId}/${path}`;
   logger.info(
     "kanka-request: %v %v %v",
     method,
