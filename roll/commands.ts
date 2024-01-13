@@ -74,7 +74,7 @@ function option(name: string, option: CommandOption): BuildOptions {
 function buildChoices<T extends object>(o: T): CommandChoice[] {
   return keys(o).map((key) => {
     return {
-      name: o[key],
+      name: o[key] as string,
       value: key,
     };
   });

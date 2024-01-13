@@ -1,4 +1,3 @@
-/// <reference path="https://deno.land/x/tsx_render@0.9/jsx.d.ts" />
 import React from "https://deno.land/x/tsx_render@0.9/mod.ts";
 
 export * from "https://deno.land/x/harmony@v2.9.0/mod.ts";
