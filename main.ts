@@ -40,16 +40,7 @@ for await (const event of httpServer) {
 
     const url = new URL(event.request.url);
 
-    if (url.pathname == "/characterRender.css") {
-      await event.respondWith(
-        new Response(await Deno.readFile("./views/characterRender.css"), {
-          status: 200,
-          headers: {
-            "Content-Type": "application/css",
-          },
-        }),
-      );
-    } else if (url.pathname == "/discord") {
+    if (url.pathname == "/discord") {
       await bot.connect();
       await respondStatus(event, 200);
     } else if (url.pathname == "/setup/tags") {

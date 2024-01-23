@@ -91,7 +91,33 @@ export const characterRender = (character: Character, id: string, dark: boolean,
             <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?id=${id}`} />
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-            <link media="all" rel="stylesheet" href="characterRender.css" />
+            <style type="text/css">${`
+                img {
+                    width: 10em;
+                    height: 10em;
+                    border-radius: 2em;
+                }
+
+                i {
+                    margin-right: 0.1em;
+                    margin-left: 0.1em;
+                }
+
+                .body-dark {
+                    background-color: black;
+                    color: white;
+                }
+
+                .trait {
+                    min-height: 2em;
+                }
+
+                .overflow-ellipsis {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }`}
+            </style>
             <script>{`
                     setInterval(async () => {
                         const response = await fetch("check?id=${id}", {

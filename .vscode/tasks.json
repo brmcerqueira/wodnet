@@ -9,9 +9,6 @@
             "command": "deno",
             "options": {
                 "cwd": "${workspaceFolder}",
-                "env": {
-                    "HOST": "http://localhost:3000"
-                }
             },
             "args": [
                 "run",

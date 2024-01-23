@@ -16,9 +16,6 @@
                 "--inspect-wait",
                 "--allow-all"
             ],
-            "env": {
-                "HOST": "http://localhost:3000"
-            },
             "attachSimplePort": 9229
         }
     ]
