@@ -279,6 +279,6 @@ export async function getCharacterAttributes(
 ): Promise<KankaResult<KankaAttribute[]> & KankaSyncResult> {
   return await go(
     "GET",
-    `entities/${id}/attributes${date ? `/?lastSync=${date.toString()}` : ""}`,
+    `entities/${id}/attributes${date ? `/?lastSync=${date.toISOString()}` : ""}`,
   );
 }
