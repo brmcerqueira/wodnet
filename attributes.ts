@@ -604,11 +604,11 @@ attributes[locale.disciplines.protean.name] = {
       key: "protean",
     };
   },
-},
-  attributes[locale.disciplines.protean.eyesOfTheBeast] = {
-    tags: [tags.Protean],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.protean.eyesOfTheBeast] = {
+  tags: [tags.Protean],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.protean.weightOfTheFeather] = {
   tags: [tags.Protean],
   type: AttributeType.Checkbox,
@@ -716,11 +716,11 @@ attributes[locale.disciplines.potence.name] = {
       key: "potence",
     };
   },
-},
-  attributes[locale.disciplines.potence.lethalBody] = {
-    tags: [tags.Potence],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.potence.lethalBody] = {
+  tags: [tags.Potence],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.potence.soaringLeap] = {
   tags: [tags.Potence],
   type: AttributeType.Checkbox,
@@ -762,12 +762,16 @@ attributes[locale.disciplines.presence.name] = {
       key: "presence",
     };
   },
-},
-  attributes[locale.disciplines.presence.awe] = {
-    tags: [tags.Presence],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.presence.awe] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.presence.daunt] = {
+  tags: [tags.Presence],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.presence.eyesOfTheSerpent] = {
   tags: [tags.Presence],
   type: AttributeType.Checkbox,
 };
@@ -808,11 +812,11 @@ attributes[locale.disciplines.celerity.name] = {
       key: "celerity",
     };
   },
-},
-  attributes[locale.disciplines.celerity.catsGrace] = {
-    tags: [tags.Celerity],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.celerity.catsGrace] = {
+  tags: [tags.Celerity],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.celerity.rapidReflexes] = {
   tags: [tags.Celerity],
   type: AttributeType.Checkbox,
@@ -854,11 +858,11 @@ attributes[locale.disciplines.rituals.name] = {
       key: "rituals",
     };
   },
-},
-  attributes[locale.disciplines.rituals.bloodWalk] = {
-    tags: [tags.Rituals],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.rituals.bloodWalk] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.rituals.clingingOfTheInsect] = {
   tags: [tags.Rituals],
   type: AttributeType.Checkbox,
@@ -884,6 +888,10 @@ attributes[locale.disciplines.rituals.eyesOfBabel] = {
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.illuminateTheTrailOfPrey] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.ishtarsTouch] = {
   tags: [tags.Rituals],
   type: AttributeType.Checkbox,
 };
@@ -920,6 +928,10 @@ attributes[locale.disciplines.rituals.wardAgainstLupines] = {
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardingCircleAgainstSpirits] = {
+  tags: [tags.Rituals],
+  type: AttributeType.Checkbox,
+};
+attributes[locale.disciplines.rituals.oneWithTheBlade] = {
   tags: [tags.Rituals],
   type: AttributeType.Checkbox,
 };
@@ -968,20 +980,20 @@ attributes[locale.disciplines.thinBloodAlchemy.name] = {
       key: "thinBloodAlchemy",
     };
   },
-},
-  attributes[locale.disciplines.thinBloodAlchemy.farReach] = {
-    tags: [tags.ThinBloodAlchemy],
-    type: AttributeType.Checkbox,
-  };
+};
+attributes[locale.disciplines.thinBloodAlchemy.farReach] = {
+  tags: [tags.ThinBloodAlchemy],
+  type: AttributeType.Checkbox,
+};
 attributes[locale.disciplines.thinBloodAlchemy.haze] = {
   tags: [tags.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
-attributes[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = {
+attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
   tags: [tags.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
-attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
+attributes[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = {
   tags: [tags.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };

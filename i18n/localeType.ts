@@ -222,6 +222,7 @@ export type LocaleType = {
       name: string;
       awe: string;
       daunt: string;
+      eyesOfTheSerpent: string;
       lingeringKiss: string;
       dreadGaze: string;
       entrancement: string;
@@ -252,6 +253,7 @@ export type LocaleType = {
       communicateWithKindredSire: string;
       eyesOfBabel: string;
       illuminateTheTrailOfPrey: string;
+      ishtarsTouch: string;
       truthOfBlood: string;
       wardAgainstSpirits: string;
       wardingCircleAgainstGhouls: string;
@@ -261,6 +263,7 @@ export type LocaleType = {
       firewalker: string;
       wardAgainstLupines: string;
       wardingCircleAgainstSpirits: string;
+      oneWithTheBlade: string;
       defenseOfTheSacredHaven: string;
       eyesOfTheNighthawk: string;
       incorporealPassage: string;
@@ -275,8 +278,8 @@ export type LocaleType = {
       name: string;
       farReach: string;
       haze: string;
-      profaneHierosGamos: string;
       envelop: string;
+      profaneHierosGamos: string;
       defractionate: string;
       airborneMomentum: string;
       awakenTheSleeper: string;
