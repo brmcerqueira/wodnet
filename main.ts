@@ -44,42 +44,42 @@ server.get("/discord",
 
 server.get("/setup/tags", res("json"),
   async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = JSON.stringify(tags.setup());
+    ctx.res.body = tags.setup();
     await next();
   }
 );
 
 server.get("/setup/templates", res("json"),
   async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = JSON.stringify(templates.setup());
+    ctx.res.body = templates.setup();
     await next();
   }
 );
 
 server.get("/setup/links", res("json"),
   async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = JSON.stringify(await links.setup());
+    ctx.res.body = await links.setup();
     await next();
   }
 );
 
 server.get("/apply", res("json"),
   async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = JSON.stringify(await apply(
+    ctx.res.body = await apply(
       ctx.extra.decodeId,
       ApplyType[
         ctx.url.searchParams.get("type")! as keyof typeof ApplyType
       ],
-    ));
+    );
     await next();
   }
 );
 
 server.get("/check", res("json"),
   async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = JSON.stringify({
+    ctx.res.body = {
       update: check(ctx.extra.decodeId, parseInt(ctx.url.searchParams.get("hash")!)),
-    });
+    };
     await next();
   }
 );
