@@ -29,7 +29,9 @@ server.use(async (ctx: Context, next: NextFunc) => {
     ctx.req.url,
   );
   ctx.extra.id = ctx.url.searchParams.get("id")!;
-  ctx.extra.decodeId = parseInt(textDecoder.decode(base64url.decode(ctx.extra.id)));
+  if (ctx.extra.id) {
+    ctx.extra.decodeId = parseInt(textDecoder.decode(base64url.decode(ctx.extra.id)));
+  }
   await next();
 });
 
