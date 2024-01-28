@@ -13,6 +13,7 @@
             "args": [
                 "run",
                 "--allow-all",
+                "--unstable",
                 "main.ts"     
             ],
             "group": {

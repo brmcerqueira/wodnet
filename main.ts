@@ -5,7 +5,7 @@ import {
   ApplyType,
   check,
   get,
-  updateRoutine,
+  updateCronJob,
 } from "./characterManager.ts";
 import * as bot from "./bot.ts";
 import * as tags from "./tags.ts";
@@ -31,7 +31,7 @@ async function respondStatus(event: Deno.RequestEvent, status: number) {
 
 logger.debug("config: %v", JSON.stringify(config));
 
-updateRoutine();
+updateCronJob();
 
 try {
   const connection = Deno.listen({ port: config.port });

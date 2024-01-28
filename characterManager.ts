@@ -236,8 +236,8 @@ export async function loadAll(): Promise<void> {
   }
 }
 
-export function updateRoutine() {
-  setInterval(async () => {
+export function updateCronJob() {
+  Deno.cron("Characters cron job", "*/1 * * * *", async () => {
     try {
       batch.total = Object.keys(cache).length;
 
@@ -247,7 +247,7 @@ export function updateRoutine() {
     } catch (error) {
       logger.error(error);
     }
-  }, 60000);
+  });
 }
 
 export function search(term: string): Character[] {
