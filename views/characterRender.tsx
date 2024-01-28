@@ -120,7 +120,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
             </style>
             <script>{`
                     setInterval(async () => {
-                        const response = await fetch("check?id=${id}", {
+                        const response = await fetch("check?id=${id}&hash=${character.hashCode}", {
                             method: "GET"
                         });
                     

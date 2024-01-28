@@ -1,6 +1,12 @@
 import { base64url } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
-import { apply, ApplyType, check, get } from "./characterManager.ts";
+import {
+  apply,
+  ApplyType,
+  check,
+  get,
+  updateRoutine,
+} from "./characterManager.ts";
 import * as bot from "./bot.ts";
 import * as tags from "./tags.ts";
 import * as templates from "./templates.ts";
@@ -25,88 +31,96 @@ async function respondStatus(event: Deno.RequestEvent, status: number) {
 
 logger.debug("config: %v", JSON.stringify(config));
 
-const connection = Deno.listen({ port: config.port });
-const httpServer = Deno.serveHttp(await connection.accept());
+updateRoutine();
 
-logger.info("Server online!");
+try {
+  const connection = Deno.listen({ port: config.port });
+  const httpServer = Deno.serveHttp(await connection.accept());
 
-for await (const event of httpServer) {
-  try {
-    logger.info(
-      "request: %v %v",
-      event.request.method, 
-      event.request.url,
-    );
+  logger.info("Server online!");
 
-    const url = new URL(event.request.url);
-
-    if (url.pathname == "/discord") {
-      await bot.connect();
-      await respondStatus(event, 200);
-    } else if (url.pathname == "/setup/tags") {
-      await event.respondWith(
-        new Response(
-          JSON.stringify(tags.setup()),
-          {
-            status: 200,
-          },
-        ),
+  for await (const event of httpServer) {
+    try {
+      logger.info(
+        "request: %v %v",
+        event.request.method,
+        event.request.url,
       );
-    } else if (url.pathname == "/setup/templates") {
-      await event.respondWith(
-        new Response(
-          JSON.stringify(templates.setup()),
-          {
-            status: 200,
-          },
-        ),
-      );
-    } else if (url.pathname == "/setup/links") {
-      await event.respondWith(
-        new Response(
-          JSON.stringify(await links.setup()),
-          {
-            status: 200,
-          },
-        ),
-      );
-    } else if (url.searchParams.has("id")) {
-      const id = url.searchParams.get("id")!;
-      const decodeId = parseInt(decodeBase64(id));
-      if (url.pathname == "/apply" && url.searchParams.has("type")) {
+
+      const url = new URL(event.request.url);
+
+      if (url.pathname == "/discord") {
+        await bot.connect();
+        await respondStatus(event, 200);
+      } else if (url.pathname == "/setup/tags") {
         await event.respondWith(
-          Response.json(
-            await apply(
-              decodeId,
-              ApplyType[
-                url.searchParams.get("type")! as keyof typeof ApplyType
-              ],
-            ),
+          new Response(
+            JSON.stringify(tags.setup()),
+            {
+              status: 200,
+            },
           ),
         );
-      } else if (url.pathname == "/check") {
+      } else if (url.pathname == "/setup/templates") {
         await event.respondWith(
-          Response.json({ update: await check(decodeId) }),
+          new Response(
+            JSON.stringify(templates.setup()),
+            {
+              status: 200,
+            },
+          ),
         );
+      } else if (url.pathname == "/setup/links") {
+        await event.respondWith(
+          new Response(
+            JSON.stringify(await links.setup()),
+            {
+              status: 200,
+            },
+          ),
+        );
+      } else if (url.searchParams.has("id")) {
+        const id = url.searchParams.get("id")!;
+        const decodeId = parseInt(decodeBase64(id));
+        if (url.pathname == "/apply" && url.searchParams.has("type")) {
+          await event.respondWith(
+            Response.json(
+              await apply(
+                decodeId,
+                ApplyType[
+                  url.searchParams.get("type")! as keyof typeof ApplyType
+                ],
+              ),
+            ),
+          );
+        } else if (url.pathname == "/check") {
+          await event.respondWith(
+            Response.json({
+              update: check(decodeId, parseInt(url.searchParams.get("hash")!)),
+            }),
+          );
+        } else {
+          await event.respondWith(
+            new Response(textEncoder.encode(
+              await characterRender(
+                await get(decodeId),
+                id,
+                url.pathname == "/dark",
+                url.searchParams.has("update")
+                  ? parseInt(url.searchParams.get("update")!)
+                  : 20000,
+              ).render(),
+            )),
+          );
+        }
       } else {
-        await event.respondWith(
-          new Response(textEncoder.encode(
-            await characterRender(
-              await get(decodeId),
-              id,
-              url.pathname == "/dark",
-              url.searchParams.has("update")
-                ? parseInt(url.searchParams.get("update")!)
-                : 30000,
-            ).render(),
-          )),
-        );
+        await respondStatus(event, 404);
       }
-    } else {
-      await respondStatus(event, 404);
+    } catch (error) {
+      logger.error(error);
+      await respondStatus(event, 500);
     }
-  } catch (error) {
-    logger.error(error);
-    await respondStatus(event, 500);
   }
+} catch (error) {
+  logger.error(error);
 }

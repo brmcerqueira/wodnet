@@ -1,8 +1,7 @@
 import { delay } from "./deps.ts";
 import { logger } from "./logger.ts";
-import * as kanka from "./kanka.ts";
 
-class Batch {
+export class Batch {
   private _total = 0;
   private _percent = 0;
   private current = 0;
@@ -28,11 +27,11 @@ class Batch {
   }
 
   public async run(
-    go: () => Promise<kanka.KankaResult<any>>,
+    go: () => Promise<boolean>,
   ) {
     const result = await go();
 
-    if (result.data) {
+    if (result) {
       this.current++;
       this._percent = this.current * 100 / this._total;
       logger.info("batch: %v", this._percent);

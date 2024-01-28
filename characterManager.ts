@@ -4,6 +4,10 @@ import * as tags from "./tags.ts";
 import { attributes, AttributeType, Context } from "./attributes.ts";
 import { locale } from "./i18n/locale.ts";
 import { keys } from "./utils.ts";
+import { Batch } from "./batch.ts";
+import { logger } from "./logger.ts";
+
+export const batch = new Batch();
 
 const cache: {
   [id: number]: Character;
@@ -130,7 +134,7 @@ export function getFromCache(key: number): Character {
   return cache[key];
 }
 
-async function tryUpdate(character: Character, id: number) {
+async function tryUpdate(character: Character, id: number): Promise<boolean> {
   const kankaCharacter = await kanka.getEntityRelated(id);
 
   if (kankaCharacter.data) {
@@ -186,9 +190,12 @@ async function tryUpdate(character: Character, id: number) {
         (character.willpower.superficial + character.willpower.aggravated),
     );
 
-    character.hashCode = undefined;
     character.hashCode = hashCode(character);
+
+    return true;
   }
+
+  return false;
 }
 
 function sortAttribute(
@@ -204,11 +211,8 @@ function sortAttribute(
   return 0;
 }
 
-export async function check(id: number): Promise<boolean> {
-  const character = getFromCache(id);
-  const hashCode = character.hashCode;
-  await tryUpdate(character, id);
-  return character.hashCode != hashCode;
+export function check(id: number, hashCode: number): boolean {
+  return getFromCache(id).hashCode != hashCode;
 }
 
 export async function get(id: number): Promise<Character> {
@@ -227,13 +231,23 @@ export async function loadAll(): Promise<void> {
   if (kankaTags.data && kankaTags.data.length > 0) {
     const tag = kankaTags.data[0];
     for (let index = 0; index < tag.entities.length; index++) {
-      const id = tag.entities[index];
-      const character = getFromCache(id);
-      if (character.hashCode == undefined) {
-        await tryUpdate(character, id);
-      }
+      await get(tag.entities[index]);
     }
   }
+}
+
+export function updateRoutine() {
+  setInterval(async () => {
+    try {
+      batch.total = Object.keys(cache).length;
+
+      for (const key in cache) {
+        await batch.run(async () => await tryUpdate(cache[key], key as unknown as number));
+      }
+    } catch (error) {
+      logger.error(error);
+    }
+  }, 60000);
 }
 
 export function search(term: string): Character[] {

@@ -53,9 +53,9 @@ async function buildTags() {
     await batch.run(async () => {
       const kankaTags = await kanka.getTagsByName(tag.name);
 
-      return kankaTags.data.length > 0
+      return (kankaTags.data.length > 0
         ? await kanka.updateTag(kankaTags.data[0].id, kankaTag)
-        : await kanka.createTag(kankaTag);
+        : await kanka.createTag(kankaTag)).data != undefined;
     });
   }
 }

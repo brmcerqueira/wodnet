@@ -51,8 +51,8 @@ async function buildTemplates() {
   batch.total = array.length;
 
   for (const data of array) {
-    await batch.run(() =>
-      kanka.createAttribute(
+    await batch.run(async () =>
+      (await kanka.createAttribute(
         data.templateId,
         {
           entity_id: data.templateId,
@@ -60,7 +60,7 @@ async function buildTemplates() {
           value: data.attribute.value,
           type_id: data.attribute.type ? data.attribute.type : 1,
         },
-      )
+      )).data != undefined
     );
   }
 }
