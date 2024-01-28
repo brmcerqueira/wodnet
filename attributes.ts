@@ -68,7 +68,7 @@ const disciplineAttributeParse: Attribute = {
     }
 
     if (c.disciplines[context.key]!.length == 0) {
-      c.disciplines[context.key] = undefined;
+      delete c.disciplines[context.key];
     }
   },
   type: AttributeType.Checkbox,
