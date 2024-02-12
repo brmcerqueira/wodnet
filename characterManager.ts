@@ -211,6 +211,25 @@ function sortAttribute(
   return 0;
 }
 
+export async function getCharacters(): Promise<kanka.KankaEntity[]> {
+  const entities: kanka.KankaEntity[] = [];
+
+  const kankaTags = await kanka.getTagsByName(tags.Player.name);
+
+  if (kankaTags.data.length > 0) {
+    for (let index = 0; index < kankaTags.data[0].entities.length; index++) {
+      const entity = await kanka.getEntity(
+        kankaTags.data[0].entities[index],
+      );
+      if (entity.data) {
+        entities.push(entity.data);
+      }
+    }
+  }
+
+  return entities;
+}
+
 export function check(id: number, hashCode: number): boolean {
   return getFromCache(id).hashCode != hashCode;
 }

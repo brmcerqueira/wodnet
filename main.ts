@@ -5,14 +5,15 @@ import {
   ApplyType,
   check,
   get,
+  getCharacters,
   updateCronJob,
 } from "./characterManager.ts";
 import * as bot from "./bot.ts";
 import * as tags from "./tags.ts";
 import * as templates from "./templates.ts";
-import * as links from "./characterLinks.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
+import { characterManagerRender } from "./views/characterManagerRender.tsx";
 
 const textDecoder = new TextDecoder();
 
@@ -56,13 +57,6 @@ server.get("/setup/templates", res("json"),
   }
 );
 
-server.get("/setup/links", res("json"),
-  async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = await links.setup();
-    await next();
-  }
-);
-
 server.get("/apply", res("json"),
   async (ctx: Context, next: NextFunc) => {
     ctx.res.body = await apply(
@@ -84,11 +78,24 @@ server.get("/check", res("json"),
   }
 );
 
+server.get("/manager/dark", res("html"), managerRoute(true));
+
+server.get("/manager", res("html"), managerRoute(false));
+
 server.get("/dark", res("html"), characterRoute(true));
 
 server.get("/", res("html"), characterRoute(false));
 
 await server.listen({ port: config.port });
+
+function managerRoute(dark: boolean): RouteFn {
+  return async (ctx: Context, next: NextFunc) => {
+    ctx.res.body = await characterManagerRender(
+      await getCharacters(), dark
+    ).render();
+    await next();
+    };
+}
 
 function characterRoute(dark: boolean): RouteFn {
   return async (ctx: Context, next: NextFunc) => {
