@@ -1,4 +1,4 @@
-import React from "https://deno.land/x/tsx_render@0.9/mod.ts";
+import React from "https://deno.land/x/tsx_render@1.0/mod.ts";
 
 export * from "https://deno.land/x/faster@v8.4/mod.ts";
 export * from "https://deno.land/x/harmony@v2.9.0/mod.ts";
