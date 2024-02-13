@@ -1,4 +1,4 @@
-import React, { TsxComplexElement, base64url } from "../deps.ts";
+import React, { TsxComplexElement, encodeBase64Url } from "../deps.ts";
 import * as kanka from "../kanka.ts";
 import { config } from "../config.ts";
 import { keys } from "../utils.ts";
@@ -6,7 +6,7 @@ import { ApplyType } from "../characterManager.ts";
 import { locale } from "../i18n/locale.ts";
 
 function encodeId(entity: kanka.KankaEntity): string {
-    return base64url.encode(entity.id.toString());
+    return encodeBase64Url(entity.id.toString());
 }
 
 function parseLabel<T extends object>(o: T, key: string): string {
@@ -21,12 +21,7 @@ export const characterManagerRender = (entities: kanka.KankaEntity[], dark: bool
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-    <style type="text/css">{`
-    .body-dark {
-        background-color: black;
-        color: white;
-    }`}
-    </style>
+    <link rel="stylesheet" href="/styles/main.css" />
 </head>
 <body class={dark && "body-dark"}>
     <ul>

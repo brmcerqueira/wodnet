@@ -1,4 +1,4 @@
-import { base64url, Context, NextFunc, res, RouteFn, Server } from "./deps.ts";
+import { Context, decodeBase64Url, esbuild, join, NextFunc, res, RouteFn, Server, serveStatic } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import {
   apply,
@@ -14,6 +14,22 @@ import * as templates from "./templates.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { characterManagerRender } from "./views/characterManagerRender.tsx";
+
+const scripts: { [key: string]: string } = {};
+
+const scriptsPath = "./views/scripts";
+
+for await (const dirEntry of Deno.readDir(scriptsPath)) {
+  try {
+    if (dirEntry.isFile) {
+      scripts[dirEntry.name.replace(".ts", ".js")] = (await esbuild.transform(
+        await Deno.readTextFile(join(scriptsPath, dirEntry.name)), { loader: "ts" })).code;
+    }
+  } catch (e) {
+    logger.error(e);
+  }
+  esbuild.stop();
+}
 
 const textDecoder = new TextDecoder();
 
@@ -31,10 +47,23 @@ server.use(async (ctx: Context, next: NextFunc) => {
   );
   ctx.extra.id = ctx.url.searchParams.get("id")!;
   if (ctx.extra.id) {
-    ctx.extra.decodeId = parseInt(textDecoder.decode(base64url.decode(ctx.extra.id)));
+    ctx.extra.decodeId = parseInt(textDecoder.decode(decodeBase64Url(ctx.extra.id)));
   }
   await next();
 });
+
+server.get("/scripts/*.js", async (ctx: Context, next: NextFunc) => {
+  const path = ctx.params[Object.keys(ctx.params)[0]];
+  if (scripts[path]) {
+    ctx.res.body = scripts[path];
+    await next();
+  }
+  else {
+    ctx.res.status = 404;
+  }
+});
+
+server.get("/styles/*", serveStatic("./views/styles"));
 
 server.get("/discord",
   async (_ctx: Context, next: NextFunc) => {

@@ -91,46 +91,13 @@ export const characterRender = (character: Character, id: string, dark: boolean,
             <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?id=${id}`} />
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-            <style type="text/css">{`
-                img {
-                    width: 10em;
-                    height: 10em;
-                    border-radius: 2em;
-                }
-
-                i {
-                    margin-right: 0.1em;
-                    margin-left: 0.1em;
-                }
-
-                .body-dark {
-                    background-color: black;
-                    color: white;
-                }
-
-                .trait {
-                    min-height: 2em;
-                }
-
-                .overflow-ellipsis {
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                }`}
-            </style>
-            <script>{`
-                    setInterval(async () => {
-                        const response = await fetch("check?id=${id}&hash=${character.hashCode}", {
-                            method: "GET"
-                        });
-                    
-                        const data = await response.json();
-                    
-                        if (data.update) {
-                            window.location.reload();
-                        }
-                    }, ${update});
-                `}</script>
+            <link rel="stylesheet" href="/styles/main.css" />
+            <script>{`const context = ${JSON.stringify({
+                id,
+                update,
+                hashCode: character.hashCode
+            })};`}</script>
+            <script src="/scripts/characterScript.js" />
         </head>
         <body class={dark && "body-dark"}>
             <div class="container">
