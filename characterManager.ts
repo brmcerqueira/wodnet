@@ -227,7 +227,15 @@ export async function getCharacters(): Promise<kanka.KankaEntity[]> {
     }
   }
 
-  return entities;
+  return entities.sort((r, l) => {
+      if (r.name < l.name) {
+          return -1;
+      }
+      if (r.name > l.name) {
+          return 1;
+      }
+      return 0;
+  });
 }
 
 export function check(id: number, hashCode: number): boolean {
