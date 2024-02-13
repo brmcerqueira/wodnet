@@ -9,6 +9,8 @@ type CommandOption = {
 };
 export type LocaleType = {
   app: string;
+  value: string;
+  type: string;
   standard: string;
   character: string;
   specialties: {
@@ -103,13 +105,7 @@ export type LocaleType = {
     total: string;
     spent: string;
   };
-  apply: {
-    specialtyPhysical: string;
-    specialtySocial: string;
-    specialtyMental: string;
-    advantage: string;
-    flaw: string;
-  };
+  apply: string;
   advantages: string;
   flaws: string;
   disciplines: {

@@ -6,20 +6,13 @@ import { locale } from "./i18n/locale.ts";
 import { keys } from "./utils.ts";
 import { Batch } from "./batch.ts";
 import { logger } from "./logger.ts";
+import { ApplyType } from "./applyType.ts";
 
 export const batch = new Batch();
 
 const cache: {
   [id: number]: Character;
 } = {};
-
-export enum ApplyType {
-  SpecialtyPhysical,
-  SpecialtySocial,
-  SpecialtyMental,
-  Advantage,
-  Flaw,
-}
 
 function penalty(left: number): number {
   return left <= 0 ? 3 : (left >= 1 && left <= 3 ? (3 - left) : 0);

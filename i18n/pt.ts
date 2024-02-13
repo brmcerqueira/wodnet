@@ -1,7 +1,9 @@
 import { LocaleType } from "./localeType.ts";
 
 export const pt: LocaleType = {
-  app: "KC",
+  app: "Wodnet",
+  value: "Valor",
+  type: "Tipo",
   standard: "Padrão",
   character: "Personagem",
   specialties: {
@@ -139,13 +141,7 @@ export const pt: LocaleType = {
     total: "Total",
     spent: "Gasta",
   },
-  apply: {
-    specialtyPhysical: "Especialização - Físicos",
-    specialtySocial: "Especialização - Sociais",
-    specialtyMental: "Especialização - Mentais",
-    advantage: "Vantagem",
-    flaw: "Defeito",
-  },
+  apply: "Aplicar",
   advantages: "Vantagens",
   flaws: "Defeitos",
   disciplines: {

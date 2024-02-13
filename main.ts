@@ -2,7 +2,6 @@ import { Context, decodeBase64Url, esbuild, join, NextFunc, res, RouteFn, Server
 import { characterRender } from "./views/characterRender.tsx";
 import {
   apply,
-  ApplyType,
   check,
   get,
   getCharacters,
@@ -14,6 +13,7 @@ import * as templates from "./templates.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { characterManagerRender } from "./views/characterManagerRender.tsx";
+import { ApplyType } from "./applyType.ts";
 
 const scripts: { [key: string]: string } = {};
 
