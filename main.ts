@@ -1,4 +1,4 @@
-import { Context, decodeBase64Url, esbuild, join, NextFunc, res, RouteFn, Server, serveStatic } from "./deps.ts";
+import { Context, decodeBase64Url, join, NextFunc, res, RouteFn, Server, serveStatic, ts } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import {
   apply,
@@ -22,13 +22,17 @@ const scriptsPath = "./views/scripts";
 for await (const dirEntry of Deno.readDir(scriptsPath)) {
   try {
     if (dirEntry.isFile) {
-      scripts[dirEntry.name.replace(".ts", ".js")] = (await esbuild.transform(
-        await Deno.readTextFile(join(scriptsPath, dirEntry.name)), { loader: "ts" })).code;
+      scripts[dirEntry.name.replace(".ts", ".js")] = 
+      ts.transpileModule(await Deno.readTextFile(join(scriptsPath, dirEntry.name)), { 
+        compilerOptions: { 
+          module: ts.ModuleKind.ES2022,
+          moduleResolution: ts.ModuleResolutionKind.Bundler
+        }
+      }).outputText;
     }
   } catch (e) {
     logger.error(e);
   }
-  esbuild.stop();
 }
 
 const textDecoder = new TextDecoder();

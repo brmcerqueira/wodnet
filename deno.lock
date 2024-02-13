@@ -13,7 +13,8 @@
   },
   "redirects": {
     "https://deno.land/x/emit/mod.ts": "https://deno.land/x/emit@0.36.0/mod.ts",
-    "https://esm.sh/@rollup/browser": "https://esm.sh/@rollup/browser@4.10.0"
+    "https://esm.sh/@rollup/browser": "https://esm.sh/@rollup/browser@4.10.0",
+    "https://esm.sh/typescript": "https://esm.sh/typescript@5.3.3"
   },
   "remote": {
     "https://deno.land/std@0.118.0/_util/assert.ts": "2f868145a042a11d5ad0a3c748dcf580add8a0dbc0e876eaa0026303a5488f58",
@@ -581,7 +582,13 @@
     "https://deno.land/x/wasmbuild@0.15.1/cache.ts": "9d01b5cb24e7f2a942bbd8d14b093751fa690a6cde8e21709ddc97667e6669ed",
     "https://deno.land/x/wasmbuild@0.15.1/loader.ts": "8c2fc10e21678e42f84c5135d8ab6ab7dc92424c3f05d2354896a29ccfd02a63",
     "https://esm.sh/ts-mixer@6.0.0": "8a883e3e43791a69862921112a3a73ff4c10a840c34fb2639ef2d70b263c439e",
+    "https://esm.sh/typescript@5.3.3": "dc4339676509133a59c3386d0ecf297585a29f1cece1eba235ef8f4a3beb9522",
+    "https://esm.sh/v135/buffer-from@1.1.2/denonext/buffer-from.mjs": "078451542b62cb4261c01a01ff7e9bc0f94bef4eb710831d40e1f92c4dfe3883",
+    "https://esm.sh/v135/node_inspector.js": "a19e0177c22009003670499765ac8abdb8f6f49175105ced47bfea73bfca8b46",
+    "https://esm.sh/v135/source-map-support@0.5.21/denonext/source-map-support.mjs": "4a3185b099f49b540b1ee768cb9d1912de4f27872b2e0d8ccfa93a3b3529d66a",
+    "https://esm.sh/v135/source-map@0.6.1/denonext/source-map.mjs": "ccff3bb06dea7c01a2c83cf12113697592e418fd06b55ae2bb4cb0a4e51a98b8",
     "https://esm.sh/v135/ts-mixer@6.0.0/denonext/ts-mixer.mjs": "c517106d951327485f01557461f5fc1e6b107a3aa795a9476e7dbce008af022a",
+    "https://esm.sh/v135/typescript@5.3.3/denonext/typescript.mjs": "2cde33a9040058d919060a6ca8b2a51f601679aee4e4e5be93f2428d176b7d27",
     "https://unpkg.com/@evan/wasm@0.0.94/target/ed25519/deno.js": "9728126890f17b71cee41afdab8a4bc362f6b9f409fe0a5c4f6ca9f3b510fd3a",
     "https://unpkg.com/@evan/wasm@0.0.94/target/zlib/deno.js": "e65131e1c1f45e64960f2699a0b868927ea5c9201c4b986a7cfc57b18be5cc09"
   }
