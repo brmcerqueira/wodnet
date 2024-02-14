@@ -36,6 +36,9 @@ function buildOptions(type: ApplyType): string {
         case ApplyType.HealthAggravated:
         case ApplyType.WillpowerSuperficial:
         case ApplyType.WillpowerAggravated:
+        case ApplyType.Hunger:
+        case ApplyType.Humanity:
+        case ApplyType.Stains:
         case ApplyType.Experience:
             name.hidden = true;
             valueNumber.hidden = false;

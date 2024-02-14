@@ -2,6 +2,15 @@ import { Character } from "./character.ts";
 import { locale } from "./i18n/locale.ts";
 import * as tags from "./tags.ts";
 
+export const healthSuperficialLabel = `${locale.health} - ${locale.damage.superficial}`;
+export const healthAggravatedLabel = `${locale.health} - ${locale.damage.aggravated}`;
+export const willpowerSuperficialLabel = `${locale.willpower} - ${locale.damage.superficial}`;
+export const willpowerAggravatedLabel = `${locale.willpower} - ${locale.damage.aggravated}`;
+export const experienceTotalLabel = `${locale.experience.name} - ${locale.experience.total}`;
+export const hungerLabel = `${locale.hunger}[range:0,5]`;
+export const humanityLabel = `${locale.humanity}[range:0,10]`;
+export const stainsLabel = `${locale.stains}[range:0,10]`;
+
 export enum AttributeType {
   Standard = 1,
   MultilineTextBlock = 2,
@@ -111,35 +120,35 @@ attributes[`${locale.bloodPotency}[range:0,10]`] = {
   parse: (c, _o, v: number) => c.bloodPotency = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.hunger}[range:0,5]`] = {
+attributes[hungerLabel] = {
   parse: (c, _o, v: number) => c.hunger = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.humanity}[range:0,10]`] = {
+attributes[humanityLabel] = {
   parse: (c, _o, v: number) => c.humanity.total = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.stains}[range:0,10]`] = {
+attributes[stainsLabel] = {
   parse: (c, _o, v: number) => c.humanity.stains = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.health} - ${locale.damage.superficial}`] = {
+attributes[healthSuperficialLabel] = {
   parse: (c, _o, v: number) => c.health.superficial = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.health} - ${locale.damage.aggravated}`] = {
+attributes[healthAggravatedLabel] = {
   parse: (c, _o, v: number) => c.health.aggravated = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.willpower} - ${locale.damage.superficial}`] = {
+attributes[willpowerSuperficialLabel] = {
   parse: (c, _o, v: number) => c.willpower.superficial = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.willpower} - ${locale.damage.aggravated}`] = {
+attributes[willpowerAggravatedLabel] = {
   parse: (c, _o, v: number) => c.willpower.aggravated = v,
   type: AttributeType.Number,
 };
-attributes[`${locale.experience.name} - ${locale.experience.total}`] = {
+attributes[experienceTotalLabel] = {
   parse: (c, _o, v: number) => c.experience.total = v,
   type: AttributeType.Number,
 };

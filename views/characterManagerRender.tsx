@@ -3,6 +3,7 @@ import * as kanka from "../kanka.ts";
 import { config } from "../config.ts";
 import { locale } from "../i18n/locale.ts";
 import { ApplyType } from "../applyType.ts";
+import { healthAggravatedLabel, healthSuperficialLabel, willpowerAggravatedLabel, willpowerSuperficialLabel } from "../attributes.ts";
 
 function encodeId(entity: kanka.KankaEntity): string {
     return encodeBase64Url(entity.id.toString());
@@ -43,10 +44,13 @@ export const characterManagerRender = (entities: kanka.KankaEntity[], dark: bool
                 <div class="mb-3">
                     <label class="form-label">{locale.type}</label>
                     <select class="form-select" onchange="typeChange(this)" name="type">
-                        <option selected value={ApplyType.HealthSuperficial}>{locale.health} - {locale.damage.superficial}</option>
-                        <option value={ApplyType.WillpowerSuperficial}>{locale.willpower} - {locale.damage.superficial}</option>
-                        <option value={ApplyType.HealthAggravated}>{locale.health} - {locale.damage.aggravated}</option>
-                        <option value={ApplyType.WillpowerAggravated}>{locale.willpower} - {locale.damage.aggravated}</option>
+                        <option selected value={ApplyType.HealthSuperficial}>{healthSuperficialLabel}</option>
+                        <option value={ApplyType.WillpowerSuperficial}>{willpowerSuperficialLabel}</option>
+                        <option value={ApplyType.HealthAggravated}>{healthAggravatedLabel}</option>
+                        <option value={ApplyType.WillpowerAggravated}>{willpowerAggravatedLabel}</option>
+                        <option value={ApplyType.Hunger}>{locale.hunger}</option>
+                        <option value={ApplyType.Humanity}>{locale.humanity}</option>
+                        <option value={ApplyType.Stains}>{locale.stains}</option>
                         <option value={ApplyType.Experience}>{locale.experience.name}</option>
                         <option value={ApplyType.Advantage}>{locale.advantages}</option>
                         <option value={ApplyType.Flaw}>{locale.flaws}</option>

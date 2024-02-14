@@ -1,7 +1,7 @@
 import { Character } from "./character.ts";
 import * as kanka from "./kanka.ts";
 import * as tags from "./tags.ts";
-import { attributes, AttributeType, Context } from "./attributes.ts";
+import { attributes, AttributeType, Context, experienceTotalLabel, healthAggravatedLabel, healthSuperficialLabel, humanityLabel, hungerLabel, stainsLabel, willpowerAggravatedLabel, willpowerSuperficialLabel } from "./attributes.ts";
 import { locale } from "./i18n/locale.ts";
 import { keys } from "./utils.ts";
 import { Batch } from "./batch.ts";
@@ -318,31 +318,49 @@ export async function apply(
       case ApplyType.HealthSuperficial:
         {
           updateNumberValue = true;
-          body.name = `${locale.health} - ${locale.damage.superficial}`;
+          body.name = healthSuperficialLabel;
         }
         break;
       case ApplyType.HealthAggravated:
         {
           updateNumberValue = true;
-          body.name = `${locale.health} - ${locale.damage.aggravated}`;
+          body.name = healthAggravatedLabel;
         }
         break;
       case ApplyType.WillpowerSuperficial:
         {
           updateNumberValue = true;
-          body.name = `${locale.willpower} - ${locale.damage.superficial}`;
+          body.name = willpowerSuperficialLabel;
         }
         break;
       case ApplyType.WillpowerAggravated:
         {
           updateNumberValue = true;
-          body.name = `${locale.willpower} - ${locale.damage.aggravated}`;
+          body.name = willpowerAggravatedLabel;
+        }
+        break;
+      case ApplyType.Hunger:
+        {
+          updateNumberValue = true;
+          body.name = hungerLabel;
+        }
+        break;
+      case ApplyType.Humanity:
+        {
+          updateNumberValue = true;
+          body.name = humanityLabel;
+        }
+        break;
+      case ApplyType.Stains:  
+        {
+          updateNumberValue = true;
+          body.name = stainsLabel;
         }
         break;
       case ApplyType.Experience:
         {
           updateNumberValue = true;
-          body.name = `${locale.experience.name} - ${locale.experience.total}`;
+          body.name = experienceTotalLabel;
         }
         break;
       case ApplyType.Advantage:
