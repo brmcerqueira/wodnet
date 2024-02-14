@@ -297,102 +297,139 @@ export function getByDiscordId(id: string): Character | undefined {
 export async function apply(
   id: number,
   type: ApplyType,
-): Promise<boolean> {
+  name: string,
+  value: number,
+  skill: string | null,
+): Promise<kanka.KankaAttribute | null> {
   const result = await kanka.getCharacterAttributes(id);
 
   if (result.data) {
     const attributes = result.data.sort(sortAttribute);
+
     const body: kanka.KankaAttributeBody = {
       entity_id: id,
-      name: "",
-      type_id: 1,
+      name: ""
     };
 
+    let updateNumberValue = false;
+    let section: string | null = null;
+
     switch (type) {
-      case ApplyType.SpecialtyPhysical:
-        buildSpecialtyAttribute(
-          locale.skills.physical,
-          body,
-          attributes,
-        );
+      case ApplyType.HealthSuperficial:
+        {
+          updateNumberValue = true;
+          body.name = `${locale.health} - ${locale.damage.superficial}`;
+        }
         break;
-      case ApplyType.SpecialtySocial:
-        buildSpecialtyAttribute(
-          locale.skills.social,
-          body,
-          attributes,
-        );
+      case ApplyType.HealthAggravated:
+        {
+          updateNumberValue = true;
+          body.name = `${locale.health} - ${locale.damage.aggravated}`;
+        }
         break;
-      case ApplyType.SpecialtyMental:
-        buildSpecialtyAttribute(
-          locale.skills.mental,
-          body,
-          attributes,
-        );
+      case ApplyType.WillpowerSuperficial:
+        {
+          updateNumberValue = true;
+          body.name = `${locale.willpower} - ${locale.damage.superficial}`;
+        }
+        break;
+      case ApplyType.WillpowerAggravated:
+        {
+          updateNumberValue = true;
+          body.name = `${locale.willpower} - ${locale.damage.aggravated}`;
+        }
+        break;
+      case ApplyType.Experience:
+        {
+          updateNumberValue = true;
+          body.name = `${locale.experience.name} - ${locale.experience.total}`;
+        }
         break;
       case ApplyType.Advantage:
         {
-          const order = getAttributeOrder(
-            attributes,
-            locale.advantages,
-          );
-          body.name = `${locale.advantages}${generateAttributeHash()}[range:1,5]`;
+          section = locale.advantages;
+          body.name = `${name}[range:1,5]`;
           body.type_id = 6;
-          body.default_order = order;
+          body.value = value.toString();
         }
         break;
       case ApplyType.Flaw:
         {
-          const order = getAttributeOrder(
-            attributes,
-            locale.flaws,
-          );
-          body.name = `${locale.flaws}${generateAttributeHash()}[range:1,5]`;
+          section = locale.flaws;
+          body.name = `${name}[range:1,5]`;
           body.type_id = 6;
-          body.default_order = order;
+          body.value = value.toString();
+        }
+        break;
+      case ApplyType.SpecialtyPhysical:
+        {
+          section = locale.specialties.name;
+          body.name = `${name}[range:${Object.values(locale.skills.physical).join(",")}]`;
+          body.type_id = 1;
+          body.value = skill!;
+        }
+        break;
+      case ApplyType.SpecialtySocial:
+        {
+          section = locale.specialties.name;
+          body.name = `${name}[range:${Object.values(locale.skills.social).join(",")}]`;
+          body.type_id = 1;
+          body.value = skill!;
+        }
+        break;
+      case ApplyType.SpecialtyMental:
+        {
+          section = locale.specialties.name;
+          body.name = `${name}[range:${Object.values(locale.skills.mental).join(",")}]`;
+          body.type_id = 1;
+          body.value = skill!;
         }
         break;
     }
 
-    if (body.default_order == -1) {
-      return false;
+    let resultAttribute: kanka.KankaResult<kanka.KankaAttribute>;
+
+    if (updateNumberValue) {
+      let attribute: kanka.KankaAttribute | null = null;
+
+      for (let i = 0; i < attributes.length; i++) {  
+        if (attributes[i].name == body.name) {
+          attribute = attributes[i];
+          break;
+        }
+      }
+
+      if (attribute == null) {
+        return null;
+      }
+
+      body.value = ((parseInt(attribute!.value) | 0) + value).toString();
+
+      resultAttribute = await kanka.updateAttribute(
+        id,
+        attribute!.id,
+        body,
+      );
+    }
+    else {
+      if (section) {
+        for (let i = 0; i < attributes.length; i++) {
+          const attribute = attributes[i];
+          if (attribute.name == section) {
+            body.default_order = attribute.default_order + 1;
+            break;
+          }
+        }
+      }
+
+      resultAttribute = await kanka.createAttribute(
+        id,
+        body,
+      );
     }
 
-    const resultAttribute = await kanka.createAttribute(
-      id,
-      body,
-    );
-
-    return resultAttribute.data ? true : false;
+    return resultAttribute.data;
   }
 
-  return false;
-}
-
-function generateAttributeHash(): string {
-  return Math.abs(hashCode(new Date())).toString();
-}
-
-function buildSpecialtyAttribute(
-  o: object,
-  body: kanka.KankaAttributeBody,
-  attributes: kanka.KankaAttribute[],
-) {
-  const order = getAttributeOrder(attributes, locale.specialties.name);
-  body.name = `${locale.specialties.specialty}${generateAttributeHash()}[range:${Object.values(o).join(",")}]`;
-  body.default_order = order;
-}
-
-function getAttributeOrder(
-  attributes: kanka.KankaAttribute[],
-  section: string,
-): number {
-  for (let i = 0; i < attributes.length; i++) {
-    const attribute = attributes[i];
-    if (attribute.name == section) {
-      return attribute.default_order + 1;
-    }
-  }
-
-  return -1;
+  return null;
 }

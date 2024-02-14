@@ -16,9 +16,9 @@ export const characterManagerRender = (entities: kanka.KankaEntity[], dark: bool
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <link rel="stylesheet" href="/styles/main.css" />
     <script>{`const context = ${JSON.stringify({
-                physical: locale.skills.physical,
-                social: locale.skills.social,
-                mental: locale.skills.mental
+                physical: Object.values(locale.skills.physical),
+                social: Object.values(locale.skills.social),
+                mental: Object.values(locale.skills.mental)
             })};`}</script>
     <script src="/scripts/characterManagerScript.js" />
 </head>
@@ -33,16 +33,16 @@ export const characterManagerRender = (entities: kanka.KankaEntity[], dark: bool
     <hr />
     <div class="container">
         <div class="row">
-            <form>
+            <form method="get" action="/apply" target="_blank">
                 <div class="mb-3">
                     <label class="form-label">{locale.character}</label>
-                    <select class="form-select">
+                    <select class="form-select" name="id">
                         {entities.map((entity, index) => <option selected={index == 0} value={encodeId(entity)}>{entity.name}</option>)}
                     </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{locale.type}</label>
-                    <select class="form-select" onchange="typeChange(this)">
+                    <select class="form-select" onchange="typeChange(this)" name="type">
                         <option selected value={ApplyType.HealthSuperficial}>{locale.health} - {locale.damage.superficial}</option>
                         <option value={ApplyType.WillpowerSuperficial}>{locale.willpower} - {locale.damage.superficial}</option>
                         <option value={ApplyType.HealthAggravated}>{locale.health} - {locale.damage.aggravated}</option>
@@ -57,7 +57,7 @@ export const characterManagerRender = (entities: kanka.KankaEntity[], dark: bool
                 </div>
                 <div class="mb-3" id="name" hidden="true">
                     <label for="nameInput" class="form-label">{locale.name}</label>
-                    <input type="text" class="form-control" id="nameInput" name="nameInput"/>
+                    <input type="text" class="form-control" id="nameInput" name="name"/>
                 </div>
                 <div class="mb-3" id="valueNumber">
                     <label for="valueInput" class="form-label">{locale.value}</label>
@@ -65,7 +65,7 @@ export const characterManagerRender = (entities: kanka.KankaEntity[], dark: bool
                 </div>
                 <div class="mb-3" id="skill" hidden="true">
                     <label class="form-label">{locale.specialties.skill}</label>
-                    <select class="form-select" id="skillSelect"></select>
+                    <select class="form-select" id="skillSelect" name="skill"></select>
                 </div>
                 <button type="submit" class="btn btn-primary">{locale.apply}</button>
             </form>

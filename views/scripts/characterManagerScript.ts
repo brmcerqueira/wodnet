@@ -1,9 +1,7 @@
-type SkillsType = { [key: string]: string }
-
 declare const context: {
-    physical: SkillsType,
-    social: SkillsType,
-    mental: SkillsType
+    physical: string[],
+    social: string[],
+    mental: string[]
 }
 
 enum ApplyType {
@@ -22,7 +20,7 @@ enum ApplyType {
 function buildOptions(type: ApplyType): string {
     let result = "";
 
-    let options: SkillsType = {};
+    let options: string[] = [];
 
     switch (type) {
         case ApplyType.SpecialtyPhysical:
@@ -36,8 +34,8 @@ function buildOptions(type: ApplyType): string {
             break;
     }
 
-    for (const key in options) {
-        result += `<option value=${key}>${options[key]}</option>`;
+    for (let index = 0; index < options.length; index++) {
+        result += `<option value=${options[index]}>${options[index]}</option>`;
     }
 
     return result;

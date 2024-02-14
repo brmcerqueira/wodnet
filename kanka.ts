@@ -223,6 +223,18 @@ export async function createAttribute(
   );
 }
 
+export async function updateAttribute(
+  entityId: number,
+  id: number,
+  attribute: KankaAttributeBody,
+): Promise<KankaResult<KankaAttribute>> {
+  return await go(
+    "PUT",
+    `entities/${entityId}/attributes/${id}`,
+    attribute,
+  );
+}
+
 export async function updateNote(
   id: number,
   note: KankaNoteBody,

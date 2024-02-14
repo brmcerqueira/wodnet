@@ -94,9 +94,10 @@ server.get("/apply", res("json"),
   async (ctx: Context, next: NextFunc) => {
     ctx.res.body = await apply(
       ctx.extra.decodeId,
-      ApplyType[
-        ctx.url.searchParams.get("type")! as keyof typeof ApplyType
-      ],
+      parseInt(ctx.url.searchParams.get("type")!) as ApplyType,
+      ctx.url.searchParams.get("name")!,
+      parseInt(ctx.url.searchParams.get("value")!),
+      ctx.url.searchParams.get("skill")
     );
     await next();
   }
