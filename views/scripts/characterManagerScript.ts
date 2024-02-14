@@ -1,21 +1,5 @@
-declare const context: {
-    physical: string[],
-    social: string[],
-    mental: string[]
-}
-
-enum ApplyType {
-    HealthSuperficial,
-    WillpowerSuperficial,
-    HealthAggravated,
-    WillpowerAggravated,
-    Experience,
-    Advantage,
-    Flaw,
-    SpecialtyPhysical,
-    SpecialtySocial,
-    SpecialtyMental,
-}
+import { ApplyType } from "../../applyType.ts";
+import { locale } from "../../i18n/locale.ts";
 
 function buildOptions(type: ApplyType): string {
     let result = "";
@@ -24,13 +8,13 @@ function buildOptions(type: ApplyType): string {
 
     switch (type) {
         case ApplyType.SpecialtyPhysical:
-            options = context.physical;
+            options = Object.values(locale.skills.physical);
             break;
         case ApplyType.SpecialtySocial:
-            options = context.social; 
+            options = Object.values(locale.skills.social); 
             break;   
         case ApplyType.SpecialtyMental: 
-            options = context.mental;
+            options = Object.values(locale.skills.mental);
             break;
     }
 
@@ -41,7 +25,7 @@ function buildOptions(type: ApplyType): string {
     return result;
 }
 
-function typeChange(select: HTMLSelectElement): void {  
+(window as any).typeChange = (select: HTMLSelectElement) => {  
     const name = document.getElementById("name") as HTMLElement;
     const valueNumber = document.getElementById("valueNumber") as HTMLElement;
     const skill = document.getElementById("skill") as HTMLElement;

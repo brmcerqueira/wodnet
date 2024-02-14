@@ -1,4 +1,4 @@
-import { Context, decodeBase64Url, join, NextFunc, res, RouteFn, Server, serveStatic, ts } from "./deps.ts";
+import { bundle, Context, decodeBase64Url, join, NextFunc, res, RouteFn, Server, serveStatic } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import {
   apply,
@@ -22,13 +22,10 @@ const scriptsPath = "./views/scripts";
 for await (const dirEntry of Deno.readDir(scriptsPath)) {
   try {
     if (dirEntry.isFile) {
-      scripts[dirEntry.name.replace(".ts", ".js")] = 
-      ts.transpileModule(await Deno.readTextFile(join(scriptsPath, dirEntry.name)), { 
-        compilerOptions: { 
-          module: ts.ModuleKind.ES2022,
-          moduleResolution: ts.ModuleResolutionKind.Bundler
-        }
-      }).outputText;
+      const result = await bundle(join(scriptsPath, dirEntry.name), {
+        cacheSetting: "reload"
+      });
+      scripts[dirEntry.name.replace(".ts", ".js")] = result.code;
     }
   } catch (e) {
     logger.error(e);
@@ -60,6 +57,7 @@ server.get("/scripts/*.js", async (ctx: Context, next: NextFunc) => {
   const path = ctx.params[Object.keys(ctx.params)[0]];
   if (scripts[path]) {
     ctx.res.body = scripts[path];
+    ctx.res.headers.append("Content-Type", "application/javascript");
     await next();
   }
   else {
