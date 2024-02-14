@@ -434,7 +434,7 @@ export async function apply(
         for (let i = 0; i < attributes.length; i++) {
           const attribute = attributes[i];
           if (attribute.name == section) {
-            body.default_order = attribute.default_order + 1;
+            body.default_order = attribute.default_order;
             break;
           }
         }

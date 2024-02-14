@@ -22,9 +22,7 @@ const scriptsPath = "./views/scripts";
 for await (const dirEntry of Deno.readDir(scriptsPath)) {
   try {
     if (dirEntry.isFile) {
-      const result = await bundle(join(scriptsPath, dirEntry.name), {
-        cacheSetting: "reload"
-      });
+      const result = await bundle(join(scriptsPath, dirEntry.name));
       scripts[dirEntry.name.replace(".ts", ".js")] = result.code;
     }
   } catch (e) {
