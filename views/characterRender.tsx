@@ -1,4 +1,4 @@
-import React, { TsxComplexElement } from "../deps.ts";
+import React, { TsxComplexElement, TsxElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
@@ -29,7 +29,7 @@ type RenderContext = {
     dark: boolean;
 }
 
-const Meter = (properties: { context: RenderContext, total: number, put: (index: number) => TsxComplexElement }): TsxComplexElement => {
+const Meter = (properties: { context: RenderContext, total: number, put: (index: number) => TsxComplexElement }, children: TsxElement[]): TsxComplexElement => {
     const indexSpace = properties.total > 5 ? (Math.ceil(properties.total / 2) + 1) : 0;
 
     const elements: TsxComplexElement[] = [];
@@ -42,23 +42,43 @@ const Meter = (properties: { context: RenderContext, total: number, put: (index:
         elements.push(properties.put(i));
     }
    
-    const dropdownMenuId = `dropdownMenu${++properties.context.dropdownMenuIndex}`;
+    if (children.length > 0) {
+        const dropdownMenuId = `dropdownMenu${++properties.context.dropdownMenuIndex}`;
 
-    return <div class="dropdown">
-        <button class="meter-dropdown-button" type="button" id={dropdownMenuId} data-bs-toggle="dropdown" aria-expanded="false">
-        {elements}
-        </button>
-        <ul class={properties.context.dark ? "dropdown-menu dropdown-menu-dark" : "dropdown-menu"} aria-labelledby={dropdownMenuId}>
-            {elements.map((_, index) => <li><button class="dropdown-item" type="button">{locale.changeTo}: {index + 1}</button></li>)}
-        </ul>
-    </div>;
+        return <div class="dropdown">
+            <button class="meter-dropdown-button" type="button" id={dropdownMenuId} data-bs-toggle="dropdown" aria-expanded="false">
+            {elements}
+            </button>
+            <ul class={properties.context.dark ? "dropdown-menu dropdown-menu-dark" : "dropdown-menu"} aria-labelledby={dropdownMenuId}>
+            {children}
+            </ul>
+        </div>;
+    }
+    else {
+        return <>{elements}</>;
+    }
 }
 
-const DualMeter = (properties: { context: RenderContext, value: number, total: number, empty: TsxComplexElement, fill: TsxComplexElement }): TsxComplexElement =>
-    <Meter context={properties.context} total={properties.total} put={i => i <= properties.value ? properties.fill : properties.empty} />;
+const MeterWithEmpty = (properties: { context: RenderContext, value: number, total: number, empty: TsxComplexElement, fill: TsxComplexElement, canClean?: boolean }): TsxComplexElement => {
+    const elements: TsxComplexElement[] = [];
 
-const Dots = (properties: { context: RenderContext, value: number, total: number }): TsxComplexElement =>
-    <DualMeter context={properties.context} value={properties.value} total={properties.total} empty={Circle} fill={CircleFill} />;
+    properties.canClean = properties.canClean || true;
+
+    if (properties.canClean) {
+        elements.push(<li><button class="dropdown-item" type="button">{locale.clean}</button></li>);
+    }
+
+    for (let i = 1; i <= properties.total; i++) {
+        elements.push(<li><button class="dropdown-item" type="button">{locale.changeTo}: {i}</button></li>);
+    }
+
+    return <Meter context={properties.context} total={properties.total} put={i => i <= properties.value ? properties.fill : properties.empty}>
+        {elements}
+    </Meter>;
+}
+
+const Dots = (properties: { context: RenderContext, value: number, total: number, canClean?: boolean }): TsxComplexElement =>
+    <MeterWithEmpty context={properties.context} value={properties.value} canClean={properties.canClean} total={properties.total} empty={Circle} fill={CircleFill} />;
 
 const Damage = (properties: { context: RenderContext, superficial: number, aggravated: number, total: number }): TsxComplexElement => {
     const indexSuperficial = properties.aggravated + properties.superficial;
@@ -181,15 +201,15 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.physical.strength}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.physical.strength} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.physical.strength} total={5}/></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.physical.dexterity}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.physical.dexterity} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.physical.dexterity} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.physical.stamina}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.physical.stamina} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.physical.stamina} total={5} /></div>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-2">
@@ -198,15 +218,15 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.social.charisma}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.social.charisma} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.social.charisma} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.social.manipulation}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.social.manipulation} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.social.manipulation} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.social.composure}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.social.composure} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.social.composure} total={5} /></div>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-2">
@@ -215,15 +235,15 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.mental.intelligence}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.mental.intelligence} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.mental.intelligence} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.mental.wits}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.mental.wits} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.mental.wits} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.mental.resolve}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.attributes.mental.resolve} total={5} /></div>
+                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.mental.resolve} total={5} /></div>
                         </div>
                     </div>
                 </div>
@@ -252,7 +272,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                             <div class="col text-center"><b>{locale.hunger}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><DualMeter context={context} value={character.hunger} total={5} empty={Square} fill={XSquare} /></div>
+                            <div class="col text-center"><MeterWithEmpty context={context} value={character.hunger} total={5} empty={Square} fill={XSquare} /></div>
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -454,10 +474,12 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                             {character.disciplines[key]?.map(name => {
                                 const discipline = treatDiscipline(name);
                                 return <div class="row align-items-center">
-                                    <div class="col text-end"><Dots context={context} value={discipline.value} total={discipline.value} /></div>
+                                    <div class="col text-end">
+                                        <Meter context={context} total={discipline.value} put={i => CircleFill}/>
+                                    </div>
                                     <div class="col text-start">{discipline.name}</div>
                                 </div>
-                            })}
+                            })} 
                         </div>)}
                 </div>
             </div>
