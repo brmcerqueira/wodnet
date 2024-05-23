@@ -5,6 +5,7 @@ export const pt: LocaleType = {
   value: "Valor",
   type: "Tipo",
   standard: "Padrão",
+  changeTo: "Mudar para",
   character: "Personagem",
   specialties: {
     name: "Especializações",

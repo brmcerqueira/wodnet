@@ -23,3 +23,9 @@ i {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.meter-dropdown-button {
+    border: none;
+    background-color: inherit;
+    color: inherit;
+}
