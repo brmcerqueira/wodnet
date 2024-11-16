@@ -12,8 +12,6 @@ export type LocaleType = {
   value: string;
   type: string;
   standard: string;
-  clean: string;
-  changeTo: string;
   character: string;
   specialties: {
     name: string;

@@ -1,4 +1,4 @@
-import React, { TsxComplexElement, TsxElement } from "../deps.ts";
+import React, { TsxComplexElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
@@ -24,16 +24,9 @@ function treatDiscipline(text: string): { name: string, value: number } {
     }
 }
 
-type RenderContext = {
-    dropdownMenuIndex: number;
-    dark: boolean;
-}
-
-const Meter = (properties: { context: RenderContext, total: number, put: (index: number) => TsxComplexElement }, children: TsxElement[]): TsxComplexElement => {
+const Meter = (properties: { total: number, put: (index: number) => TsxComplexElement }): TsxComplexElement => {
     const indexSpace = properties.total > 5 ? (Math.ceil(properties.total / 2) + 1) : 0;
-
     const elements: TsxComplexElement[] = [];
-
     for (let i = 1; i <= properties.total; i++) {
         if (i == indexSpace) {
             elements.push(<i>&ensp;</i>);
@@ -41,52 +34,22 @@ const Meter = (properties: { context: RenderContext, total: number, put: (index:
 
         elements.push(properties.put(i));
     }
-   
-    if (children.length > 0) {
-        const dropdownMenuId = `dropdownMenu${++properties.context.dropdownMenuIndex}`;
-
-        return <div class="dropdown">
-            <button class="meter-dropdown-button" type="button" id={dropdownMenuId} data-bs-toggle="dropdown" aria-expanded="false">
-            {elements}
-            </button>
-            <ul class={properties.context.dark ? "dropdown-menu dropdown-menu-dark" : "dropdown-menu"} aria-labelledby={dropdownMenuId}>
-            {children}
-            </ul>
-        </div>;
-    }
-    else {
-        return <>{elements}</>;
-    }
+    return <>{elements}</>;
 }
 
-const MeterWithEmpty = (properties: { context: RenderContext, value: number, total: number, empty: TsxComplexElement, fill: TsxComplexElement, canClean?: boolean }): TsxComplexElement => {
-    const elements: TsxComplexElement[] = [];
+const DualMeter = (properties: { value: number, total: number, empty: TsxComplexElement, fill: TsxComplexElement }): TsxComplexElement =>
+    <Meter total={properties.total} put={i => i <= properties.value ? properties.fill : properties.empty} />;
 
-    properties.canClean = properties.canClean || true;
+const Dots = (properties: { value: number, total: number }): TsxComplexElement =>
+    <DualMeter value={properties.value} total={properties.total} empty={Circle} fill={CircleFill} />;
 
-    if (properties.canClean) {
-        elements.push(<li><button class="dropdown-item" type="button">{locale.clean}</button></li>);
-    }
-
-    for (let i = 1; i <= properties.total; i++) {
-        elements.push(<li><button class="dropdown-item" type="button">{locale.changeTo}: {i}</button></li>);
-    }
-
-    return <Meter context={properties.context} total={properties.total} put={i => i <= properties.value ? properties.fill : properties.empty}>
-        {elements}
-    </Meter>;
-}
-
-const Dots = (properties: { context: RenderContext, value: number, total: number, canClean?: boolean }): TsxComplexElement =>
-    <MeterWithEmpty context={properties.context} value={properties.value} canClean={properties.canClean} total={properties.total} empty={Circle} fill={CircleFill} />;
-
-const Damage = (properties: { context: RenderContext, superficial: number, aggravated: number, total: number }): TsxComplexElement => {
+const Damage = (properties: { superficial: number, aggravated: number, total: number }): TsxComplexElement => {
     const indexSuperficial = properties.aggravated + properties.superficial;
     let indexAggravated = properties.aggravated;
     if (indexSuperficial > properties.total) {
         indexAggravated += indexSuperficial - properties.total;
     }
-    return <Meter context={properties.context} total={properties.total} put={i => {
+    return <Meter total={properties.total} put={i => {
         if (i <= indexAggravated) {
             return XSquare;
         }
@@ -99,9 +62,9 @@ const Damage = (properties: { context: RenderContext, superficial: number, aggra
     }} />;
 }
 
-const Humanity = (properties: { context: RenderContext, total: number, stains: number }): TsxComplexElement => {
+const Humanity = (properties: { total: number, stains: number }): TsxComplexElement => {
     const max = 10;
-    return <Meter context={properties.context} total={max} put={i => {
+    return <Meter total={max} put={i => {
         if (i <= properties.total) {
             return SquareFill;
         }
@@ -117,8 +80,6 @@ const Humanity = (properties: { context: RenderContext, total: number, stains: n
 export const characterRender = (character: Character, id: string, dark: boolean, update: number): TsxComplexElement => {
     const title = character.player != null && character.player != "" ? `${character.name} (${character.player})` : character.name;
 
-    const context : RenderContext = { dark, dropdownMenuIndex: 1 };
-    
     return <html>
         <head>
             <title>{title}</title>
@@ -131,7 +92,6 @@ export const characterRender = (character: Character, id: string, dark: boolean,
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
             <link rel="stylesheet" href="/styles/main.css" />
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" />
             <script>{`const context = ${JSON.stringify({
                 id,
                 update,
@@ -201,15 +161,15 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.physical.strength}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.physical.strength} total={5}/></div>
+                            <div class="col text-center"><Dots value={character.attributes.physical.strength} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.physical.dexterity}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.physical.dexterity} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.physical.dexterity} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.physical.stamina}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.physical.stamina} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.physical.stamina} total={5} /></div>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-2">
@@ -218,15 +178,15 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.social.charisma}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.social.charisma} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.social.charisma} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.social.manipulation}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.social.manipulation} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.social.manipulation} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.social.composure}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.social.composure} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.social.composure} total={5} /></div>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-2">
@@ -235,15 +195,15 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.mental.intelligence}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.mental.intelligence} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.mental.intelligence} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.mental.wits}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.mental.wits} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.mental.wits} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.attributes.mental.resolve}</b></div>
-                            <div class="col text-center"><Dots context={context} canClean={false} value={character.attributes.mental.resolve} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.attributes.mental.resolve} total={5} /></div>
                         </div>
                     </div>
                 </div>
@@ -256,7 +216,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                             <div class="col text-center"><b>{locale.bloodPotency}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><Dots context={context} value={character.bloodPotency} total={10} /></div>
+                            <div class="col text-center"><Dots value={character.bloodPotency} total={10} /></div>
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -264,7 +224,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                             <div class="col text-center"><b>{locale.health}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><Damage context={context} superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3} /></div>
+                            <div class="col text-center"><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3} /></div>
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -272,7 +232,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                             <div class="col text-center"><b>{locale.hunger}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><MeterWithEmpty context={context} value={character.hunger} total={5} empty={Square} fill={XSquare} /></div>
+                            <div class="col text-center"><DualMeter value={character.hunger} total={5} empty={Square} fill={XSquare} /></div>
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -280,7 +240,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                             <div class="col text-center"><b>{locale.willpower}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><Damage context={context} superficial={character.willpower.superficial} aggravated={character.willpower.aggravated} total={character.attributes.social.composure + character.attributes.mental.resolve} /></div>
+                            <div class="col text-center"><Damage superficial={character.willpower.superficial} aggravated={character.willpower.aggravated} total={character.attributes.social.composure + character.attributes.mental.resolve} /></div>
                         </div>
                     </div>
                     <div class="col-sm-3">
@@ -288,7 +248,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                             <div class="col text-center"><b>{locale.humanity}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><Humanity context={context} total={character.humanity.total} stains={character.humanity.stains} /></div>
+                            <div class="col text-center"><Humanity total={character.humanity.total} stains={character.humanity.stains} /></div>
                         </div>
                     </div>
                 </div>
@@ -305,39 +265,39 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.melee}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.melee} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.melee} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.firearms}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.firearms} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.firearms} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.athletics}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.athletics} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.athletics} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.brawl}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.brawl} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.brawl} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.drive}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.drive} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.drive} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.stealth}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.stealth} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.stealth} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.larceny}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.larceny} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.larceny} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.craft}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.craft} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.craft} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.physical.survival}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.physical.survival} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.physical.survival} total={5} /></div>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-2">
@@ -346,39 +306,39 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.animalKen}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.animalKen} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.animalKen} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.etiquette}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.etiquette} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.etiquette} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.intimidation}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.intimidation} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.intimidation} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.leadership}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.leadership} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.leadership} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.streetwise}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.streetwise} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.streetwise} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.performance}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.performance} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.performance} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.persuasion}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.persuasion} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.persuasion} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.insight}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.insight} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.insight} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.social.subterfuge}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.social.subterfuge} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.social.subterfuge} total={5} /></div>
                         </div>
                     </div>
                     <div class="col-sm-4 mb-2">
@@ -387,39 +347,39 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.science}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.science} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.science} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.academics}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.academics} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.academics} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.finance}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.finance} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.finance} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.investigation}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.investigation} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.investigation} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.medicine}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.medicine} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.medicine} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.occult}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.occult} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.occult} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.awareness}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.awareness} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.awareness} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.politics}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.politics} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.politics} total={5} /></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.skills.mental.technology}</b></div>
-                            <div class="col text-center"><Dots context={context} value={character.skills.mental.technology} total={5} /></div>
+                            <div class="col text-center"><Dots value={character.skills.mental.technology} total={5} /></div>
                         </div>
                     </div>
                 </div>
@@ -444,7 +404,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         {keys(character.advantages).map(key =>
                             <div class="row align-items-center">
                                 <div class="col text-end">{treatDetails(key as string)}</div>
-                                <div class="col text-center"><Dots context={context} value={character.advantages[key]} total={5} /></div>
+                                <div class="col text-center"><Dots value={character.advantages[key]} total={5} /></div>
                             </div>)}
                     </div>
                     <div class="col-sm-5 mb-2">
@@ -454,7 +414,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         {keys(character.flaws).map(key =>
                             <div class="row align-items-center">
                                 <div class="col text-end">{treatDetails(key as string)}</div>
-                                <div class="col text-center"><Dots context={context} value={character.flaws[key]} total={5} /></div>
+                                <div class="col text-center"><Dots value={character.flaws[key]} total={5} /></div>
                             </div>)}
                     </div>
                 </div>
@@ -469,17 +429,15 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         <div class="col-sm-4 mb-5">
                             <div class="row align-items-center mb-2">
                                 <div class="col text-end"><b>{locale.disciplines[key].name}</b></div>
-                                <div class="col text-center"><Dots context={context} value={character.disciplines[key]!.length} total={5} /></div>
+                                <div class="col text-center"><Dots value={character.disciplines[key]!.length} total={5} /></div>
                             </div>
                             {character.disciplines[key]?.map(name => {
                                 const discipline = treatDiscipline(name);
                                 return <div class="row align-items-center">
-                                    <div class="col text-end">
-                                        <Meter context={context} total={discipline.value} put={i => CircleFill}/>
-                                    </div>
+                                    <div class="col text-end"><Dots value={discipline.value} total={discipline.value} /></div>
                                     <div class="col text-start">{discipline.name}</div>
                                 </div>
-                            })} 
+                            })}
                         </div>)}
                 </div>
             </div>
