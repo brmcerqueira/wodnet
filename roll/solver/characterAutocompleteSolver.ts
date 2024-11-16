@@ -18,16 +18,15 @@ export async function characterAutocompleteSolver(
     if (values.character.focused) {
       await interaction.respond({
         type: InteractionResponseType.APPLICATION_COMMAND_AUTOCOMPLETE_RESULT,
-        choices: search(values.character.value).map((c) => {
+        choices: (await search(values.character.value)).map(c => {
           return {
-            value: c.id.toString(),
+            value: c.id,
             name: c.name,
           };
         }),
       });
     } else {
-      const id = parseInt(values.character.value);
-      data.setCurrentCharacter(id);
+      data.setCurrentCharacter(values.character.value);
       await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
@@ -35,7 +34,7 @@ export async function characterAutocompleteSolver(
           color: colors.Gray,
           fields: [{
             name: locale.character,
-            value: `**${(await get(id)).name}**`,
+            value: `**${(await get(values.character.value)).name}**`,
             inline: true,
           }],
         }],

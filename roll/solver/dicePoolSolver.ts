@@ -1,5 +1,5 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
-import { getByDiscordId, getFromCache } from "../../characterManager.ts";
+import { get } from "../../characterManager.ts";
 import { config } from "../../config.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { LocaleType } from "../../i18n/localeType.ts";
@@ -24,8 +24,8 @@ export async function dicePoolSolver(
   },
 ) {
   const character = config.storytellerId == interaction.user.id
-    ? (data.currentCharacter ? getFromCache(data.currentCharacter!) : undefined)
-    : getByDiscordId(interaction.user.id);
+    ? (data.currentCharacter ? await get(data.currentCharacter!) : undefined)
+    : await get(interaction.user.id);
   if (character) {
     const description: string[] = [];
 

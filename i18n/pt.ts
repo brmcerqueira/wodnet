@@ -13,7 +13,6 @@ export const pt: LocaleType = {
   },
   template: "Modelo",
   characterLinks: "Fichas",
-  discordId: "Discord Id",
   details: "Detalhes",
   name: "Nome",
   player: "Jogador",

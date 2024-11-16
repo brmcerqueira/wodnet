@@ -42,8 +42,8 @@ export function setModifier(value: number | null) {
   modifier = value;
 }
 
-export let currentCharacter: number | null = null;
+export let currentCharacter: string | null = null;
 
-export function setCurrentCharacter(value: number | null) {
+export function setCurrentCharacter(value: string | null) {
   currentCharacter = value;
 }

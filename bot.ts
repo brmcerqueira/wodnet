@@ -14,7 +14,6 @@ import { emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
 import { CommandOptionType, commands } from "./roll/commands.ts";
-import { loadAll } from "./characterManager.ts";
 
 const keyCommands = keys(commands);
 
@@ -93,8 +92,6 @@ client.on("ready", async () => {
         emojis[name][guild.id] = emoji;
       }
     }
-
-    await loadAll();
 
     logger.info("Wodbot online!");
   } catch (error) {

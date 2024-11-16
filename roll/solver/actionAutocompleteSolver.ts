@@ -1,5 +1,5 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
-import { getByDiscordId, getFromCache } from "../../characterManager.ts";
+import { get } from "../../characterManager.ts";
 import { config } from "../../config.ts";
 import { keys } from "../../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
@@ -32,9 +32,9 @@ export async function actionAutocompleteSolver(
   } else {
     const character = config.storytellerId == interaction.user.id
       ? (data.currentCharacter
-        ? getFromCache(data.currentCharacter!)
+        ? await get(data.currentCharacter!)
         : undefined)
-      : getByDiscordId(interaction.user.id);
+      : await get(interaction.user.id);
     if (character) {
       const result = actions[values.action.value](character);
       await sendRoll(

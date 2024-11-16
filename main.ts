@@ -1,19 +1,9 @@
 import { bundle, Context, decodeBase64Url, join, NextFunc, res, RouteFn, Server, serveStatic } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
-import {
-  apply,
-  check,
-  get,
-  getCharacters,
-  updateCronJob,
-} from "./characterManager.ts";
+import { check, get } from "./characterManager.ts";
 import * as bot from "./bot.ts";
-import * as tags from "./tags.ts";
-import * as templates from "./templates.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
-import { characterManagerRender } from "./views/characterManagerRender.tsx";
-import { ApplyType } from "./applyType.ts";
 
 const scripts: { [key: string]: string } = {};
 
@@ -33,8 +23,6 @@ for await (const dirEntry of Deno.readDir(scriptsPath)) {
 const textDecoder = new TextDecoder();
 
 logger.debug("config: %v", JSON.stringify(config));
-
-updateCronJob();
 
 const server = new Server();
 
@@ -72,33 +60,6 @@ server.get("/discord",
   }
 );
 
-server.get("/setup/tags", res("json"),
-  async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = tags.setup();
-    await next();
-  }
-);
-
-server.get("/setup/templates", res("json"),
-  async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = templates.setup();
-    await next();
-  }
-);
-
-server.get("/apply", res("json"),
-  async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = await apply(
-      ctx.extra.decodeId,
-      parseInt(ctx.url.searchParams.get("type")!) as ApplyType,
-      ctx.url.searchParams.get("name")!,
-      parseInt(ctx.url.searchParams.get("value")!),
-      ctx.url.searchParams.get("skill")
-    );
-    await next();
-  }
-);
-
 server.get("/check", res("json"),
   async (ctx: Context, next: NextFunc) => {
     ctx.res.body = {
@@ -108,24 +69,11 @@ server.get("/check", res("json"),
   }
 );
 
-server.get("/manager/dark", res("html"), managerRoute(true));
-
-server.get("/manager", res("html"), managerRoute(false));
-
 server.get("/dark", res("html"), characterRoute(true));
 
 server.get("/", res("html"), characterRoute(false));
 
 await server.listen({ port: config.port });
-
-function managerRoute(dark: boolean): RouteFn {
-  return async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = await characterManagerRender(
-      await getCharacters(), dark
-    ).render();
-    await next();
-    };
-}
 
 function characterRoute(dark: boolean): RouteFn {
   return async (ctx: Context, next: NextFunc) => {

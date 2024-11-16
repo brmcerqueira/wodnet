@@ -6,8 +6,7 @@ export type Damage = {
 
 export type Character = {
   hashCode: number | undefined;
-  id: number;
-  discordId: string;
+  id: string;
   details: string;
   image: string;
   name: string;

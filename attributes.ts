@@ -1,6 +1,5 @@
 import { Character } from "./character.ts";
 import { locale } from "./i18n/locale.ts";
-import * as tags from "./tags.ts";
 
 export const healthSuperficialLabel = `${locale.health} - ${locale.damage.superficial}`;
 export const healthAggravatedLabel = `${locale.health} - ${locale.damage.aggravated}`;
@@ -10,6 +9,21 @@ export const experienceTotalLabel = `${locale.experience.name} - ${locale.experi
 export const hungerLabel = `${locale.hunger}[range:0,5]`;
 export const humanityLabel = `${locale.humanity}[range:0,10]`;
 export const stainsLabel = `${locale.stains}[range:0,10]`;
+
+export enum Discipline {
+  Animalism,
+  Auspex,
+  Dominate,
+  BloodSorcery,
+  Fortitude,
+  Protean,
+  Obfuscate,
+  Potence,
+  Presence,
+  Celerity,
+  Rituals,
+  ThinBloodAlchemy
+}
 
 export enum AttributeType {
   Standard = 1,
@@ -31,7 +45,7 @@ export type Attribute = {
   context?: (character: Character) => any;
   value?: string;
   type?: AttributeType;
-  tags?: tags.Tag[];
+  disciplines?: Discipline[];
 };
 
 export type Context = {
@@ -108,9 +122,6 @@ attributes[`${locale.clan.name}[range:${locale.clan.options.join(",")}]`] = {
 attributes[`${locale.generation.name}[range:4,16]`] = {
   parse: (c, _o, v: number) => c.generation = v,
   type: AttributeType.Number,
-};
-attributes[locale.discordId] = {
-  parse: (c, _o, v: string) => c.discordId = v,
 };
 attributes[locale.details] = {
   parse: (c, _o, v: string) => c.details = v,
@@ -363,7 +374,7 @@ attributes[locale.flaws] = {
   },
 };
 attributes[locale.disciplines.animalism.name] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -373,43 +384,43 @@ attributes[locale.disciplines.animalism.name] = {
   },
 };
 attributes[locale.disciplines.animalism.bondFamulus] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.senseTheBeast] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.feralWhispers] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.animalSucculence] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.quellTheBeast] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.unlivingHive] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.subsumeTheSpirit] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.animalDominion] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.animalism.drawingOutTheBeast] = {
-  tags: [tags.Animalism],
+  disciplines: [Discipline.Animalism],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.name] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -419,51 +430,51 @@ attributes[locale.disciplines.auspex.name] = {
   },
 };
 attributes[locale.disciplines.auspex.heightenedSenses] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.senseTheUnseen] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.obeah] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.premonition] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.scryTheSoul] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.shareTheSenses] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.spiritsTouch] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.clairvoyance] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.possession] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.telepathy] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.auspex.unburdeningTheBestialSoul] = {
-  tags: [tags.Auspex],
+  disciplines: [Discipline.Auspex],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.name] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -473,47 +484,47 @@ attributes[locale.disciplines.dominate.name] = {
   },
 };
 attributes[locale.disciplines.dominate.cloudMemory] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.compel] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.mesmerize] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.dementation] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.domitorsFavor] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.theForgetfulMind] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.submergedDirective] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.rationalize] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.massManipulation] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.dominate.terminalDecree] = {
-  tags: [tags.Dominate],
+  disciplines: [Discipline.Dominate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.name] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -523,39 +534,39 @@ attributes[locale.disciplines.bloodSorcery.name] = {
   },
 };
 attributes[locale.disciplines.bloodSorcery.corrosiveVitae] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.aTasteForBlood] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.extinguishVitae] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.bloodOfPotency] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.scorpionsTouch] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.theftOfVitae] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.baalsCaress] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.bloodSorcery.cauldronOfBlood] = {
-  tags: [tags.BloodSorcery],
+  disciplines: [Discipline.BloodSorcery],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.name] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -565,47 +576,47 @@ attributes[locale.disciplines.fortitude.name] = {
   },
 };
 attributes[locale.disciplines.fortitude.resilience] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.unswayableMind] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.toughness] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.enduringBeasts] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.valeren] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.defyBane] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.fortifyTheInnerFacade] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.draughtOfEndurance] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.fleshOfMarble] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.fortitude.prowessFromPain] = {
-  tags: [tags.Fortitude],
+  disciplines: [Discipline.Fortitude],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.name] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -615,55 +626,55 @@ attributes[locale.disciplines.protean.name] = {
   },
 };
 attributes[locale.disciplines.protean.eyesOfTheBeast] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.weightOfTheFeather] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.feralWeapons] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.vicissitude] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.earthMeld] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.shapechange] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.fleshcrafting] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.metamorphosis] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.horridForm] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.mistForm] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.theUnfetteredHeart] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.protean.oneWithTheLand] = {
-  tags: [tags.Protean],
+  disciplines: [Discipline.Protean],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.name] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -673,51 +684,51 @@ attributes[locale.disciplines.obfuscate.name] = {
   },
 };
 attributes[locale.disciplines.obfuscate.cloakOfShadows] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.silenceOfDeath] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.unseenPassage] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.chimerstry] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.ghostInTheMachine] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.maskOfAThousandFaces] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.fataMorgana] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.conceal] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.vanish] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.cloakTheGathering] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.obfuscate.impostorsGuise] = {
-  tags: [tags.Obfuscate],
+  disciplines: [Discipline.Obfuscate],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.name] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -727,43 +738,43 @@ attributes[locale.disciplines.potence.name] = {
   },
 };
 attributes[locale.disciplines.potence.lethalBody] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.soaringLeap] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.prowess] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.brutalFeed] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.sparkOfRage] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.uncannyGrip] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.draughtOfMight] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.earthshock] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.potence.fistOfCaine] = {
-  tags: [tags.Potence],
+  disciplines: [Discipline.Potence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.name] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -773,47 +784,47 @@ attributes[locale.disciplines.presence.name] = {
   },
 };
 attributes[locale.disciplines.presence.awe] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.daunt] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.eyesOfTheSerpent] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.lingeringKiss] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.dreadGaze] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.entrancement] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.irresistibleVoice] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.summon] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.majesty] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.presence.starMagnetism] = {
-  tags: [tags.Presence],
+  disciplines: [Discipline.Presence],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.name] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -823,43 +834,43 @@ attributes[locale.disciplines.celerity.name] = {
   },
 };
 attributes[locale.disciplines.celerity.catsGrace] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.rapidReflexes] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.fleetness] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.blink] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.traversal] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.draughtOfElegance] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.unerringAim] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.lightningStrike] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.celerity.splitSecond] = {
-  tags: [tags.Celerity],
+  disciplines: [Discipline.Celerity],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.name] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -869,119 +880,119 @@ attributes[locale.disciplines.rituals.name] = {
   },
 };
 attributes[locale.disciplines.rituals.bloodWalk] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.clingingOfTheInsect] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.craftBloodstone] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wakeWithEveningsFreshness] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardAgainstGhouls] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.communicateWithKindredSire] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.eyesOfBabel] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.illuminateTheTrailOfPrey] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.ishtarsTouch] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.truthOfBlood] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardAgainstSpirits] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardingCircleAgainstGhouls] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.dagonsCall] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.deflectionOfWoodenDoom] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.essenceOfAir] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.firewalker] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardAgainstLupines] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardingCircleAgainstSpirits] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.oneWithTheBlade] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.defenseOfTheSacredHaven] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.eyesOfTheNighthawk] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.incorporealPassage] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardAgainstCainites] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardingCircleAgainstLupines] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.escapeToTrueSanctuary] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.heartOfStone] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.shaftOfBelatedDissolution] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.rituals.wardingCircleAgainstCainites] = {
-  tags: [tags.Rituals],
+  disciplines: [Discipline.Rituals],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.thinBloodAlchemy.name] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Section,
   context: () => {
     return <DisciplineContext> {
@@ -991,30 +1002,30 @@ attributes[locale.disciplines.thinBloodAlchemy.name] = {
   },
 };
 attributes[locale.disciplines.thinBloodAlchemy.farReach] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.thinBloodAlchemy.haze] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.thinBloodAlchemy.defractionate] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.thinBloodAlchemy.airborneMomentum] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
 attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
-  tags: [tags.ThinBloodAlchemy],
+  disciplines: [Discipline.ThinBloodAlchemy],
   type: AttributeType.Checkbox,
 };
