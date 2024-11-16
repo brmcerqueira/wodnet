@@ -13,9 +13,9 @@
             "runtimeExecutable": "deno",
             "runtimeArgs": [
                 "run",
+                "--inspect-wait",
                 "--allow-all",
-                "--unstable",
-                "--inspect"
+                "--unstable"
             ],
             "attachSimplePort": 9229
         }
