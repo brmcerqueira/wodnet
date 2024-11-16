@@ -6,11 +6,14 @@ const character = "character";
 
 export async function get(id: string): Promise<Character> {
   const keys = [character, id];
-  let data = (await database.get<Character>(keys)).value;
 
-  if (data == null) {
-    data = {
-      hashCode: undefined,
+  const entry = await database.get<Character>(keys);
+
+  let result = entry.value;
+
+  if (result == null) {
+    result = {
+      versionstamp: null,
       id: id,
       details: "",
       image: "",
@@ -99,15 +102,17 @@ export async function get(id: string): Promise<Character> {
       flaws: {},
       disciplines: {},
     };
-
-    await database.set(keys, data);
   }
 
-  return data;
+  result.versionstamp = entry.versionstamp;
+
+  await database.set(keys, result);
+
+  return result;
 }
 
-export async function check(id: string, hashCode: number): Promise<boolean> {
-  return (await get(id)).hashCode != hashCode;
+export async function check(id: string, versionstamp: string): Promise<boolean> {
+  return true;
 }
 
 export async function search(term: string): Promise<Character[]> {

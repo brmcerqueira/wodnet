@@ -1,11 +1,11 @@
 declare const context: {
     id: string;
-    hashCode: number;
+    versionstamp: string;
     update: number;
 }
 
 setInterval(async () => {
-    const response = await fetch(`check?id=${context.id}&hash=${context.hashCode}`, {
+    const response = await fetch(`check?id=${context.id}&versionstamp=${context.versionstamp}`, {
         method: "GET"
     });
 

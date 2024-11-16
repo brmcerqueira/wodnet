@@ -95,7 +95,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
             <script>{`const context = ${JSON.stringify({
                 id,
                 update,
-                hashCode: character.hashCode
+                versionstamp: character.versionstamp
             })};`}</script>
             <script src="/scripts/characterScript.js" />
         </head>

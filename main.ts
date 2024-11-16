@@ -63,7 +63,7 @@ server.get("/discord",
 server.get("/check", res("json"),
   async (ctx: Context, next: NextFunc) => {
     ctx.res.body = {
-      update: check(ctx.extra.decodeId, parseInt(ctx.url.searchParams.get("hash")!)),
+      update: check(ctx.extra.decodeId, ctx.url.searchParams.get("versionstamp")!),
     };
     await next();
   }
