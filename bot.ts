@@ -30,6 +30,10 @@ const client = new Client({
   ],
 });
 
+function treatKey(key: string | number): string {
+  return key.toString().toLowerCase().replaceAll(/\s/g, "-");
+}
+
 client.on("ready", async () => {
   try {
     logger.info("Loading Wodbot...");
@@ -47,13 +51,13 @@ client.on("ready", async () => {
       if (!discordCommands.find((c) => c.name == name)) {
         const data = {
           type: 1,
-          name: name.toString().toLowerCase().replaceAll(/\s/g, "-"),
+          name: treatKey(name),
           description: command.description,
           options: command.options
             ? keys(command.options).map(key => {
               const option = command.options![key];
               return {
-                name: key,
+                name: treatKey(key),
                 description: option.description,
                 type: option.type,
                 required: option.required,

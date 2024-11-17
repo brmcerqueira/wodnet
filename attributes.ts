@@ -149,7 +149,7 @@ commands[locale.flaws] = { description: `${locale.commands.sheet.description} ${
       object: c.flaws,
     };
   },
-};
+};*/
 commands[locale.disciplines.animalism.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.name}`,
   disciplines: [Discipline.Animalism],
   type: undefined,
@@ -806,4 +806,3 @@ commands[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = { description: 
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
-*/
