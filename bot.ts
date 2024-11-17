@@ -11,9 +11,10 @@ import {
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
-import { keys } from "./utils.ts";
+import { keys, treatDiscipline } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
 import { CommandOptionType, commands } from "./roll/commands.ts";
+import { locale } from "./i18n/locale.ts";
 
 const keyCommands = keys(commands);
 
@@ -31,7 +32,11 @@ const client = new Client({
 });
 
 function treatKey(key: string | number): string {
-  return key.toString().toLowerCase().replaceAll(/\s/g, "-");
+  let data = treatDiscipline(key.toString()).name;
+  for (const key in locale.shortening) {
+    data = data.replaceAll(key, locale.shortening[key]);
+  }
+  return data.toLowerCase().replaceAll(/\s/g, "-");
 }
 
 client.on("ready", async () => {
@@ -43,7 +48,7 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
-    await cleanCommands(discordCommands);
+    await cleanCommands(discordCommands, "círculo-de-proteção-contra-carniçais");
 
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];
@@ -169,12 +174,16 @@ client.on("ready", async () => {
   }
 });
 
-async function cleanCommands(discordCommands: ApplicationCommandPayload[]) {
-  for (const command of discordCommands) {
-    await client.rest.endpoints.deleteGlobalApplicationCommand(
-      client.applicationID!, command.id);
+async function cleanCommands(discordCommands: ApplicationCommandPayload[], ...keys: string[]) {
+  for (let index = 0; index < discordCommands.length; index++) {
+    const command = discordCommands[index];
+    if (!keys || (keys && keys.indexOf(command.id) > -1)) {
+      await client.rest.endpoints.deleteGlobalApplicationCommand(
+        client.applicationID!, command.id);
+      discordCommands.splice(index, 1);
+      index--;
+    }
   }
-  discordCommands.length = 0;
 }
 
 export async function connect() {

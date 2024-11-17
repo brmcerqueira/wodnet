@@ -308,7 +308,7 @@ export const pt: LocaleType = {
     thinBloodAlchemy: {
       name: "Alquimia de Sangue-Ralo",
       farReach: "● Longo Alcance",
-      haze: "● Neblina",   
+      haze: "● Neblina",
       envelop: "●● Envolver",
       profaneHierosGamos: "●●● Hieros Gamos Profano",
       defractionate: "●●● Defracionar",
@@ -483,4 +483,7 @@ export const pt: LocaleType = {
     "(Resistido) Atividade oculta [Raciocínio + Percepção]",
     "Nadar [Vigor + Atletismo]",
   ],
+  shortening: {
+    "Círculo de Proteção Contra": "C P Contra"
+  }
 };

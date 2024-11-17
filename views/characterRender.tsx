@@ -2,7 +2,7 @@ import React, { TsxComplexElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
-import { keys } from "../utils.ts";
+import { keys, treatDiscipline } from "../utils.ts";
 
 const CircleFill: TsxComplexElement = <i class="bi bi-circle-fill" />
 const Circle: TsxComplexElement = <i class="bi bi-circle" />
@@ -14,14 +14,6 @@ const Square: TsxComplexElement = <i class="bi bi-square" />
 function treatDetails(text: string): string {
     const index = text.indexOf("[");
     return text.substring(0, index > -1 ? index : text.length);
-}
-
-function treatDiscipline(text: string): { name: string, value: number } {
-    const index = text.lastIndexOf("●") + 1;
-    return {
-        name: text.substring(index).trimStart(),
-        value: index
-    }
 }
 
 const Meter = (properties: { total: number, put: (index: number) => TsxComplexElement }): TsxComplexElement => {

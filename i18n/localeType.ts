@@ -13,6 +13,9 @@ export type LocaleType = {
   type: string;
   standard: string;
   character: string;
+  shortening: {
+    [key: string]: string
+  }
   specialties: {
     name: string;
     skill: string;
