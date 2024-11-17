@@ -314,6 +314,11 @@ export type LocaleType = {
       skillMental: CommandOption;
       discipline: CommandOption;
     };
+    sheet: {
+      name: string;
+      description: string;
+      attributeDescription: string;
+    };
     actions: {
       name: string;
       description: string;

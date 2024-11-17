@@ -7,20 +7,8 @@ import { setDifficultySolver } from "./solver/setDifficultySolver.ts";
 import { setModifierSolver } from "./solver/setModifierSolver.ts";
 import { dicePoolSolver } from "./solver/dicePoolSolver.ts";
 import { keys } from "../utils.ts";
-
-export enum CommandOptionType {
-  SUB_COMMAND = 1,
-  SUB_COMMAND_GROUP = 2,
-  STRING = 3,
-  INTEGER = 4,
-  BOOLEAN = 5,
-  USER = 6,
-  CHANNEL = 7,
-  ROLE = 8,
-  MENTIONABLE = 9,
-  NUMBER = 10,
-  ATTACHMENT = 11,
-}
+import { attributes, CommandOptionType } from "../attributes.ts";
+import value from "https://deno.land/x/jose@v5.1.3/util/runtime.ts";
 
 export type CommandChoice = {
   name: string;
@@ -31,11 +19,12 @@ export type CommandOption = {
   property: string;
   description: string;
   type: CommandOptionType;
-  required: boolean;
+  required?: boolean;
   minValue?: number;
   maxValue?: number;
   autocomplete?: boolean;
   choices?: CommandChoice[];
+  options?: CommandOptions;
 };
 
 export type CommandOptions = {
@@ -194,7 +183,7 @@ commands[locale.commands.dicePools.name] = {
     description: locale.commands.dicePools.discipline.description,
     type: CommandOptionType.STRING,
     required: false,
-    choices: keys(locale.disciplines).filter(key => key != "name").map((key) => {
+    choices: keys(locale.disciplines).filter(key => key != "name").map(key => {
       return {
         name: (locale.disciplines[key] as any).name,
         value: key,
@@ -214,3 +203,28 @@ commands[locale.commands.actions.name] = {
     autocomplete: true,
   }).build,
 };
+
+
+for (const key in attributes) {
+  const attribute = attributes[key];
+  if (attribute.type) {
+    commands[`${locale.commands.sheet.name}-${key.toLowerCase().replaceAll(/\s/g, "-")}`] = {
+      description: `${locale.commands.sheet.description} ${key}`,
+      solve: actionAutocompleteSolver,
+      options: option("value", {
+        property: "value",
+        description: "value desc",
+        type: attribute.type,
+        minValue: attribute.min,
+        maxValue: attribute.max,
+        choices: attribute.options?.map(value => {
+          return {
+            name: value,
+            value: value
+          };
+        }),
+        required: true
+      }).build,
+    };
+  }
+}

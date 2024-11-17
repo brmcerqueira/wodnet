@@ -406,13 +406,17 @@ export const pt: LocaleType = {
     },
     setCharacter: {
       name: "personagem",
-      description:
-        "O narrador escolhe o personagem corrente para ser usado na parada de dados",
+      description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
       character: {
         name: "nome",
         description: "Nome do personagem",
       },
     },
+    sheet: {
+      name: "ficha",
+      description: "Atualizar valores da ficha",
+      attributeDescription: "Campo a ser atualizado:"
+    }
   },
   actions: [
     "Ataque com os punhos [Força + Briga]",

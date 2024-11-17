@@ -13,7 +13,8 @@ import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
-import { CommandOptionType, commands } from "./roll/commands.ts";
+import { commands } from "./roll/commands.ts";
+import { CommandOptionType } from "./attributes.ts";
 
 const keyCommands = keys(commands);
 
@@ -39,32 +40,36 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
+    await cleanCommands(discordCommands);
+
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];
       const command = commands[name];
       if (!discordCommands.find((c) => c.name == name)) {
+        const data = {
+          type: 1,
+          name: name,
+          description: command.description,
+          options: command.options
+            ? keys(command.options).map((key) => {
+              const option = command.options![key];
+              return {
+                name: key,
+                description: option.description,
+                type: option.type,
+                required: option.required,
+                min_value: option.minValue,
+                max_value: option.maxValue,
+                autocomplete: option.autocomplete,
+                choices: option.choices,
+              };
+            })
+            : undefined,
+        };
+        logger.info("Command %v", JSON.stringify(data));
         await client.rest.endpoints.createGlobalApplicationCommand(
           client.applicationID!,
-          {
-            type: 1,
-            name: name,
-            description: command.description,
-            options: command.options
-              ? keys(command.options).map((key) => {
-                const option = command.options![key];
-                return {
-                  name: key,
-                  description: option.description,
-                  type: option.type,
-                  required: option.required,
-                  min_value: option.minValue,
-                  max_value: option.maxValue,
-                  autocomplete: option.autocomplete,
-                  choices: option.choices,
-                };
-              })
-              : undefined,
-          },
+          data
         );
       }
     }
@@ -160,6 +165,14 @@ client.on("ready", async () => {
     logger.error(error);
   }
 });
+
+async function cleanCommands(discordCommands: ApplicationCommandPayload[]) {
+  for (const command of discordCommands) {
+    await client.rest.endpoints.deleteGlobalApplicationCommand(
+      client.applicationID!, command.id);
+  }
+  discordCommands.length = 0;
+}
 
 export async function connect() {
   if (client.upSince == undefined) {
