@@ -13,7 +13,7 @@ import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
 import { keys, treatDiscipline } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
-import { CommandOptionType, commands } from "./roll/commands.ts";
+import { CommandOption, CommandOptions, CommandOptionType, commands } from "./roll/commands.ts";
 import { locale } from "./i18n/locale.ts";
 
 const keyCommands = keys(commands);
@@ -48,7 +48,7 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
-    await cleanCommands(discordCommands, "círculo-de-proteção-contra-carniçais");
+    //await cleanCommands(discordCommands, "vantagens", "defeitos");
 
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];
@@ -59,21 +59,7 @@ client.on("ready", async () => {
           type: 1,
           name: treatName,
           description: command.description,
-          options: command.options
-            ? keys(command.options).map(key => {
-              const option = command.options![key];
-              return {
-                name: treatKey(key),
-                description: option.description,
-                type: option.type,
-                required: option.required,
-                min_value: option.minValue,
-                max_value: option.maxValue,
-                autocomplete: option.autocomplete,
-                choices: option.choices,
-              };
-            })
-            : undefined,
+          options: transformOptions(command.options)
         };
         logger.info("Command %v", JSON.stringify(data));
         await client.rest.endpoints.createGlobalApplicationCommand(
@@ -174,6 +160,23 @@ client.on("ready", async () => {
     logger.error(error);
   }
 });
+
+function transformOptions(options?: CommandOptions): any[] | undefined {
+  return options ? keys(options).map(key => {
+      const option = options![key];
+      return {
+        name: treatKey(key),
+        description: option.description,
+        type: option.type,
+        required: option.required,
+        min_value: option.minValue,
+        max_value: option.maxValue,
+        autocomplete: option.autocomplete,
+        choices: option.choices,
+        options: transformOptions(option.options)
+      };
+    }) : undefined;
+}
 
 async function cleanCommands(discordCommands: ApplicationCommandPayload[], ...keys: string[]) {
   for (let index = 0; index < discordCommands.length; index++) {

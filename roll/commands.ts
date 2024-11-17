@@ -11,6 +11,7 @@ import { buildCharacterFieldSolver } from "./solver/buildCharacterFieldSolver.ts
 import { buildCharacterDamageSolver } from "./solver/buildCharacterDamageSolver.ts";
 import { experienceSolver } from "./solver/experienceSolver.ts";
 import { buildCharacterDisciplineSolver } from "./solver/buildCharacterDisciplineSolver.ts";
+import { buildCharacterAdvantageFlawSolver } from "./solver/buildCharacterAdvantageFlawSolver.ts";
 
 export enum CommandOptionType {
   SUB_COMMAND = 1,
@@ -87,7 +88,7 @@ function buildChoices<T extends object>(o: T): CommandChoice[] {
   });
 }
 
-const value = locale.commands.sheet.value;
+const value = locale.commands.sheet.value.name;
 const property = "value";
 
 function buildIntegerOptions(
@@ -96,7 +97,7 @@ function buildIntegerOptions(
 ): CommandOptions {
   return option(value, {
     property: property,
-    description: locale.commands.sheet.valueDescription,
+    description: locale.commands.sheet.value.description,
     type: CommandOptionType.INTEGER,
     required: true,
     minValue,
@@ -104,10 +105,50 @@ function buildIntegerOptions(
   }).build;
 }
 
+function buildAdvantageFlawOptions(): CommandOptions {
+  return option(locale.commands.sheet.create.name, {
+    property: "create",
+    description: locale.commands.sheet.create.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.sheet.name.name, {
+      property: "name",
+      description: locale.commands.sheet.name.description,
+      type: CommandOptionType.STRING,
+      required: true
+    }).option(value, {
+      property: property,
+      description: locale.commands.sheet.value.description,
+      type: CommandOptionType.INTEGER,
+      required: true,
+      minValue: 1,
+      maxValue: 5
+    }).build
+  }).option(locale.commands.sheet.edit.name, {
+    property: "edit",
+    description: locale.commands.sheet.edit.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.sheet.index.name, {
+      property: "index",
+      description: locale.commands.sheet.index.description,
+      type: CommandOptionType.INTEGER,
+      required: true,
+      minValue: 1,
+      maxValue: 99
+    }).option(value, {
+      property: property,
+      description: locale.commands.sheet.value.description,
+      type: CommandOptionType.INTEGER,
+      required: true,
+      minValue: 0,
+      maxValue: 5
+    }).build
+  }).build;
+}
+
 function buildChoicesOptions(choices: string[]): CommandOptions {
   return option(value, {
     property: property,
-    description: locale.commands.sheet.valueDescription,
+    description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
     choices: choices.map((item) => {
@@ -260,7 +301,7 @@ commands[locale.player] = {
   description: `${locale.commands.sheet.description} ${locale.player}`,
   options: option(value, {
     property: property,
-    description: locale.commands.sheet.valueDescription,
+    description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
   }).build,
@@ -275,7 +316,7 @@ commands[locale.ambition] = {
   description: `${locale.commands.sheet.description} ${locale.ambition}`,
   options: option(value, {
     property: property,
-    description: locale.commands.sheet.valueDescription,
+    description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
   }).build,
@@ -285,7 +326,7 @@ commands[locale.desire] = {
   description: `${locale.commands.sheet.description} ${locale.desire}`,
   options: option(value, {
     property: property,
-    description: locale.commands.sheet.valueDescription,
+    description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
   }).build,
@@ -310,7 +351,7 @@ commands[locale.details] = {
   description: `${locale.commands.sheet.description} ${locale.details}`,
   options: option(value, {
     property: property,
-    description: locale.commands.sheet.valueDescription,
+    description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
   }).build,
@@ -679,6 +720,18 @@ commands[locale.skills.mental.technology] = {
   solve: buildCharacterFieldSolver((c, _o, v: number) =>
     c.skills.mental.technology = v
   ),
+};
+
+commands[locale.advantages] = { 
+  description: `${locale.commands.sheet.description} ${locale.advantages}`,
+  solve: buildCharacterAdvantageFlawSolver(c => c.advantages),
+  options: buildAdvantageFlawOptions()
+};
+
+commands[locale.flaws] = { 
+  description: `${locale.commands.sheet.description} ${locale.flaws}`,
+  solve: buildCharacterAdvantageFlawSolver(c => c.flaws),
+  options: buildAdvantageFlawOptions()
 };
 
 commands[locale.disciplines.animalism.name] = {

@@ -293,7 +293,7 @@ export const pt: LocaleType = {
       essenceOfAir: "●●● Essência do Ar",
       firewalker: "●●● Andarilho do Fogo",
       wardAgainstLupines: "●●● Proteção Contra Lupinos",
-      wardingCircleAgainstSpirits: "●●● Círculo de Proteção contra Espíritos",
+      wardingCircleAgainstSpirits: "●●● Círculo de Proteção Contra Espíritos",
       oneWithTheBlade: "●●● Um com a Lâmina",
       defenseOfTheSacredHaven: "●●●● Defesa do Refúgio Sagrado",
       eyesOfTheNighthawk: "●●●● Olhos do Falcão Noturno",
@@ -413,10 +413,27 @@ export const pt: LocaleType = {
       },
     },
     sheet: {
-      name: "ficha",
       description: "Atualizar valor do campo:",
-      value: "valor",
-      valueDescription: "Valor",
+      create: {
+        name: "criar",
+        description: "Criar"
+      },
+      edit: {
+        name: "editar",
+        description: "Editar"
+      },
+      name: {
+        name: "nome",
+        description: "Nome"
+      },
+      index: {
+        name: "índice",
+        description: "Índice"
+      },
+      value: {
+        name: "valor",
+        description: "Valor"
+      }
     }
   },
   actions: [
@@ -484,6 +501,6 @@ export const pt: LocaleType = {
     "Nadar [Vigor + Atletismo]",
   ],
   shortening: {
-    "Círculo de Proteção Contra": "C P Contra"
+    "Círculo de Proteção Contra": "CP Contra"
   }
 };

@@ -7,6 +7,7 @@ type CommandOption = {
   name: string;
   description: string;
 };
+
 export type LocaleType = {
   app: string;
   value: string;
@@ -300,49 +301,39 @@ export type LocaleType = {
   modifier: string;
   commands: {
     roll: {
-      name: string;
-      description: string;
       dices: CommandOption;
       hunger: CommandOption;
       difficulty: CommandOption;
       descriptionField: CommandOption;
-    };
+    } & CommandOption;
     dicePools: {
-      name: string;
-      description: string;
       attribute: CommandOption;
       secondaryAttribute: CommandOption;
       skillPhysical: CommandOption;
       skillSocial: CommandOption;
       skillMental: CommandOption;
       discipline: CommandOption;
-    };
+    } & CommandOption;
     sheet: {
-      name: string;
       description: string;
-      value: string;
-      valueDescription: string;
+      create: CommandOption;
+      edit: CommandOption;
+      name: CommandOption;
+      index: CommandOption;
+      value: CommandOption;
     };
     actions: {
-      name: string;
-      description: string;
       action: CommandOption;
-    };
+    } & CommandOption;
     setDifficulty: {
-      name: string;
-      description: string;
       difficulty: CommandOption;
-    };
+    } & CommandOption;
     setModifier: {
-      name: string;
-      description: string;
       modifier: CommandOption;
-    };
+    } & CommandOption;
     setCharacter: {
-      name: string;
-      description: string;
       character: CommandOption;
-    };
+    } & CommandOption;
   };
   actions: string[];
 };

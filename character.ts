@@ -4,6 +4,10 @@ export type Damage = {
   penalty: number;
 };
 
+export type AdvantageFlaw = {
+  [name: string]: number
+}
+
 export type Character = {
   versionstamp: string | null;
   id: string;
@@ -84,12 +88,8 @@ export type Character = {
   specialties: {
     [skill: string]: string[]
   };
-  advantages: {
-    [name: string]: number
-  };
-  flaws: {
-    [name: string]: number
-  };
+  advantages: AdvantageFlaw;
+  flaws: AdvantageFlaw;
   disciplines: {
     animalism?: string[];
     auspex?: string[];
