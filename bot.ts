@@ -13,8 +13,7 @@ import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
-import { commands } from "./roll/commands.ts";
-import { CommandOptionType } from "./attributes.ts";
+import { CommandOptionType, commands } from "./roll/commands.ts";
 
 const keyCommands = keys(commands);
 
@@ -48,10 +47,10 @@ client.on("ready", async () => {
       if (!discordCommands.find((c) => c.name == name)) {
         const data = {
           type: 1,
-          name: name,
+          name: name.toString().toLowerCase().replaceAll(/\s/g, "-"),
           description: command.description,
           options: command.options
-            ? keys(command.options).map((key) => {
+            ? keys(command.options).map(key => {
               const option = command.options![key];
               return {
                 name: key,

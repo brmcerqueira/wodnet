@@ -317,7 +317,8 @@ export type LocaleType = {
     sheet: {
       name: string;
       description: string;
-      attributeDescription: string;
+      value: string;
+      valueDescription: string;
     };
     actions: {
       name: string;

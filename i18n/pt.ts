@@ -414,8 +414,9 @@ export const pt: LocaleType = {
     },
     sheet: {
       name: "ficha",
-      description: "Atualizar valores da ficha",
-      attributeDescription: "Campo a ser atualizado:"
+      description: "Atualizar valor do campo:",
+      value: "valor",
+      valueDescription: "Valor",
     }
   },
   actions: [

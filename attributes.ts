@@ -1,16 +1,12 @@
-import { Character } from "./character.ts";
+/*import { Character } from "./character.ts";
+import { Interaction } from "./deps.ts";
 import { locale } from "./i18n/locale.ts";
+import { CommandOptions, option, Solve } from "./roll/commands.ts";
 
-export const healthSuperficialLabel =
-  `${locale.health} - ${locale.damage.superficial}`;
-export const healthAggravatedLabel =
-  `${locale.health} - ${locale.damage.aggravated}`;
-export const willpowerSuperficialLabel =
-  `${locale.willpower} - ${locale.damage.superficial}`;
-export const willpowerAggravatedLabel =
-  `${locale.willpower} - ${locale.damage.aggravated}`;
-export const experienceTotalLabel =
-  `${locale.experience.name} - ${locale.experience.total}`;
+type CommandChoice = {
+  name: string;
+  value: any;
+};
 
 export enum Discipline {
   Animalism,
@@ -27,7 +23,7 @@ export enum Discipline {
   ThinBloodAlchemy,
 }
 
-export enum CommandOptionType {
+enum CommandOptionType {
   SUB_COMMAND = 1,
   SUB_COMMAND_GROUP = 2,
   STRING = 3,
@@ -49,11 +45,10 @@ export type Attribute = {
     context?: any,
   ) => void;
   context?: (character: Character) => any;
-  value?: string;
   type?: CommandOptionType;
-  options?: string[];
-  min?: number;
-  max?: number;
+  choices?: CommandChoice[];
+  minValue?: number;
+  maxValue?: number;
   disciplines?: Discipline[];
 };
 
@@ -73,14 +68,17 @@ type DisciplineContext = {
   key: DisciplineKeyType;
 } & Context;
 
-export const attributes: {
-  [name: string]: Attribute;
+const commands: {
+  [name: string]: {
+    description: string;
+    solve: (interaction: Interaction, values?: any) => Promise<void>;
+    options: CommandOptions;
+  };
 } = {};
 
 const advantageFlawAttributeParse: Attribute = {
-  parse: (_c, o, v: number, context: AdvantageFlawContext) =>
+  solve: (_c, o, v: number, context: AdvantageFlawContext) =>
     context.object[o] = v,
-  type: CommandOptionType.INTEGER,
 };
 
 const disciplineAttributeParse: Attribute = {
@@ -106,320 +104,9 @@ const disciplineAttributeParse: Attribute = {
   type: CommandOptionType.BOOLEAN,
 };
 
-attributes[locale.player] = {
-  parse: (c, _o, v: string) => c.player = v,
-};
-attributes[locale.resonance.name] = {
-  parse: (c, _o, v: string) => c.resonance = v,
-  options: locale.resonance.options,
-};
-attributes[locale.ambition] = {
-  parse: (c, _o, v: string) => c.ambition = v,
-};
-attributes[locale.desire] = {
-  parse: (c, _o, v: string) => c.desire = v,
-};
-attributes[locale.predator.name] = {
-  parse: (c, _o, v: string) => c.predator = v,
-  options: locale.predator.options,
-};
-attributes[locale.clan.name] = {
-  parse: (c, _o, v: string) => c.clan = v,
-  options: locale.clan.options,
-};
-attributes[locale.generation.name] = {
-  min: 4,
-  max: 16,
-  parse: (c, _o, v: number) => c.generation = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.details] = {
-  parse: (c, _o, v: string) => c.details = v,
-  type: CommandOptionType.STRING,
-};
-attributes[locale.bloodPotency] = {
-  min: 0,
-  max: 10,
-  parse: (c, _o, v: number) => c.bloodPotency = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.hunger] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.hunger = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.humanity] = {
-  min: 0,
-  max: 10,
-  parse: (c, _o, v: number) => c.humanity.total = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.stains] = {
-  min: 0,
-  max: 10,
-  parse: (c, _o, v: number) => c.humanity.stains = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[healthSuperficialLabel] = {
-  parse: (c, _o, v: number) => c.health.superficial = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[healthAggravatedLabel] = {
-  parse: (c, _o, v: number) => c.health.aggravated = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[willpowerSuperficialLabel] = {
-  parse: (c, _o, v: number) => c.willpower.superficial = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[willpowerAggravatedLabel] = {
-  parse: (c, _o, v: number) => c.willpower.aggravated = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[experienceTotalLabel] = {
-  parse: (c, _o, v: number) => c.experience.total = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[`${locale.experience.name} - ${locale.experience.spent}`] = {
-  parse: (c, _o, v: number) => c.experience.spent = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[`${locale.attributes.name} - ${locale.physical}`] = {
-  type: undefined,
-};
-attributes[locale.attributes.physical.strength] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.physical.strength = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.attributes.physical.dexterity] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.physical.dexterity = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.attributes.physical.stamina] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.physical.stamina = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[`${locale.attributes.name} - ${locale.social}`] = {
-  type: undefined,
-};
-attributes[locale.attributes.social.charisma] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.social.charisma = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.attributes.social.manipulation] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.social.manipulation = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.attributes.social.composure] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.social.composure = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[`${locale.attributes.name} - ${locale.mental}`] = {
-  type: undefined,
-};
-attributes[locale.attributes.mental.intelligence] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.mental.intelligence = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.attributes.mental.wits] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.mental.wits = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.attributes.mental.resolve] = {
-  min: 1,
-  max: 5,
-  parse: (c, _o, v: number) => c.attributes.mental.resolve = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[`${locale.skills.name} - ${locale.physical}`] = {
-  type: undefined,
-};
-attributes[locale.skills.physical.melee] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.melee = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.firearms] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.firearms = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.athletics] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.athletics = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.brawl] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.brawl = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.drive] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.drive = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.stealth] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.stealth = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.larceny] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.larceny = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.craft] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.craft = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.physical.survival] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.physical.survival = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[`${locale.skills.name} - ${locale.social}`] = {
-  type: undefined,
-};
-attributes[locale.skills.social.animalKen] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.animalKen = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.etiquette] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.etiquette = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.intimidation] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.intimidation = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.leadership] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.leadership = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.streetwise] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.streetwise = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.performance] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.performance = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.persuasion] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.persuasion = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.insight] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.insight = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.social.subterfuge] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.social.subterfuge = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[`${locale.skills.name} - ${locale.mental}`] = {
-  type: undefined,
-};
-attributes[locale.skills.mental.science] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.science = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.academics] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.academics = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.finance] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.finance = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.investigation] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.investigation = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.medicine] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.medicine = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.occult] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.occult = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.awareness] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.awareness = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.politics] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.politics = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.skills.mental.technology] = {
-  min: 0,
-  max: 5,
-  parse: (c, _o, v: number) => c.skills.mental.technology = v,
-  type: CommandOptionType.INTEGER,
-};
-attributes[locale.specialties.name] = {
+
+
+commands[locale.specialties.name] = { description: `${locale.commands.sheet.description} ${locale.specialties.name}`,
   type: undefined,
   context: (c) => {
     for (const key in c.specialties) {
@@ -427,7 +114,7 @@ attributes[locale.specialties.name] = {
     }
     return <Context> {
       generic: {
-        parse: (c: Character, o: string, v: string) => {
+        solve: buildSolve((c: Character, o: string, v: string) => {
           if (c.specialties[v] == undefined) {
             c.specialties[v] = [];
           }
@@ -439,7 +126,7 @@ attributes[locale.specialties.name] = {
     };
   },
 };
-attributes[locale.advantages] = {
+commands[locale.advantages] = { description: `${locale.commands.sheet.description} ${locale.advantages}`,
   type: undefined,
   context: (c) => {
     for (const key in c.advantages) {
@@ -451,7 +138,7 @@ attributes[locale.advantages] = {
     };
   },
 };
-attributes[locale.flaws] = {
+commands[locale.flaws] = { description: `${locale.commands.sheet.description} ${locale.flaws}`,
   type: undefined,
   context: (c) => {
     for (const key in c.flaws) {
@@ -463,7 +150,7 @@ attributes[locale.flaws] = {
     };
   },
 };
-attributes[locale.disciplines.animalism.name] = {
+commands[locale.disciplines.animalism.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.name}`,
   disciplines: [Discipline.Animalism],
   type: undefined,
   context: () => {
@@ -473,43 +160,43 @@ attributes[locale.disciplines.animalism.name] = {
     };
   },
 };
-attributes[locale.disciplines.animalism.bondFamulus] = {
+commands[locale.disciplines.animalism.bondFamulus] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.bondFamulus}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.senseTheBeast] = {
+commands[locale.disciplines.animalism.senseTheBeast] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.senseTheBeast}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.feralWhispers] = {
+commands[locale.disciplines.animalism.feralWhispers] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.feralWhispers}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.animalSucculence] = {
+commands[locale.disciplines.animalism.animalSucculence] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.animalSucculence}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.quellTheBeast] = {
+commands[locale.disciplines.animalism.quellTheBeast] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.quellTheBeast}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.unlivingHive] = {
+commands[locale.disciplines.animalism.unlivingHive] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.unlivingHive}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.subsumeTheSpirit] = {
+commands[locale.disciplines.animalism.subsumeTheSpirit] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.subsumeTheSpirit}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.animalDominion] = {
+commands[locale.disciplines.animalism.animalDominion] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.animalDominion}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.animalism.drawingOutTheBeast] = {
+commands[locale.disciplines.animalism.drawingOutTheBeast] = { description: `${locale.commands.sheet.description} ${locale.disciplines.animalism.drawingOutTheBeast}`,
   disciplines: [Discipline.Animalism],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.name] = {
+commands[locale.disciplines.auspex.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.name}`,
   disciplines: [Discipline.Auspex],
   type: undefined,
   context: () => {
@@ -519,51 +206,51 @@ attributes[locale.disciplines.auspex.name] = {
     };
   },
 };
-attributes[locale.disciplines.auspex.heightenedSenses] = {
+commands[locale.disciplines.auspex.heightenedSenses] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.heightenedSenses}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.senseTheUnseen] = {
+commands[locale.disciplines.auspex.senseTheUnseen] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.senseTheUnseen}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.obeah] = {
+commands[locale.disciplines.auspex.obeah] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.obeah}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.premonition] = {
+commands[locale.disciplines.auspex.premonition] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.premonition}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.scryTheSoul] = {
+commands[locale.disciplines.auspex.scryTheSoul] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.scryTheSoul}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.shareTheSenses] = {
+commands[locale.disciplines.auspex.shareTheSenses] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.shareTheSenses}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.spiritsTouch] = {
+commands[locale.disciplines.auspex.spiritsTouch] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.spiritsTouch}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.clairvoyance] = {
+commands[locale.disciplines.auspex.clairvoyance] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.clairvoyance}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.possession] = {
+commands[locale.disciplines.auspex.possession] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.possession}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.telepathy] = {
+commands[locale.disciplines.auspex.telepathy] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.telepathy}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.auspex.unburdeningTheBestialSoul] = {
+commands[locale.disciplines.auspex.unburdeningTheBestialSoul] = { description: `${locale.commands.sheet.description} ${locale.disciplines.auspex.unburdeningTheBestialSoul}`,
   disciplines: [Discipline.Auspex],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.name] = {
+commands[locale.disciplines.dominate.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.name}`,
   disciplines: [Discipline.Dominate],
   type: undefined,
   context: () => {
@@ -573,47 +260,47 @@ attributes[locale.disciplines.dominate.name] = {
     };
   },
 };
-attributes[locale.disciplines.dominate.cloudMemory] = {
+commands[locale.disciplines.dominate.cloudMemory] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.cloudMemory}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.compel] = {
+commands[locale.disciplines.dominate.compel] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.compel}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.mesmerize] = {
+commands[locale.disciplines.dominate.mesmerize] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.mesmerize}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.dementation] = {
+commands[locale.disciplines.dominate.dementation] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.dementation}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.domitorsFavor] = {
+commands[locale.disciplines.dominate.domitorsFavor] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.domitorsFavor}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.theForgetfulMind] = {
+commands[locale.disciplines.dominate.theForgetfulMind] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.theForgetfulMind}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.submergedDirective] = {
+commands[locale.disciplines.dominate.submergedDirective] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.submergedDirective}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.rationalize] = {
+commands[locale.disciplines.dominate.rationalize] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.rationalize}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.massManipulation] = {
+commands[locale.disciplines.dominate.massManipulation] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.massManipulation}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.dominate.terminalDecree] = {
+commands[locale.disciplines.dominate.terminalDecree] = { description: `${locale.commands.sheet.description} ${locale.disciplines.dominate.terminalDecree}`,
   disciplines: [Discipline.Dominate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.name] = {
+commands[locale.disciplines.bloodSorcery.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.name}`,
   disciplines: [Discipline.BloodSorcery],
   type: undefined,
   context: () => {
@@ -623,39 +310,39 @@ attributes[locale.disciplines.bloodSorcery.name] = {
     };
   },
 };
-attributes[locale.disciplines.bloodSorcery.corrosiveVitae] = {
+commands[locale.disciplines.bloodSorcery.corrosiveVitae] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.corrosiveVitae}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.aTasteForBlood] = {
+commands[locale.disciplines.bloodSorcery.aTasteForBlood] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.aTasteForBlood}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.extinguishVitae] = {
+commands[locale.disciplines.bloodSorcery.extinguishVitae] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.extinguishVitae}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.bloodOfPotency] = {
+commands[locale.disciplines.bloodSorcery.bloodOfPotency] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.bloodOfPotency}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.scorpionsTouch] = {
+commands[locale.disciplines.bloodSorcery.scorpionsTouch] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.scorpionsTouch}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.theftOfVitae] = {
+commands[locale.disciplines.bloodSorcery.theftOfVitae] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.theftOfVitae}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.baalsCaress] = {
+commands[locale.disciplines.bloodSorcery.baalsCaress] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.baalsCaress}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.bloodSorcery.cauldronOfBlood] = {
+commands[locale.disciplines.bloodSorcery.cauldronOfBlood] = { description: `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.cauldronOfBlood}`,
   disciplines: [Discipline.BloodSorcery],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.name] = {
+commands[locale.disciplines.fortitude.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.name}`,
   disciplines: [Discipline.Fortitude],
   type: undefined,
   context: () => {
@@ -665,47 +352,47 @@ attributes[locale.disciplines.fortitude.name] = {
     };
   },
 };
-attributes[locale.disciplines.fortitude.resilience] = {
+commands[locale.disciplines.fortitude.resilience] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.resilience}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.unswayableMind] = {
+commands[locale.disciplines.fortitude.unswayableMind] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.unswayableMind}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.toughness] = {
+commands[locale.disciplines.fortitude.toughness] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.toughness}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.enduringBeasts] = {
+commands[locale.disciplines.fortitude.enduringBeasts] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.enduringBeasts}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.valeren] = {
+commands[locale.disciplines.fortitude.valeren] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.valeren}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.defyBane] = {
+commands[locale.disciplines.fortitude.defyBane] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.defyBane}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.fortifyTheInnerFacade] = {
+commands[locale.disciplines.fortitude.fortifyTheInnerFacade] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.fortifyTheInnerFacade}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.draughtOfEndurance] = {
+commands[locale.disciplines.fortitude.draughtOfEndurance] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.draughtOfEndurance}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.fleshOfMarble] = {
+commands[locale.disciplines.fortitude.fleshOfMarble] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.fleshOfMarble}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.fortitude.prowessFromPain] = {
+commands[locale.disciplines.fortitude.prowessFromPain] = { description: `${locale.commands.sheet.description} ${locale.disciplines.fortitude.prowessFromPain}`,
   disciplines: [Discipline.Fortitude],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.name] = {
+commands[locale.disciplines.protean.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.name}`,
   disciplines: [Discipline.Protean],
   type: undefined,
   context: () => {
@@ -715,55 +402,55 @@ attributes[locale.disciplines.protean.name] = {
     };
   },
 };
-attributes[locale.disciplines.protean.eyesOfTheBeast] = {
+commands[locale.disciplines.protean.eyesOfTheBeast] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.eyesOfTheBeast}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.weightOfTheFeather] = {
+commands[locale.disciplines.protean.weightOfTheFeather] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.weightOfTheFeather}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.feralWeapons] = {
+commands[locale.disciplines.protean.feralWeapons] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.feralWeapons}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.vicissitude] = {
+commands[locale.disciplines.protean.vicissitude] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.vicissitude}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.earthMeld] = {
+commands[locale.disciplines.protean.earthMeld] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.earthMeld}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.shapechange] = {
+commands[locale.disciplines.protean.shapechange] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.shapechange}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.fleshcrafting] = {
+commands[locale.disciplines.protean.fleshcrafting] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.fleshcrafting}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.metamorphosis] = {
+commands[locale.disciplines.protean.metamorphosis] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.metamorphosis}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.horridForm] = {
+commands[locale.disciplines.protean.horridForm] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.horridForm}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.mistForm] = {
+commands[locale.disciplines.protean.mistForm] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.mistForm}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.theUnfetteredHeart] = {
+commands[locale.disciplines.protean.theUnfetteredHeart] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.theUnfetteredHeart}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.protean.oneWithTheLand] = {
+commands[locale.disciplines.protean.oneWithTheLand] = { description: `${locale.commands.sheet.description} ${locale.disciplines.protean.oneWithTheLand}`,
   disciplines: [Discipline.Protean],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.name] = {
+commands[locale.disciplines.obfuscate.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.name}`,
   disciplines: [Discipline.Obfuscate],
   type: undefined,
   context: () => {
@@ -773,51 +460,51 @@ attributes[locale.disciplines.obfuscate.name] = {
     };
   },
 };
-attributes[locale.disciplines.obfuscate.cloakOfShadows] = {
+commands[locale.disciplines.obfuscate.cloakOfShadows] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.cloakOfShadows}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.silenceOfDeath] = {
+commands[locale.disciplines.obfuscate.silenceOfDeath] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.silenceOfDeath}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.unseenPassage] = {
+commands[locale.disciplines.obfuscate.unseenPassage] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.unseenPassage}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.chimerstry] = {
+commands[locale.disciplines.obfuscate.chimerstry] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.chimerstry}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.ghostInTheMachine] = {
+commands[locale.disciplines.obfuscate.ghostInTheMachine] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.ghostInTheMachine}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.maskOfAThousandFaces] = {
+commands[locale.disciplines.obfuscate.maskOfAThousandFaces] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.maskOfAThousandFaces}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.fataMorgana] = {
+commands[locale.disciplines.obfuscate.fataMorgana] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.fataMorgana}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.conceal] = {
+commands[locale.disciplines.obfuscate.conceal] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.conceal}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.vanish] = {
+commands[locale.disciplines.obfuscate.vanish] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.vanish}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.cloakTheGathering] = {
+commands[locale.disciplines.obfuscate.cloakTheGathering] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.cloakTheGathering}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.obfuscate.impostorsGuise] = {
+commands[locale.disciplines.obfuscate.impostorsGuise] = { description: `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.impostorsGuise}`,
   disciplines: [Discipline.Obfuscate],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.name] = {
+commands[locale.disciplines.potence.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.name}`,
   disciplines: [Discipline.Potence],
   type: undefined,
   context: () => {
@@ -827,43 +514,43 @@ attributes[locale.disciplines.potence.name] = {
     };
   },
 };
-attributes[locale.disciplines.potence.lethalBody] = {
+commands[locale.disciplines.potence.lethalBody] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.lethalBody}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.soaringLeap] = {
+commands[locale.disciplines.potence.soaringLeap] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.soaringLeap}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.prowess] = {
+commands[locale.disciplines.potence.prowess] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.prowess}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.brutalFeed] = {
+commands[locale.disciplines.potence.brutalFeed] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.brutalFeed}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.sparkOfRage] = {
+commands[locale.disciplines.potence.sparkOfRage] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.sparkOfRage}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.uncannyGrip] = {
+commands[locale.disciplines.potence.uncannyGrip] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.uncannyGrip}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.draughtOfMight] = {
+commands[locale.disciplines.potence.draughtOfMight] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.draughtOfMight}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.earthshock] = {
+commands[locale.disciplines.potence.earthshock] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.earthshock}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.potence.fistOfCaine] = {
+commands[locale.disciplines.potence.fistOfCaine] = { description: `${locale.commands.sheet.description} ${locale.disciplines.potence.fistOfCaine}`,
   disciplines: [Discipline.Potence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.name] = {
+commands[locale.disciplines.presence.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.name}`,
   disciplines: [Discipline.Presence],
   type: undefined,
   context: () => {
@@ -873,47 +560,47 @@ attributes[locale.disciplines.presence.name] = {
     };
   },
 };
-attributes[locale.disciplines.presence.awe] = {
+commands[locale.disciplines.presence.awe] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.awe}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.daunt] = {
+commands[locale.disciplines.presence.daunt] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.daunt}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.eyesOfTheSerpent] = {
+commands[locale.disciplines.presence.eyesOfTheSerpent] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.eyesOfTheSerpent}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.lingeringKiss] = {
+commands[locale.disciplines.presence.lingeringKiss] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.lingeringKiss}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.dreadGaze] = {
+commands[locale.disciplines.presence.dreadGaze] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.dreadGaze}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.entrancement] = {
+commands[locale.disciplines.presence.entrancement] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.entrancement}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.irresistibleVoice] = {
+commands[locale.disciplines.presence.irresistibleVoice] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.irresistibleVoice}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.summon] = {
+commands[locale.disciplines.presence.summon] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.summon}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.majesty] = {
+commands[locale.disciplines.presence.majesty] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.majesty}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.presence.starMagnetism] = {
+commands[locale.disciplines.presence.starMagnetism] = { description: `${locale.commands.sheet.description} ${locale.disciplines.presence.starMagnetism}`,
   disciplines: [Discipline.Presence],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.name] = {
+commands[locale.disciplines.celerity.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.name}`,
   disciplines: [Discipline.Celerity],
   type: undefined,
   context: () => {
@@ -923,43 +610,43 @@ attributes[locale.disciplines.celerity.name] = {
     };
   },
 };
-attributes[locale.disciplines.celerity.catsGrace] = {
+commands[locale.disciplines.celerity.catsGrace] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.catsGrace}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.rapidReflexes] = {
+commands[locale.disciplines.celerity.rapidReflexes] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.rapidReflexes}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.fleetness] = {
+commands[locale.disciplines.celerity.fleetness] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.fleetness}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.blink] = {
+commands[locale.disciplines.celerity.blink] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.blink}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.traversal] = {
+commands[locale.disciplines.celerity.traversal] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.traversal}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.draughtOfElegance] = {
+commands[locale.disciplines.celerity.draughtOfElegance] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.draughtOfElegance}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.unerringAim] = {
+commands[locale.disciplines.celerity.unerringAim] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.unerringAim}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.lightningStrike] = {
+commands[locale.disciplines.celerity.lightningStrike] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.lightningStrike}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.celerity.splitSecond] = {
+commands[locale.disciplines.celerity.splitSecond] = { description: `${locale.commands.sheet.description} ${locale.disciplines.celerity.splitSecond}`,
   disciplines: [Discipline.Celerity],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.name] = {
+commands[locale.disciplines.rituals.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.name}`,
   disciplines: [Discipline.Rituals],
   type: undefined,
   context: () => {
@@ -969,119 +656,119 @@ attributes[locale.disciplines.rituals.name] = {
     };
   },
 };
-attributes[locale.disciplines.rituals.bloodWalk] = {
+commands[locale.disciplines.rituals.bloodWalk] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.bloodWalk}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.clingingOfTheInsect] = {
+commands[locale.disciplines.rituals.clingingOfTheInsect] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.clingingOfTheInsect}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.craftBloodstone] = {
+commands[locale.disciplines.rituals.craftBloodstone] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.craftBloodstone}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wakeWithEveningsFreshness] = {
+commands[locale.disciplines.rituals.wakeWithEveningsFreshness] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wakeWithEveningsFreshness}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardAgainstGhouls] = {
+commands[locale.disciplines.rituals.wardAgainstGhouls] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardAgainstGhouls}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.communicateWithKindredSire] = {
+commands[locale.disciplines.rituals.communicateWithKindredSire] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.communicateWithKindredSire}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.eyesOfBabel] = {
+commands[locale.disciplines.rituals.eyesOfBabel] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.eyesOfBabel}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.illuminateTheTrailOfPrey] = {
+commands[locale.disciplines.rituals.illuminateTheTrailOfPrey] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.illuminateTheTrailOfPrey}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.ishtarsTouch] = {
+commands[locale.disciplines.rituals.ishtarsTouch] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.ishtarsTouch}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.truthOfBlood] = {
+commands[locale.disciplines.rituals.truthOfBlood] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.truthOfBlood}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardAgainstSpirits] = {
+commands[locale.disciplines.rituals.wardAgainstSpirits] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardAgainstSpirits}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardingCircleAgainstGhouls] = {
+commands[locale.disciplines.rituals.wardingCircleAgainstGhouls] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardingCircleAgainstGhouls}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.dagonsCall] = {
+commands[locale.disciplines.rituals.dagonsCall] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.dagonsCall}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.deflectionOfWoodenDoom] = {
+commands[locale.disciplines.rituals.deflectionOfWoodenDoom] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.deflectionOfWoodenDoom}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.essenceOfAir] = {
+commands[locale.disciplines.rituals.essenceOfAir] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.essenceOfAir}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.firewalker] = {
+commands[locale.disciplines.rituals.firewalker] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.firewalker}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardAgainstLupines] = {
+commands[locale.disciplines.rituals.wardAgainstLupines] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardAgainstLupines}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardingCircleAgainstSpirits] = {
+commands[locale.disciplines.rituals.wardingCircleAgainstSpirits] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardingCircleAgainstSpirits}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.oneWithTheBlade] = {
+commands[locale.disciplines.rituals.oneWithTheBlade] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.oneWithTheBlade}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.defenseOfTheSacredHaven] = {
+commands[locale.disciplines.rituals.defenseOfTheSacredHaven] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.defenseOfTheSacredHaven}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.eyesOfTheNighthawk] = {
+commands[locale.disciplines.rituals.eyesOfTheNighthawk] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.eyesOfTheNighthawk}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.incorporealPassage] = {
+commands[locale.disciplines.rituals.incorporealPassage] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.incorporealPassage}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardAgainstCainites] = {
+commands[locale.disciplines.rituals.wardAgainstCainites] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardAgainstCainites}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardingCircleAgainstLupines] = {
+commands[locale.disciplines.rituals.wardingCircleAgainstLupines] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardingCircleAgainstLupines}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.escapeToTrueSanctuary] = {
+commands[locale.disciplines.rituals.escapeToTrueSanctuary] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.escapeToTrueSanctuary}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.heartOfStone] = {
+commands[locale.disciplines.rituals.heartOfStone] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.heartOfStone}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.shaftOfBelatedDissolution] = {
+commands[locale.disciplines.rituals.shaftOfBelatedDissolution] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.shaftOfBelatedDissolution}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.rituals.wardingCircleAgainstCainites] = {
+commands[locale.disciplines.rituals.wardingCircleAgainstCainites] = { description: `${locale.commands.sheet.description} ${locale.disciplines.rituals.wardingCircleAgainstCainites}`,
   disciplines: [Discipline.Rituals],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.thinBloodAlchemy.name] = {
+commands[locale.disciplines.thinBloodAlchemy.name] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.name}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: undefined,
   context: () => {
@@ -1091,31 +778,32 @@ attributes[locale.disciplines.thinBloodAlchemy.name] = {
     };
   },
 };
-attributes[locale.disciplines.thinBloodAlchemy.farReach] = {
+commands[locale.disciplines.thinBloodAlchemy.farReach] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.farReach}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.thinBloodAlchemy.haze] = {
+commands[locale.disciplines.thinBloodAlchemy.haze] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.haze}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.thinBloodAlchemy.envelop] = {
+commands[locale.disciplines.thinBloodAlchemy.envelop] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.envelop}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = {
+commands[locale.disciplines.thinBloodAlchemy.profaneHierosGamos] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.profaneHierosGamos}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.thinBloodAlchemy.defractionate] = {
+commands[locale.disciplines.thinBloodAlchemy.defractionate] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.defractionate}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.thinBloodAlchemy.airborneMomentum] = {
+commands[locale.disciplines.thinBloodAlchemy.airborneMomentum] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.airborneMomentum}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
-attributes[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = {
+commands[locale.disciplines.thinBloodAlchemy.awakenTheSleeper] = { description: `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.awakenTheSleeper}`,
   disciplines: [Discipline.ThinBloodAlchemy],
   type: CommandOptionType.BOOLEAN,
 };
+*/
