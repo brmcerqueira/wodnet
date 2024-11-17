@@ -501,6 +501,15 @@ export const pt: LocaleType = {
     "Nadar [Vigor + Atletismo]",
   ],
   shortening: {
-    "Círculo de Proteção Contra": "CP Contra"
+    "Círculo de Proteção Contra": "Círculo P",
+    "Proteção Contra": "Proteção",
+    "Despertar com o Frescor do Anoitecer": "Despertar Anoitecer", 
+    "Comunicação com o Senhor do Membro": "Comunicação Senhor",
+    "Iluminar o Rastro da Presa": "Iluminar Rastro Presa",
+    "Deflecção da Ruína de Madeira": "Deflecção Madeira",
+    "Fuga Para o Verdadeiro Santuário": "Fuga Santuário",
+    "Fuste de Extinção Tardia": "Fuste Tardia",
+    "Defesa do Refúgio Sagrado": "Defesa Refúgio",
+    "Olhos do Falcão Noturno": "Olhos Falcão"
   }
 };
