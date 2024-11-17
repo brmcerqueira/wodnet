@@ -52,11 +52,12 @@ client.on("ready", async () => {
 
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];
+      const treatName = treatKey(name);
       const command = commands[name];
-      if (!discordCommands.find((c) => c.name == name)) {
+      if (!discordCommands.find(c => c.name == treatName)) {
         const data = {
           type: 1,
-          name: treatKey(name),
+          name: treatName,
           description: command.description,
           options: command.options
             ? keys(command.options).map(key => {
@@ -177,11 +178,12 @@ client.on("ready", async () => {
 async function cleanCommands(discordCommands: ApplicationCommandPayload[], ...keys: string[]) {
   for (let index = 0; index < discordCommands.length; index++) {
     const command = discordCommands[index];
-    if (!keys || (keys && keys.indexOf(command.id) > -1)) {
+    if (!keys || (keys && keys.indexOf(command.name) > -1)) {
       await client.rest.endpoints.deleteGlobalApplicationCommand(
         client.applicationID!, command.id);
       discordCommands.splice(index, 1);
       index--;
+      logger.info("Delete Command %v", JSON.stringify(command));
     }
   }
 }

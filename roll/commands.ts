@@ -463,6 +463,7 @@ commands[locale.attributes.mental.resolve] = {
     c.attributes.mental.resolve = v
   ),
 };
+
 commands[locale.skills.physical.melee] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.melee}`,
@@ -679,7 +680,7 @@ commands[locale.skills.mental.technology] = {
     c.skills.mental.technology = v
   ),
 };
-/*
+
 commands[locale.disciplines.animalism.name] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.animalism.name}`,
@@ -1288,4 +1289,3 @@ commands[locale.disciplines.thinBloodAlchemy.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-*/
