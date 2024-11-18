@@ -13,6 +13,7 @@ import { experienceSolver } from "./solver/experienceSolver.ts";
 import { buildCharacterDisciplineSolver } from "./solver/buildCharacterDisciplineSolver.ts";
 import { buildCharacterAdvantageFlawSolver } from "./solver/buildCharacterAdvantageFlawSolver.ts";
 import { specialtiesSolver } from "./solver/specialtiesSolver.ts";
+import { characterLinkSolver } from "./solver/characterLinkSolver.ts";
 
 export enum CommandOptionType {
   SUB_COMMAND = 1,
@@ -205,6 +206,11 @@ commands[treatKey(locale.commands.roll.name)] = {
     type: CommandOptionType.STRING,
     required: false,
   }).build,
+};
+
+commands[treatKey(locale.commands.sheet.link.name)] = {
+  description: locale.commands.sheet.link.description,
+  solve: characterLinkSolver
 };
 
 commands[treatKey(locale.commands.setDifficulty.name)] = {

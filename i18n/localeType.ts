@@ -314,6 +314,7 @@ export type LocaleType = {
     } & CommandOption;
     sheet: {
       description: string;
+      link: CommandOption;
       create: CommandOption;
       edit: CommandOption;
       delete: CommandOption;
