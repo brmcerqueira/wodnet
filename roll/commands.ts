@@ -312,6 +312,17 @@ commands[treatKey(locale.commands.actions.name)] = {
   }).build,
 };
 
+commands[treatKey(locale.name)] = {
+  description: `${locale.commands.sheet.description} ${locale.name}`,
+  options: option(value, {
+    property: property,
+    description: locale.commands.sheet.value.description,
+    type: CommandOptionType.STRING,
+    required: true,
+  }).build,
+  solve: buildCharacterFieldSolver((c, v: string) => c.name = v),
+};
+
 commands[treatKey(locale.player)] = {
   description: `${locale.commands.sheet.description} ${locale.player}`,
   options: option(value, {

@@ -23,6 +23,10 @@ export function buildCharacterFieldSolver(parse: (character: Character, value: a
 
       const character = await get(id, true);
 
+      if (character.image == "") {
+        character.image = interaction.user.avatarURL();
+      }
+
       logger.info("get %v", JSON.stringify(character));
 
       parse(character, input.value);
