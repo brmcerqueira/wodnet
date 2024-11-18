@@ -422,6 +422,10 @@ export const pt: LocaleType = {
         name: "editar",
         description: "Editar"
       },
+      delete: {
+        name: "excluir",
+        description: "Excluir"
+      },
       name: {
         name: "nome",
         description: "Nome"
@@ -433,7 +437,7 @@ export const pt: LocaleType = {
       value: {
         name: "valor",
         description: "Valor"
-      },      
+      },
       common: {
         name: "comuns",
         description: "Comuns"

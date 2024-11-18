@@ -315,6 +315,7 @@ export type LocaleType = {
       description: string;
       create: CommandOption;
       edit: CommandOption;
+      delete: CommandOption;
       name: CommandOption;
       index: CommandOption;
       value: CommandOption;

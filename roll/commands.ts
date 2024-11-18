@@ -12,6 +12,7 @@ import { buildCharacterDamageSolver } from "./solver/buildCharacterDamageSolver.
 import { experienceSolver } from "./solver/experienceSolver.ts";
 import { buildCharacterDisciplineSolver } from "./solver/buildCharacterDisciplineSolver.ts";
 import { buildCharacterAdvantageFlawSolver } from "./solver/buildCharacterAdvantageFlawSolver.ts";
+import { specialtiesSolver } from "./solver/specialtiesSolver.ts";
 
 export enum CommandOptionType {
   SUB_COMMAND = 1,
@@ -315,11 +316,13 @@ commands[treatKey(locale.player)] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.player = v),
 };
+
 commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
   options: buildChoicesOptions(locale.resonance.options),
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.resonance = v),
 };
+
 commands[treatKey(locale.ambition)] = {
   description: `${locale.commands.sheet.description} ${locale.ambition}`,
   options: option(value, {
@@ -330,6 +333,7 @@ commands[treatKey(locale.ambition)] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.ambition = v),
 };
+
 commands[treatKey(locale.desire)] = {
   description: `${locale.commands.sheet.description} ${locale.desire}`,
   options: option(value, {
@@ -340,21 +344,25 @@ commands[treatKey(locale.desire)] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.desire = v),
 };
+
 commands[treatKey(locale.predator.name)] = {
   description: `${locale.commands.sheet.description} ${locale.predator.name}`,
   options: buildChoicesOptions(locale.predator.options),
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.predator = v),
 };
+
 commands[treatKey(locale.clan.name)] = {
   description: `${locale.commands.sheet.description} ${locale.clan.name}`,
   options: buildChoicesOptions(locale.clan.options),
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.clan = v),
 };
+
 commands[treatKey(locale.generation.name)] = {
   description: `${locale.commands.sheet.description} ${locale.generation.name}`,
   options: buildIntegerOptions(4, 16),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.generation = v),
 };
+
 commands[treatKey(locale.details)] = {
   description: `${locale.commands.sheet.description} ${locale.details}`,
   options: option(value, {
@@ -365,21 +373,25 @@ commands[treatKey(locale.details)] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.details = v),
 };
+
 commands[treatKey(locale.bloodPotency)] = {
   description: `${locale.commands.sheet.description} ${locale.bloodPotency}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.bloodPotency = v),
 };
+
 commands[treatKey(locale.hunger)] = {
   description: `${locale.commands.sheet.description} ${locale.hunger}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.hunger = v),
 };
+
 commands[treatKey(locale.humanity)] = {
   description: `${locale.commands.sheet.description} ${locale.humanity}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.humanity.total = v),
 };
+
 commands[treatKey(locale.stains)] = {
   description: `${locale.commands.sheet.description} ${locale.stains}`,
   options: buildIntegerOptions(0, 10),
@@ -448,6 +460,7 @@ commands[treatKey(locale.attributes.physical.strength)] = {
     c.attributes.physical.strength = v
   ),
 };
+
 commands[treatKey(locale.attributes.physical.dexterity)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.dexterity}`,
@@ -456,6 +469,7 @@ commands[treatKey(locale.attributes.physical.dexterity)] = {
     c.attributes.physical.dexterity = v
   ),
 };
+
 commands[treatKey(locale.attributes.physical.stamina)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.stamina}`,
@@ -464,6 +478,7 @@ commands[treatKey(locale.attributes.physical.stamina)] = {
     c.attributes.physical.stamina = v
   ),
 };
+
 commands[treatKey(locale.attributes.social.charisma)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.charisma}`,
@@ -472,6 +487,7 @@ commands[treatKey(locale.attributes.social.charisma)] = {
     c.attributes.social.charisma = v
   ),
 };
+
 commands[treatKey(locale.attributes.social.manipulation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.manipulation}`,
@@ -480,6 +496,7 @@ commands[treatKey(locale.attributes.social.manipulation)] = {
     c.attributes.social.manipulation = v
   ),
 };
+
 commands[treatKey(locale.attributes.social.composure)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.composure}`,
@@ -488,6 +505,7 @@ commands[treatKey(locale.attributes.social.composure)] = {
     c.attributes.social.composure = v
   ),
 };
+
 commands[treatKey(locale.attributes.mental.intelligence)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.intelligence}`,
@@ -496,6 +514,7 @@ commands[treatKey(locale.attributes.mental.intelligence)] = {
     c.attributes.mental.intelligence = v
   ),
 };
+
 commands[treatKey(locale.attributes.mental.wits)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.wits}`,
@@ -504,6 +523,7 @@ commands[treatKey(locale.attributes.mental.wits)] = {
     c.attributes.mental.wits = v
   ),
 };
+
 commands[treatKey(locale.attributes.mental.resolve)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.resolve}`,
@@ -521,6 +541,7 @@ commands[treatKey(locale.skills.physical.melee)] = {
     c.skills.physical.melee = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.firearms)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.firearms}`,
@@ -529,6 +550,7 @@ commands[treatKey(locale.skills.physical.firearms)] = {
     c.skills.physical.firearms = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.athletics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.athletics}`,
@@ -537,6 +559,7 @@ commands[treatKey(locale.skills.physical.athletics)] = {
     c.skills.physical.athletics = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.brawl)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.brawl}`,
@@ -545,6 +568,7 @@ commands[treatKey(locale.skills.physical.brawl)] = {
     c.skills.physical.brawl = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.drive)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.drive}`,
@@ -553,6 +577,7 @@ commands[treatKey(locale.skills.physical.drive)] = {
     c.skills.physical.drive = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.stealth)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.stealth}`,
@@ -561,6 +586,7 @@ commands[treatKey(locale.skills.physical.stealth)] = {
     c.skills.physical.stealth = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.larceny)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.larceny}`,
@@ -569,6 +595,7 @@ commands[treatKey(locale.skills.physical.larceny)] = {
     c.skills.physical.larceny = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.craft)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.craft}`,
@@ -577,6 +604,7 @@ commands[treatKey(locale.skills.physical.craft)] = {
     c.skills.physical.craft = v
   ),
 };
+
 commands[treatKey(locale.skills.physical.survival)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.survival}`,
@@ -585,6 +613,7 @@ commands[treatKey(locale.skills.physical.survival)] = {
     c.skills.physical.survival = v
   ),
 };
+
 commands[treatKey(locale.skills.social.animalKen)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.animalKen}`,
@@ -593,6 +622,7 @@ commands[treatKey(locale.skills.social.animalKen)] = {
     c.skills.social.animalKen = v
   ),
 };
+
 commands[treatKey(locale.skills.social.etiquette)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.etiquette}`,
@@ -601,6 +631,7 @@ commands[treatKey(locale.skills.social.etiquette)] = {
     c.skills.social.etiquette = v
   ),
 };
+
 commands[treatKey(locale.skills.social.intimidation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.intimidation}`,
@@ -609,6 +640,7 @@ commands[treatKey(locale.skills.social.intimidation)] = {
     c.skills.social.intimidation = v
   ),
 };
+
 commands[treatKey(locale.skills.social.leadership)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.leadership}`,
@@ -617,6 +649,7 @@ commands[treatKey(locale.skills.social.leadership)] = {
     c.skills.social.leadership = v
   ),
 };
+
 commands[treatKey(locale.skills.social.streetwise)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.streetwise}`,
@@ -625,6 +658,7 @@ commands[treatKey(locale.skills.social.streetwise)] = {
     c.skills.social.streetwise = v
   ),
 };
+
 commands[treatKey(locale.skills.social.performance)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.performance}`,
@@ -633,6 +667,7 @@ commands[treatKey(locale.skills.social.performance)] = {
     c.skills.social.performance = v
   ),
 };
+
 commands[treatKey(locale.skills.social.persuasion)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.persuasion}`,
@@ -641,6 +676,7 @@ commands[treatKey(locale.skills.social.persuasion)] = {
     c.skills.social.persuasion = v
   ),
 };
+
 commands[treatKey(locale.skills.social.insight)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.insight}`,
@@ -649,6 +685,7 @@ commands[treatKey(locale.skills.social.insight)] = {
     c.skills.social.insight = v
   ),
 };
+
 commands[treatKey(locale.skills.social.subterfuge)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.subterfuge}`,
@@ -657,6 +694,7 @@ commands[treatKey(locale.skills.social.subterfuge)] = {
     c.skills.social.subterfuge = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.science)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.science}`,
@@ -665,6 +703,7 @@ commands[treatKey(locale.skills.mental.science)] = {
     c.skills.mental.science = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.academics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.academics}`,
@@ -673,6 +712,7 @@ commands[treatKey(locale.skills.mental.academics)] = {
     c.skills.mental.academics = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.finance)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.finance}`,
@@ -681,6 +721,7 @@ commands[treatKey(locale.skills.mental.finance)] = {
     c.skills.mental.finance = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.investigation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.investigation}`,
@@ -689,6 +730,7 @@ commands[treatKey(locale.skills.mental.investigation)] = {
     c.skills.mental.investigation = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.medicine)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.medicine}`,
@@ -697,6 +739,7 @@ commands[treatKey(locale.skills.mental.medicine)] = {
     c.skills.mental.medicine = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.occult)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.occult}`,
@@ -705,6 +748,7 @@ commands[treatKey(locale.skills.mental.occult)] = {
     c.skills.mental.occult = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.awareness)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.awareness}`,
@@ -713,6 +757,7 @@ commands[treatKey(locale.skills.mental.awareness)] = {
     c.skills.mental.awareness = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.politics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.politics}`,
@@ -721,6 +766,7 @@ commands[treatKey(locale.skills.mental.politics)] = {
     c.skills.mental.politics = v
   ),
 };
+
 commands[treatKey(locale.skills.mental.technology)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.technology}`,
@@ -728,6 +774,72 @@ commands[treatKey(locale.skills.mental.technology)] = {
   solve: buildCharacterFieldSolver((c, _o, v: number) =>
     c.skills.mental.technology = v
   ),
+};
+
+commands[treatKey(locale.specialties.name)] = { 
+  description: `${locale.commands.sheet.description} ${locale.specialties.name}`,
+  solve: specialtiesSolver,
+  options: option(locale.physical, {
+    property: "physical",
+    description: locale.physical,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.specialties.skill, {
+      property: "skill",
+      description: locale.specialties.skill,
+      type: CommandOptionType.STRING,
+      required: true,
+      choices: buildChoices(locale.skills.physical)
+    }).option(locale.commands.sheet.name.name, {
+      property: "name",
+      description: locale.commands.sheet.name.description,
+      type: CommandOptionType.STRING,
+      required: true,
+    }).build,
+  }).option(locale.social, {
+    property: "social",
+    description: locale.social,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.specialties.skill, {
+      property: "skill",
+      description: locale.specialties.skill,
+      type: CommandOptionType.STRING,
+      required: true,
+      choices: buildChoices(locale.skills.social)
+    }).option(locale.commands.sheet.name.name, {
+      property: "name",
+      description: locale.commands.sheet.name.description,
+      type: CommandOptionType.STRING,
+      required: true,
+    }).build,
+  }).option(locale.mental, {
+    property: "mental",
+    description: locale.mental,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.specialties.skill, {
+      property: "skill",
+      description: locale.specialties.skill,
+      type: CommandOptionType.STRING,
+      required: true,
+      choices: buildChoices(locale.skills.mental)
+    }).option(locale.commands.sheet.name.name, {
+      property: "name",
+      description: locale.commands.sheet.name.description,
+      type: CommandOptionType.STRING,
+      required: true,
+    }).build,
+  }).option(locale.commands.sheet.delete.name, {
+    property: "delete",
+    description: locale.commands.sheet.delete.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.sheet.index.name, {
+      property: "index",
+      description: locale.commands.sheet.index.description,
+      type: CommandOptionType.INTEGER,
+      required: true,
+      minValue: 1,
+      maxValue: 99,
+    }).build,
+  }).build,
 };
 
 commands[treatKey(locale.advantages)] = {
@@ -784,6 +896,7 @@ commands[treatKey(locale.disciplines.animalism.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.auspex.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.auspex.name}`,
@@ -834,6 +947,7 @@ commands[treatKey(locale.disciplines.auspex.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.dominate.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.dominate.name}`,
@@ -880,6 +994,7 @@ commands[treatKey(locale.disciplines.dominate.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.bloodSorcery.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.name}`,
@@ -918,6 +1033,7 @@ commands[treatKey(locale.disciplines.bloodSorcery.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.fortitude.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.fortitude.name}`,
@@ -964,6 +1080,7 @@ commands[treatKey(locale.disciplines.fortitude.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.protean.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.protean.name}`,
@@ -1018,6 +1135,7 @@ commands[treatKey(locale.disciplines.protean.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.obfuscate.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.name}`,
@@ -1068,6 +1186,7 @@ commands[treatKey(locale.disciplines.obfuscate.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.potence.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.potence.name}`,
@@ -1110,6 +1229,7 @@ commands[treatKey(locale.disciplines.potence.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.presence.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.presence.name}`,
@@ -1156,6 +1276,7 @@ commands[treatKey(locale.disciplines.presence.name)] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
+
 commands[treatKey(locale.disciplines.celerity.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.celerity.name}`,
