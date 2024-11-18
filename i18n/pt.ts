@@ -433,6 +433,18 @@ export const pt: LocaleType = {
       value: {
         name: "valor",
         description: "Valor"
+      },      
+      common: {
+        name: "comuns",
+        description: "Comuns"
+      },
+      wards: {
+        name: "proteção",
+        description: "Proteção"
+      },
+      circles: {
+        name: "círculos",
+        description: "Círculos"
       }
     }
   },

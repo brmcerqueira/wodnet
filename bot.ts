@@ -13,7 +13,7 @@ import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
 import { keys, treatDiscipline } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
-import { CommandOption, CommandOptions, CommandOptionType, commands } from "./roll/commands.ts";
+import { CommandOptions, CommandOptionType, commands } from "./roll/commands.ts";
 import { locale } from "./i18n/locale.ts";
 
 const keyCommands = keys(commands);
@@ -31,14 +31,6 @@ const client = new Client({
   ],
 });
 
-function treatKey(key: string | number): string {
-  let data = treatDiscipline(key.toString()).name;
-  for (const key in locale.shortening) {
-    data = data.replaceAll(key, locale.shortening[key]);
-  }
-  return data.toLowerCase().replaceAll(/\s/g, "-");
-}
-
 client.on("ready", async () => {
   try {
     logger.info("Loading Wodbot...");
@@ -52,12 +44,11 @@ client.on("ready", async () => {
 
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];
-      const treatName = treatKey(name);
       const command = commands[name];
-      if (!discordCommands.find(c => c.name == treatName)) {
+      if (!discordCommands.find(c => c.name == name)) {
         const data = {
           type: 1,
-          name: treatName,
+          name,
           description: command.description,
           options: transformOptions(command.options)
         };
@@ -165,7 +156,7 @@ function transformOptions(options?: CommandOptions): any[] | undefined {
   return options ? keys(options).map(key => {
       const option = options![key];
       return {
-        name: treatKey(key),
+        name: key,
         description: option.description,
         type: option.type,
         required: option.required,

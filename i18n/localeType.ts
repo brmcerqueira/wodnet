@@ -14,9 +14,6 @@ export type LocaleType = {
   type: string;
   standard: string;
   character: string;
-  shortening: {
-    [key: string]: string
-  }
   specialties: {
     name: string;
     skill: string;
@@ -321,6 +318,9 @@ export type LocaleType = {
       name: CommandOption;
       index: CommandOption;
       value: CommandOption;
+      common: CommandOption;
+      wards: CommandOption;
+      circles: CommandOption; 
     };
     actions: {
       action: CommandOption;
@@ -336,4 +336,7 @@ export type LocaleType = {
     } & CommandOption;
   };
   actions: string[];
+  shortening: {
+    [key: string]: string;
+  }
 };

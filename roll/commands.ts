@@ -6,7 +6,7 @@ import { rollSolver } from "./solver/rollSolver.ts";
 import { setDifficultySolver } from "./solver/setDifficultySolver.ts";
 import { setModifierSolver } from "./solver/setModifierSolver.ts";
 import { dicePoolSolver } from "./solver/dicePoolSolver.ts";
-import { keys } from "../utils.ts";
+import { keys, treatDiscipline } from "../utils.ts";
 import { buildCharacterFieldSolver } from "./solver/buildCharacterFieldSolver.ts";
 import { buildCharacterDamageSolver } from "./solver/buildCharacterDamageSolver.ts";
 import { experienceSolver } from "./solver/experienceSolver.ts";
@@ -66,7 +66,7 @@ class BuildOptions {
   }
 
   public option(name: string, option: CommandOption): this {
-    this._data[name] = option;
+    this._data[treatKey(name)] = option;
     return this;
   }
 
@@ -75,8 +75,16 @@ class BuildOptions {
   }
 }
 
-export function option(name: string, option: CommandOption): BuildOptions {
+function option(name: string, option: CommandOption): BuildOptions {
   return new BuildOptions().option(name, option);
+}
+
+function treatKey(key: string | number): string {
+  let data = treatDiscipline(key.toString()).name;
+  for (const key in locale.shortening) {
+    data = data.replaceAll(key, locale.shortening[key]);
+  }
+  return data.toLowerCase().replaceAll(/\s/g, "-");
 }
 
 function buildChoices<T extends object>(o: T): CommandChoice[] {
@@ -114,15 +122,15 @@ function buildAdvantageFlawOptions(): CommandOptions {
       property: "name",
       description: locale.commands.sheet.name.description,
       type: CommandOptionType.STRING,
-      required: true
+      required: true,
     }).option(value, {
       property: property,
       description: locale.commands.sheet.value.description,
       type: CommandOptionType.INTEGER,
       required: true,
       minValue: 1,
-      maxValue: 5
-    }).build
+      maxValue: 5,
+    }).build,
   }).option(locale.commands.sheet.edit.name, {
     property: "edit",
     description: locale.commands.sheet.edit.description,
@@ -133,15 +141,15 @@ function buildAdvantageFlawOptions(): CommandOptions {
       type: CommandOptionType.INTEGER,
       required: true,
       minValue: 1,
-      maxValue: 99
+      maxValue: 99,
     }).option(value, {
       property: property,
       description: locale.commands.sheet.value.description,
       type: CommandOptionType.INTEGER,
       required: true,
       minValue: 0,
-      maxValue: 5
-    }).build
+      maxValue: 5,
+    }).build,
   }).build;
 }
 
@@ -166,7 +174,7 @@ const attributeChoices = [
   ...buildChoices(locale.attributes.mental),
 ];
 
-commands[locale.commands.roll.name] = {
+commands[treatKey(locale.commands.roll.name)] = {
   description: locale.commands.roll.description,
   solve: rollSolver,
   options: option(locale.commands.roll.dices.name, {
@@ -198,7 +206,7 @@ commands[locale.commands.roll.name] = {
   }).build,
 };
 
-commands[locale.commands.setDifficulty.name] = {
+commands[treatKey(locale.commands.setDifficulty.name)] = {
   description: locale.commands.setDifficulty.description,
   solve: setDifficultySolver,
   options: option(locale.commands.setDifficulty.difficulty.name, {
@@ -211,7 +219,7 @@ commands[locale.commands.setDifficulty.name] = {
   }).build,
 };
 
-commands[locale.commands.setModifier.name] = {
+commands[treatKey(locale.commands.setModifier.name)] = {
   description: locale.commands.setModifier.description,
   solve: setModifierSolver,
   options: option(locale.commands.setModifier.modifier.name, {
@@ -224,7 +232,7 @@ commands[locale.commands.setModifier.name] = {
   }).build,
 };
 
-commands[locale.commands.setCharacter.name] = {
+commands[treatKey(locale.commands.setCharacter.name)] = {
   description: locale.commands.setCharacter.description,
   solve: characterAutocompleteSolver,
   options: option(locale.commands.setCharacter.character.name, {
@@ -236,7 +244,7 @@ commands[locale.commands.setCharacter.name] = {
   }).build,
 };
 
-commands[locale.commands.dicePools.name] = {
+commands[treatKey(locale.commands.dicePools.name)] = {
   description: locale.commands.dicePools.description,
   solve: dicePoolSolver,
   options: option(locale.commands.dicePools.attribute.name, {
@@ -285,7 +293,7 @@ commands[locale.commands.dicePools.name] = {
   }).build,
 };
 
-commands[locale.commands.actions.name] = {
+commands[treatKey(locale.commands.actions.name)] = {
   description: locale.commands.actions.description,
   solve: actionAutocompleteSolver,
   options: option(locale.commands.actions.action.name, {
@@ -297,7 +305,7 @@ commands[locale.commands.actions.name] = {
   }).build,
 };
 
-commands[locale.player] = {
+commands[treatKey(locale.player)] = {
   description: `${locale.commands.sheet.description} ${locale.player}`,
   options: option(value, {
     property: property,
@@ -307,12 +315,12 @@ commands[locale.player] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.player = v),
 };
-commands[locale.resonance.name] = {
+commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
   options: buildChoicesOptions(locale.resonance.options),
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.resonance = v),
 };
-commands[locale.ambition] = {
+commands[treatKey(locale.ambition)] = {
   description: `${locale.commands.sheet.description} ${locale.ambition}`,
   options: option(value, {
     property: property,
@@ -322,7 +330,7 @@ commands[locale.ambition] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.ambition = v),
 };
-commands[locale.desire] = {
+commands[treatKey(locale.desire)] = {
   description: `${locale.commands.sheet.description} ${locale.desire}`,
   options: option(value, {
     property: property,
@@ -332,22 +340,22 @@ commands[locale.desire] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.desire = v),
 };
-commands[locale.predator.name] = {
+commands[treatKey(locale.predator.name)] = {
   description: `${locale.commands.sheet.description} ${locale.predator.name}`,
   options: buildChoicesOptions(locale.predator.options),
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.predator = v),
 };
-commands[locale.clan.name] = {
+commands[treatKey(locale.clan.name)] = {
   description: `${locale.commands.sheet.description} ${locale.clan.name}`,
   options: buildChoicesOptions(locale.clan.options),
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.clan = v),
 };
-commands[locale.generation.name] = {
+commands[treatKey(locale.generation.name)] = {
   description: `${locale.commands.sheet.description} ${locale.generation.name}`,
   options: buildIntegerOptions(4, 16),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.generation = v),
 };
-commands[locale.details] = {
+commands[treatKey(locale.details)] = {
   description: `${locale.commands.sheet.description} ${locale.details}`,
   options: option(value, {
     property: property,
@@ -357,28 +365,28 @@ commands[locale.details] = {
   }).build,
   solve: buildCharacterFieldSolver((c, _o, v: string) => c.details = v),
 };
-commands[locale.bloodPotency] = {
+commands[treatKey(locale.bloodPotency)] = {
   description: `${locale.commands.sheet.description} ${locale.bloodPotency}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.bloodPotency = v),
 };
-commands[locale.hunger] = {
+commands[treatKey(locale.hunger)] = {
   description: `${locale.commands.sheet.description} ${locale.hunger}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.hunger = v),
 };
-commands[locale.humanity] = {
+commands[treatKey(locale.humanity)] = {
   description: `${locale.commands.sheet.description} ${locale.humanity}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.humanity.total = v),
 };
-commands[locale.stains] = {
+commands[treatKey(locale.stains)] = {
   description: `${locale.commands.sheet.description} ${locale.stains}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterFieldSolver((c, _o, v: number) => c.humanity.stains = v),
 };
 
-commands[locale.health] = {
+commands[treatKey(locale.health)] = {
   description: `${locale.commands.sheet.description} ${locale.health}`,
   options: option(locale.damage.superficial, {
     property: "superficial",
@@ -396,7 +404,7 @@ commands[locale.health] = {
   solve: buildCharacterDamageSolver((c) => c.health),
 };
 
-commands[locale.willpower] = {
+commands[treatKey(locale.willpower)] = {
   description: `${locale.commands.sheet.description} ${locale.willpower}`,
   options: option(locale.damage.superficial, {
     property: "superficial",
@@ -414,7 +422,7 @@ commands[locale.willpower] = {
   solve: buildCharacterDamageSolver((c) => c.willpower),
 };
 
-commands[locale.experience.name] = {
+commands[treatKey(locale.experience.name)] = {
   description: `${locale.commands.sheet.description} ${locale.experience.name}`,
   options: option(locale.experience.total, {
     property: "total",
@@ -432,7 +440,7 @@ commands[locale.experience.name] = {
   solve: experienceSolver,
 };
 
-commands[locale.attributes.physical.strength] = {
+commands[treatKey(locale.attributes.physical.strength)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.strength}`,
   options: buildIntegerOptions(1, 5),
@@ -440,7 +448,7 @@ commands[locale.attributes.physical.strength] = {
     c.attributes.physical.strength = v
   ),
 };
-commands[locale.attributes.physical.dexterity] = {
+commands[treatKey(locale.attributes.physical.dexterity)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.dexterity}`,
   options: buildIntegerOptions(1, 5),
@@ -448,7 +456,7 @@ commands[locale.attributes.physical.dexterity] = {
     c.attributes.physical.dexterity = v
   ),
 };
-commands[locale.attributes.physical.stamina] = {
+commands[treatKey(locale.attributes.physical.stamina)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.stamina}`,
   options: buildIntegerOptions(1, 5),
@@ -456,7 +464,7 @@ commands[locale.attributes.physical.stamina] = {
     c.attributes.physical.stamina = v
   ),
 };
-commands[locale.attributes.social.charisma] = {
+commands[treatKey(locale.attributes.social.charisma)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.charisma}`,
   options: buildIntegerOptions(1, 5),
@@ -464,7 +472,7 @@ commands[locale.attributes.social.charisma] = {
     c.attributes.social.charisma = v
   ),
 };
-commands[locale.attributes.social.manipulation] = {
+commands[treatKey(locale.attributes.social.manipulation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.manipulation}`,
   options: buildIntegerOptions(1, 5),
@@ -472,7 +480,7 @@ commands[locale.attributes.social.manipulation] = {
     c.attributes.social.manipulation = v
   ),
 };
-commands[locale.attributes.social.composure] = {
+commands[treatKey(locale.attributes.social.composure)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.composure}`,
   options: buildIntegerOptions(1, 5),
@@ -480,7 +488,7 @@ commands[locale.attributes.social.composure] = {
     c.attributes.social.composure = v
   ),
 };
-commands[locale.attributes.mental.intelligence] = {
+commands[treatKey(locale.attributes.mental.intelligence)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.intelligence}`,
   options: buildIntegerOptions(1, 5),
@@ -488,7 +496,7 @@ commands[locale.attributes.mental.intelligence] = {
     c.attributes.mental.intelligence = v
   ),
 };
-commands[locale.attributes.mental.wits] = {
+commands[treatKey(locale.attributes.mental.wits)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.wits}`,
   options: buildIntegerOptions(1, 5),
@@ -496,7 +504,7 @@ commands[locale.attributes.mental.wits] = {
     c.attributes.mental.wits = v
   ),
 };
-commands[locale.attributes.mental.resolve] = {
+commands[treatKey(locale.attributes.mental.resolve)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.resolve}`,
   options: buildIntegerOptions(1, 5),
@@ -505,7 +513,7 @@ commands[locale.attributes.mental.resolve] = {
   ),
 };
 
-commands[locale.skills.physical.melee] = {
+commands[treatKey(locale.skills.physical.melee)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.melee}`,
   options: buildIntegerOptions(0, 5),
@@ -513,7 +521,7 @@ commands[locale.skills.physical.melee] = {
     c.skills.physical.melee = v
   ),
 };
-commands[locale.skills.physical.firearms] = {
+commands[treatKey(locale.skills.physical.firearms)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.firearms}`,
   options: buildIntegerOptions(0, 5),
@@ -521,7 +529,7 @@ commands[locale.skills.physical.firearms] = {
     c.skills.physical.firearms = v
   ),
 };
-commands[locale.skills.physical.athletics] = {
+commands[treatKey(locale.skills.physical.athletics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.athletics}`,
   options: buildIntegerOptions(0, 5),
@@ -529,7 +537,7 @@ commands[locale.skills.physical.athletics] = {
     c.skills.physical.athletics = v
   ),
 };
-commands[locale.skills.physical.brawl] = {
+commands[treatKey(locale.skills.physical.brawl)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.brawl}`,
   options: buildIntegerOptions(0, 5),
@@ -537,7 +545,7 @@ commands[locale.skills.physical.brawl] = {
     c.skills.physical.brawl = v
   ),
 };
-commands[locale.skills.physical.drive] = {
+commands[treatKey(locale.skills.physical.drive)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.drive}`,
   options: buildIntegerOptions(0, 5),
@@ -545,7 +553,7 @@ commands[locale.skills.physical.drive] = {
     c.skills.physical.drive = v
   ),
 };
-commands[locale.skills.physical.stealth] = {
+commands[treatKey(locale.skills.physical.stealth)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.stealth}`,
   options: buildIntegerOptions(0, 5),
@@ -553,7 +561,7 @@ commands[locale.skills.physical.stealth] = {
     c.skills.physical.stealth = v
   ),
 };
-commands[locale.skills.physical.larceny] = {
+commands[treatKey(locale.skills.physical.larceny)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.larceny}`,
   options: buildIntegerOptions(0, 5),
@@ -561,7 +569,7 @@ commands[locale.skills.physical.larceny] = {
     c.skills.physical.larceny = v
   ),
 };
-commands[locale.skills.physical.craft] = {
+commands[treatKey(locale.skills.physical.craft)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.craft}`,
   options: buildIntegerOptions(0, 5),
@@ -569,7 +577,7 @@ commands[locale.skills.physical.craft] = {
     c.skills.physical.craft = v
   ),
 };
-commands[locale.skills.physical.survival] = {
+commands[treatKey(locale.skills.physical.survival)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.survival}`,
   options: buildIntegerOptions(0, 5),
@@ -577,7 +585,7 @@ commands[locale.skills.physical.survival] = {
     c.skills.physical.survival = v
   ),
 };
-commands[locale.skills.social.animalKen] = {
+commands[treatKey(locale.skills.social.animalKen)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.animalKen}`,
   options: buildIntegerOptions(0, 5),
@@ -585,7 +593,7 @@ commands[locale.skills.social.animalKen] = {
     c.skills.social.animalKen = v
   ),
 };
-commands[locale.skills.social.etiquette] = {
+commands[treatKey(locale.skills.social.etiquette)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.etiquette}`,
   options: buildIntegerOptions(0, 5),
@@ -593,7 +601,7 @@ commands[locale.skills.social.etiquette] = {
     c.skills.social.etiquette = v
   ),
 };
-commands[locale.skills.social.intimidation] = {
+commands[treatKey(locale.skills.social.intimidation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.intimidation}`,
   options: buildIntegerOptions(0, 5),
@@ -601,7 +609,7 @@ commands[locale.skills.social.intimidation] = {
     c.skills.social.intimidation = v
   ),
 };
-commands[locale.skills.social.leadership] = {
+commands[treatKey(locale.skills.social.leadership)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.leadership}`,
   options: buildIntegerOptions(0, 5),
@@ -609,7 +617,7 @@ commands[locale.skills.social.leadership] = {
     c.skills.social.leadership = v
   ),
 };
-commands[locale.skills.social.streetwise] = {
+commands[treatKey(locale.skills.social.streetwise)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.streetwise}`,
   options: buildIntegerOptions(0, 5),
@@ -617,7 +625,7 @@ commands[locale.skills.social.streetwise] = {
     c.skills.social.streetwise = v
   ),
 };
-commands[locale.skills.social.performance] = {
+commands[treatKey(locale.skills.social.performance)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.performance}`,
   options: buildIntegerOptions(0, 5),
@@ -625,7 +633,7 @@ commands[locale.skills.social.performance] = {
     c.skills.social.performance = v
   ),
 };
-commands[locale.skills.social.persuasion] = {
+commands[treatKey(locale.skills.social.persuasion)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.persuasion}`,
   options: buildIntegerOptions(0, 5),
@@ -633,7 +641,7 @@ commands[locale.skills.social.persuasion] = {
     c.skills.social.persuasion = v
   ),
 };
-commands[locale.skills.social.insight] = {
+commands[treatKey(locale.skills.social.insight)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.insight}`,
   options: buildIntegerOptions(0, 5),
@@ -641,7 +649,7 @@ commands[locale.skills.social.insight] = {
     c.skills.social.insight = v
   ),
 };
-commands[locale.skills.social.subterfuge] = {
+commands[treatKey(locale.skills.social.subterfuge)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.subterfuge}`,
   options: buildIntegerOptions(0, 5),
@@ -649,7 +657,7 @@ commands[locale.skills.social.subterfuge] = {
     c.skills.social.subterfuge = v
   ),
 };
-commands[locale.skills.mental.science] = {
+commands[treatKey(locale.skills.mental.science)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.science}`,
   options: buildIntegerOptions(0, 5),
@@ -657,7 +665,7 @@ commands[locale.skills.mental.science] = {
     c.skills.mental.science = v
   ),
 };
-commands[locale.skills.mental.academics] = {
+commands[treatKey(locale.skills.mental.academics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.academics}`,
   options: buildIntegerOptions(0, 5),
@@ -665,7 +673,7 @@ commands[locale.skills.mental.academics] = {
     c.skills.mental.academics = v
   ),
 };
-commands[locale.skills.mental.finance] = {
+commands[treatKey(locale.skills.mental.finance)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.finance}`,
   options: buildIntegerOptions(0, 5),
@@ -673,7 +681,7 @@ commands[locale.skills.mental.finance] = {
     c.skills.mental.finance = v
   ),
 };
-commands[locale.skills.mental.investigation] = {
+commands[treatKey(locale.skills.mental.investigation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.investigation}`,
   options: buildIntegerOptions(0, 5),
@@ -681,7 +689,7 @@ commands[locale.skills.mental.investigation] = {
     c.skills.mental.investigation = v
   ),
 };
-commands[locale.skills.mental.medicine] = {
+commands[treatKey(locale.skills.mental.medicine)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.medicine}`,
   options: buildIntegerOptions(0, 5),
@@ -689,7 +697,7 @@ commands[locale.skills.mental.medicine] = {
     c.skills.mental.medicine = v
   ),
 };
-commands[locale.skills.mental.occult] = {
+commands[treatKey(locale.skills.mental.occult)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.occult}`,
   options: buildIntegerOptions(0, 5),
@@ -697,7 +705,7 @@ commands[locale.skills.mental.occult] = {
     c.skills.mental.occult = v
   ),
 };
-commands[locale.skills.mental.awareness] = {
+commands[treatKey(locale.skills.mental.awareness)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.awareness}`,
   options: buildIntegerOptions(0, 5),
@@ -705,7 +713,7 @@ commands[locale.skills.mental.awareness] = {
     c.skills.mental.awareness = v
   ),
 };
-commands[locale.skills.mental.politics] = {
+commands[treatKey(locale.skills.mental.politics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.politics}`,
   options: buildIntegerOptions(0, 5),
@@ -713,7 +721,7 @@ commands[locale.skills.mental.politics] = {
     c.skills.mental.politics = v
   ),
 };
-commands[locale.skills.mental.technology] = {
+commands[treatKey(locale.skills.mental.technology)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.technology}`,
   options: buildIntegerOptions(0, 5),
@@ -722,19 +730,19 @@ commands[locale.skills.mental.technology] = {
   ),
 };
 
-commands[locale.advantages] = { 
+commands[treatKey(locale.advantages)] = {
   description: `${locale.commands.sheet.description} ${locale.advantages}`,
-  solve: buildCharacterAdvantageFlawSolver(c => c.advantages),
-  options: buildAdvantageFlawOptions()
+  solve: buildCharacterAdvantageFlawSolver((c) => c.advantages),
+  options: buildAdvantageFlawOptions(),
 };
 
-commands[locale.flaws] = { 
+commands[treatKey(locale.flaws)] = {
   description: `${locale.commands.sheet.description} ${locale.flaws}`,
-  solve: buildCharacterAdvantageFlawSolver(c => c.flaws),
-  options: buildAdvantageFlawOptions()
+  solve: buildCharacterAdvantageFlawSolver((c) => c.flaws),
+  options: buildAdvantageFlawOptions(),
 };
 
-commands[locale.disciplines.animalism.name] = {
+commands[treatKey(locale.disciplines.animalism.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.animalism.name}`,
   solve: buildCharacterDisciplineSolver("animalism"),
@@ -776,7 +784,7 @@ commands[locale.disciplines.animalism.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.auspex.name] = {
+commands[treatKey(locale.disciplines.auspex.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.auspex.name}`,
   solve: buildCharacterDisciplineSolver("auspex"),
@@ -826,7 +834,7 @@ commands[locale.disciplines.auspex.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.dominate.name] = {
+commands[treatKey(locale.disciplines.dominate.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.dominate.name}`,
   solve: buildCharacterDisciplineSolver("dominate"),
@@ -872,7 +880,7 @@ commands[locale.disciplines.dominate.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.bloodSorcery.name] = {
+commands[treatKey(locale.disciplines.bloodSorcery.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.name}`,
   solve: buildCharacterDisciplineSolver("bloodSorcery"),
@@ -910,7 +918,7 @@ commands[locale.disciplines.bloodSorcery.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.fortitude.name] = {
+commands[treatKey(locale.disciplines.fortitude.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.fortitude.name}`,
   solve: buildCharacterDisciplineSolver("fortitude"),
@@ -956,7 +964,7 @@ commands[locale.disciplines.fortitude.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.protean.name] = {
+commands[treatKey(locale.disciplines.protean.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.protean.name}`,
   solve: buildCharacterDisciplineSolver("protean"),
@@ -1010,7 +1018,7 @@ commands[locale.disciplines.protean.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.obfuscate.name] = {
+commands[treatKey(locale.disciplines.obfuscate.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.name}`,
   solve: buildCharacterDisciplineSolver("obfuscate"),
@@ -1060,7 +1068,7 @@ commands[locale.disciplines.obfuscate.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.potence.name] = {
+commands[treatKey(locale.disciplines.potence.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.potence.name}`,
   solve: buildCharacterDisciplineSolver("potence"),
@@ -1102,7 +1110,7 @@ commands[locale.disciplines.potence.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.presence.name] = {
+commands[treatKey(locale.disciplines.presence.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.presence.name}`,
   solve: buildCharacterDisciplineSolver("presence"),
@@ -1148,7 +1156,7 @@ commands[locale.disciplines.presence.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.celerity.name] = {
+commands[treatKey(locale.disciplines.celerity.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.celerity.name}`,
   solve: buildCharacterDisciplineSolver("celerity"),
@@ -1190,125 +1198,142 @@ commands[locale.disciplines.celerity.name] = {
     type: CommandOptionType.BOOLEAN,
   }).build,
 };
-commands[locale.disciplines.rituals.name] = {
+
+commands[treatKey(locale.disciplines.rituals.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.rituals.name}`,
   solve: buildCharacterDisciplineSolver("rituals"),
-  options: option(locale.disciplines.rituals.bloodWalk, {
-    property: "bloodWalk",
-    description: locale.disciplines.rituals.bloodWalk,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.clingingOfTheInsect, {
-    property: "clingingOfTheInsect",
-    description: locale.disciplines.rituals.clingingOfTheInsect,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.craftBloodstone, {
-    property: "craftBloodstone",
-    description: locale.disciplines.rituals.craftBloodstone,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wakeWithEveningsFreshness, {
-    property: "wakeWithEveningsFreshness",
-    description: locale.disciplines.rituals.wakeWithEveningsFreshness,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardAgainstGhouls, {
-    property: "wardAgainstGhouls",
-    description: locale.disciplines.rituals.wardAgainstGhouls,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.communicateWithKindredSire, {
-    property: "communicateWithKindredSire",
-    description: locale.disciplines.rituals.communicateWithKindredSire,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.eyesOfBabel, {
-    property: "eyesOfBabel",
-    description: locale.disciplines.rituals.eyesOfBabel,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.illuminateTheTrailOfPrey, {
-    property: "illuminateTheTrailOfPrey",
-    description: locale.disciplines.rituals.illuminateTheTrailOfPrey,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.ishtarsTouch, {
-    property: "ishtarsTouch",
-    description: locale.disciplines.rituals.ishtarsTouch,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.truthOfBlood, {
-    property: "truthOfBlood",
-    description: locale.disciplines.rituals.truthOfBlood,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardAgainstSpirits, {
-    property: "wardAgainstSpirits",
-    description: locale.disciplines.rituals.wardAgainstSpirits,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardingCircleAgainstGhouls, {
-    property: "wardingCircleAgainstGhouls",
-    description: locale.disciplines.rituals.wardingCircleAgainstGhouls,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.dagonsCall, {
-    property: "dagonsCall",
-    description: locale.disciplines.rituals.dagonsCall,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.deflectionOfWoodenDoom, {
-    property: "deflectionOfWoodenDoom",
-    description: locale.disciplines.rituals.deflectionOfWoodenDoom,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.essenceOfAir, {
-    property: "essenceOfAir",
-    description: locale.disciplines.rituals.essenceOfAir,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.firewalker, {
-    property: "firewalker",
-    description: locale.disciplines.rituals.firewalker,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardAgainstLupines, {
-    property: "wardAgainstLupines",
-    description: locale.disciplines.rituals.wardAgainstLupines,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardingCircleAgainstSpirits, {
-    property: "wardingCircleAgainstSpirits",
-    description: locale.disciplines.rituals.wardingCircleAgainstSpirits,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.oneWithTheBlade, {
-    property: "oneWithTheBlade",
-    description: locale.disciplines.rituals.oneWithTheBlade,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.defenseOfTheSacredHaven, {
-    property: "defenseOfTheSacredHaven",
-    description: locale.disciplines.rituals.defenseOfTheSacredHaven,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.eyesOfTheNighthawk, {
-    property: "eyesOfTheNighthawk",
-    description: locale.disciplines.rituals.eyesOfTheNighthawk,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.incorporealPassage, {
-    property: "incorporealPassage",
-    description: locale.disciplines.rituals.incorporealPassage,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardAgainstCainites, {
-    property: "wardAgainstCainites",
-    description: locale.disciplines.rituals.wardAgainstCainites,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardingCircleAgainstLupines, {
-    property: "wardingCircleAgainstLupines",
-    description: locale.disciplines.rituals.wardingCircleAgainstLupines,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.escapeToTrueSanctuary, {
-    property: "escapeToTrueSanctuary",
-    description: locale.disciplines.rituals.escapeToTrueSanctuary,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.heartOfStone, {
-    property: "heartOfStone",
-    description: locale.disciplines.rituals.heartOfStone,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.shaftOfBelatedDissolution, {
-    property: "shaftOfBelatedDissolution",
-    description: locale.disciplines.rituals.shaftOfBelatedDissolution,
-    type: CommandOptionType.BOOLEAN,
-  }).option(locale.disciplines.rituals.wardingCircleAgainstCainites, {
-    property: "wardingCircleAgainstCainites",
-    description: locale.disciplines.rituals.wardingCircleAgainstCainites,
-    type: CommandOptionType.BOOLEAN,
+  options: option(locale.commands.sheet.common.name, {
+    property: "common",
+    description: locale.commands.sheet.common.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.disciplines.rituals.bloodWalk, {
+      property: "bloodWalk",
+      description: locale.disciplines.rituals.bloodWalk,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.clingingOfTheInsect, {
+      property: "clingingOfTheInsect",
+      description: locale.disciplines.rituals.clingingOfTheInsect,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.craftBloodstone, {
+      property: "craftBloodstone",
+      description: locale.disciplines.rituals.craftBloodstone,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.wakeWithEveningsFreshness, {
+      property: "wakeWithEveningsFreshness",
+      description: locale.disciplines.rituals.wakeWithEveningsFreshness,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.communicateWithKindredSire, {
+      property: "communicateWithKindredSire",
+      description: locale.disciplines.rituals.communicateWithKindredSire,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.eyesOfBabel, {
+      property: "eyesOfBabel",
+      description: locale.disciplines.rituals.eyesOfBabel,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.illuminateTheTrailOfPrey, {
+      property: "illuminateTheTrailOfPrey",
+      description: locale.disciplines.rituals.illuminateTheTrailOfPrey,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.ishtarsTouch, {
+      property: "ishtarsTouch",
+      description: locale.disciplines.rituals.ishtarsTouch,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.truthOfBlood, {
+      property: "truthOfBlood",
+      description: locale.disciplines.rituals.truthOfBlood,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.dagonsCall, {
+      property: "dagonsCall",
+      description: locale.disciplines.rituals.dagonsCall,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.deflectionOfWoodenDoom, {
+      property: "deflectionOfWoodenDoom",
+      description: locale.disciplines.rituals.deflectionOfWoodenDoom,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.essenceOfAir, {
+      property: "essenceOfAir",
+      description: locale.disciplines.rituals.essenceOfAir,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.firewalker, {
+      property: "firewalker",
+      description: locale.disciplines.rituals.firewalker,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.oneWithTheBlade, {
+      property: "oneWithTheBlade",
+      description: locale.disciplines.rituals.oneWithTheBlade,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.defenseOfTheSacredHaven, {
+      property: "defenseOfTheSacredHaven",
+      description: locale.disciplines.rituals.defenseOfTheSacredHaven,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.eyesOfTheNighthawk, {
+      property: "eyesOfTheNighthawk",
+      description: locale.disciplines.rituals.eyesOfTheNighthawk,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.incorporealPassage, {
+      property: "incorporealPassage",
+      description: locale.disciplines.rituals.incorporealPassage,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.escapeToTrueSanctuary, {
+      property: "escapeToTrueSanctuary",
+      description: locale.disciplines.rituals.escapeToTrueSanctuary,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.heartOfStone, {
+      property: "heartOfStone",
+      description: locale.disciplines.rituals.heartOfStone,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.shaftOfBelatedDissolution, {
+      property: "shaftOfBelatedDissolution",
+      description: locale.disciplines.rituals.shaftOfBelatedDissolution,
+      type: CommandOptionType.BOOLEAN,
+    }).build,
+  }).option(locale.commands.sheet.wards.name, {
+    property: "wards",
+    description: locale.commands.sheet.wards.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.disciplines.rituals.wardAgainstGhouls, {
+      property: "wardAgainstGhouls",
+      description: locale.disciplines.rituals.wardAgainstGhouls,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.wardAgainstSpirits, {
+      property: "wardAgainstSpirits",
+      description: locale.disciplines.rituals.wardAgainstSpirits,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.wardAgainstLupines, {
+      property: "wardAgainstLupines",
+      description: locale.disciplines.rituals.wardAgainstLupines,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.wardAgainstCainites, {
+      property: "wardAgainstCainites",
+      description: locale.disciplines.rituals.wardAgainstCainites,
+      type: CommandOptionType.BOOLEAN,
+    }).build,
+  }).option(locale.commands.sheet.circles.name, {
+    property: "circles",
+    description: locale.commands.sheet.circles.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.disciplines.rituals.wardingCircleAgainstGhouls, {
+      property: "wardingCircleAgainstGhouls",
+      description: locale.disciplines.rituals.wardingCircleAgainstGhouls,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.wardingCircleAgainstSpirits, {
+      property: "wardingCircleAgainstSpirits",
+      description: locale.disciplines.rituals.wardingCircleAgainstSpirits,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.wardingCircleAgainstLupines, {
+      property: "wardingCircleAgainstLupines",
+      description: locale.disciplines.rituals.wardingCircleAgainstLupines,
+      type: CommandOptionType.BOOLEAN,
+    }).option(locale.disciplines.rituals.wardingCircleAgainstCainites, {
+      property: "wardingCircleAgainstCainites",
+      description: locale.disciplines.rituals.wardingCircleAgainstCainites,
+      type: CommandOptionType.BOOLEAN,
+    }).build,
   }).build,
 };
-commands[locale.disciplines.thinBloodAlchemy.name] = {
+
+commands[treatKey(locale.disciplines.thinBloodAlchemy.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.name}`,
   solve: buildCharacterDisciplineSolver("thinBloodAlchemy"),
