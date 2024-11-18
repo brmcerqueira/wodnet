@@ -5,7 +5,6 @@ import * as colors from "../colors.ts";
 import * as data from "../data.ts";
 
 export async function characterLinkSolver(interaction: Interaction) {
-    
     const id = config.storytellerId == interaction.user.id && data.currentCharacter 
     ? data.currentCharacter : interaction.user.id;
 
