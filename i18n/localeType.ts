@@ -283,6 +283,7 @@ export type LocaleType = {
   };
   reRollHelperText: string;
   unauthorized: string;
+  characterUpdate: string;
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
   storytellerChangeCurrentCharacter: string;

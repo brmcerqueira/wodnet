@@ -1,11 +1,12 @@
 import { Character } from "./character.ts";
+import { locale } from "./i18n/locale.ts";
 
 const database = await Deno.openKv();
 
-const character = "character";
+const characterKey = "character";
 
-export async function get(id: string): Promise<Character> {
-  const keys = [character, id];
+export async function get(id: string, ignorePersist?: boolean): Promise<Character> {
+  const keys = [characterKey, id];
 
   const entry = await database.get<Character>(keys);
 
@@ -17,7 +18,7 @@ export async function get(id: string): Promise<Character> {
       id: id,
       details: "",
       image: "",
-      name: "",
+      name: `${locale.character} ${crypto.getRandomValues(new Int8Array(1))}`,
       player: "",
       resonance: "",
       ambition: "",
@@ -101,14 +102,21 @@ export async function get(id: string): Promise<Character> {
       advantages: {},
       flaws: {},
       disciplines: {},
-    };
+    }
+
+    if (!ignorePersist) {
+      await database.set(keys, result);
+    }
+  }
+  else {
+    result.versionstamp = entry.versionstamp;
   }
 
-  result.versionstamp = entry.versionstamp;
-
-  await database.set(keys, result);
-
   return result;
+}
+
+export async function update(id: string, character: Character) {
+  await database.set([characterKey, id], character);
 }
 
 export async function check(id: string, versionstamp: string): Promise<boolean> {
@@ -117,7 +125,7 @@ export async function check(id: string, versionstamp: string): Promise<boolean> 
 
 export async function search(term: string): Promise<Character[]> {
   const result: Character[] = [];
-  for await (const key of database.list<Character>({ prefix: [character] })) {
+  for await (const key of database.list<Character>({ prefix: [characterKey] })) {
     if (key.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
       result.push(key.value);
     }

@@ -314,13 +314,13 @@ commands[treatKey(locale.player)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterFieldSolver((c, _o, v: string) => c.player = v),
+  solve: buildCharacterFieldSolver((c, v: string) => c.player = v),
 };
 
 commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
   options: buildChoicesOptions(locale.resonance.options),
-  solve: buildCharacterFieldSolver((c, _o, v: string) => c.resonance = v),
+  solve: buildCharacterFieldSolver((c, v: string) => c.resonance = v),
 };
 
 commands[treatKey(locale.ambition)] = {
@@ -331,7 +331,7 @@ commands[treatKey(locale.ambition)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterFieldSolver((c, _o, v: string) => c.ambition = v),
+  solve: buildCharacterFieldSolver((c, v: string) => c.ambition = v),
 };
 
 commands[treatKey(locale.desire)] = {
@@ -342,25 +342,25 @@ commands[treatKey(locale.desire)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterFieldSolver((c, _o, v: string) => c.desire = v),
+  solve: buildCharacterFieldSolver((c, v: string) => c.desire = v),
 };
 
 commands[treatKey(locale.predator.name)] = {
   description: `${locale.commands.sheet.description} ${locale.predator.name}`,
   options: buildChoicesOptions(locale.predator.options),
-  solve: buildCharacterFieldSolver((c, _o, v: string) => c.predator = v),
+  solve: buildCharacterFieldSolver((c, v: string) => c.predator = v),
 };
 
 commands[treatKey(locale.clan.name)] = {
   description: `${locale.commands.sheet.description} ${locale.clan.name}`,
   options: buildChoicesOptions(locale.clan.options),
-  solve: buildCharacterFieldSolver((c, _o, v: string) => c.clan = v),
+  solve: buildCharacterFieldSolver((c, v: string) => c.clan = v),
 };
 
 commands[treatKey(locale.generation.name)] = {
   description: `${locale.commands.sheet.description} ${locale.generation.name}`,
   options: buildIntegerOptions(4, 16),
-  solve: buildCharacterFieldSolver((c, _o, v: number) => c.generation = v),
+  solve: buildCharacterFieldSolver((c, v: number) => c.generation = v),
 };
 
 commands[treatKey(locale.details)] = {
@@ -371,31 +371,31 @@ commands[treatKey(locale.details)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterFieldSolver((c, _o, v: string) => c.details = v),
+  solve: buildCharacterFieldSolver((c, v: string) => c.details = v),
 };
 
 commands[treatKey(locale.bloodPotency)] = {
   description: `${locale.commands.sheet.description} ${locale.bloodPotency}`,
   options: buildIntegerOptions(0, 10),
-  solve: buildCharacterFieldSolver((c, _o, v: number) => c.bloodPotency = v),
+  solve: buildCharacterFieldSolver((c, v: number) => c.bloodPotency = v),
 };
 
 commands[treatKey(locale.hunger)] = {
   description: `${locale.commands.sheet.description} ${locale.hunger}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) => c.hunger = v),
+  solve: buildCharacterFieldSolver((c, v: number) => c.hunger = v),
 };
 
 commands[treatKey(locale.humanity)] = {
   description: `${locale.commands.sheet.description} ${locale.humanity}`,
   options: buildIntegerOptions(0, 10),
-  solve: buildCharacterFieldSolver((c, _o, v: number) => c.humanity.total = v),
+  solve: buildCharacterFieldSolver((c, v: number) => c.humanity.total = v),
 };
 
 commands[treatKey(locale.stains)] = {
   description: `${locale.commands.sheet.description} ${locale.stains}`,
   options: buildIntegerOptions(0, 10),
-  solve: buildCharacterFieldSolver((c, _o, v: number) => c.humanity.stains = v),
+  solve: buildCharacterFieldSolver((c, v: number) => c.humanity.stains = v),
 };
 
 commands[treatKey(locale.health)] = {
@@ -456,7 +456,7 @@ commands[treatKey(locale.attributes.physical.strength)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.strength}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.physical.strength = v
   ),
 };
@@ -465,7 +465,7 @@ commands[treatKey(locale.attributes.physical.dexterity)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.dexterity}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.physical.dexterity = v
   ),
 };
@@ -474,7 +474,7 @@ commands[treatKey(locale.attributes.physical.stamina)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.physical.stamina}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.physical.stamina = v
   ),
 };
@@ -483,7 +483,7 @@ commands[treatKey(locale.attributes.social.charisma)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.charisma}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.social.charisma = v
   ),
 };
@@ -492,7 +492,7 @@ commands[treatKey(locale.attributes.social.manipulation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.manipulation}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.social.manipulation = v
   ),
 };
@@ -501,7 +501,7 @@ commands[treatKey(locale.attributes.social.composure)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.social.composure}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.social.composure = v
   ),
 };
@@ -510,7 +510,7 @@ commands[treatKey(locale.attributes.mental.intelligence)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.intelligence}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.mental.intelligence = v
   ),
 };
@@ -519,7 +519,7 @@ commands[treatKey(locale.attributes.mental.wits)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.wits}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.mental.wits = v
   ),
 };
@@ -528,7 +528,7 @@ commands[treatKey(locale.attributes.mental.resolve)] = {
   description:
     `${locale.commands.sheet.description} ${locale.attributes.mental.resolve}`,
   options: buildIntegerOptions(1, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.attributes.mental.resolve = v
   ),
 };
@@ -537,7 +537,7 @@ commands[treatKey(locale.skills.physical.melee)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.melee}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.melee = v
   ),
 };
@@ -546,7 +546,7 @@ commands[treatKey(locale.skills.physical.firearms)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.firearms}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.firearms = v
   ),
 };
@@ -555,7 +555,7 @@ commands[treatKey(locale.skills.physical.athletics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.athletics}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.athletics = v
   ),
 };
@@ -564,7 +564,7 @@ commands[treatKey(locale.skills.physical.brawl)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.brawl}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.brawl = v
   ),
 };
@@ -573,7 +573,7 @@ commands[treatKey(locale.skills.physical.drive)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.drive}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.drive = v
   ),
 };
@@ -582,7 +582,7 @@ commands[treatKey(locale.skills.physical.stealth)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.stealth}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.stealth = v
   ),
 };
@@ -591,7 +591,7 @@ commands[treatKey(locale.skills.physical.larceny)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.larceny}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.larceny = v
   ),
 };
@@ -600,7 +600,7 @@ commands[treatKey(locale.skills.physical.craft)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.craft}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.craft = v
   ),
 };
@@ -609,7 +609,7 @@ commands[treatKey(locale.skills.physical.survival)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.physical.survival}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.physical.survival = v
   ),
 };
@@ -618,7 +618,7 @@ commands[treatKey(locale.skills.social.animalKen)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.animalKen}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.animalKen = v
   ),
 };
@@ -627,7 +627,7 @@ commands[treatKey(locale.skills.social.etiquette)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.etiquette}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.etiquette = v
   ),
 };
@@ -636,7 +636,7 @@ commands[treatKey(locale.skills.social.intimidation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.intimidation}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.intimidation = v
   ),
 };
@@ -645,7 +645,7 @@ commands[treatKey(locale.skills.social.leadership)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.leadership}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.leadership = v
   ),
 };
@@ -654,7 +654,7 @@ commands[treatKey(locale.skills.social.streetwise)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.streetwise}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.streetwise = v
   ),
 };
@@ -663,7 +663,7 @@ commands[treatKey(locale.skills.social.performance)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.performance}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.performance = v
   ),
 };
@@ -672,7 +672,7 @@ commands[treatKey(locale.skills.social.persuasion)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.persuasion}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.persuasion = v
   ),
 };
@@ -681,7 +681,7 @@ commands[treatKey(locale.skills.social.insight)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.insight}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.insight = v
   ),
 };
@@ -690,7 +690,7 @@ commands[treatKey(locale.skills.social.subterfuge)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.social.subterfuge}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.social.subterfuge = v
   ),
 };
@@ -699,7 +699,7 @@ commands[treatKey(locale.skills.mental.science)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.science}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.science = v
   ),
 };
@@ -708,7 +708,7 @@ commands[treatKey(locale.skills.mental.academics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.academics}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.academics = v
   ),
 };
@@ -717,7 +717,7 @@ commands[treatKey(locale.skills.mental.finance)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.finance}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.finance = v
   ),
 };
@@ -726,7 +726,7 @@ commands[treatKey(locale.skills.mental.investigation)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.investigation}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.investigation = v
   ),
 };
@@ -735,7 +735,7 @@ commands[treatKey(locale.skills.mental.medicine)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.medicine}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.medicine = v
   ),
 };
@@ -744,7 +744,7 @@ commands[treatKey(locale.skills.mental.occult)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.occult}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.occult = v
   ),
 };
@@ -753,7 +753,7 @@ commands[treatKey(locale.skills.mental.awareness)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.awareness}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.awareness = v
   ),
 };
@@ -762,7 +762,7 @@ commands[treatKey(locale.skills.mental.politics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.politics}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.politics = v
   ),
 };
@@ -771,7 +771,7 @@ commands[treatKey(locale.skills.mental.technology)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.technology}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterFieldSolver((c, _o, v: number) =>
+  solve: buildCharacterFieldSolver((c, v: number) =>
     c.skills.mental.technology = v
   ),
 };

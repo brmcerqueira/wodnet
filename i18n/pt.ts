@@ -6,6 +6,7 @@ export const pt: LocaleType = {
   type: "Tipo",
   standard: "Padrão",
   character: "Personagem",
+  characterUpdate: "O personagem foi atualizado",
   specialties: {
     name: "Especializações",
     skill: "Habilidade",
@@ -519,7 +520,7 @@ export const pt: LocaleType = {
   shortening: {
     "Círculo de Proteção Contra": "Círculo P",
     "Proteção Contra": "Proteção",
-    "Despertar com o Frescor do Anoitecer": "Despertar Anoitecer", 
+    "Despertar com o Frescor do Anoitecer": "Despertar Anoitecer",
     "Comunicação com o Senhor do Membro": "Comunicação Senhor",
     "Iluminar o Rastro da Presa": "Iluminar Rastro Presa",
     "Deflecção da Ruína de Madeira": "Deflecção Madeira",
@@ -527,5 +528,5 @@ export const pt: LocaleType = {
     "Fuste de Extinção Tardia": "Fuste Tardia",
     "Defesa do Refúgio Sagrado": "Defesa Refúgio",
     "Olhos do Falcão Noturno": "Olhos Falcão"
-  }
+  },
 };
