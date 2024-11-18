@@ -21,7 +21,7 @@ export function buildCharacterFieldSolver(parse: (character: Character, value: a
         id = interaction.user.id;
       }
 
-      const character = await get(id);
+      const character = await get(id, true);
 
       logger.info("get %v", JSON.stringify(character));
 

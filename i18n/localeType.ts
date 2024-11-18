@@ -19,7 +19,6 @@ export type LocaleType = {
     skill: string;
     specialty: string;
   };
-  template: string;
   characterLinks: string;
   details: string;
   name: string;

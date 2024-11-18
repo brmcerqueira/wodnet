@@ -34,7 +34,7 @@ server.use(async (ctx: Context, next: NextFunc) => {
   );
   ctx.extra.id = ctx.url.searchParams.get("id")!;
   if (ctx.extra.id) {
-    ctx.extra.decodeId = parseInt(textDecoder.decode(decodeBase64Url(ctx.extra.id)));
+    ctx.extra.decodeId = textDecoder.decode(decodeBase64Url(ctx.extra.id));
   }
   await next();
 });
@@ -78,7 +78,7 @@ await server.listen({ port: config.port });
 function characterRoute(dark: boolean): RouteFn {
   return async (ctx: Context, next: NextFunc) => {
       ctx.res.body = await characterRender(
-        await get(ctx.extra.decodeId),
+        await get(ctx.extra.decodeId, true),
         ctx.extra.id,
         dark,
         ctx.url.searchParams.has("update")

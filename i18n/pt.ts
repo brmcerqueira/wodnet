@@ -12,7 +12,6 @@ export const pt: LocaleType = {
     skill: "Habilidade",
     specialty: "Especialização",
   },
-  template: "Modelo",
   characterLinks: "Fichas",
   details: "Detalhes",
   name: "Nome",
@@ -415,6 +414,10 @@ export const pt: LocaleType = {
     },
     sheet: {
       description: "Atualizar valor do campo:",
+      link: {
+        name: "link",
+        description: "Link"
+      },
       create: {
         name: "criar",
         description: "Criar"
