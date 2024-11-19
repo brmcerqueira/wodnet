@@ -16,6 +16,12 @@ function treatDetails(text: string): string {
     return text.substring(0, index > -1 ? index : text.length);
 }
 
+function treatSkill(key: string | number): string {
+    return (locale.skills.physical as any)[key] 
+    || (locale.skills.social as any)[key] 
+    || (locale.skills.mental as any)[key];
+}
+
 const Meter = (properties: { total: number, put: (index: number) => TsxComplexElement }): TsxComplexElement => {
     const indexSpace = properties.total > 5 ? (Math.ceil(properties.total / 2) + 1) : 0;
     const elements: TsxComplexElement[] = [];
@@ -386,7 +392,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         {keys(character.specialties).map(skill => character.specialties[skill].map(specialty =>
                             <div class="row align-items-center">
                                 <div class="col text-end">{treatDetails(specialty)}</div>
-                                <div class="col text-start">({skill})</div>
+                                <div class="col text-start">({treatSkill(skill)})</div>
                             </div>))}
                     </div>
                     <div class="col-sm-5 mb-2">
