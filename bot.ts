@@ -5,16 +5,16 @@ import {
   GatewayIntents,
   Interaction,
   InteractionApplicationCommandData,
+  InteractionApplicationCommandOption,
   InteractionMessageComponentData,
   InteractionType,
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
-import { keys, treatDiscipline } from "./utils.ts";
+import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
 import { CommandOptions, CommandOptionType, commands } from "./roll/commands.ts";
-import { locale } from "./i18n/locale.ts";
 
 const keyCommands = keys(commands);
 
@@ -47,7 +47,7 @@ client.on("ready", async () => {
       const command = commands[name];
       if (!discordCommands.find(c => c.name == name)) {
         const data = {
-          type: 1,
+          type: CommandOptionType.SUB_COMMAND,
           name,
           description: command.description,
           options: transformOptions(command.options)
@@ -114,32 +114,7 @@ client.on("ready", async () => {
           let values: any = undefined;
 
           if (command.options) {
-            values = {};
-            keys(command.options).forEach((key) => {
-              const discordOption = data.options.find((o) => o.name == key);
-              if (discordOption) {
-                let value: any = undefined;
-                const option = command.options![key];
-                switch (option.type) {
-                  case CommandOptionType.BOOLEAN:
-                    value = discordOption.value == "true";
-                    break;
-                  case CommandOptionType.INTEGER:
-                    value = parseInt(discordOption.value);
-                    break;
-                  default:
-                    value = discordOption.value;
-                    break;
-                }
-
-                values[option.property] = option.autocomplete
-                  ? {
-                    value: value,
-                    focused: discordOption.focused,
-                  }
-                  : value;
-              }
-            });
+            values = parseValues(command.options, data.options);
           }
 
           await command.solve(interaction, values);
@@ -151,6 +126,42 @@ client.on("ready", async () => {
     logger.error(error);
   }
 });
+
+function parseValues(options: CommandOptions, dataOptions: InteractionApplicationCommandOption[]) {
+  const values: any = {};
+
+  keys(options).forEach(key => {
+    const discordOption = dataOptions.find(o => o.name == key);
+
+    if (discordOption) {
+      let value: any = undefined;
+      const option = options![key];
+      switch (option.type) {
+        case CommandOptionType.SUB_COMMAND:
+          if (option.options) {
+            value = parseValues(option.options, discordOption.options!);
+          }
+          break;
+        case CommandOptionType.BOOLEAN:
+          value = discordOption.value == "true";
+          break;
+        case CommandOptionType.INTEGER:
+          value = parseInt(discordOption.value);
+          break;
+        default:
+          value = discordOption.value;
+          break;
+      }
+
+      values[option.property] = option.autocomplete ? {
+          value: value,
+          focused: discordOption.focused,
+        } : value;
+    }
+  });
+
+  return values;
+}
 
 function transformOptions(options?: CommandOptions): any[] | undefined {
   return options ? keys(options).map(key => {

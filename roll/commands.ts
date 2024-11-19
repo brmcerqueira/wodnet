@@ -8,11 +8,11 @@ import { setModifierSolver } from "./solver/setModifierSolver.ts";
 import { dicePoolSolver } from "./solver/dicePoolSolver.ts";
 import { keys, treatDiscipline } from "../utils.ts";
 import { buildCharacterSolver } from "./solver/buildCharacterSolver.ts";
-import { buildCharacterDamageSolver } from "./solver/buildCharacterDamageSolver.ts";
 import { buildCharacterDisciplineSolver } from "./solver/buildCharacterDisciplineSolver.ts";
 import { buildCharacterAdvantageFlawSolver } from "./solver/buildCharacterAdvantageFlawSolver.ts";
-import { specialtiesSolver } from "./solver/specialtiesSolver.ts";
 import { characterLinkSolver } from "./solver/characterLinkSolver.ts";
+import { Character, Damage } from "../character.ts";
+import { logger } from "../logger.ts";
 
 export enum CommandOptionType {
   SUB_COMMAND = 1,
@@ -112,6 +112,38 @@ function buildIntegerOptions(
     minValue,
     maxValue,
   }).build;
+}
+
+function damageOptions(): CommandOptions {
+  return option(locale.damage.superficial, {
+    property: "superficial",
+    description: locale.damage.superficial,
+    type: CommandOptionType.INTEGER,
+    minValue: -20,
+    maxValue: 20,
+  }).option(locale.damage.aggravated, {
+    property: "aggravated",
+    description: locale.damage.aggravated,
+    type: CommandOptionType.INTEGER,
+    minValue: -20,
+    maxValue: 20,
+  }).build;
+}
+
+function damageParse(get: (character: Character) => Damage): (character: Character, input: { superficial?: number; aggravated?: number; }) => void {
+  return (c, i: {
+    superficial?: number;
+    aggravated?: number;
+  }) => {
+    const damage = get(c);
+    if (i.superficial) {
+      damage.superficial = i.superficial;
+    }
+
+    if (i.aggravated) {
+      damage.aggravated = i.aggravated;
+    }
+  };
 }
 
 function buildAdvantageFlawOptions(): CommandOptions {
@@ -416,38 +448,14 @@ commands[treatKey(locale.stains)] = {
 
 commands[treatKey(locale.health)] = {
   description: `${locale.commands.sheet.description} ${locale.health}`,
-  options: option(locale.damage.superficial, {
-    property: "superficial",
-    description: locale.damage.superficial,
-    type: CommandOptionType.INTEGER,
-    minValue: -20,
-    maxValue: 20,
-  }).option(locale.damage.aggravated, {
-    property: "aggravated",
-    description: locale.damage.aggravated,
-    type: CommandOptionType.INTEGER,
-    minValue: -20,
-    maxValue: 20,
-  }).build,
-  solve: buildCharacterDamageSolver((c) => c.health),
+  options: damageOptions(),
+  solve: buildCharacterSolver(damageParse(c => c.health)),
 };
 
 commands[treatKey(locale.willpower)] = {
   description: `${locale.commands.sheet.description} ${locale.willpower}`,
-  options: option(locale.damage.superficial, {
-    property: "superficial",
-    description: locale.damage.superficial,
-    type: CommandOptionType.INTEGER,
-    minValue: -20,
-    maxValue: 20,
-  }).option(locale.damage.aggravated, {
-    property: "aggravated",
-    description: locale.damage.aggravated,
-    type: CommandOptionType.INTEGER,
-    minValue: -20,
-    maxValue: 20,
-  }).build,
-  solve: buildCharacterDamageSolver((c) => c.willpower),
+  options: damageOptions(),
+  solve: buildCharacterSolver(damageParse(c => c.willpower)),
 };
 
 commands[treatKey(locale.experience.name)] = {
@@ -764,9 +772,31 @@ commands[treatKey(locale.skills.mental.technology)] = {
   ),
 };
 
+type NewSpecialty = { skill: string; name: string; };
+
 commands[treatKey(locale.specialties.name)] = { 
   description: `${locale.commands.sheet.description} ${locale.specialties.name}`,
-  solve: specialtiesSolver,
+  solve: buildCharacterSolver((c, input: {
+    physical?: NewSpecialty;
+    social?: NewSpecialty;
+    mental?: NewSpecialty;
+    delete?: { index: number }
+  }) => {
+    if (input.delete) {
+      let index = 1;
+      for (const key in c.specialties) {
+        if (index == input.delete.index) {
+          delete c.specialties[key];
+          break;
+        }
+        index++;  
+      }
+    } 
+    else {
+      const specialty = input.physical || input.social || input.mental as NewSpecialty;
+      //c.specialties[]
+    }
+  }),
   options: option(locale.physical, {
     property: "physical",
     description: locale.physical,
