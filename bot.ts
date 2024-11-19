@@ -14,7 +14,7 @@ import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
-import { CommandOptions, CommandOptionType, commands } from "./roll/commands.ts";
+import { CommandOptions, CommandOptionType, commands } from "./roll/commands/module.ts";
 
 const keyCommands = keys(commands);
 

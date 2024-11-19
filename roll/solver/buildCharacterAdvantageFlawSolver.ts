@@ -1,6 +1,6 @@
 import { AdvantageFlaw, Character } from "../../character.ts";
 import { Interaction } from "../../deps.ts";
-import { Solver } from "../commands.ts";
+import { Solver } from "../commands/common.ts";
 
 
 export function buildCharacterAdvantageFlawSolver(advantageFlaw: (character: Character) => AdvantageFlaw): Solver {

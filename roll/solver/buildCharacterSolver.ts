@@ -3,7 +3,7 @@ import { get, update } from "../../characterManager.ts";
 import { config } from "../../config.ts";
 import { Interaction, InteractionResponseType } from "../../deps.ts";
 import { locale } from "../../i18n/locale.ts";
-import { Solver } from "../commands.ts";
+import { Solver } from "../commands/common.ts";
 import * as data from "../data.ts";
 import * as colors from "../colors.ts";
 import { logger } from "../../logger.ts";
