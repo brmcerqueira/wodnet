@@ -49,6 +49,8 @@ export type CommandOptions = {
   [name: string]: CommandOption;
 };
 
+type NewSpecialty = { skill: string; name: string; };
+
 export type Solver = (interaction: Interaction, values?: any) => Promise<void>;
 
 export const commands: {
@@ -772,8 +774,6 @@ commands[treatKey(locale.skills.mental.technology)] = {
   ),
 };
 
-type NewSpecialty = { skill: string; name: string; };
-
 commands[treatKey(locale.specialties.name)] = { 
   description: `${locale.commands.sheet.description} ${locale.specialties.name}`,
   solve: buildCharacterSolver((c, input: {
@@ -784,17 +784,30 @@ commands[treatKey(locale.specialties.name)] = {
   }) => {
     if (input.delete) {
       let index = 1;
-      for (const key in c.specialties) {
-        if (index == input.delete.index) {
-          delete c.specialties[key];
-          break;
-        }
-        index++;  
+      loop: for (const key in c.specialties) {
+        const array = c.specialties[key];
+        for (let i = 0; i < array.length; i++) {
+          if (index == input.delete.index) {
+            array.splice(i, 1);
+            if (array.length == 0) {
+              delete c.specialties[key];
+            }
+            break loop;
+          }
+          index++;
+        }    
       }
     } 
     else {
       const specialty = input.physical || input.social || input.mental as NewSpecialty;
-      //c.specialties[]
+      
+      if (c.specialties[specialty.skill] == undefined) {
+        c.specialties[specialty.skill] = [];
+      }
+
+      if (c.specialties[specialty.skill].indexOf(specialty.name) == -1) {
+        c.specialties[specialty.skill].push(specialty.name);
+      }
     }
   }),
   options: option(locale.physical, {
