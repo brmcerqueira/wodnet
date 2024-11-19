@@ -8,8 +8,8 @@ import * as data from "../data.ts";
 import * as colors from "../colors.ts";
 import { logger } from "../../logger.ts";
 
-export function buildCharacterFieldSolver(parse: (character: Character, value: any) => void): Solver {
-    return async (interaction: Interaction, input: { value: number }) => {
+export function buildCharacterFieldSolver<T>(parse: (character: Character, input: T) => void): Solver {
+    return async (interaction: Interaction, input: T) => {
       let id = "";
 
       if (config.storytellerId == interaction.user.id) {
@@ -29,7 +29,7 @@ export function buildCharacterFieldSolver(parse: (character: Character, value: a
 
       logger.info("get %v", JSON.stringify(character));
 
-      parse(character, input.value);
+      parse(character, input);
 
       await update(id, character);
 
