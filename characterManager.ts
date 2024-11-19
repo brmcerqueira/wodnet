@@ -2,8 +2,6 @@ import { Character } from "./character.ts";
 
 const database = await Deno.openKv();
 
-await database.delete(["character",""]);
-
 const characterKey = "character";
 
 function penalty(left: number): number {
