@@ -27,6 +27,7 @@ export async function characterAutocompleteSolver(
       });
     } else {
       data.setCurrentCharacter(values.character.value);
+      const character = await get(values.character.value);
       await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
@@ -34,9 +35,12 @@ export async function characterAutocompleteSolver(
           color: colors.Gray,
           fields: [{
             name: locale.character,
-            value: `**${(await get(values.character.value)).name}**`,
+            value: `**${character.name}**`,
             inline: true,
           }],
+          thumbnail: {
+            url: character.image
+          }
         }],
       });
     }
