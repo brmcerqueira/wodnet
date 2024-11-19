@@ -1,7 +1,7 @@
 import {
   ApplicationCommandPayload,
-  base64,
   Client,
+  encodeBase64,
   GatewayIntents,
   Interaction,
   InteractionApplicationCommandData,
@@ -14,9 +14,95 @@ import { logger } from "./logger.ts";
 import { emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
-import { CommandOptions, CommandOptionType, commands } from "./roll/commands/module.ts";
+import {
+  CommandOptions,
+  CommandOptionType,
+  commands,
+} from "./roll/commands/module.ts";
 
 const keyCommands = keys(commands);
+
+function parseValues(
+options: CommandOptions, 
+interactionOptions: InteractionApplicationCommandOption[], 
+data: InteractionApplicationCommandData
+) {
+  const values: any = {};
+
+  keys(options).forEach((key) => {
+    const interactionOption = interactionOptions.find((o) => o.name == key);
+
+    if (interactionOption) {
+      let value: any = undefined;
+      const option = options![key];
+      switch (option.type) {
+        case CommandOptionType.SUB_COMMAND:
+          if (option.options) {
+            value = parseValues(option.options, interactionOption.options!, data);
+          }
+          break;
+        case CommandOptionType.ATTACHMENT:
+          value = (data.resolved! as any)["attachments"][interactionOption.value];
+          break;
+        case CommandOptionType.BOOLEAN:
+          value = interactionOption.value == true;
+          break;
+        case CommandOptionType.INTEGER:
+          value = parseInt(interactionOption.value);
+          break;
+        default:
+          value = interactionOption.value;
+          break;
+      }
+
+      values[option.property] = option.autocomplete
+        ? {
+          value: value,
+          focused: interactionOption.focused,
+        }
+        : value;
+    }
+  });
+
+  return values;
+}
+
+function transformOptions(options?: CommandOptions): any[] | undefined {
+  return options
+    ? keys(options).map((key) => {
+      const option = options![key];
+      return {
+        name: key,
+        description: option.description,
+        type: option.type,
+        required: option.required,
+        min_value: option.minValue,
+        max_value: option.maxValue,
+        autocomplete: option.autocomplete,
+        choices: option.choices,
+        options: transformOptions(option.options),
+      };
+    })
+    : undefined;
+}
+
+async function cleanCommands(
+  discordCommands: ApplicationCommandPayload[],
+  ...keys: string[]
+) {
+  for (let index = 0; index < discordCommands.length; index++) {
+    const command = discordCommands[index];
+    if (!keys || (keys && keys.indexOf(command.name) > -1)) {
+      await client.rest.endpoints.deleteGlobalApplicationCommand(
+        client.applicationID!,
+        command.id,
+      );
+      discordCommands.splice(index, 1);
+      index--;
+      logger.info("Delete Command %v", JSON.stringify(command));
+    }
+  }
+}
 
 const client = new Client({
   token: config.discordToken,
@@ -45,17 +131,17 @@ client.on("ready", async () => {
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];
       const command = commands[name];
-      if (!discordCommands.find(c => c.name == name)) {
+      if (!discordCommands.find((c) => c.name == name)) {
         const data = {
           type: CommandOptionType.SUB_COMMAND,
           name,
           description: command.description,
-          options: transformOptions(command.options)
+          options: transformOptions(command.options),
         };
         logger.info("Command %v", JSON.stringify(data));
         await client.rest.endpoints.createGlobalApplicationCommand(
           client.applicationID!,
-          data
+          data,
         );
       }
     }
@@ -75,7 +161,7 @@ client.on("ready", async () => {
           emoji = await client.rest.endpoints.createGuildEmoji(guild.id, {
             name: name,
             image: `data:image/png;base64,${
-              base64.encode(await Deno.readFile(`./emojis/${name}.png`))
+              encodeBase64(await Deno.readFile(`./emojis/${name}.png`))
             }`,
           });
         }
@@ -92,8 +178,8 @@ client.on("ready", async () => {
   try {
     logger.info(
       "interaction: %v %v",
-      interaction.type, 
-      JSON.stringify(interaction.data)
+      interaction.type,
+      JSON.stringify(interaction.data),
     );
     if (
       !interaction.user.bot &&
@@ -114,7 +200,7 @@ client.on("ready", async () => {
           let values: any = undefined;
 
           if (command.options) {
-            values = parseValues(command.options, data.options);
+            values = parseValues(command.options, data.options, data);
           }
 
           await command.solve(interaction, values);
@@ -126,72 +212,6 @@ client.on("ready", async () => {
     logger.error(error);
   }
 });
-
-function parseValues(options: CommandOptions, dataOptions: InteractionApplicationCommandOption[]) {
-  const values: any = {};
-
-  keys(options).forEach(key => {
-    const discordOption = dataOptions.find(o => o.name == key);
-
-    if (discordOption) {
-      let value: any = undefined;
-      const option = options![key];
-      switch (option.type) {
-        case CommandOptionType.SUB_COMMAND:
-          if (option.options) {
-            value = parseValues(option.options, discordOption.options!);
-          }
-          break;
-        case CommandOptionType.BOOLEAN:
-          value = discordOption.value == true;
-          break;
-        case CommandOptionType.INTEGER:
-          value = parseInt(discordOption.value);
-          break;
-        default:
-          value = discordOption.value;
-          break;
-      }
-
-      values[option.property] = option.autocomplete ? {
-          value: value,
-          focused: discordOption.focused,
-        } : value;
-    }
-  });
-
-  return values;
-}
-
-function transformOptions(options?: CommandOptions): any[] | undefined {
-  return options ? keys(options).map(key => {
-      const option = options![key];
-      return {
-        name: key,
-        description: option.description,
-        type: option.type,
-        required: option.required,
-        min_value: option.minValue,
-        max_value: option.maxValue,
-        autocomplete: option.autocomplete,
-        choices: option.choices,
-        options: transformOptions(option.options)
-      };
-    }) : undefined;
-}
-
-async function cleanCommands(discordCommands: ApplicationCommandPayload[], ...keys: string[]) {
-  for (let index = 0; index < discordCommands.length; index++) {
-    const command = discordCommands[index];
-    if (!keys || (keys && keys.indexOf(command.name) > -1)) {
-      await client.rest.endpoints.deleteGlobalApplicationCommand(
-        client.applicationID!, command.id);
-      discordCommands.splice(index, 1);
-      index--;
-      logger.info("Delete Command %v", JSON.stringify(command));
-    }
-  }
-}
 
 export async function connect() {
   if (client.upSince == undefined) {

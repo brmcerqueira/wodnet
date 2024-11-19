@@ -9,7 +9,7 @@ export * from "https://deno.land/std@0.208.0/fmt/printf.ts";
 export * from "https://deno.land/std@0.208.0/async/delay.ts";
 export * as log from "https://deno.land/std@0.208.0/log/mod.ts";
 export * from "https://deno.land/std@0.208.0/log/levels.ts";
-export * as base64 from "https://deno.land/std@0.208.0/encoding/base64.ts";
+export { encodeBase64 } from "https://deno.land/std@0.208.0/encoding/base64.ts";
 export { encodeBase64Url, decodeBase64Url } from "https://deno.land/std@0.208.0/encoding/base64url.ts";
 
 export default React;

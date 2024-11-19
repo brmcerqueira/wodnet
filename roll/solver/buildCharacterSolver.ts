@@ -25,8 +25,8 @@ export function buildCharacterSolver<T>(parse: (character: Character, input: T) 
 
       if (character.name == "") {
         character.name = config.storytellerId == interaction.user.id 
-        ? `${interaction.user.username} ${crypto.getRandomValues(new Int8Array(1))}`
-        :  interaction.user.username;
+        ? `${interaction.member!.displayName} ${crypto.getRandomValues(new Int8Array(1))}`
+        : interaction.member!.displayName;
       }
 
       if (character.image == "") {

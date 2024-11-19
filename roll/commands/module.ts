@@ -1,5 +1,5 @@
-import "./standard.ts";
-import "./general.ts";
+import "./gamePlay.ts";
+import "./sheet.ts";
 import "./attributes.ts";
 import "./skillsPhysical.ts";
 import "./skillsSocial.ts";

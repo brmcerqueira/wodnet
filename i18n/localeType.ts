@@ -23,6 +23,7 @@ export type LocaleType = {
   characterLinks: string;
   details: string;
   name: string;
+  image: string;
   player: string;
   resonance: OptionsLocale;
   ambition: string;

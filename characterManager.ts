@@ -8,7 +8,10 @@ function penalty(left: number): number {
   return left <= 0 ? 3 : (left >= 1 && left <= 3 ? (3 - left) : 0);
 }
 
-export async function get(id: string, ignorePersist?: boolean): Promise<Character> {
+export async function get(
+  id: string,
+  ignorePersist?: boolean,
+): Promise<Character> {
   const keys = [characterKey, id];
 
   const entry = await database.get<Character>(keys);
@@ -17,7 +20,6 @@ export async function get(id: string, ignorePersist?: boolean): Promise<Characte
 
   if (result == null) {
     result = {
-      versionstamp: null,
       id: id,
       details: "",
       image: "",
@@ -29,6 +31,8 @@ export async function get(id: string, ignorePersist?: boolean): Promise<Characte
       predator: "",
       clan: "",
       generation: 0,
+      open: true,
+      versionstamp: null,
       attributes: {
         physical: {
           strength: 0,
@@ -105,13 +109,12 @@ export async function get(id: string, ignorePersist?: boolean): Promise<Characte
       advantages: {},
       flaws: {},
       disciplines: {},
-    }
+    };
 
     if (!ignorePersist) {
       await database.set(keys, result);
     }
-  }
-  else {
+  } else {
     result.versionstamp = entry.versionstamp;
   }
 
@@ -133,14 +136,19 @@ export async function update(id: string, character: Character) {
   await database.set([characterKey, id], character);
 }
 
-export async function check(id: string, versionstamp: string): Promise<boolean> {
+export async function check(
+  id: string,
+  versionstamp: string,
+): Promise<boolean> {
   const entry = await database.get<Character>([characterKey, id]);
   return versionstamp != entry.versionstamp;
 }
 
 export async function search(term: string): Promise<Character[]> {
   const result: Character[] = [];
-  for await (const key of database.list<Character>({ prefix: [characterKey] })) {
+  for await (
+    const key of database.list<Character>({ prefix: [characterKey] })
+  ) {
     if (key.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
       result.push(key.value);
     }

@@ -21,6 +21,16 @@ commands[treatKey(locale.name)] = {
   }).build,
   solve: buildCharacterSolver((c, i: { value: string }) => c.name = i.value),
 };
+commands[treatKey(locale.image)] = {
+  description: `${locale.commands.sheet.description} ${locale.image}`,
+  options: option(value, {
+    property: property,
+    description: locale.commands.sheet.value.description,
+    type: CommandOptionType.ATTACHMENT,
+    required: true,
+  }).build,
+  solve: buildCharacterSolver((c, i: { value: { url: string }}) => c.image = i.value.url),
+};
 commands[treatKey(locale.player)] = {
   description: `${locale.commands.sheet.description} ${locale.player}`,
   options: option(value, {

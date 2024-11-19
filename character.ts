@@ -9,7 +9,6 @@ export type AdvantageFlaw = {
 }
 
 export type Character = {
-  versionstamp: string | null;
   id: string;
   details: string;
   image: string;
@@ -21,6 +20,8 @@ export type Character = {
   predator: string;
   clan: string;
   generation: number;
+  open: boolean;
+  versionstamp: string | null;
   attributes: {
     physical: {
       strength: number;

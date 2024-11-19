@@ -16,6 +16,7 @@ export const pt: LocaleType = {
   characterLinks: "Fichas",
   details: "Detalhes",
   name: "Nome",
+  image: "Imagem",
   player: "Jogador",
   resonance: {
     name: "Ressonância",
