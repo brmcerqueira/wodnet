@@ -2,6 +2,7 @@ import { LocaleType } from "./localeType.ts";
 
 export const pt: LocaleType = {
   app: "Wodnet",
+  none: "(Nenhum)",
   value: "Valor",
   type: "Tipo",
   standard: "Padrão",

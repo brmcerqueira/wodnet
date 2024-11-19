@@ -40,7 +40,7 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
-    //await cleanCommands(discordCommands, "vantagens", "defeitos");
+    //await cleanCommands(discordCommands, "ressonância");
 
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];

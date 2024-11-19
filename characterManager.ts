@@ -134,7 +134,8 @@ export async function update(id: string, character: Character) {
 }
 
 export async function check(id: string, versionstamp: string): Promise<boolean> {
-  return true;
+  const entry = await database.get<Character>([characterKey, id]);
+  return versionstamp != entry.versionstamp;
 }
 
 export async function search(term: string): Promise<Character[]> {

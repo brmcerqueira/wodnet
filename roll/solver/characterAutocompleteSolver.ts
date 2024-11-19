@@ -18,12 +18,18 @@ export async function characterAutocompleteSolver(
     if (values.character.focused) {
       await interaction.respond({
         type: InteractionResponseType.APPLICATION_COMMAND_AUTOCOMPLETE_RESULT,
-        choices: (await search(values.character.value)).map(c => {
-          return {
-            value: c.id,
-            name: c.name,
-          };
-        }),
+        choices: [
+          {
+            value: "",
+            name: locale.none,
+          },
+          ...(await search(values.character.value)).map((c) => {
+            return {
+              value: c.id,
+              name: c.name,
+            };
+          }),
+        ],
       });
     } else {
       data.setCurrentCharacter(values.character.value);
@@ -39,8 +45,8 @@ export async function characterAutocompleteSolver(
             inline: true,
           }],
           thumbnail: {
-            url: character.image
-          }
+            url: character.image,
+          },
         }],
       });
     }

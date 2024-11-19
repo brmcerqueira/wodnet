@@ -33,7 +33,7 @@ commands[treatKey(locale.player)] = {
 };
 commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
-  options: buildChoicesOptions(locale.resonance.options),
+  options: buildChoicesOptions(locale.resonance.options, true),
   solve: buildCharacterSolver((c, i: { value: string }) =>
     c.resonance = i.value
   ),

@@ -10,6 +10,7 @@ type CommandOption = {
 
 export type LocaleType = {
   app: string;
+  none: string;
   value: string;
   type: string;
   standard: string;

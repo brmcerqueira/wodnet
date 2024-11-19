@@ -119,17 +119,26 @@ export function buildCreateSpecialtyOptions<T extends object>(
   }).build;
 }
 
-export function buildChoicesOptions(choices: string[]): CommandOptions {
+export function buildChoicesOptions(choices: string[], none?: boolean): CommandOptions {
+  const array = choices.map(item => {
+    return {
+      value: item,
+      name: item,
+    };
+  })
+
+  if (none) {
+    array.unshift({
+      value: "",
+      name: locale.none,
+    });
+  }
+
   return option(value, {
     property: property,
     description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
-    choices: choices.map((item) => {
-      return {
-        name: item,
-        value: item,
-      };
-    }),
+    choices: array,
   }).build;
 }
