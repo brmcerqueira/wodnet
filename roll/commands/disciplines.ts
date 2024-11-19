@@ -18,7 +18,7 @@ function updateDiscipline(input: Input, array: string[]) {
           array.push(key);
         }
       }
-      else {
+      else if (index > -1) {
         array.splice(index, 1);
       }
     }
