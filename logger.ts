@@ -3,7 +3,7 @@ import { log, sprintf } from "./deps.ts";
 
 await log.setup({
     handlers: {
-        console: new log.handlers.ConsoleHandler("NOTSET", {
+        console: new log.ConsoleHandler("NOTSET", {
             formatter: rec => `${rec.levelName} [${rec.datetime.toISOString()}] ${
                 rec.args.length > 0 ? sprintf(rec.msg, ...rec.args): rec.msg}` 
         })

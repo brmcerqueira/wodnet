@@ -126,7 +126,7 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
-    //await cleanCommands(discordCommands, "ressonância");
+    //await cleanCommands(discordCommands);
 
     for (let index = 0; index < keyCommands.length; index++) {
       const name = keyCommands[index];
@@ -138,7 +138,7 @@ client.on("ready", async () => {
           description: command.description,
           options: transformOptions(command.options),
         };
-        logger.info("Command %v", JSON.stringify(data));
+        logger.info("Create Command %v", JSON.stringify(data));
         await client.rest.endpoints.createGlobalApplicationCommand(
           client.applicationID!,
           data,

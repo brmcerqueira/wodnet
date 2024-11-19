@@ -1,4 +1,5 @@
 import { Character } from "./character.ts";
+import { logger } from "./logger.ts";
 
 const database = await Deno.openKv();
 
@@ -16,10 +17,10 @@ export async function get(
 
   const entry = await database.get<Character>(keys);
 
-  let result = entry.value;
+  let character = entry.value;
 
-  if (result == null) {
-    result = {
+  if (character == null) {
+    character = {
       id: id,
       details: "",
       image: "",
@@ -112,13 +113,15 @@ export async function get(
     };
 
     if (!ignorePersist) {
-      await database.set(keys, result);
+      await database.set(keys, character);
     }
   } else {
-    result.versionstamp = entry.versionstamp;
+    character.versionstamp = entry.versionstamp;
   }
 
-  return result;
+  logger.info("Get Character %v", JSON.stringify(character));
+
+  return character;
 }
 
 export async function update(id: string, character: Character) {
@@ -132,6 +135,8 @@ export async function update(id: string, character: Character) {
       character.attributes.mental.resolve) -
       (character.willpower.superficial + character.willpower.aggravated),
   );
+
+  logger.info("Update Character %v", JSON.stringify(character));
 
   await database.set([characterKey, id], character);
 }
