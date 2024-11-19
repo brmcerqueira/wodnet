@@ -1,9 +1,12 @@
 import { Character } from "./character.ts";
-import { locale } from "./i18n/locale.ts";
 
 const database = await Deno.openKv();
 
 const characterKey = "character";
+
+function penalty(left: number): number {
+  return left <= 0 ? 3 : (left >= 1 && left <= 3 ? (3 - left) : 0);
+}
 
 export async function get(id: string, ignorePersist?: boolean): Promise<Character> {
   const keys = [characterKey, id];
@@ -18,7 +21,7 @@ export async function get(id: string, ignorePersist?: boolean): Promise<Characte
       id: id,
       details: "",
       image: "",
-      name: `${locale.character} ${crypto.getRandomValues(new Int8Array(1))}`,
+      name: "",
       player: "",
       resonance: "",
       ambition: "",
@@ -116,6 +119,17 @@ export async function get(id: string, ignorePersist?: boolean): Promise<Characte
 }
 
 export async function update(id: string, character: Character) {
+  character.health.penalty = penalty(
+    (character.attributes.physical.stamina + 3) -
+      (character.health.superficial + character.health.aggravated),
+  );
+
+  character.willpower.penalty = penalty(
+    (character.attributes.social.composure +
+      character.attributes.mental.resolve) -
+      (character.willpower.superficial + character.willpower.aggravated),
+  );
+
   await database.set([characterKey, id], character);
 }
 

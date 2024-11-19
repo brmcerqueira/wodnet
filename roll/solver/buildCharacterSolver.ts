@@ -23,6 +23,12 @@ export function buildCharacterSolver<T>(parse: (character: Character, input: T) 
 
       const character = await get(id, true);
 
+      if (character.name == "") {
+        character.name = config.storytellerId == interaction.user.id 
+        ? `${interaction.user.username} ${crypto.getRandomValues(new Int8Array(1))}`
+        :  interaction.user.username;
+      }
+
       if (character.image == "") {
         character.image = interaction.user.avatarURL();
       }
