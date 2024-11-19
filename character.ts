@@ -86,7 +86,7 @@ export type Character = {
     spent: number;
   };
   specialties: {
-    [skill: string]: string[]
+    [skill: string]: string[];
   };
   advantages: AdvantageFlaw;
   flaws: AdvantageFlaw;

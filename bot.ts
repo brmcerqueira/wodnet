@@ -143,7 +143,7 @@ function parseValues(options: CommandOptions, dataOptions: InteractionApplicatio
           }
           break;
         case CommandOptionType.BOOLEAN:
-          value = discordOption.value == "true";
+          value = discordOption.value == true;
           break;
         case CommandOptionType.INTEGER:
           value = parseInt(discordOption.value);

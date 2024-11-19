@@ -42,8 +42,10 @@ commands[treatKey(locale.specialties.name)] = {
         c.specialties[specialty.skill] = [];
       }
 
-      if (c.specialties[specialty.skill].indexOf(specialty.name) == -1) {
-        c.specialties[specialty.skill].push(specialty.name);
+      const array = c.specialties[specialty.skill];
+
+      if (array.indexOf(specialty.name) == -1) {
+        array.push(specialty.name);
       }
     }
   }),

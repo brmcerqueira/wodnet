@@ -3,6 +3,7 @@ import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
 import { keys, treatDiscipline } from "../utils.ts";
+import { LocaleType } from "../i18n/localeType.ts";
 
 const CircleFill: TsxComplexElement = <i class="bi bi-circle-fill" />
 const Circle: TsxComplexElement = <i class="bi bi-circle" />
@@ -16,7 +17,7 @@ function treatDetails(text: string): string {
     return text.substring(0, index > -1 ? index : text.length);
 }
 
-function treatSkill(key: string | number): string {
+function localeSkill(key: string | number): string {
     return (locale.skills.physical as any)[key] 
     || (locale.skills.social as any)[key] 
     || (locale.skills.mental as any)[key];
@@ -392,7 +393,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         {keys(character.specialties).map(skill => character.specialties[skill].map(specialty =>
                             <div class="row align-items-center">
                                 <div class="col text-end">{treatDetails(specialty)}</div>
-                                <div class="col text-start">({treatSkill(skill)})</div>
+                                <div class="col text-start">({localeSkill(skill)})</div>
                             </div>))}
                     </div>
                     <div class="col-sm-5 mb-2">
@@ -430,7 +431,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                                 <div class="col text-center"><Dots value={character.disciplines[key]!.length} total={5} /></div>
                             </div>
                             {character.disciplines[key]?.map(name => {
-                                const discipline = treatDiscipline(name);
+                                const discipline = treatDiscipline((locale.disciplines as any)[key][name]);
                                 return <div class="row align-items-center">
                                     <div class="col text-end"><Dots value={discipline.value} total={discipline.value} /></div>
                                     <div class="col text-start">{discipline.name}</div>
