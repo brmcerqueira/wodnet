@@ -32,8 +32,9 @@ export async function characterAutocompleteSolver(
         ],
       });
     } else {
-      data.setCurrentCharacter(values.character.value);
-      const character = await get(values.character.value);
+      const id = values.character.value != "" ? values.character.value : null;
+      data.setCurrentCharacter(id);
+      const character = id != null ? await get(id) : null;
       await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
@@ -41,12 +42,12 @@ export async function characterAutocompleteSolver(
           color: colors.Gray,
           fields: [{
             name: locale.character,
-            value: `**${character.name}**`,
+            value: `**${character?.name || locale.none}**`,
             inline: true,
           }],
-          thumbnail: {
+          thumbnail: character ? {
             url: character.image,
-          },
+          } : undefined,
         }],
       });
     }
