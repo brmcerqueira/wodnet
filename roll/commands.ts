@@ -9,10 +9,8 @@ import { dicePoolSolver } from "./solver/dicePoolSolver.ts";
 import { keys, treatDiscipline } from "../utils.ts";
 import { buildCharacterSolver } from "./solver/buildCharacterSolver.ts";
 import { buildCharacterDisciplineSolver } from "./solver/buildCharacterDisciplineSolver.ts";
-import { buildCharacterAdvantageFlawSolver } from "./solver/buildCharacterAdvantageFlawSolver.ts";
 import { characterLinkSolver } from "./solver/characterLinkSolver.ts";
-import { Character, Damage } from "../character.ts";
-import { logger } from "../logger.ts";
+import { AdvantageFlaw, Character, Damage } from "../character.ts";
 
 export enum CommandOptionType {
   SUB_COMMAND = 1,
@@ -116,7 +114,7 @@ function buildIntegerOptions(
   }).build;
 }
 
-function damageOptions(): CommandOptions {
+function buildDamageOptions(): CommandOptions {
   return option(locale.damage.superficial, {
     property: "superficial",
     description: locale.damage.superficial,
@@ -133,10 +131,7 @@ function damageOptions(): CommandOptions {
 }
 
 function damageParse(get: (character: Character) => Damage): (character: Character, input: { superficial?: number; aggravated?: number; }) => void {
-  return (c, i: {
-    superficial?: number;
-    aggravated?: number;
-  }) => {
+  return (c, i) => {
     const damage = get(c);
     if (i.superficial) {
       damage.superficial = i.superficial;
@@ -144,6 +139,52 @@ function damageParse(get: (character: Character) => Damage): (character: Charact
 
     if (i.aggravated) {
       damage.aggravated = i.aggravated;
+    }
+  };
+}
+
+function buildCreateSpecialtyOptions<T extends object>(o: T): CommandOptions {
+  return option(locale.specialties.skill, {
+    property: "skill",
+    description: locale.specialties.skill,
+    type: CommandOptionType.STRING,
+    required: true,
+    choices: buildChoices(o)
+  }).option(locale.commands.sheet.name.name, {
+    property: "name",
+    description: locale.commands.sheet.name.description,
+    type: CommandOptionType.STRING,
+    required: true,
+  }).build;
+}
+
+function advantageFlawParse(get: (character: Character) => AdvantageFlaw): 
+(character: Character, input: { 
+  create?: { name: string; value: number }, 
+  edit?: { index: number; value: number }}) => void {
+  return (c, input) => {
+    const advantageFlaw = get(c);
+
+    if (input.create) {
+      if (advantageFlaw[input.create.name] == undefined) {
+        advantageFlaw[input.create.name] = input.create.value;
+      }
+    }
+    else {
+      let index = 1;
+      for (const key in advantageFlaw) {
+        const edit = input.edit!;
+        if (index == edit.index) {
+          if (edit.value == 0) {
+            delete advantageFlaw[key];
+          }
+          else {
+            advantageFlaw[key] = edit.value;
+          }
+          break;
+        }
+        index++;
+      }
     }
   };
 }
@@ -450,13 +491,13 @@ commands[treatKey(locale.stains)] = {
 
 commands[treatKey(locale.health)] = {
   description: `${locale.commands.sheet.description} ${locale.health}`,
-  options: damageOptions(),
+  options: buildDamageOptions(),
   solve: buildCharacterSolver(damageParse(c => c.health)),
 };
 
 commands[treatKey(locale.willpower)] = {
   description: `${locale.commands.sheet.description} ${locale.willpower}`,
-  options: damageOptions(),
+  options: buildDamageOptions(),
   solve: buildCharacterSolver(damageParse(c => c.willpower)),
 };
 
@@ -814,50 +855,17 @@ commands[treatKey(locale.specialties.name)] = {
     property: "physical",
     description: locale.physical,
     type: CommandOptionType.SUB_COMMAND,
-    options: option(locale.specialties.skill, {
-      property: "skill",
-      description: locale.specialties.skill,
-      type: CommandOptionType.STRING,
-      required: true,
-      choices: buildChoices(locale.skills.physical)
-    }).option(locale.commands.sheet.name.name, {
-      property: "name",
-      description: locale.commands.sheet.name.description,
-      type: CommandOptionType.STRING,
-      required: true,
-    }).build,
+    options: buildCreateSpecialtyOptions(locale.skills.physical),
   }).option(locale.social, {
     property: "social",
     description: locale.social,
     type: CommandOptionType.SUB_COMMAND,
-    options: option(locale.specialties.skill, {
-      property: "skill",
-      description: locale.specialties.skill,
-      type: CommandOptionType.STRING,
-      required: true,
-      choices: buildChoices(locale.skills.social)
-    }).option(locale.commands.sheet.name.name, {
-      property: "name",
-      description: locale.commands.sheet.name.description,
-      type: CommandOptionType.STRING,
-      required: true,
-    }).build,
+    options: buildCreateSpecialtyOptions(locale.skills.social),
   }).option(locale.mental, {
     property: "mental",
     description: locale.mental,
     type: CommandOptionType.SUB_COMMAND,
-    options: option(locale.specialties.skill, {
-      property: "skill",
-      description: locale.specialties.skill,
-      type: CommandOptionType.STRING,
-      required: true,
-      choices: buildChoices(locale.skills.mental)
-    }).option(locale.commands.sheet.name.name, {
-      property: "name",
-      description: locale.commands.sheet.name.description,
-      type: CommandOptionType.STRING,
-      required: true,
-    }).build,
+    options: buildCreateSpecialtyOptions(locale.skills.mental),
   }).option(locale.commands.sheet.delete.name, {
     property: "delete",
     description: locale.commands.sheet.delete.description,
@@ -875,13 +883,13 @@ commands[treatKey(locale.specialties.name)] = {
 
 commands[treatKey(locale.advantages)] = {
   description: `${locale.commands.sheet.description} ${locale.advantages}`,
-  solve: buildCharacterAdvantageFlawSolver((c) => c.advantages),
+  solve: buildCharacterSolver(advantageFlawParse(c => c.advantages)),
   options: buildAdvantageFlawOptions(),
 };
 
 commands[treatKey(locale.flaws)] = {
   description: `${locale.commands.sheet.description} ${locale.flaws}`,
-  solve: buildCharacterAdvantageFlawSolver((c) => c.flaws),
+  solve: buildCharacterSolver(advantageFlawParse(c => c.flaws)),
   options: buildAdvantageFlawOptions(),
 };
 
