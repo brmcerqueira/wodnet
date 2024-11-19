@@ -8,7 +8,7 @@ import * as data from "../data.ts";
 import * as colors from "../colors.ts";
 import { logger } from "../../logger.ts";
 
-export function buildCharacterFieldSolver<T>(parse: (character: Character, input: T) => void): Solver {
+export function buildCharacterSolver<T>(parse: (character: Character, input: T) => void): Solver {
     return async (interaction: Interaction, input: T) => {
       let id = "";
 
