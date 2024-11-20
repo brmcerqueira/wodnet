@@ -213,8 +213,9 @@ client.on("ready", async () => {
   }
 });
 
-export async function connect() {
+export async function connect(): Promise<Date> {
   if (client.upSince == undefined) {
     await client.connect();
   }
+  return client.upSince!;
 }

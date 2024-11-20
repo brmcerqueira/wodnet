@@ -53,9 +53,12 @@ server.get("/scripts/*.js", async (ctx: Context, next: NextFunc) => {
 
 server.get("/styles/*", serveStatic("./views/styles"));
 
-server.get("/discord",
-  async (_ctx: Context, next: NextFunc) => {
-    await bot.connect();
+server.get("/bot", res("json"),
+  async (ctx: Context, next: NextFunc) => {
+    ctx.res.headers.set("Refresh", "300");
+    ctx.res.body = {
+      upSince: await bot.connect()
+    };
     await next();
   }
 );
