@@ -1,93 +1,123 @@
-import { bundle, Context, decodeBase64Url, join, NextFunc, res, RouteFn, Server, serveStatic } from "./deps.ts";
+import { bundle, join } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import { check, get } from "./characterManager.ts";
 import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
+import { RouteContext } from "./routeContext.ts";
 
-const scripts: { [key: string]: string } = {};
+type RouteResult = Promise<Response | void> | Response | void;
 
-const scriptsPath = "./views/scripts";
-
-for await (const dirEntry of Deno.readDir(scriptsPath)) {
-  try {
-    if (dirEntry.isFile) {
-      const result = await bundle(join(scriptsPath, dirEntry.name));
-      scripts[dirEntry.name.replace(".ts", ".js")] = result.code;
+async function loadFiles(root: string, parse: (path: string) => Promise<string>): Promise<{ [key: string]: string; }> {
+  const result: { [key: string]: string } = {};
+  for await (const dirEntry of Deno.readDir(root)) {
+    try {
+      if (dirEntry.isFile) {
+        result[dirEntry.name.substring(0, dirEntry.name.lastIndexOf("."))] = await parse(join(root, dirEntry.name));
+      }
+    } catch (e) {
+      logger.error(e);
     }
-  } catch (e) {
-    logger.error(e);
   }
+  return result;
 }
 
-const textDecoder = new TextDecoder();
+const scripts = await loadFiles("./views/scripts", async path => {
+  return (await bundle(path)).code;
+});
+
+const styles = await loadFiles("./views/styles", async path => {
+  return await Deno.readTextFile(path);
+});
 
 logger.debug("Config %v", JSON.stringify(config));
 
-const server = new Server();
+function route(...params: ({ path: RegExp, go: (array: RegExpExecArray, context: RouteContext) => RouteResult } 
+| { path: string[] | string, go: (context: RouteContext) => RouteResult })[]): (request: Request) => Promise<Response> {
+  return async (request: Request): Promise<Response> => {
+    let response = new Response(null, { status: 404 });
 
-server.use(async (ctx: Context, next: NextFunc) => {
-  logger.info(
-    "Request %v %v",
-    ctx.req.method,
-    ctx.req.url,
-  );
-  ctx.extra.id = ctx.url.searchParams.get("id")!;
-  if (ctx.extra.id) {
-    ctx.extra.decodeId = textDecoder.decode(decodeBase64Url(ctx.extra.id));
+    logger.info(
+      "Request %v %v",
+      request.method,
+      request.url
+    );
+  
+    if (request.method == "GET") {
+      const context = new RouteContext(request.url);
+
+      for (const item of params) {
+        if (item.path instanceof RegExp) {
+          const regex = item.path.exec(context.url.pathname);
+          if (regex) {
+            const go = item.go as (array: RegExpExecArray, context: RouteContext) => RouteResult;
+            const result = await go(regex, context);
+            if (result instanceof Response) {
+              response = result;
+            }
+            break;
+          }      
+        }
+        else {
+          const array = typeof item.path == "string" ? [item.path] : item.path;
+          if (array.indexOf(context.url.pathname) > -1) {
+            const go = item.go as (context: RouteContext) => RouteResult;
+            const result = await go(context);
+            if (result instanceof Response) {
+              response = result;
+            }
+            break;
+          }
+        }
+      }
+    }
+  
+    return response;
   }
-  await next();
-});
+} 
 
-server.get("/scripts/*.js", async (ctx: Context, next: NextFunc) => {
-  const path = ctx.params[Object.keys(ctx.params)[0]];
-  if (scripts[path]) {
-    ctx.res.body = scripts[path];
-    ctx.res.headers.append("Content-Type", "application/javascript");
-    await next();
+Deno.serve({ port: config.port }, route({
+  path: /\/scripts\/(\w*).js/,
+  go: (array: RegExpExecArray): Response | void =>  {
+    const path = array[1];
+    if (scripts[path]) {
+      return new Response(scripts[path], { headers:[["Content-Type", "application/javascript"]]});
+    }
   }
-  else {
-    ctx.res.status = 404;
+},{
+  path: /\/styles\/(\w*).css/,
+  go: (array: RegExpExecArray): Response | void =>  {
+    const path = array[1];
+    if (styles[path]) {
+      return new Response(styles[path], { headers:[["Content-Type", "application/css"]]});
+    }
   }
-});
-
-server.get("/styles/*", serveStatic("./views/styles"));
-
-server.get("/bot", res("json"),
-  async (ctx: Context, next: NextFunc) => {
-    ctx.res.headers.set("Refresh", "300");
-    ctx.res.body = {
+},{
+  path: "/bot",
+  go: async (): Promise<void | Response> =>  {
+    return new Response(JSON.stringify({
       upSince: await bot.connect()
-    };
-    await next();
+    }), { headers:[["Content-Type", "application/json"], ["Refresh", "300"]]});
   }
-);
-
-server.get("/check", res("json"),
-  async (ctx: Context, next: NextFunc) => {
-    ctx.res.body = {
-      update: check(ctx.extra.decodeId, ctx.url.searchParams.get("versionstamp")!),
-    };
-    await next();
+},{
+  path: "/check",
+  go: async (context: RouteContext): Promise<void | Response> =>  {
+    if (context.decodeId) { 
+      return new Response(JSON.stringify({
+        update: await check(context.decodeId, context.versionstamp!),
+      }), { headers:[["Content-Type", "application/json"]]});
+    }
   }
-);
-
-server.get("/dark", res("html"), characterRoute(true));
-
-server.get("/", res("html"), characterRoute(false));
-
-await server.listen({ port: config.port });
-
-function characterRoute(dark: boolean): RouteFn {
-  return async (ctx: Context, next: NextFunc) => {
-      ctx.res.body = await characterRender(
-        await get(ctx.extra.decodeId, true),
-        ctx.extra.id,
-        dark,
-        ctx.url.searchParams.has("update")
-          ? parseInt(ctx.url.searchParams.get("update")!)
-          : 20000
-      ).render();
-      await next();
-    };
-}
+},{
+  path: ["/dark", ""],
+  go: async (context: RouteContext): Promise<void | Response> =>  {
+    if (context.id && context.decodeId) { 
+      return new Response(await characterRender(
+        await get(context.decodeId, true),
+        context.id,
+        context.url.pathname == "/dark",
+        context.update
+      ).render(), { headers:[["Content-Type", "text/html"]]});
+    }
+  }
+}));
