@@ -109,7 +109,7 @@ Deno.serve({ port: config.port }, route({
     }
   }
 },{
-  path: ["/dark", ""],
+  path: ["/dark", "/"],
   go: async (context: RouteContext): Promise<void | Response> =>  {
     if (context.id && context.decodeId) { 
       return new Response(await characterRender(
