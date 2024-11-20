@@ -3,7 +3,6 @@ import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { config } from "../config.ts";
 import { keys, treatDiscipline } from "../utils.ts";
-import { LocaleType } from "../i18n/localeType.ts";
 
 const CircleFill: TsxComplexElement = <i class="bi bi-circle-fill" />
 const Circle: TsxComplexElement = <i class="bi bi-circle" />
