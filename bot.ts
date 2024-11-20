@@ -177,7 +177,7 @@ client.on("ready", async () => {
 }).on("interactionCreate", async (interaction: Interaction) => {
   try {
     logger.info(
-      "interaction: %v %v",
+      "Interaction %v %v",
       interaction.type,
       JSON.stringify(interaction.data),
     );

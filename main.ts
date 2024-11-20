@@ -22,13 +22,13 @@ for await (const dirEntry of Deno.readDir(scriptsPath)) {
 
 const textDecoder = new TextDecoder();
 
-logger.debug("config: %v", JSON.stringify(config));
+logger.debug("Config %v", JSON.stringify(config));
 
 const server = new Server();
 
 server.use(async (ctx: Context, next: NextFunc) => {
   logger.info(
-    "request: %v %v",
+    "Request %v %v",
     ctx.req.method,
     ctx.req.url,
   );
