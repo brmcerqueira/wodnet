@@ -32,7 +32,7 @@ export async function get(
       predator: "",
       clan: "",
       generation: 0,
-      mode: CharacterMode.Opened,
+      mode: CharacterMode.Tracked,
       versionstamp: null,
       attributes: {
         physical: {
