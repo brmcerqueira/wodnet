@@ -329,6 +329,7 @@ export const pt: LocaleType = {
   storytellerChangeDifficulty: "O narrador mudou a dificuldade.",
   storytellerChangeModifier: "O narrador mudou o modificador.",
   storytellerChangeCurrentCharacter: "O personagem escolhido foi...",
+  storytellerDeleteCharacter: "O personagem foi excluído!",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
   storytellerChangeAllCharacterMode: "O modo de todos os personagens foi alterado!",
   bestialFailure: "Falha Bestial",
@@ -417,6 +418,14 @@ export const pt: LocaleType = {
     setCharacter: {
       name: "personagem",
       description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
+      character: {
+        name: "nome",
+        description: "Nome do personagem",
+      },
+    },
+    deleteCharacter: {
+      name: "excluir-personagem",
+      description: "O narrador escolhe o personagem para excluir",
       character: {
         name: "nome",
         description: "Nome do personagem",

@@ -173,12 +173,15 @@ export async function check(
   return versionstamp != entry.versionstamp;
 }
 
+export async function deleteCharacter(id: string) {
+  await database.delete([characterKey, id]);
+}
+
 export async function search(term: string): Promise<Character[]> {
   const result: Character[] = [];
   for await (
     const entry of database.list<Character>({ prefix: [characterKey] })
   ) {
-    //await database.delete(entry.key);
     if (
       term == "" ||
       entry.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1

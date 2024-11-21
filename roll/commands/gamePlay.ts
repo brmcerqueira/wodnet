@@ -16,6 +16,7 @@ import {
   treatKey,
 } from "./common.ts";
 import { CharacterMode } from "../../character.ts";
+import { deleteCharacterAutocompleteSolver } from "../solver/deleteCharacterAutocompleteSolver.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -88,6 +89,17 @@ commands[treatKey(locale.commands.setCharacter.name)] = {
   options: option(locale.commands.setCharacter.character.name, {
     property: "character",
     description: locale.commands.setCharacter.character.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    autocomplete: true,
+  }).build,
+};
+commands[treatKey(locale.commands.deleteCharacter.name)] = {
+  description: locale.commands.deleteCharacter.description,
+  solve: deleteCharacterAutocompleteSolver,
+  options: option(locale.commands.deleteCharacter.character.name, {
+    property: "character",
+    description: locale.commands.deleteCharacter.character.description,
     type: CommandOptionType.STRING,
     required: true,
     autocomplete: true,

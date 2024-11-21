@@ -8,7 +8,7 @@ import { searchCharacter } from "../searchCharacter.ts";
 
 export async function characterAutocompleteSolver(
   interaction: Interaction,
-  values: {
+  input: {
     character: {
       value: string;
       focused: boolean;
@@ -16,8 +16,8 @@ export async function characterAutocompleteSolver(
   },
 ) {
   if (isStoryteller(interaction)) {
-    if (await searchCharacter(interaction, values.character)) {
-      const id = values.character.value != "" ? values.character.value : null;
+    if (await searchCharacter(interaction, input.character, true)) {
+      const id = input.character.value != "" ? input.character.value : null;
       data.setCurrentCharacter(id);
       const character = id != null ? await get(id) : null;
       await interaction.respond({
