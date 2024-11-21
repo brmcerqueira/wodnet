@@ -46,7 +46,7 @@ export function buildCharacterSolver<T>(
 
       const spent = parse(character, input);
 
-      if (character.mode == CharacterMode.Tracked) {
+      if (character.mode != CharacterMode.Opened) {
         character.experience.spent += spent;
       }
 
