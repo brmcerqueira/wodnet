@@ -12,7 +12,7 @@ export const pt: LocaleType = {
     "Rastreado",
     "Fechado",
   ],
-  characterUpdate: "O personagem foi atualizado",
+  characterUpdate: "O personagem foi atualizado...",
   specialties: {
     name: "Especializações",
     skill: "Habilidade",
