@@ -93,6 +93,14 @@ Deno.serve({ port: config.port }, route({
     }
   }
 },{
+  path: "/bot/destroy",
+  go: async (): Promise<void | Response> =>  {
+    await bot.destroy();
+    return new Response(JSON.stringify({
+      ok: true 
+    }), { headers:[["Content-Type", "application/json"]]});
+  }
+},{
   path: "/bot",
   go: async (): Promise<void | Response> =>  {
     return new Response(JSON.stringify({

@@ -219,3 +219,9 @@ export async function connect(): Promise<Date> {
   }
   return client.upSince!;
 }
+
+export async function destroy() {
+  if (client.upSince) {
+    await client.destroy();
+  }
+}
