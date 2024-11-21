@@ -8,7 +8,7 @@ type Input = { [key: string]: Value };
 
 function getMultiplier(key: keyof Character["disciplines"], character: Character): number {    
     const disciplines = locale.clan.options[character.clan];
-    return disciplines ? (disciplines.indexOf((locale.disciplines as any)[key].name) > -1 ? 5 : 7): 6;
+    return disciplines ? (disciplines.indexOf((locale.disciplines as any)[key].name) > -1 ? 5 : 7) : (disciplines == null ? 6 : 7);
 }
 
 function updateDiscipline(input: Input, array: string[]) {
