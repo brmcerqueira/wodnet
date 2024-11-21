@@ -1,9 +1,10 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
 import { isStoryteller } from "../isStoryteller.ts";
-import { get, search } from "../../characterManager.ts";
+import { get } from "../../characterManager.ts";
 import { locale } from "../../i18n/locale.ts";
 import * as colors from "../colors.ts";
 import * as data from "../data.ts";
+import { searchCharacter } from "../searchCharacter.ts";
 
 export async function characterAutocompleteSolver(
   interaction: Interaction,
@@ -15,23 +16,7 @@ export async function characterAutocompleteSolver(
   },
 ) {
   if (await isStoryteller(interaction)) {
-    if (values.character.focused) {
-      await interaction.respond({
-        type: InteractionResponseType.APPLICATION_COMMAND_AUTOCOMPLETE_RESULT,
-        choices: [
-          {
-            value: "",
-            name: locale.none,
-          },
-          ...(await search(values.character.value)).map((c) => {
-            return {
-              value: c.id,
-              name: c.name,
-            };
-          }),
-        ],
-      });
-    } else {
+    if (await searchCharacter(interaction, values.character)) {
       const id = values.character.value != "" ? values.character.value : null;
       data.setCurrentCharacter(id);
       const character = id != null ? await get(id) : null;
@@ -45,9 +30,11 @@ export async function characterAutocompleteSolver(
             value: `**${character?.name || locale.none}**`,
             inline: true,
           }],
-          thumbnail: character ? {
-            url: character.image,
-          } : undefined,
+          image: character
+            ? {
+              url: character.image,
+            }
+            : undefined,
         }],
       });
     }

@@ -152,14 +152,14 @@ export async function check(
 export async function search(term: string): Promise<Character[]> {
   const result: Character[] = [];
   for await (
-    const key of database.list<Character>({ prefix: [characterKey] })
+    const item of database.list<Character>({ prefix: [characterKey] })
   ) {
-    if (key.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
-      result.push(key.value);
+    if (term == "" || item.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
+      result.push(item.value);
     }
   }
 
-  return result.sort((r, l) => {
+  result.sort((r, l) => {
     if (r.name < l.name) {
       return -1;
     }
@@ -168,4 +168,8 @@ export async function search(term: string): Promise<Character[]> {
     }
     return 0;
   });
+
+  logger.info("Search: %v", JSON.stringify(result));
+
+  return result;
 }
