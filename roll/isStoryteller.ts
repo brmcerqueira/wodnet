@@ -11,8 +11,8 @@ export async function isStoryteller(
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       embeds: [{
-        title: locale.storytellerChangeDifficulty,
-        color: colors.Gray,
+        title: locale.unauthorized,
+        color: colors.Red,
       }],
     });
   }
