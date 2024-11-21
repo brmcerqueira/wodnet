@@ -115,7 +115,7 @@ set: (character: Character, value: number) => void, multiplier: number): (charac
 export function calculateSpent(old: number, value: number, multiplier: number) {
   let spent = 0;
   const growing = value >= old;
-  for (let index = growing ? old : value; index <= (growing ? value : old); index++) {
+  for (let index = (growing ? old : value) + 1; index <= (growing ? value : old); index++) {
     const result = index * multiplier;
     spent += growing ? result : -result;
   }
