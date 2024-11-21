@@ -1,10 +1,15 @@
 import { Character } from "../../character.ts";
 import { locale } from "../../i18n/locale.ts";
 import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
-import { CommandOptionType, commands, option, treatKey } from "./common.ts";
+import { CommandOptionType, commands, option, treatKey, calculateSpent } from "./common.ts";
 
 type Value = boolean | Input;
 type Input = { [key: string]: Value };
+
+function getMultiplier(key: keyof Character["disciplines"], character: Character): number {    
+    const disciplines = locale.clan.options[character.clan];
+    return disciplines ? (disciplines.indexOf((locale.disciplines as any)[key].name) > -1 ? 5 : 7): 6;
+}
 
 function updateDiscipline(input: Input, array: string[]) {
   for (const key in input) {
@@ -28,7 +33,7 @@ function updateDiscipline(input: Input, array: string[]) {
   }
 }
 
-function disciplineParse(key: keyof Character["disciplines"]): (character: Character, input: Input) => void {
+function disciplineParse(key: keyof Character["disciplines"], multiplier: (key: keyof Character["disciplines"], character: Character) => number): (character: Character, input: Input) => number {
   return (c, input) => {
     if (c.disciplines[key] == undefined) {
       c.disciplines[key] = [];
@@ -36,18 +41,22 @@ function disciplineParse(key: keyof Character["disciplines"]): (character: Chara
 
     const array = c.disciplines[key]!;
 
+    const old = array.length;
+
     updateDiscipline(input, array);
 
     if (array.length == 0) {
       delete c.disciplines[key];
     }
+
+    return calculateSpent(old, array.length, multiplier(key, c));
   };
 }
 
 commands[treatKey(locale.disciplines.animalism.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.animalism.name}`,
-  solve: buildCharacterSolver(disciplineParse("animalism")),
+  solve: buildCharacterSolver(disciplineParse("animalism", getMultiplier)),
   options: option(locale.disciplines.animalism.bondFamulus, {
     property: "bondFamulus",
     description: locale.disciplines.animalism.bondFamulus,
@@ -89,7 +98,7 @@ commands[treatKey(locale.disciplines.animalism.name)] = {
 commands[treatKey(locale.disciplines.auspex.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.auspex.name}`,
-  solve: buildCharacterSolver(disciplineParse("auspex")),
+  solve: buildCharacterSolver(disciplineParse("auspex", getMultiplier)),
   options: option(locale.disciplines.auspex.heightenedSenses, {
     property: "heightenedSenses",
     description: locale.disciplines.auspex.heightenedSenses,
@@ -139,7 +148,7 @@ commands[treatKey(locale.disciplines.auspex.name)] = {
 commands[treatKey(locale.disciplines.dominate.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.dominate.name}`,
-  solve: buildCharacterSolver(disciplineParse("dominate")),
+  solve: buildCharacterSolver(disciplineParse("dominate", getMultiplier)),
   options: option(locale.disciplines.dominate.cloudMemory, {
     property: "cloudMemory",
     description: locale.disciplines.dominate.cloudMemory,
@@ -185,7 +194,7 @@ commands[treatKey(locale.disciplines.dominate.name)] = {
 commands[treatKey(locale.disciplines.bloodSorcery.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.bloodSorcery.name}`,
-  solve: buildCharacterSolver(disciplineParse("bloodSorcery")),
+  solve: buildCharacterSolver(disciplineParse("bloodSorcery", getMultiplier)),
   options: option(locale.disciplines.bloodSorcery.corrosiveVitae, {
     property: "corrosiveVitae",
     description: locale.disciplines.bloodSorcery.corrosiveVitae,
@@ -223,7 +232,7 @@ commands[treatKey(locale.disciplines.bloodSorcery.name)] = {
 commands[treatKey(locale.disciplines.fortitude.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.fortitude.name}`,
-  solve: buildCharacterSolver(disciplineParse("fortitude")),
+  solve: buildCharacterSolver(disciplineParse("fortitude", getMultiplier)),
   options: option(locale.disciplines.fortitude.resilience, {
     property: "resilience",
     description: locale.disciplines.fortitude.resilience,
@@ -269,7 +278,7 @@ commands[treatKey(locale.disciplines.fortitude.name)] = {
 commands[treatKey(locale.disciplines.protean.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.protean.name}`,
-  solve: buildCharacterSolver(disciplineParse("protean")),
+  solve: buildCharacterSolver(disciplineParse("protean", getMultiplier)),
   options: option(locale.disciplines.protean.eyesOfTheBeast, {
     property: "eyesOfTheBeast",
     description: locale.disciplines.protean.eyesOfTheBeast,
@@ -323,7 +332,7 @@ commands[treatKey(locale.disciplines.protean.name)] = {
 commands[treatKey(locale.disciplines.obfuscate.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.obfuscate.name}`,
-  solve: buildCharacterSolver(disciplineParse("obfuscate")),
+  solve: buildCharacterSolver(disciplineParse("obfuscate", getMultiplier)),
   options: option(locale.disciplines.obfuscate.cloakOfShadows, {
     property: "cloakOfShadows",
     description: locale.disciplines.obfuscate.cloakOfShadows,
@@ -373,7 +382,7 @@ commands[treatKey(locale.disciplines.obfuscate.name)] = {
 commands[treatKey(locale.disciplines.potence.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.potence.name}`,
-  solve: buildCharacterSolver(disciplineParse("potence")),
+  solve: buildCharacterSolver(disciplineParse("potence", getMultiplier)),
   options: option(locale.disciplines.potence.lethalBody, {
     property: "lethalBody",
     description: locale.disciplines.potence.lethalBody,
@@ -415,7 +424,7 @@ commands[treatKey(locale.disciplines.potence.name)] = {
 commands[treatKey(locale.disciplines.presence.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.presence.name}`,
-  solve: buildCharacterSolver(disciplineParse("presence")),
+  solve: buildCharacterSolver(disciplineParse("presence", getMultiplier)),
   options: option(locale.disciplines.presence.awe, {
     property: "awe",
     description: locale.disciplines.presence.awe,
@@ -461,7 +470,7 @@ commands[treatKey(locale.disciplines.presence.name)] = {
 commands[treatKey(locale.disciplines.celerity.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.celerity.name}`,
-  solve: buildCharacterSolver(disciplineParse("celerity")),
+  solve: buildCharacterSolver(disciplineParse("celerity", getMultiplier)),
   options: option(locale.disciplines.celerity.catsGrace, {
     property: "catsGrace",
     description: locale.disciplines.celerity.catsGrace,
@@ -503,7 +512,7 @@ commands[treatKey(locale.disciplines.celerity.name)] = {
 commands[treatKey(locale.disciplines.rituals.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.rituals.name}`,
-  solve: buildCharacterSolver(disciplineParse("rituals")),
+  solve: buildCharacterSolver(disciplineParse("rituals", () => 3)),
   options: option(locale.commands.sheet.common.name, {
     property: "common",
     description: locale.commands.sheet.common.description,
@@ -636,7 +645,7 @@ commands[treatKey(locale.disciplines.rituals.name)] = {
 commands[treatKey(locale.disciplines.thinBloodAlchemy.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.thinBloodAlchemy.name}`,
-  solve: buildCharacterSolver(disciplineParse("thinBloodAlchemy")),
+  solve: buildCharacterSolver(disciplineParse("thinBloodAlchemy", () => 3)),
   options: option(locale.disciplines.thinBloodAlchemy.farReach, {
     property: "farReach",
     description: locale.disciplines.thinBloodAlchemy.farReach,

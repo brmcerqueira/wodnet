@@ -25,5 +25,7 @@ commands[treatKey(locale.experience.name)] = {
     if (i.spent) {
       c.experience.spent += i.spent;
     }
-  }),
+
+    return 0;
+  }, true),
 };

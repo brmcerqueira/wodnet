@@ -1,4 +1,4 @@
-import { Character } from "./character.ts";
+import { Character, CharacterMode } from "./character.ts";
 import { logger } from "./logger.ts";
 
 const database = await Deno.openKv();
@@ -32,7 +32,7 @@ export async function get(
       predator: "",
       clan: "",
       generation: 0,
-      open: true,
+      mode: CharacterMode.Opened,
       versionstamp: null,
       attributes: {
         physical: {

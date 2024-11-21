@@ -1,3 +1,9 @@
+export enum CharacterMode {
+  Opened,
+  Tracked,
+  Closed
+}
+
 export type Damage = {
   superficial: number;
   aggravated: number;
@@ -20,7 +26,7 @@ export type Character = {
   predator: string;
   clan: string;
   generation: number;
-  open: boolean;
+  mode: CharacterMode;
   versionstamp: string | null;
   attributes: {
     physical: {

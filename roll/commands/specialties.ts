@@ -1,7 +1,8 @@
 import { locale } from "../../i18n/locale.ts";
 import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
 import {
-  buildCreateSpecialtyOptions,
+buildChoices,
+  CommandOptions,
   CommandOptionType,
   commands,
   option,
@@ -9,6 +10,25 @@ import {
 } from "./common.ts";
 
 type NewSpecialty = { skill: string; name: string; };
+
+const multiplier = 3;
+
+function buildCreateSpecialtyOptions<T extends object>(
+  o: T,
+): CommandOptions {
+  return option(locale.specialties.skill, {
+    property: "skill",
+    description: locale.specialties.skill,
+    type: CommandOptionType.STRING,
+    required: true,
+    choices: buildChoices(o),
+  }).option(locale.commands.sheet.name.name, {
+    property: "name",
+    description: locale.commands.sheet.name.description,
+    type: CommandOptionType.STRING,
+    required: true,
+  }).build;
+}
 
 commands[treatKey(locale.specialties.name)] = {
   description:
@@ -18,7 +38,8 @@ commands[treatKey(locale.specialties.name)] = {
     social?: NewSpecialty;
     mental?: NewSpecialty;
     delete?: { index: number };
-  }) => {
+  }): number => {
+    let spent = 0;
     if (input.delete) {
       let index = 1;
       loop: for (const key in c.specialties) {
@@ -26,6 +47,7 @@ commands[treatKey(locale.specialties.name)] = {
         for (let i = 0; i < array.length; i++) {
           if (index == input.delete.index) {
             array.splice(i, 1);
+            spent = - multiplier;
             if (array.length == 0) {
               delete c.specialties[key];
             }
@@ -46,8 +68,10 @@ commands[treatKey(locale.specialties.name)] = {
 
       if (array.indexOf(specialty.name) == -1) {
         array.push(specialty.name);
+        spent = multiplier;
       }
     }
+    return spent;
   }),
   options: option(locale.physical, {
     property: "physical",

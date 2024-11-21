@@ -1,3 +1,4 @@
+import { Character } from "../../character.ts";
 import { Interaction } from "../../deps.ts";
 import { locale } from "../../i18n/locale.ts";
 import { keys, treatDiscipline } from "../../utils.ts";
@@ -102,21 +103,23 @@ export function buildIntegerOptions(
   }).build;
 }
 
-export function buildCreateSpecialtyOptions<T extends object>(
-  o: T,
-): CommandOptions {
-  return option(locale.specialties.skill, {
-    property: "skill",
-    description: locale.specialties.skill,
-    type: CommandOptionType.STRING,
-    required: true,
-    choices: buildChoices(o),
-  }).option(locale.commands.sheet.name.name, {
-    property: "name",
-    description: locale.commands.sheet.name.description,
-    type: CommandOptionType.STRING,
-    required: true,
-  }).build;
+export function parseNumberField(get: (character: Character) => number, 
+set: (character: Character, value: number) => void, multiplier: number): (character: Character, input: { value: number }) => number {
+  return (character, input) => {
+    const old = get(character);
+    set(character, input.value);
+    return calculateSpent(old, input.value, multiplier);
+  }
+}
+
+export function calculateSpent(old: number, value: number, multiplier: number) {
+  let spent = 0;
+  const growing = value >= old;
+  for (let index = growing ? old : value; index <= (growing ? value : old); index++) {
+    const result = index * multiplier;
+    spent += growing ? result : -result;
+  }
+  return spent;
 }
 
 export function buildChoicesOptions(choices: string[], none?: boolean): CommandOptions {

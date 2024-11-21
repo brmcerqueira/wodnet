@@ -30,7 +30,7 @@ function damageParse(
 ): (
     character: Character,
     input: { superficial?: number; aggravated?: number },
-) => void {
+) => number {
     return (c, i) => {
         const damage = get(c);
         if (i.superficial) {
@@ -40,6 +40,7 @@ function damageParse(
         if (i.aggravated) {
             damage.aggravated = i.aggravated;
         }
+        return 0;
     };
 }
 

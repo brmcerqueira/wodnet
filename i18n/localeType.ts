@@ -29,7 +29,10 @@ export type LocaleType = {
   ambition: string;
   desire: string;
   predator: OptionsLocale;
-  clan: OptionsLocale;
+  clan: {
+    name: string;
+    options: { [name: string]: string[] | null };
+  },
   generation: {
     name: string;
     suffix: string;

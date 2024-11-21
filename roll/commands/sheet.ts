@@ -1,3 +1,4 @@
+import { Character } from "../../character.ts";
 import { locale } from "../../i18n/locale.ts";
 import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
 import {
@@ -6,10 +7,20 @@ import {
   CommandOptionType,
   commands,
   option,
+  parseNumberField,
   property,
   treatKey,
   value,
 } from "./common.ts";
+
+function parseField<T>(
+  set: (character: Character, value: T) => void,
+): (character: Character, input: { value: T }) => number {
+  return (character, input) => {
+    set(character, input.value);
+    return 0;
+  };
+}
 
 commands[treatKey(locale.name)] = {
   description: `${locale.commands.sheet.description} ${locale.name}`,
@@ -19,7 +30,7 @@ commands[treatKey(locale.name)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterSolver((c, i: { value: string }) => c.name = i.value),
+  solve: buildCharacterSolver(parseField<string>((c, v) => c.name = v)),
 };
 commands[treatKey(locale.image)] = {
   description: `${locale.commands.sheet.description} ${locale.image}`,
@@ -29,7 +40,10 @@ commands[treatKey(locale.image)] = {
     type: CommandOptionType.ATTACHMENT,
     required: true,
   }).build,
-  solve: buildCharacterSolver((c, i: { value: { url: string }}) => c.image = i.value.url),
+  solve: buildCharacterSolver((c, i: { value: { url: string } }) => {
+    c.image = i.value.url;
+    return 0;
+  }),
 };
 commands[treatKey(locale.player)] = {
   description: `${locale.commands.sheet.description} ${locale.player}`,
@@ -39,13 +53,13 @@ commands[treatKey(locale.player)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterSolver((c, i: { value: string }) => c.player = i.value),
+  solve: buildCharacterSolver(parseField<string>((c, v) => c.player = v)),
 };
 commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
   options: buildChoicesOptions(locale.resonance.options, true),
-  solve: buildCharacterSolver((c, i: { value: string }) =>
-    c.resonance = i.value
+  solve: buildCharacterSolver(
+    parseField<string>((c, v) => c.resonance = v),
   ),
 };
 commands[treatKey(locale.ambition)] = {
@@ -56,8 +70,8 @@ commands[treatKey(locale.ambition)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterSolver((c, i: { value: string }) =>
-    c.ambition = i.value
+  solve: buildCharacterSolver(
+    parseField<string>((c, v) => c.ambition = v),
   ),
 };
 commands[treatKey(locale.desire)] = {
@@ -68,25 +82,25 @@ commands[treatKey(locale.desire)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterSolver((c, i: { value: string }) => c.desire = i.value),
+  solve: buildCharacterSolver(parseField<string>((c, v) => c.desire = v)),
 };
 commands[treatKey(locale.predator.name)] = {
   description: `${locale.commands.sheet.description} ${locale.predator.name}`,
   options: buildChoicesOptions(locale.predator.options),
-  solve: buildCharacterSolver((c, i: { value: string }) =>
-    c.predator = i.value
+  solve: buildCharacterSolver(
+    parseField<string>((c, v) => c.predator = v),
   ),
 };
 commands[treatKey(locale.clan.name)] = {
   description: `${locale.commands.sheet.description} ${locale.clan.name}`,
-  options: buildChoicesOptions(locale.clan.options),
-  solve: buildCharacterSolver((c, i: { value: string }) => c.clan = i.value),
+  options: buildChoicesOptions(Object.keys(locale.clan.options)),
+  solve: buildCharacterSolver(parseField<string>((c, v) => c.clan = v)),
 };
 commands[treatKey(locale.generation.name)] = {
   description: `${locale.commands.sheet.description} ${locale.generation.name}`,
   options: buildIntegerOptions(4, 16),
-  solve: buildCharacterSolver((c, i: { value: number }) =>
-    c.generation = i.value
+  solve: buildCharacterSolver(
+    parseField<number>((c, v) => c.generation = v),
   ),
 };
 commands[treatKey(locale.details)] = {
@@ -97,31 +111,33 @@ commands[treatKey(locale.details)] = {
     type: CommandOptionType.STRING,
     required: true,
   }).build,
-  solve: buildCharacterSolver((c, i: { value: string }) => c.details = i.value),
+  solve: buildCharacterSolver(
+    parseField<string>((c, v) => c.details = v),
+  ),
 };
 commands[treatKey(locale.bloodPotency)] = {
   description: `${locale.commands.sheet.description} ${locale.bloodPotency}`,
   options: buildIntegerOptions(0, 10),
-  solve: buildCharacterSolver((c, i: { value: number }) =>
-    c.bloodPotency = i.value
+  solve: buildCharacterSolver(
+    parseNumberField((c) => c.bloodPotency, (c, v) => c.bloodPotency = v, 10),
   ),
 };
 commands[treatKey(locale.hunger)] = {
   description: `${locale.commands.sheet.description} ${locale.hunger}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterSolver((c, i: { value: number }) => c.hunger = i.value),
+  solve: buildCharacterSolver(parseField<number>((c, v) => c.hunger = v)),
 };
 commands[treatKey(locale.humanity)] = {
   description: `${locale.commands.sheet.description} ${locale.humanity}`,
   options: buildIntegerOptions(0, 10),
-  solve: buildCharacterSolver((c, i: { value: number }) =>
-    c.humanity.total = i.value
+  solve: buildCharacterSolver(
+    parseField<number>((c, v) => c.humanity.total = v),
   ),
 };
 commands[treatKey(locale.stains)] = {
   description: `${locale.commands.sheet.description} ${locale.stains}`,
   options: buildIntegerOptions(0, 10),
-  solve: buildCharacterSolver((c, i: { value: number }) =>
-    c.humanity.stains = i.value
+  solve: buildCharacterSolver(
+    parseField<number>((c, v) => c.humanity.stains = v),
   ),
 };

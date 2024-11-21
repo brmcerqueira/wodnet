@@ -1,4 +1,4 @@
-import { AdvantageFlaw, Character } from "../../character.ts";
+import { Character } from "../../character.ts";
 import { locale } from "../../i18n/locale.ts";
 import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
 import {
@@ -11,34 +11,42 @@ import {
   value,
 } from "./common.ts";
 
+const multiplier = 3;
+
 export function advantageFlawParse(
-  get: (character: Character) => AdvantageFlaw,
+  advantages: boolean,
 ): (character: Character, input: {
   create?: { name: string; value: number };
   edit?: { index: number; value: number };
-}) => void {
+}) => number {
   return (c, input) => {
-    const advantageFlaw = get(c);
+    let spent = 0;
+    const advantageFlaw = advantages ? c.advantages : c.flaws;
 
     if (input.create) {
       if (advantageFlaw[input.create.name] == undefined) {
         advantageFlaw[input.create.name] = input.create.value;
+        spent = input.create.value * multiplier;
       }
     } else {
       let index = 1;
       for (const key in advantageFlaw) {
         const edit = input.edit!;
         if (index == edit.index) {
+          const old = advantageFlaw[key];
           if (edit.value == 0) {
             delete advantageFlaw[key];
           } else {
-            advantageFlaw[key] = edit.value;
+            advantageFlaw[key] = edit.value;    
           }
+          spent = (edit.value - old) * multiplier;
           break;
         }
         index++;
       }
     }
+
+    return spent;
   };
 }
 
@@ -84,12 +92,12 @@ export function buildAdvantageFlawOptions(): CommandOptions {
 
 commands[treatKey(locale.advantages)] = {
   description: `${locale.commands.sheet.description} ${locale.advantages}`,
-  solve: buildCharacterSolver(advantageFlawParse((c) => c.advantages)),
+  solve: buildCharacterSolver(advantageFlawParse(true)),
   options: buildAdvantageFlawOptions(),
 };
 
 commands[treatKey(locale.flaws)] = {
   description: `${locale.commands.sheet.description} ${locale.flaws}`,
-  solve: buildCharacterSolver(advantageFlawParse((c) => c.flaws)),
+  solve: buildCharacterSolver(advantageFlawParse(false)),
   options: buildAdvantageFlawOptions(),
 };
