@@ -114,7 +114,7 @@ export const characterRender = (character: Character, id: string, dark: boolean,
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.experience.name}:</b></div>
-                            <div class="col text-start">{character.experience.total} / {character.experience.spent}</div>
+                            <div class="col text-start">{character.experience.total} - {character.experience.spent} = {character.experience.total - character.experience.spent}</div>
                         </div>
                     </div>
                     <div class="col-sm-3 mb-2">
