@@ -59,9 +59,12 @@ export function buildCharacterSolver<T>(
           color: colors.Gray,
           fields: [{
             name: locale.character,
-            value: `**${character.name}**`,
+            value: character.name,
             inline: true,
           }],
+          image: {
+            url: character.image,
+          },
         }],
       });
     }
