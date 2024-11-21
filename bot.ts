@@ -7,6 +7,7 @@ import {
   InteractionApplicationCommandData,
   InteractionApplicationCommandOption,
   InteractionMessageComponentData,
+  InteractionResponseType,
   InteractionType,
 } from "./deps.ts";
 import { config } from "./config.ts";
@@ -19,6 +20,8 @@ import {
   CommandOptionType,
   commands,
 } from "./roll/commands/module.ts";
+import { InteractionResponseError } from "./roll/interactionResponseError.ts";
+import * as colors from "./roll/colors.ts";
 
 const keyCommands = keys(commands);
 
@@ -210,6 +213,15 @@ client.on("ready", async () => {
     }
   } catch (error) {
     logger.error(error);
+    if (error instanceof InteractionResponseError) {
+      await interaction.respond({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        embeds: [{
+          title: error.message,
+          color: colors.Red,
+        }],
+      });
+    }  
   }
 });
 

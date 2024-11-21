@@ -2,6 +2,7 @@ import { locale } from "../../i18n/locale.ts";
 import { keys } from "../../utils.ts";
 import { actionAutocompleteSolver } from "../solver/actionAutocompleteSolver.ts";
 import { characterAutocompleteSolver } from "../solver/characterAutocompleteSolver.ts";
+import { characterModeAutocompleteSolver } from "../solver/characterModeAutocompleteSolver.ts";
 import { characterLinkSolver } from "../solver/characterLinkSolver.ts";
 import { dicePoolSolver } from "../solver/dicePoolSolver.ts";
 import { rollSolver } from "../solver/rollSolver.ts";
@@ -14,6 +15,7 @@ import {
   option,
   treatKey,
 } from "./common.ts";
+import { CharacterMode } from "../../character.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -88,6 +90,27 @@ commands[treatKey(locale.commands.setCharacter.name)] = {
     description: locale.commands.setCharacter.character.description,
     type: CommandOptionType.STRING,
     required: true,
+    autocomplete: true,
+  }).build,
+};
+commands[treatKey(locale.commands.modeCharacter.name)] = {
+  description: locale.commands.modeCharacter.description,
+  solve: characterModeAutocompleteSolver,
+  options: option(locale.commands.modeCharacter.mode.name, {
+    property: "mode",
+    description: locale.commands.modeCharacter.mode.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    choices: keys(CharacterMode).filter(item => Number(item) >= 0).map((key) => {
+      return {
+        name: locale.mode[key as unknown as number],
+        value: key,
+      };
+    }),
+  }).option(locale.commands.modeCharacter.character.name, {
+    property: "character",
+    description: locale.commands.modeCharacter.character.description,
+    type: CommandOptionType.STRING,
     autocomplete: true,
   }).build,
 };

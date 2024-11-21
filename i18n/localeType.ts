@@ -15,6 +15,7 @@ export type LocaleType = {
   type: string;
   standard: string;
   character: string;
+  mode: string[];
   specialties: {
     name: string;
     skill: string;
@@ -287,10 +288,13 @@ export type LocaleType = {
   };
   reRollHelperText: string;
   unauthorized: string;
+  notFound: string;
   characterUpdate: string;
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
   storytellerChangeCurrentCharacter: string;
+  storytellerChangeCharacterMode: string;
+  storytellerChangeAllCharacterMode: string;
   bestialFailure: string;
   failure: string;
   success: string;
@@ -339,6 +343,10 @@ export type LocaleType = {
       modifier: CommandOption;
     } & CommandOption;
     setCharacter: {
+      character: CommandOption;
+    } & CommandOption;
+    modeCharacter: {
+      mode: CommandOption;
       character: CommandOption;
     } & CommandOption;
   };

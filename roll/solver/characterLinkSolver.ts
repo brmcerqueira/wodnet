@@ -7,9 +7,10 @@ import {
     InteractionResponseType,
     MessageComponentType,
 } from "../../deps.ts";
-import { locale } from "../../i18n/locale.ts";
 import * as data from "../data.ts";
 import * as colors from "../colors.ts";
+import { locale } from "../../i18n/locale.ts";
+import { InteractionResponseError } from "../interactionResponseError.ts";
 
 export async function characterLinkSolver(interaction: Interaction) {
     const id =
@@ -17,23 +18,25 @@ export async function characterLinkSolver(interaction: Interaction) {
             ? data.currentCharacter
             : interaction.user.id;
 
-    const character = id != null ? await get(id) : null;
+    const character = await get(id, true);
+    
+    if (character.name == "") {
+        throw new InteractionResponseError(locale.notFound);
+    }
 
     await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
             color: colors.Gray,
-            image: character
-                ? {
-                    url: character.image,
-                }
-                : undefined, 
+            image: {
+                url: character.image,
+            },
         }],
         components: [{
             type: MessageComponentType.ACTION_ROW,
             components: [{
                 type: MessageComponentType.BUTTON,
-                label: character?.name || locale.character,
+                label: character.name,
                 style: ButtonStyle.LINK,
                 url: `${config.host}/dark?id=${encodeBase64Url(id)}`,
             }],

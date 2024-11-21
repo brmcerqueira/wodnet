@@ -7,12 +7,14 @@ import { Solver } from "../commands/common.ts";
 import * as data from "../data.ts";
 import * as colors from "../colors.ts";
 import { isStoryteller } from "../isStoryteller.ts";
+import { InteractionResponseError } from "../interactionResponseError.ts";
 
 export function buildCharacterSolver<T>(
   parse: (character: Character, input: T) => number, onlyStoryteller?: boolean
 ): Solver {
   return async (interaction: Interaction, input: T) => {
-    if (!onlyStoryteller || await isStoryteller(interaction)) {
+    const storyteller = isStoryteller(interaction);
+    if (!onlyStoryteller || storyteller) {
       let id = "";
 
       if (config.storytellerId == interaction.user.id) {
@@ -25,6 +27,10 @@ export function buildCharacterSolver<T>(
       }
 
       const character = await get(id, true);
+
+      if (!storyteller && character.mode == CharacterMode.Closed) {
+        throw new InteractionResponseError(locale.unauthorized);
+      }
 
       if (character.name == "") {
         character.name = config.storytellerId == interaction.user.id
@@ -44,7 +50,7 @@ export function buildCharacterSolver<T>(
         character.experience.spent += spent;
       }
 
-      await update(id, character);
+      await update(character);
 
       await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

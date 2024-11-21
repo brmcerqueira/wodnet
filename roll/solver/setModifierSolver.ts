@@ -8,7 +8,7 @@ export async function setModifierSolver(
   interaction: Interaction,
   values: { modifier: number },
 ) {
-  if (await isStoryteller(interaction)) {
+  if (isStoryteller(interaction)) {
     data.setModifier(values.modifier);
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

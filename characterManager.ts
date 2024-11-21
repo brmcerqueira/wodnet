@@ -32,7 +32,7 @@ export async function get(
       predator: "",
       clan: "",
       generation: 0,
-      mode: CharacterMode.Tracked,
+      mode: CharacterMode.Opened,
       versionstamp: null,
       attributes: {
         physical: {
@@ -124,7 +124,7 @@ export async function get(
   return character;
 }
 
-export async function update(id: string, character: Character) {
+export async function update(character: Character) {
   character.health.penalty = penalty(
     (character.attributes.physical.stamina + 3) -
       (character.health.superficial + character.health.aggravated),
@@ -138,7 +138,31 @@ export async function update(id: string, character: Character) {
 
   logger.info("Update Character %v", JSON.stringify(character));
 
-  await database.set([characterKey, id], character);
+  await database.set([characterKey, character.id], character);
+}
+
+export async function updateMode(mode: CharacterMode, id?: string) {
+  if (id) {
+    const entry = await database.get<Character>([characterKey, id]);
+    await updateCharacterMode(entry.value!, mode);
+  }
+  else {
+    for await (
+      const entry of database.list<Character>({
+        prefix: [characterKey],
+      })
+    ) {
+      await updateCharacterMode(entry.value, mode);
+    }
+  }
+}
+
+async function updateCharacterMode(character: Character, mode: CharacterMode) {
+  character.mode = mode;
+
+  logger.info("Update Character Mode %v", JSON.stringify(character));
+
+  await database.set([characterKey, character.id], character);
 }
 
 export async function check(
@@ -152,10 +176,14 @@ export async function check(
 export async function search(term: string): Promise<Character[]> {
   const result: Character[] = [];
   for await (
-    const item of database.list<Character>({ prefix: [characterKey] })
+    const entry of database.list<Character>({ prefix: [characterKey] })
   ) {
-    if (term == "" || item.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
-      result.push(item.value);
+    //await database.delete(entry.key);
+    if (
+      term == "" ||
+      entry.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+    ) {
+      result.push(entry.value);
     }
   }
 

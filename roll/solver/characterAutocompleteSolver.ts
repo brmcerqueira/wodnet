@@ -15,7 +15,7 @@ export async function characterAutocompleteSolver(
     };
   },
 ) {
-  if (await isStoryteller(interaction)) {
+  if (isStoryteller(interaction)) {
     if (await searchCharacter(interaction, values.character)) {
       const id = values.character.value != "" ? values.character.value : null;
       data.setCurrentCharacter(id);

@@ -7,6 +7,11 @@ export const pt: LocaleType = {
   type: "Tipo",
   standard: "Padrão",
   character: "Personagem",
+  mode: [
+    "Aberto",
+    "Rastreado",
+    "Fechado",
+  ],
   characterUpdate: "O personagem foi atualizado",
   specialties: {
     name: "Especializações",
@@ -320,9 +325,12 @@ export const pt: LocaleType = {
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",
+  notFound: "Personagem não encontrado!",
   storytellerChangeDifficulty: "O narrador mudou a dificuldade.",
   storytellerChangeModifier: "O narrador mudou o modificador.",
   storytellerChangeCurrentCharacter: "O personagem escolhido foi...",
+  storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
+  storytellerChangeAllCharacterMode: "O modo de todos os personagens foi alterado!",
   bestialFailure: "Falha Bestial",
   failure: "Falha",
   success: "Sucesso",
@@ -456,6 +464,18 @@ export const pt: LocaleType = {
         name: "círculos",
         description: "Círculos"
       }
+    },
+    modeCharacter: {
+      name: "personagem-modo",
+      description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
+      mode: {
+        name: "modo",
+        description: "Modo do personagem",
+      },
+      character: {
+        name: "personagem",
+        description: "Personagem",
+      },
     }
   },
   actions: [
