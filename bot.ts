@@ -7,6 +7,7 @@ import {
   InteractionApplicationCommandData,
   InteractionApplicationCommandOption,
   InteractionMessageComponentData,
+  InteractionModalSubmitData,
   InteractionResponseType,
   InteractionType,
 } from "./deps.ts";
@@ -22,30 +23,34 @@ import {
 } from "./roll/commands/module.ts";
 import { InteractionResponseError } from "./roll/interactionResponseError.ts";
 import * as colors from "./roll/colors.ts";
+import { editModalSolver } from "./roll/solver/editModalSolver.ts";
 
-const keyCommands = keys(commands);
-
-function parseValues(
-options: CommandOptions, 
-interactionOptions: InteractionApplicationCommandOption[], 
-data: InteractionApplicationCommandData
+function parseCommandValues(
+  options: CommandOptions,
+  interactionOptions: InteractionApplicationCommandOption[],
+  data: InteractionApplicationCommandData,
 ) {
   const values: any = {};
 
-  keys(options).forEach((key) => {
+  for (const key in options) {
     const interactionOption = interactionOptions.find((o) => o.name == key);
 
     if (interactionOption) {
       let value: any = undefined;
-      const option = options![key];
+      const option = options[key];
       switch (option.type) {
         case CommandOptionType.SUB_COMMAND:
           if (option.options) {
-            value = parseValues(option.options, interactionOption.options!, data);
+            value = parseCommandValues(
+              option.options,
+              interactionOption.options!,
+              data,
+            );
           }
           break;
         case CommandOptionType.ATTACHMENT:
-          value = (data.resolved! as any)["attachments"][interactionOption.value];
+          value =
+            (data.resolved! as any)["attachments"][interactionOption.value];
           break;
         case CommandOptionType.BOOLEAN:
           value = interactionOption.value == true;
@@ -65,7 +70,7 @@ data: InteractionApplicationCommandData
         }
         : value;
     }
-  });
+  }
 
   return values;
 }
@@ -131,8 +136,7 @@ client.on("ready", async () => {
 
     //await cleanCommands(discordCommands);
 
-    for (let index = 0; index < keyCommands.length; index++) {
-      const name = keyCommands[index];
+    for (const name in commands) {
       const command = commands[name];
       if (!discordCommands.find((c) => c.name == name)) {
         const data = {
@@ -184,30 +188,29 @@ client.on("ready", async () => {
       interaction.type,
       JSON.stringify(interaction.data),
     );
-    if (
-      !interaction.user.bot &&
-      interaction.type == InteractionType.MESSAGE_COMPONENT
-    ) {
-      const data = interaction.data as InteractionMessageComponentData;
-      await reRollSolver(interaction, parseInt(data.custom_id));
-    } else if (
-      !interaction.user.bot &&
-      (interaction.type == InteractionType.APPLICATION_COMMAND ||
-        interaction.type == InteractionType.AUTOCOMPLETE)
-    ) {
-      const data = interaction.data as InteractionApplicationCommandData;
-      for (let index = 0; index < keyCommands.length; index++) {
-        const name = keyCommands[index];
-        if (data.name == name) {
-          const command = commands[name];
-          let values: any = undefined;
 
-          if (command.options) {
-            values = parseValues(command.options, data.options, data);
+    if (!interaction.user.bot) {
+      if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
+        const data = interaction.data as InteractionMessageComponentData;
+        await reRollSolver(interaction, parseInt(data.custom_id));
+      } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
+        await editModalSolver(interaction, interaction.data as InteractionModalSubmitData);
+      } else if (
+        interaction.type == InteractionType.APPLICATION_COMMAND ||
+        interaction.type == InteractionType.AUTOCOMPLETE
+      ) {
+        const data = interaction.data as InteractionApplicationCommandData;
+        for (const name in commands) {
+          if (data.name == name) {
+            const command = commands[name];
+            await command.solve(
+              interaction,
+              command.options
+                ? parseCommandValues(command.options, data.options, data)
+                : undefined,
+            );
+            break;
           }
-
-          await command.solve(interaction, values);
-          break;
         }
       }
     }
@@ -221,7 +224,7 @@ client.on("ready", async () => {
           color: colors.Red,
         }],
       });
-    }  
+    }
   }
 });
 

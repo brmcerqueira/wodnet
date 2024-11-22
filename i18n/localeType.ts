@@ -353,6 +353,9 @@ export type LocaleType = {
       mode: CommandOption;
       character: CommandOption;
     } & CommandOption;
+    editModal: {
+      title: string;
+    } & CommandOption;
   };
   actions: string[];
   shortening: {

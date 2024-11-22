@@ -485,6 +485,11 @@ export const pt: LocaleType = {
         name: "personagem",
         description: "Personagem",
       },
+    },
+    editModal: {
+      name: "editar",
+      description: "Modal para edição dos campos textos do personagem",
+      title: "Modal para edição"
     }
   },
   actions: [

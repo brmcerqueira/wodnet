@@ -1,6 +1,7 @@
 import { Character } from "../../character.ts";
 import { locale } from "../../i18n/locale.ts";
 import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
+import { editModalSolver } from "../solver/editModalSolver.ts";
 import {
   buildChoicesOptions,
   buildIntegerOptions,
@@ -140,4 +141,8 @@ commands[treatKey(locale.stains)] = {
   solve: buildCharacterSolver(
     parseField<number>((c, v) => c.humanity.stains = v),
   ),
+};
+commands[treatKey(locale.commands.editModal.name)] = {
+  description: locale.commands.editModal.description,
+  solve: editModalSolver,
 };

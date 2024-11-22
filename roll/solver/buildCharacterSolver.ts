@@ -56,7 +56,7 @@ export function buildCharacterSolver<T>(
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
           title: locale.characterUpdate,
-          color: colors.Gray,
+          color: colors.Green,
           fields: [{
             name: locale.character,
             value: character.name,
