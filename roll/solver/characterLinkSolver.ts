@@ -27,6 +27,7 @@ export async function characterLinkSolver(interaction: Interaction) {
     await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
+            title: locale.character,
             color: colors.Gray,
             image: {
                 url: character.image,
