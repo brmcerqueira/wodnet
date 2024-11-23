@@ -24,8 +24,8 @@ export async function dicePoolSolver(
   },
 ) {
   const character = config.storytellerId == interaction.user.id
-    ? (data.currentCharacter ? await get(data.currentCharacter!) : undefined)
-    : await get(interaction.user.id);
+    ? (data.currentCharacter ? await get(data.currentCharacter!, true) : undefined)
+    : await get(interaction.user.id, true);
     
   if (character) {
     const description: string[] = [];

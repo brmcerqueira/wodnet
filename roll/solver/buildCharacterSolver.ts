@@ -6,29 +6,33 @@ import { locale } from "../../i18n/locale.ts";
 import { Solver } from "../commands/common.ts";
 import * as data from "../data.ts";
 import * as colors from "../colors.ts";
-import { isStoryteller } from "../isStoryteller.ts";
 import { InteractionResponseError } from "../interactionResponseError.ts";
+
+export function getOrBuildCharacterId(interaction: Interaction) {
+  let id = "";
+
+  if (config.storytellerId == interaction.user.id) {
+    if (data.currentCharacter == null) {
+      data.setCurrentCharacter(crypto.randomUUID());
+    }
+    id = data.currentCharacter!;
+  } else {
+    id = interaction.user.id;
+  }
+  return id;
+}
 
 export function buildCharacterSolver<T>(
   parse: (character: Character, input: T) => number, onlyStoryteller?: boolean
 ): Solver {
   return async (interaction: Interaction, input: T) => {
-    const storyteller = isStoryteller(interaction);
-    if (!onlyStoryteller || storyteller) {
-      let id = "";
+    const isStoryteller = interaction.user.id == config.storytellerId;
+    if (!onlyStoryteller || isStoryteller) {
+      const id = getOrBuildCharacterId(interaction);
 
-      if (config.storytellerId == interaction.user.id) {
-        if (data.currentCharacter == null) {
-          data.setCurrentCharacter(crypto.randomUUID());
-        }
-        id = data.currentCharacter!;
-      } else {
-        id = interaction.user.id;
-      }
+      const character = await get(id);
 
-      const character = await get(id, true);
-
-      if (!storyteller && character.mode == CharacterMode.Closed) {
+      if (!isStoryteller && character.mode == CharacterMode.Closed) {
         throw new InteractionResponseError(locale.unauthorized);
       }
 
@@ -64,6 +68,9 @@ export function buildCharacterSolver<T>(
           }],
         }],
       });
+    }
+    else {
+      throw new InteractionResponseError(locale.unauthorized);
     }
   };
 }

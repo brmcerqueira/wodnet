@@ -1,5 +1,4 @@
-import { get, update } from "../../characterManager.ts";
-import { config } from "../../config.ts";
+import { get } from "../../characterManager.ts";
 import {
     Interaction,
     InteractionModalSubmitData,
@@ -7,37 +6,28 @@ import {
     MessageComponentType,
     TextInputStyle,
 } from "../../deps.ts";
-import * as data from "../data.ts";
-import * as colors from "../colors.ts";
 import { locale } from "../../i18n/locale.ts";
+import { buildCharacterSolver, getOrBuildCharacterId } from "./buildCharacterSolver.ts";
+
+const characterSolver = buildCharacterSolver<InteractionModalSubmitData>((character, input) => {
+    for (const row of input.components) {
+        const textInput = row.components[0];
+        (character as any)[textInput.custom_id] = textInput.value;
+    }
+    return 0;
+})
 
 export async function editModalSolver(
     interaction: Interaction,
     input?: InteractionModalSubmitData,
 ) {
-    const id =
-        config.storytellerId == interaction.user.id && data.currentCharacter
-            ? data.currentCharacter
-            : interaction.user.id;
-
-    const character = await get(id);
-
     if (input) {
-        for (const row of input.components) {
-            const textInput = row.components[0];
-            (character as any)[textInput.custom_id] = textInput.value;
-        }
-
-        await update(character);
-
-        await interaction.respond({
-            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-            embeds: [{
-                title: locale.characterUpdate,
-                color: colors.Green,
-            }],
-        });
+        await characterSolver(interaction, input);
     } else {
+        const id = getOrBuildCharacterId(interaction);
+
+        const character = await get(id);
+
         await interaction.respond({
             type: InteractionResponseType.MODAL,
             customID: "edit",
