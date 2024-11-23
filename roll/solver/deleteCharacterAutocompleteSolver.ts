@@ -14,9 +14,8 @@ export async function deleteCharacterAutocompleteSolver(
     };
   },
 ) {
-  if (isStoryteller(interaction)) {
-    if (await searchCharacter(interaction, input.character)) {
-   
+  if (await searchCharacter(interaction, input.character)) {
+    if (isStoryteller(interaction)) {
       await deleteCharacter(input.character.value);
 
       await interaction.respond({

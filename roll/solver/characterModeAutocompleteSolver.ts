@@ -16,11 +16,11 @@ export async function characterModeAutocompleteSolver(
         };
     },
 ) {
+    if (input.character && !(await searchCharacter(interaction, input.character))) {
+        return;
+    }
+
     if (isStoryteller(interaction)) {
-        if (input.character && !(await searchCharacter(interaction, input.character))) {
-            return;
-        }
-   
         await updateMode(CharacterMode[CharacterMode[parseInt(input.mode)] as keyof typeof CharacterMode], input.character?.value);
 
         await interaction.respond({
