@@ -62,9 +62,6 @@ export function buildCharacterSolver<T>(
             value: character.name,
             inline: true,
           }],
-          image: {
-            url: character.image,
-          },
         }],
       });
     }
