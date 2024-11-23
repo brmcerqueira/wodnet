@@ -11,9 +11,8 @@ type CommandOption = {
 export type LocaleType = {
   app: string;
   none: string;
-  value: string;
-  type: string;
-  standard: string;
+  select: string;
+  open: string;
   character: string;
   mode: string[];
   specialties: {
@@ -345,6 +344,7 @@ export type LocaleType = {
     } & CommandOption;
     setCharacter: {
       character: CommandOption;
+      link: CommandOption;
     } & CommandOption;
     deleteCharacter: {
       character: CommandOption;

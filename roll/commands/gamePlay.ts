@@ -92,6 +92,10 @@ commands[treatKey(locale.commands.setCharacter.name)] = {
     type: CommandOptionType.STRING,
     required: true,
     autocomplete: true,
+  }).option(locale.commands.setCharacter.link.name, {
+    property: "link",
+    description: locale.commands.setCharacter.link.description,
+    type: CommandOptionType.BOOLEAN
   }).build,
 };
 commands[treatKey(locale.commands.deleteCharacter.name)] = {

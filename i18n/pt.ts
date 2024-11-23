@@ -3,9 +3,8 @@ import { LocaleType } from "./localeType.ts";
 export const pt: LocaleType = {
   app: "Wodnet",
   none: "(Nenhum)",
-  value: "Valor",
-  type: "Tipo",
-  standard: "Padrão",
+  select: "Selecionar",
+  open: "Abrir",
   character: "Personagem",
   mode: [
     "Aberto",
@@ -422,6 +421,10 @@ export const pt: LocaleType = {
         name: "nome",
         description: "Nome do personagem",
       },
+      link: {
+        name: "link",
+        description: "Gerar link do personagem"
+      }
     },
     deleteCharacter: {
       name: "excluir-personagem",

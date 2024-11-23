@@ -5,12 +5,22 @@ import {
     encodeBase64Url,
     Interaction,
     InteractionResponseType,
+    MessageComponentData,
     MessageComponentType,
 } from "../../deps.ts";
 import * as data from "../data.ts";
 import * as colors from "../colors.ts";
 import { locale } from "../../i18n/locale.ts";
 import { InteractionResponseError } from "../interactionResponseError.ts";
+
+export function buttonCharacterLink(id: string): MessageComponentData {
+    return {
+      type: MessageComponentType.BUTTON,
+      label: locale.open,
+      style: ButtonStyle.LINK,
+      url: `${config.host}/dark?id=${encodeBase64Url(id)}`,
+    };
+  }
 
 export async function characterLinkSolver(interaction: Interaction) {
     const id =
@@ -27,7 +37,7 @@ export async function characterLinkSolver(interaction: Interaction) {
     await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
-            title: locale.character,
+            title: character.name,
             color: colors.Gray,
             image: {
                 url: character.image,
@@ -35,12 +45,7 @@ export async function characterLinkSolver(interaction: Interaction) {
         }],
         components: [{
             type: MessageComponentType.ACTION_ROW,
-            components: [{
-                type: MessageComponentType.BUTTON,
-                label: character.name,
-                style: ButtonStyle.LINK,
-                url: `${config.host}/dark?id=${encodeBase64Url(id)}`,
-            }],
+            components: [buttonCharacterLink(id)],
         }],
     });
 }

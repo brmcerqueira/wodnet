@@ -24,6 +24,7 @@ import {
 import { InteractionResponseError } from "./roll/interactionResponseError.ts";
 import * as colors from "./roll/colors.ts";
 import { editModalSolver } from "./roll/solver/editModalSolver.ts";
+import { characterAutocompleteSolver, extractCharacterAutocompleteInput } from "./roll/solver/characterAutocompleteSolver.ts";
 
 function parseCommandValues(
   options: CommandOptions,
@@ -134,7 +135,7 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
-    //await cleanCommands(discordCommands);
+    await cleanCommands(discordCommands, "personagem");
 
     for (const name in commands) {
       const command = commands[name];
@@ -191,8 +192,14 @@ client.on("ready", async () => {
 
     if (!interaction.user.bot) {
       if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
-        const data = interaction.data as InteractionMessageComponentData;
-        await reRollSolver(interaction, parseInt(data.custom_id));
+        const data = interaction.data as InteractionMessageComponentData;  
+        const value = parseInt(data.custom_id);
+        if (!isNaN(value)) {
+          await reRollSolver(interaction, value);
+        } 
+        else {
+          await characterAutocompleteSolver(interaction, extractCharacterAutocompleteInput(data.custom_id))
+        } 
       } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
         await editModalSolver(interaction, interaction.data as InteractionModalSubmitData);
       } else if (
