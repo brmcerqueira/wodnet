@@ -174,7 +174,10 @@ client.on("ready", async () => {
           });
         }
 
-        emojis[name as keyof Emojis][guild.id] = emoji;
+        emojis[name as keyof Emojis][guild.id] = {
+          id: emoji.id!,
+          name: emoji.name!,
+        };
       }
     }
 

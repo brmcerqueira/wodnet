@@ -1,8 +1,11 @@
-import { EmbedPayload, EmojiPayload } from "../deps.ts";
+import { EmbedPayload } from "../deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 
 type EmojiDictionary = {
-  [guildId: string]: EmojiPayload;
+  [guildId: string]: {
+    id: string,
+    name: string
+  };
 };
 
 export type Emojis = {
