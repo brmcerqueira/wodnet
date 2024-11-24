@@ -1,4 +1,5 @@
 import { Character } from "../character.ts";
+import { Chronicle } from "../chronicle.ts";
 import { Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { keys, treatDiscipline } from "../utils.ts";
@@ -38,7 +39,7 @@ export type CommandOptions = {
   [name: string]: CommandOption;
 };
 
-export type Solver = (interaction: Interaction, values?: any) => Promise<void>;
+export type Solver = (interaction: Interaction, chronicle: Chronicle, values?: any) => Promise<void>;
 
 export const commands: {
   [name: string]: {

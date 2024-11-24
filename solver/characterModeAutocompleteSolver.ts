@@ -1,12 +1,13 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
-import { updateCharacterMode } from "../repository.ts";
 import { locale } from "../i18n/locale.ts";
 import { searchCharacter } from "../searchCharacter.ts";
 import { CharacterMode } from "../character.ts";
 import { colors, isStoryteller } from "../utils.ts";
+import { Chronicle } from "../chronicle.ts";
 
 export async function characterModeAutocompleteSolver(
     interaction: Interaction,
+    chronicle: Chronicle,
     input: {
         mode: string,
         character?: {
@@ -15,12 +16,12 @@ export async function characterModeAutocompleteSolver(
         };
     },
 ) {
-    if (input.character && !(await searchCharacter(interaction, input.character))) {
+    if (input.character && !(await searchCharacter(interaction, chronicle, input.character))) {
         return;
     }
 
     if (isStoryteller(interaction)) {
-        await updateCharacterMode(CharacterMode[CharacterMode[parseInt(input.mode)] as keyof typeof CharacterMode], input.character?.value);
+        await chronicle.updateCharacterMode(CharacterMode[CharacterMode[parseInt(input.mode)] as keyof typeof CharacterMode], input.character?.value);
 
         await interaction.respond({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

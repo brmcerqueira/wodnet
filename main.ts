@@ -1,6 +1,5 @@
 import { bundle, join } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
-import { checkCharacter, getCharacter } from "./repository.ts";
 import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
@@ -110,18 +109,18 @@ Deno.serve({ port: config.port }, route({
 },{
   path: "/check",
   go: async (context: RouteContext): Promise<void | Response> =>  {
-    if (context.decodeId) { 
+    if (context.chronicle && context.decodeId) { 
       return new Response(JSON.stringify({
-        update: await checkCharacter(context.decodeId, context.versionstamp!),
+        update: await context.chronicle.checkCharacter(context.decodeId, context.versionstamp!),
       }), { headers:[["Content-Type", "application/json"]]});
     }
   }
 },{
   path: ["/dark", "/"],
   go: async (context: RouteContext): Promise<void | Response> =>  {
-    if (context.id && context.decodeId) { 
+    if (context.chronicle && context.id && context.decodeId) {
       return new Response(await characterRender(
-        await getCharacter(context.decodeId, true),
+        await context.chronicle.getCharacter(context.decodeId, true),
         context.id,
         context.url.pathname == "/dark",
         context.update

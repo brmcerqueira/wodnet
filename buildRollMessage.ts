@@ -3,8 +3,10 @@ import { RollResult, RollStatus } from "./diceRollManager.ts";
 import { emojis } from "./data.ts";
 import { locale } from "./i18n/locale.ts";
 import { colors } from "./utils.ts";
+import { Chronicle } from "./chronicle.ts";
 
 export function buildRollMessage(
+  chronicle: Chronicle,
   result: RollResult,
   guildId: string,
   authorId: string,

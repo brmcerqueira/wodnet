@@ -8,6 +8,7 @@ import {
 } from "./deps.ts";
 import { buildRollMessage } from "./buildRollMessage.ts";
 import * as data from "./data.ts";
+import { Chronicle } from "./chronicle.ts";
 
 export type SendRollData = {
   content: string;
@@ -16,6 +17,7 @@ export type SendRollData = {
 };
 
 export async function sendRoll(
+  chronicle: Chronicle,
   send: (data: SendRollData) => Promise<void>,
   guildId: string,
   authorId: string,
@@ -41,7 +43,7 @@ export async function sendRoll(
 
   const margin = dices - hunger;
 
-  const message = buildRollMessage(result, guildId, authorId, description);
+  const message = buildRollMessage(chronicle, result, guildId, authorId, description);
 
   const options: SendRollData = {
     content: message.content,

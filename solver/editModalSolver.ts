@@ -1,4 +1,3 @@
-import { getCharacter } from "../repository.ts";
 import {
     Interaction,
     InteractionModalSubmitData,
@@ -8,6 +7,7 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterSolver, getOrBuildCharacterId } from "./buildCharacterSolver.ts";
+import { Chronicle } from "../chronicle.ts";
 
 const characterSolver = buildCharacterSolver<InteractionModalSubmitData>((character, input) => {
     for (const row of input.components) {
@@ -19,14 +19,15 @@ const characterSolver = buildCharacterSolver<InteractionModalSubmitData>((charac
 
 export async function editModalSolver(
     interaction: Interaction,
+    chronicle: Chronicle,
     input?: InteractionModalSubmitData,
 ) {
     if (input) {
-        await characterSolver(interaction, input);
+        await characterSolver(interaction, chronicle, input);
     } else {
         const id = getOrBuildCharacterId(interaction);
 
-        const character = await getCharacter(id);
+        const character = await chronicle.getCharacter(id);
 
         await interaction.respond({
             type: InteractionResponseType.MODAL,

@@ -1,11 +1,11 @@
 import { Character, CharacterMode } from "../character.ts";
-import { getCharacter, updateCharacter } from "../repository.ts";
 import { config } from "../config.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { Solver } from "../commands/common.ts";
 import * as data from "../data.ts";
 import { colors, InteractionResponseError } from "../utils.ts";
+import { Chronicle } from "../chronicle.ts";
 
 export function getOrBuildCharacterId(interaction: Interaction) {
   let id = "";
@@ -24,12 +24,12 @@ export function getOrBuildCharacterId(interaction: Interaction) {
 export function buildCharacterSolver<T>(
   parse: (character: Character, input: T) => number, onlyStoryteller?: boolean
 ): Solver {
-  return async (interaction: Interaction, input: T) => {
+  return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
     const isStoryteller = interaction.user.id == config.storytellerId;
     if (!onlyStoryteller || isStoryteller) {
       const id = getOrBuildCharacterId(interaction);
 
-      const character = await getCharacter(id);
+      const character = await chronicle.getCharacter(id);
 
       if (!isStoryteller && character.mode == CharacterMode.Closed) {
         throw new InteractionResponseError(locale.unauthorized);
@@ -53,7 +53,7 @@ export function buildCharacterSolver<T>(
         character.experience.spent += spent;
       }
 
-      await updateCharacter(character);
+      await chronicle.updateCharacter(character);
 
       await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

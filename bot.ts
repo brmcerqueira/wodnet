@@ -26,6 +26,8 @@ import {
   characterAutocompleteSolver,
   extractCharacterAutocompleteInput,
 } from "./solver/characterAutocompleteSolver.ts";
+import { Chronicle } from "./chronicle.ts";
+import { locale } from "./i18n/locale.ts";
 
 function parseCommandValues(
   options: CommandOptions,
@@ -192,20 +194,26 @@ client.on("ready", async () => {
     );
 
     if (!interaction.user.bot) {
+      if (!interaction.guild) {
+        throw new InteractionResponseError(locale.unauthorized);
+      }
+      const chronicle = new Chronicle(interaction.guild!.id);
       if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
         const data = interaction.data as InteractionMessageComponentData;
         const value = parseInt(data.custom_id);
         if (!isNaN(value)) {
-          await reRollSolver(interaction, value);
+          await reRollSolver(interaction, chronicle, value);
         } else {
           await characterAutocompleteSolver(
             interaction,
+            chronicle,
             extractCharacterAutocompleteInput(data.custom_id),
           );
         }
       } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
         await editModalSolver(
           interaction,
+          chronicle,
           interaction.data as InteractionModalSubmitData,
         );
       } else if (
@@ -218,6 +226,7 @@ client.on("ready", async () => {
             const command = commands[name];
             await command.solve(
               interaction,
+              chronicle,
               command.options
                 ? parseCommandValues(command.options, data.options, data)
                 : undefined,

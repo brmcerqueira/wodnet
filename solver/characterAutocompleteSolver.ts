@@ -5,12 +5,11 @@ import {
   InteractionResponseType,
   MessageComponentType,
 } from "../deps.ts";
-import { getCharacter } from "../repository.ts";
 import { locale } from "../i18n/locale.ts";
 import * as data from "../data.ts";
 import { searchCharacter } from "../searchCharacter.ts";
-import { buttonCharacterLink } from "./characterLinkSolver.ts";
-import { colors, isStoryteller } from "../utils.ts";
+import { buttonCharacterLink, colors, isStoryteller } from "../utils.ts";
+import { Chronicle } from "../chronicle.ts";
 
 type InputType = {
   character: {
@@ -35,13 +34,14 @@ export function extractCharacterAutocompleteInput(text: string): InputType {
 
 export async function characterAutocompleteSolver(
   interaction: Interaction,
+  chronicle: Chronicle,
   input: InputType,
 ) {
-  if (await searchCharacter(interaction, input.character, true)) {
+  if (await searchCharacter(interaction, chronicle, input.character, true)) {
     if (isStoryteller(interaction)) {
       const id = input.character.value != "" ? input.character.value : null;
       data.setCurrentCharacter(id);
-      const character = id != null ? await getCharacter(id, true) : null;
+      const character = id != null ? await chronicle.getCharacter(id, true) : null;
 
       const components: ActionRowComponent[] | undefined = character
         ? [{
@@ -56,7 +56,7 @@ export async function characterAutocompleteSolver(
         : undefined;
 
       if (components && input.link) {
-        components[0].components.push(buttonCharacterLink(id!));
+        components[0].components.push(buttonCharacterLink(chronicle.id, id!));
       }
 
       await interaction.respond({

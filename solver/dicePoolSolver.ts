@@ -1,11 +1,11 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
-import { getCharacter } from "../repository.ts";
 import { config } from "../config.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { LocaleType } from "../i18n/localeType.ts";
 import * as data from "../data.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
+import { Chronicle } from "../chronicle.ts";
 
 type AttributeType =
   | keyof LocaleType["attributes"]["physical"]
@@ -14,6 +14,7 @@ type AttributeType =
 
 export async function dicePoolSolver(
   interaction: Interaction,
+  chronicle: Chronicle,
   values: {
     attribute: AttributeType;
     secondaryAttribute?: AttributeType;
@@ -24,8 +25,8 @@ export async function dicePoolSolver(
   },
 ) {
   const character = config.storytellerId == interaction.user.id
-    ? (data.currentCharacter ? await getCharacter(data.currentCharacter!, true) : undefined)
-    : await getCharacter(interaction.user.id, true);
+    ? (data.currentCharacter ? await chronicle.getCharacter(data.currentCharacter!, true) : undefined)
+    : await chronicle.getCharacter(interaction.user.id, true);
     
   if (character) {
     const description: string[] = [];
@@ -57,6 +58,7 @@ export async function dicePoolSolver(
     }
 
     await sendRoll(
+      chronicle,
       async (m) => {
         await interaction.respond({
           type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
