@@ -5,6 +5,8 @@ const repository = await Deno.openKv();
 
 const characterKey = "character";
 
+await repository.delete([characterKey]);
+
 export class Chronicle {
   constructor(private chronicleId: string) {
   }
