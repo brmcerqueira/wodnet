@@ -136,7 +136,7 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
-    //await cleanCommands(discordCommands, "personagem");
+    //await cleanCommands(discordCommands);
 
     for (const name in commands) {
       const command = commands[name];
