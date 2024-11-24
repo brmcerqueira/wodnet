@@ -16,7 +16,7 @@ async function clearRepository() {
   }
 }
 
-await clearRepository();
+//await clearRepository();
 
 export class Chronicle {
   constructor(private chronicleId: string) {
