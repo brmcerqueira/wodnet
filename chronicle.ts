@@ -5,7 +5,18 @@ const repository = await Deno.openKv();
 
 const characterKey = "character";
 
-await repository.delete([characterKey]);
+async function clearRepository() {
+  for await (
+    const entry of repository.list<Character>({
+      prefix: [],
+    })
+  ) {
+    logger.info("Delete %v", JSON.stringify(entry.key));
+    await repository.delete(entry.key);
+  }
+}
+
+await clearRepository();
 
 export class Chronicle {
   constructor(private chronicleId: string) {
@@ -187,6 +198,7 @@ export class Chronicle {
   }
 
   public async deleteCharacter(id: string) {
+    logger.info("Delete Character %v", id);
     await repository.delete([characterKey, this.chronicleId, id]);
   }
 
