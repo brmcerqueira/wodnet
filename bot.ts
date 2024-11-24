@@ -13,7 +13,7 @@ import {
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
-import { emojis } from "./roll/data.ts";
+import { Emojis, emojis } from "./roll/data.ts";
 import { keys } from "./utils.ts";
 import { reRollSolver } from "./roll/solver/reRollSolver.ts";
 import {
@@ -24,7 +24,10 @@ import {
 import { InteractionResponseError } from "./roll/interactionResponseError.ts";
 import * as colors from "./roll/colors.ts";
 import { editModalSolver } from "./roll/solver/editModalSolver.ts";
-import { characterAutocompleteSolver, extractCharacterAutocompleteInput } from "./roll/solver/characterAutocompleteSolver.ts";
+import {
+  characterAutocompleteSolver,
+  extractCharacterAutocompleteInput,
+} from "./roll/solver/characterAutocompleteSolver.ts";
 
 function parseCommandValues(
   options: CommandOptions,
@@ -135,7 +138,7 @@ client.on("ready", async () => {
         client.applicationID!,
       ) as unknown as ApplicationCommandPayload[];
 
-    await cleanCommands(discordCommands, "personagem");
+    //await cleanCommands(discordCommands, "personagem");
 
     for (const name in commands) {
       const command = commands[name];
@@ -154,15 +157,12 @@ client.on("ready", async () => {
       }
     }
 
-    const emojisArray = keys(emojis);
-
     for (const guild of await client.guilds.array()) {
       const guildEmojis = await client.rest.endpoints.listGuildEmojis(
         guild.id,
       );
 
-      for (let index = 0; index < emojisArray.length; index++) {
-        const name = emojisArray[index];
+      for (const name in emojis) {
         let emoji = guildEmojis.find((e) => e.name == name);
 
         if (!emoji) {
@@ -174,7 +174,7 @@ client.on("ready", async () => {
           });
         }
 
-        emojis[name][guild.id] = emoji;
+        emojis[name as keyof Emojis][guild.id] = emoji;
       }
     }
 
@@ -192,16 +192,21 @@ client.on("ready", async () => {
 
     if (!interaction.user.bot) {
       if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
-        const data = interaction.data as InteractionMessageComponentData;  
+        const data = interaction.data as InteractionMessageComponentData;
         const value = parseInt(data.custom_id);
         if (!isNaN(value)) {
           await reRollSolver(interaction, value);
-        } 
-        else {
-          await characterAutocompleteSolver(interaction, extractCharacterAutocompleteInput(data.custom_id))
-        } 
+        } else {
+          await characterAutocompleteSolver(
+            interaction,
+            extractCharacterAutocompleteInput(data.custom_id),
+          );
+        }
       } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
-        await editModalSolver(interaction, interaction.data as InteractionModalSubmitData);
+        await editModalSolver(
+          interaction,
+          interaction.data as InteractionModalSubmitData,
+        );
       } else if (
         interaction.type == InteractionType.APPLICATION_COMMAND ||
         interaction.type == InteractionType.AUTOCOMPLETE

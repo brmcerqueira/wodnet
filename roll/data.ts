@@ -5,7 +5,7 @@ type EmojiDictionary = {
   [guildId: string]: EmojiPayload;
 };
 
-export const emojis: {
+export type Emojis = {
   bestial: EmojiDictionary;
   critical: EmojiDictionary;
   messy: EmojiDictionary;
@@ -13,7 +13,9 @@ export const emojis: {
   noneRed: EmojiDictionary;
   successBlack: EmojiDictionary;
   successRed: EmojiDictionary;
-} = {
+}
+
+export const emojis: Emojis = {
   bestial: {},
   critical: {},
   messy: {},
