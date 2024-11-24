@@ -24,15 +24,3 @@ export const emojis: Emojis = {
   successBlack: {},
   successRed: {},
 };
-
-export let difficulty: number | null = null;
-
-export function setDifficulty(value: number | null) {
-  difficulty = value;
-}
-
-export let modifier: number | null = null;
-
-export function setModifier(value: number | null) {
-  modifier = value;
-}

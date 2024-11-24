@@ -7,7 +7,6 @@ import {
   MessageComponentType,
 } from "./deps.ts";
 import { buildRollMessage } from "./buildRollMessage.ts";
-import * as data from "./data.ts";
 import { Chronicle } from "./chronicle.ts";
 
 export type SendRollData = {
@@ -27,14 +26,18 @@ export async function sendRoll(
   modifier: number,
   description: string | undefined,
 ): Promise<void> {
-  if (data.difficulty) {
-    difficulty = data.difficulty;
-    data.setDifficulty(null);
+  const chronicleDifficulty = await chronicle.difficulty();
+
+  if (chronicleDifficulty) {
+    difficulty = chronicleDifficulty;
+    await chronicle.setDifficulty(null);
   }
 
-  if (data.modifier) {
-    modifier += data.modifier;
-    data.setModifier(null);
+  const chronicleModifier = await chronicle.modifier();
+
+  if (chronicleModifier) {
+    modifier += chronicleModifier;
+    chronicle.setModifier(null);
   }
 
   dices += modifier;

@@ -1,6 +1,5 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import * as data from "../data.ts";
 import { colors, isStoryteller } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
 
@@ -10,7 +9,7 @@ export async function setDifficultySolver(
   values: { difficulty: number },
 ) {
   if (isStoryteller(interaction)) {
-    data.setDifficulty(values.difficulty);
+    await chronicle.setDifficulty(values.difficulty);
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       embeds: [{
@@ -18,7 +17,7 @@ export async function setDifficultySolver(
         color: colors.gray,
         fields: [{
           name: locale.difficulty,
-          value: `**${data.difficulty}**`,
+          value: `**${values.difficulty}**`,
           inline: true,
         }],
       }],

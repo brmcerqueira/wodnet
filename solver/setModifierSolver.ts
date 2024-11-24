@@ -1,6 +1,5 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import * as data from "../data.ts";
 import { colors, isStoryteller } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
 
@@ -10,7 +9,7 @@ export async function setModifierSolver(
   values: { modifier: number },
 ) {
   if (isStoryteller(interaction)) {
-    data.setModifier(values.modifier);
+    await chronicle.setModifier(values.modifier);
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       embeds: [{
@@ -18,7 +17,7 @@ export async function setModifierSolver(
         color: colors.gray,
         fields: [{
           name: locale.modifier,
-          value: `**${data.modifier}**`,
+          value: `**${values.modifier}**`,
           inline: true,
         }],
       }],

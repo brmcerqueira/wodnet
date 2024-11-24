@@ -56,7 +56,7 @@ export class Chronicle {
     return (await repository.get<number>([difficultyKey, this.chronicleId])).value;
   }
   
-  public async setDifficulty(value: number) {
+  public async setDifficulty(value: number | null) {
     await repository.set([difficultyKey, this.chronicleId], value);
   }
 
@@ -64,7 +64,7 @@ export class Chronicle {
     return (await repository.get<number>([modifierKey, this.chronicleId])).value;
   }
   
-  public async setModifier(value: number) {
+  public async setModifier(value: number | null) {
     await repository.set([modifierKey, this.chronicleId], value);
   } 
 
@@ -73,9 +73,7 @@ export class Chronicle {
   }
   
   public async setCurrentCharacter(value: string | null) {
-    if (value) {
-      await repository.set([currentCharacterKey, this.chronicleId], value);
-    }
+    await repository.set([currentCharacterKey, this.chronicleId], value);
   }
 
   public async storyteller(): Promise<string | null> {
