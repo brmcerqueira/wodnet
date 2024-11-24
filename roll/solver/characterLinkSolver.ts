@@ -1,4 +1,4 @@
-import { get } from "../../characterManager.ts";
+import { getCharacter } from "../../repository.ts";
 import { config } from "../../config.ts";
 import {
     ButtonStyle,
@@ -28,7 +28,7 @@ export async function characterLinkSolver(interaction: Interaction) {
             ? data.currentCharacter
             : interaction.user.id;
 
-    const character = await get(id, true);
+    const character = await getCharacter(id, true);
     
     if (character.name == "") {
         throw new InteractionResponseError(locale.notFound);

@@ -9,7 +9,7 @@ function penalty(left: number): number {
   return left <= 0 ? 3 : (left >= 1 && left <= 3 ? (3 - left) : 0);
 }
 
-export async function get(
+export async function getCharacter(
   id: string,
   ignorePersist?: boolean,
 ): Promise<Character> {
@@ -124,7 +124,7 @@ export async function get(
   return character;
 }
 
-export async function update(character: Character) {
+export async function updateCharacter(character: Character) {
   character.health.penalty = penalty(
     (character.attributes.physical.stamina + 3) -
       (character.health.superficial + character.health.aggravated),
@@ -141,31 +141,25 @@ export async function update(character: Character) {
   await database.set([characterKey, character.id], character);
 }
 
-export async function updateMode(mode: CharacterMode, id?: string) {
-  if (id) {
-    const entry = await database.get<Character>([characterKey, id]);
-    await updateCharacterMode(entry.value!, mode);
-  }
-  else {
-    for await (
-      const entry of database.list<Character>({
-        prefix: [characterKey],
-      })
-    ) {
-      await updateCharacterMode(entry.value, mode);
-    }
+export async function updateCharacterMode(mode: CharacterMode, id?: string) {
+  const entries = id
+    ? [database.get<Character>([characterKey, id])][Symbol.iterator]()
+    : database.list<Character>({
+      prefix: [characterKey],
+    });
+
+  for await (
+    const entry of entries
+  ) {
+    entry.value!.mode = mode;
+
+    logger.info("Update Character Mode %v", JSON.stringify(entry.value));
+
+    await database.set([characterKey, entry.value!.id], entry.value);
   }
 }
 
-async function updateCharacterMode(character: Character, mode: CharacterMode) {
-  character.mode = mode;
-
-  logger.info("Update Character Mode %v", JSON.stringify(character));
-
-  await database.set([characterKey, character.id], character);
-}
-
-export async function check(
+export async function checkCharacter(
   id: string,
   versionstamp: string,
 ): Promise<boolean> {
@@ -177,7 +171,7 @@ export async function deleteCharacter(id: string) {
   await database.delete([characterKey, id]);
 }
 
-export async function search(term: string): Promise<Character[]> {
+export async function getCharactersByTerm(term: string): Promise<Character[]> {
   const result: Character[] = [];
   for await (
     const entry of database.list<Character>({ prefix: [characterKey] })

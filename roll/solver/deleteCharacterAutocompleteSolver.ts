@@ -3,7 +3,7 @@ import { isStoryteller } from "../isStoryteller.ts";
 import { locale } from "../../i18n/locale.ts";
 import * as colors from "../colors.ts";
 import { searchCharacter } from "../searchCharacter.ts";
-import { deleteCharacter } from "../../characterManager.ts";
+import { deleteCharacter } from "../../repository.ts";
 
 export async function deleteCharacterAutocompleteSolver(
   interaction: Interaction,

@@ -1,4 +1,4 @@
-import { search } from "../characterManager.ts";
+import { getCharactersByTerm } from "../repository.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 
@@ -7,7 +7,7 @@ export async function searchCharacter(interaction: Interaction, input: {
   focused: boolean;
 }, none?: boolean) {
   if (input.focused) {
-    const array = (await search(input.value)).map((c) => {
+    const array = (await getCharactersByTerm(input.value)).map((c) => {
       return {
         value: c.id,
         name: c.name,

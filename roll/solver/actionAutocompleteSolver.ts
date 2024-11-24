@@ -1,5 +1,5 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
-import { get } from "../../characterManager.ts";
+import { getCharacter } from "../../repository.ts";
 import { config } from "../../config.ts";
 import { keys } from "../../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
@@ -32,9 +32,9 @@ export async function actionAutocompleteSolver(
   } else {
     const character = config.storytellerId == interaction.user.id
       ? (data.currentCharacter
-        ? await get(data.currentCharacter!, true)
+        ? await getCharacter(data.currentCharacter!, true)
         : undefined)
-      : await get(interaction.user.id, true);
+      : await getCharacter(interaction.user.id, true);
     if (character) {
       const result = actions[values.action.value](character);
       await sendRoll(

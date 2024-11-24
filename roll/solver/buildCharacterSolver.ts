@@ -1,5 +1,5 @@
 import { Character, CharacterMode } from "../../character.ts";
-import { get, update } from "../../characterManager.ts";
+import { getCharacter, updateCharacter } from "../../repository.ts";
 import { config } from "../../config.ts";
 import { Interaction, InteractionResponseType } from "../../deps.ts";
 import { locale } from "../../i18n/locale.ts";
@@ -30,7 +30,7 @@ export function buildCharacterSolver<T>(
     if (!onlyStoryteller || isStoryteller) {
       const id = getOrBuildCharacterId(interaction);
 
-      const character = await get(id);
+      const character = await getCharacter(id);
 
       if (!isStoryteller && character.mode == CharacterMode.Closed) {
         throw new InteractionResponseError(locale.unauthorized);
@@ -54,7 +54,7 @@ export function buildCharacterSolver<T>(
         character.experience.spent += spent;
       }
 
-      await update(character);
+      await updateCharacter(character);
 
       await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

@@ -1,4 +1,4 @@
-import { get } from "../../characterManager.ts";
+import { getCharacter } from "../../repository.ts";
 import {
     Interaction,
     InteractionModalSubmitData,
@@ -26,7 +26,7 @@ export async function editModalSolver(
     } else {
         const id = getOrBuildCharacterId(interaction);
 
-        const character = await get(id);
+        const character = await getCharacter(id);
 
         await interaction.respond({
             type: InteractionResponseType.MODAL,

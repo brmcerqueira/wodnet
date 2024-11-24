@@ -1,6 +1,6 @@
 import { Interaction, InteractionResponseType } from "../../deps.ts";
 import { isStoryteller } from "../isStoryteller.ts";
-import { updateMode } from "../../characterManager.ts";
+import { updateCharacterMode } from "../../repository.ts";
 import { locale } from "../../i18n/locale.ts";
 import * as colors from "../colors.ts";
 import { searchCharacter } from "../searchCharacter.ts";
@@ -21,7 +21,7 @@ export async function characterModeAutocompleteSolver(
     }
 
     if (isStoryteller(interaction)) {
-        await updateMode(CharacterMode[CharacterMode[parseInt(input.mode)] as keyof typeof CharacterMode], input.character?.value);
+        await updateCharacterMode(CharacterMode[CharacterMode[parseInt(input.mode)] as keyof typeof CharacterMode], input.character?.value);
 
         await interaction.respond({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

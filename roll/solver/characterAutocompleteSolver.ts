@@ -6,7 +6,7 @@ import {
   MessageComponentType,
 } from "../../deps.ts";
 import { isStoryteller } from "../isStoryteller.ts";
-import { get } from "../../characterManager.ts";
+import { getCharacter } from "../../repository.ts";
 import { locale } from "../../i18n/locale.ts";
 import * as colors from "../colors.ts";
 import * as data from "../data.ts";
@@ -42,7 +42,7 @@ export async function characterAutocompleteSolver(
     if (isStoryteller(interaction)) {
       const id = input.character.value != "" ? input.character.value : null;
       data.setCurrentCharacter(id);
-      const character = id != null ? await get(id, true) : null;
+      const character = id != null ? await getCharacter(id, true) : null;
 
       const components: ActionRowComponent[] | undefined = character
         ? [{
