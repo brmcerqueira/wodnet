@@ -92,10 +92,10 @@ export async function sendRoll(
     }
   }
 
-  await send(options);
-
-  data.lastRolls[authorId.toString()] = {
+  await chronicle.setLastRoll(authorId, {
     embed: message.embed,
     result: result,
-  };
+  });
+
+  await send(options);
 }

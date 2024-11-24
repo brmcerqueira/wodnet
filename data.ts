@@ -1,6 +1,3 @@
-import { EmbedPayload } from "./deps.ts";
-import { RollResult } from "./diceRollManager.ts";
-
 type EmojiDictionary = {
   [guildId: string]: {
     id: string,
@@ -27,13 +24,6 @@ export const emojis: Emojis = {
   successBlack: {},
   successRed: {},
 };
-
-export const lastRolls: {
-  [userId: string]: {
-    embed: EmbedPayload;
-    result: RollResult;
-  };
-} = {};
 
 export let difficulty: number | null = null;
 

@@ -1,9 +1,20 @@
 import { Character, CharacterMode } from "./character.ts";
+import { EmbedPayload } from "./deps.ts";
+import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
+
+type LastRoll = {
+  embed: EmbedPayload;
+  result: RollResult;
+}
 
 const repository = await Deno.openKv();
 
 const characterKey = "character";
+const lastRollKey = "lastRollKey";
+const currentCharacterKey = "currentCharacter";
+const difficultyKey = "difficulty";
+const modifierKey = "modifier";
 
 async function clearRepository() {
   for await (
@@ -27,6 +38,43 @@ export class Chronicle {
     return this.chronicleId;
   }
 
+  public async lastRoll(id: string): Promise<LastRoll | null> {
+    const key = [lastRollKey, this.chronicleId, id];
+    const last = await repository.get<LastRoll>(key);
+    if (last.value != null) {
+      await repository.delete(key);
+    }
+    return last.value;
+  }
+  
+  public async setLastRoll(id: string, value: LastRoll) {
+    await repository.set([lastRollKey, this.chronicleId, id], value);
+  }
+
+  public async difficulty(): Promise<number | null> {
+    return (await repository.get<number>([difficultyKey, this.chronicleId])).value;
+  }
+  
+  public async setDifficulty(value: number) {
+    await repository.set([difficultyKey, this.chronicleId], value);
+  }
+
+  public async modifier(): Promise<number | null> {
+    return (await repository.get<number>([modifierKey, this.chronicleId])).value;
+  }
+  
+  public async setModifier(value: number) {
+    await repository.set([modifierKey, this.chronicleId], value);
+  } 
+
+  public async currentCharacter(): Promise<string | null> {
+    return (await repository.get<string>([currentCharacterKey, this.chronicleId])).value;
+  }
+  
+  public async setCurrentCharacter(value: string) {
+    await repository.set([currentCharacterKey, this.chronicleId], value);
+  }
+
   public penalty(left: number): number {
     return left <= 0 ? 3 : (left >= 1 && left <= 3 ? (3 - left) : 0);
   }
@@ -35,9 +83,9 @@ export class Chronicle {
     id: string,
     ignorePersist?: boolean,
   ): Promise<Character> {
-    const keys = [characterKey, this.chronicleId, id];
+    const key = [characterKey, this.chronicleId, id];
 
-    const entry = await repository.get<Character>(keys);
+    const entry = await repository.get<Character>(key);
 
     let character = entry.value;
 
@@ -135,7 +183,7 @@ export class Chronicle {
       };
 
       if (!ignorePersist) {
-        await repository.set(keys, character);
+        await repository.set(key, character);
       }
     } else {
       character.versionstamp = entry.versionstamp;
