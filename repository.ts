@@ -1,7 +1,7 @@
 import { Character, CharacterMode } from "./character.ts";
 import { logger } from "./logger.ts";
 
-const database = await Deno.openKv();
+const repository = await Deno.openKv();
 
 const characterKey = "character";
 
@@ -15,7 +15,7 @@ export async function getCharacter(
 ): Promise<Character> {
   const keys = [characterKey, id];
 
-  const entry = await database.get<Character>(keys);
+  const entry = await repository.get<Character>(keys);
 
   let character = entry.value;
 
@@ -113,7 +113,7 @@ export async function getCharacter(
     };
 
     if (!ignorePersist) {
-      await database.set(keys, character);
+      await repository.set(keys, character);
     }
   } else {
     character.versionstamp = entry.versionstamp;
@@ -138,13 +138,13 @@ export async function updateCharacter(character: Character) {
 
   logger.info("Update Character %v", JSON.stringify(character));
 
-  await database.set([characterKey, character.id], character);
+  await repository.set([characterKey, character.id], character);
 }
 
 export async function updateCharacterMode(mode: CharacterMode, id?: string) {
   const entries = id
-    ? [database.get<Character>([characterKey, id])][Symbol.iterator]()
-    : database.list<Character>({
+    ? [repository.get<Character>([characterKey, id])][Symbol.iterator]()
+    : repository.list<Character>({
       prefix: [characterKey],
     });
 
@@ -155,7 +155,7 @@ export async function updateCharacterMode(mode: CharacterMode, id?: string) {
 
     logger.info("Update Character Mode %v", JSON.stringify(entry.value));
 
-    await database.set([characterKey, entry.value!.id], entry.value);
+    await repository.set([characterKey, entry.value!.id], entry.value);
   }
 }
 
@@ -163,18 +163,18 @@ export async function checkCharacter(
   id: string,
   versionstamp: string,
 ): Promise<boolean> {
-  const entry = await database.get<Character>([characterKey, id]);
+  const entry = await repository.get<Character>([characterKey, id]);
   return versionstamp != entry.versionstamp;
 }
 
 export async function deleteCharacter(id: string) {
-  await database.delete([characterKey, id]);
+  await repository.delete([characterKey, id]);
 }
 
 export async function getCharactersByTerm(term: string): Promise<Character[]> {
   const result: Character[] = [];
   for await (
-    const entry of database.list<Character>({ prefix: [characterKey] })
+    const entry of repository.list<Character>({ prefix: [characterKey] })
   ) {
     if (
       term == "" ||
