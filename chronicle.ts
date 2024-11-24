@@ -15,6 +15,7 @@ const lastRollKey = "lastRollKey";
 const currentCharacterKey = "currentCharacter";
 const difficultyKey = "difficulty";
 const modifierKey = "modifier";
+const storytellerKey = "storyteller";
 
 async function clearRepository() {
   for await (
@@ -71,8 +72,18 @@ export class Chronicle {
     return (await repository.get<string>([currentCharacterKey, this.chronicleId])).value;
   }
   
-  public async setCurrentCharacter(value: string) {
-    await repository.set([currentCharacterKey, this.chronicleId], value);
+  public async setCurrentCharacter(value: string | null) {
+    if (value) {
+      await repository.set([currentCharacterKey, this.chronicleId], value);
+    }
+  }
+
+  public async storyteller(): Promise<string | null> {
+    return (await repository.get<string>([storytellerKey, this.chronicleId])).value;
+  }
+  
+  public async setStorytellerId(value: string | null) {
+    await repository.set([storytellerKey, this.chronicleId], value);
   }
 
   public penalty(left: number): number {

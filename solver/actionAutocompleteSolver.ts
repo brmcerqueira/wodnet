@@ -31,14 +31,16 @@ export async function actionAutocompleteSolver(
       }),
     });
   } else {
+    const currentCharacter = await chronicle.currentCharacter();
     const character = config.storytellerId == interaction.user.id
-      ? (data.currentCharacter
-        ? await chronicle.getCharacter(data.currentCharacter!, true)
+      ? (currentCharacter
+        ? await chronicle.getCharacter(currentCharacter, true)
         : undefined)
       : await chronicle.getCharacter(interaction.user.id, true);
     if (character) {
       const result = actions[values.action.value](character);
       await sendRoll(
+        chronicle,
         async (m) => {
           await interaction.respond({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

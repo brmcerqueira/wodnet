@@ -3,22 +3,23 @@ import { config } from "../config.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { Solver } from "../commands/common.ts";
-import * as data from "../data.ts";
 import { colors, InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
 
-export function getOrBuildCharacterId(interaction: Interaction) {
-  let id = "";
+export async function getOrBuildCharacterId(interaction: Interaction, chronicle: Chronicle): Promise<string> {
+  let id: string | null | undefined;
 
   if (config.storytellerId == interaction.user.id) {
-    if (data.currentCharacter == null) {
-      data.setCurrentCharacter(crypto.randomUUID());
+    id = await chronicle.currentCharacter();
+    if (id == null) {
+      id = crypto.randomUUID();
+      chronicle.setCurrentCharacter(id);
     }
-    id = data.currentCharacter!;
   } else {
     id = interaction.user.id;
   }
-  return id;
+
+  return id!;
 }
 
 export function buildCharacterSolver<T>(
@@ -27,7 +28,7 @@ export function buildCharacterSolver<T>(
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
     const isStoryteller = interaction.user.id == config.storytellerId;
     if (!onlyStoryteller || isStoryteller) {
-      const id = getOrBuildCharacterId(interaction);
+      const id = await getOrBuildCharacterId(interaction, chronicle);
 
       const character = await chronicle.getCharacter(id);
 

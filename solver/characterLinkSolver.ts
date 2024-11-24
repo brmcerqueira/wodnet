@@ -4,15 +4,15 @@ import {
     InteractionResponseType,
     MessageComponentType,
 } from "../deps.ts";
-import * as data from "../data.ts";
 import { locale } from "../i18n/locale.ts";
 import { buttonCharacterLink, colors, InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
 
 export async function characterLinkSolver(interaction: Interaction, chronicle: Chronicle) {
+    const currentCharacter = await chronicle.currentCharacter();
     const id =
-        config.storytellerId == interaction.user.id && data.currentCharacter
-            ? data.currentCharacter
+        config.storytellerId == interaction.user.id && currentCharacter
+            ? currentCharacter
             : interaction.user.id;
 
     const character = await chronicle.getCharacter(id, true);

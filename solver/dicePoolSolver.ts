@@ -2,7 +2,6 @@ import { Interaction, InteractionResponseType } from "../deps.ts";
 import { config } from "../config.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { LocaleType } from "../i18n/localeType.ts";
-import * as data from "../data.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { Chronicle } from "../chronicle.ts";
@@ -24,8 +23,9 @@ export async function dicePoolSolver(
     discipline?: Exclude<keyof LocaleType["disciplines"], "name">;
   },
 ) {
+  const currentCharacter = await chronicle.currentCharacter();
   const character = config.storytellerId == interaction.user.id
-    ? (data.currentCharacter ? await chronicle.getCharacter(data.currentCharacter!, true) : undefined)
+    ? (currentCharacter ? await chronicle.getCharacter(currentCharacter, true) : undefined)
     : await chronicle.getCharacter(interaction.user.id, true);
     
   if (character) {
