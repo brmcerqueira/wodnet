@@ -13,21 +13,19 @@ import {
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
-import { Emojis, emojis } from "./roll/data.ts";
-import { keys } from "./utils.ts";
-import { reRollSolver } from "./roll/solver/reRollSolver.ts";
+import { Emojis, emojis } from "./data.ts";
+import { colors, InteractionResponseError, keys } from "./utils.ts";
+import { reRollSolver } from "./solver/reRollSolver.ts";
 import {
   CommandOptions,
   CommandOptionType,
   commands,
-} from "./roll/commands/module.ts";
-import { InteractionResponseError } from "./roll/interactionResponseError.ts";
-import * as colors from "./roll/colors.ts";
-import { editModalSolver } from "./roll/solver/editModalSolver.ts";
+} from "./commands/module.ts";
+import { editModalSolver } from "./solver/editModalSolver.ts";
 import {
   characterAutocompleteSolver,
   extractCharacterAutocompleteInput,
-} from "./roll/solver/characterAutocompleteSolver.ts";
+} from "./solver/characterAutocompleteSolver.ts";
 
 function parseCommandValues(
   options: CommandOptions,
