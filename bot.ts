@@ -13,7 +13,6 @@ import {
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
-import { Emojis, emojis } from "./data.ts";
 import { colors, InteractionResponseError, keys } from "./utils.ts";
 import { reRollSolver } from "./solver/reRollSolver.ts";
 import {
@@ -26,8 +25,20 @@ import {
   characterAutocompleteSolver,
   extractCharacterAutocompleteInput,
 } from "./solver/characterAutocompleteSolver.ts";
-import { Chronicle } from "./chronicle.ts";
+import { Chronicle, Emojis, saveEmojis } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
+
+export function buildEmojis(): Emojis {
+  return {
+    bestial: "",
+    critical: "",
+    messy: "",
+    noneBlack: "",
+    noneRed: "",
+    successBlack: "",
+    successRed: ""
+  };
+}
 
 function parseCommandValues(
   options: CommandOptions,
@@ -162,6 +173,8 @@ client.on("ready", async () => {
         guild.id,
       );
 
+      const emojis = buildEmojis();
+
       for (const name in emojis) {
         let emoji = guildEmojis.find((e) => e.name == name);
 
@@ -174,11 +187,10 @@ client.on("ready", async () => {
           });
         }
 
-        emojis[name as keyof Emojis][guild.id] = {
-          id: emoji.id!,
-          name: emoji.name!,
-        };
+        emojis[name as keyof Emojis] = emoji.id!;
       }
+
+      await saveEmojis(guild.id, emojis);
     }
 
     logger.info("Wodbot online!");

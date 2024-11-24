@@ -2,7 +2,6 @@ import { Interaction, InteractionResponseType } from "../deps.ts";
 import { config } from "../config.ts";
 import { keys } from "../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
-import * as data from "../data.ts";
 import { actions } from "../actions.ts";
 import { Chronicle } from "../chronicle.ts";
 
@@ -49,7 +48,6 @@ export async function actionAutocompleteSolver(
             components: m.components,
           });
         },
-        interaction.guild!.id,
         interaction.user.id,
         result.dices,
         character.hunger,

@@ -18,7 +18,6 @@ export async function rollSolver(interaction: Interaction, chronicle: Chronicle,
         components: m.components,
       });
     },
-    interaction.guild!.id,
     interaction.user.id,
     values.dices,
     values.hunger || 0,

@@ -18,7 +18,6 @@ export type SendRollData = {
 export async function sendRoll(
   chronicle: Chronicle,
   send: (data: SendRollData) => Promise<void>,
-  guildId: string,
   authorId: string,
   dices: number,
   hunger: number,
@@ -30,14 +29,12 @@ export async function sendRoll(
 
   if (chronicleDifficulty) {
     difficulty = chronicleDifficulty;
-    await chronicle.setDifficulty(null);
   }
 
   const chronicleModifier = await chronicle.modifier();
 
   if (chronicleModifier) {
     modifier += chronicleModifier;
-    chronicle.setModifier(null);
   }
 
   dices += modifier;
@@ -46,7 +43,7 @@ export async function sendRoll(
 
   const margin = dices - hunger;
 
-  const message = buildRollMessage(chronicle, result, guildId, authorId, description);
+  const message = await buildRollMessage(chronicle, result, authorId, description);
 
   const options: SendRollData = {
     content: message.content,

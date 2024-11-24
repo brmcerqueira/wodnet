@@ -67,7 +67,6 @@ export async function dicePoolSolver(
           components: m.components,
         });
       },
-      interaction.guild!.id,
       interaction.user.id,
       dices,
       character.hunger,

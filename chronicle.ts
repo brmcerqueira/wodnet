@@ -8,14 +8,25 @@ type LastRoll = {
   result: RollResult;
 }
 
+export type Emojis = {
+  bestial: string;
+  critical: string;
+  messy: string;
+  noneBlack: string;
+  noneRed: string;
+  successBlack: string;
+  successRed: string;
+}
+
 const repository = await Deno.openKv();
 
 const characterKey = "character";
-const lastRollKey = "lastRollKey";
+const lastRollKey = "lastRoll";
 const currentCharacterKey = "currentCharacter";
 const difficultyKey = "difficulty";
 const modifierKey = "modifier";
 const storytellerKey = "storyteller";
+const emojiKey = "emoji";
 
 async function clearRepository() {
   for await (
@@ -28,24 +39,31 @@ async function clearRepository() {
   }
 }
 
+export async function saveEmojis(id: string, value: Emojis) {
+  await repository.set([emojiKey, id], value);
+}
+
 //await clearRepository();
 
 export class Chronicle {
   constructor(private chronicleId: string) {
   }
 
-
   public get id() : string {
     return this.chronicleId;
   }
 
+  public async emojis(): Promise<Emojis> {
+    return (await repository.get<Emojis>([emojiKey, this.chronicleId])).value!;
+  }
+
   public async lastRoll(id: string): Promise<LastRoll | null> {
     const key = [lastRollKey, this.chronicleId, id];
-    const last = await repository.get<LastRoll>(key);
-    if (last.value != null) {
+    const entry = await repository.get<LastRoll>(key);
+    if (entry.value != null) {
       await repository.delete(key);
     }
-    return last.value;
+    return entry.value;
   }
   
   public async setLastRoll(id: string, value: LastRoll) {
@@ -53,18 +71,28 @@ export class Chronicle {
   }
 
   public async difficulty(): Promise<number | null> {
-    return (await repository.get<number>([difficultyKey, this.chronicleId])).value;
+    const key = [difficultyKey, this.chronicleId];
+    const entry = await repository.get<number>(key);
+    if (entry.value != null) {
+      await repository.delete(key);
+    }
+    return entry.value;
   }
   
-  public async setDifficulty(value: number | null) {
+  public async setDifficulty(value: number) {
     await repository.set([difficultyKey, this.chronicleId], value);
   }
 
   public async modifier(): Promise<number | null> {
-    return (await repository.get<number>([modifierKey, this.chronicleId])).value;
+    const key = [modifierKey, this.chronicleId];
+    const entry = await repository.get<number>(key);
+    if (entry.value != null) {
+      await repository.delete(key);
+    }
+    return entry.value;
   }
   
-  public async setModifier(value: number | null) {
+  public async setModifier(value: number) {
     await repository.set([modifierKey, this.chronicleId], value);
   } 
 
@@ -73,14 +101,20 @@ export class Chronicle {
   }
   
   public async setCurrentCharacter(value: string | null) {
-    await repository.set([currentCharacterKey, this.chronicleId], value);
+    const key = [currentCharacterKey, this.chronicleId];
+    if (value != null) {
+      await repository.set(key, value);
+    }
+    else {
+      await repository.delete(key);
+    }
   }
 
-  public async storyteller(): Promise<string | null> {
-    return (await repository.get<string>([storytellerKey, this.chronicleId])).value;
+  public async storyteller(): Promise<string> {
+    return (await repository.get<string>([storytellerKey, this.chronicleId])).value!;
   }
   
-  public async setStorytellerId(value: string | null) {
+  public async setStoryteller(value: string) {
     await repository.set([storytellerKey, this.chronicleId], value);
   }
 
