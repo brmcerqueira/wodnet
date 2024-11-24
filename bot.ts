@@ -234,7 +234,7 @@ client.on("ready", async () => {
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
           title: error.message,
-          color: colors.Red,
+          color: colors.red,
         }],
       });
     }
