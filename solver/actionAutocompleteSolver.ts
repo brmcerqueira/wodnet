@@ -1,5 +1,4 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
-import { config } from "../config.ts";
 import { keys } from "../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { actions } from "../actions.ts";
@@ -31,7 +30,7 @@ export async function actionAutocompleteSolver(
     });
   } else {
     const currentCharacter = await chronicle.currentCharacter();
-    const character = config.storytellerId == interaction.user.id
+    const character = (await chronicle.storyteller()) == interaction.user.id
       ? (currentCharacter
         ? await chronicle.getCharacter(currentCharacter, true)
         : undefined)

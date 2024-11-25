@@ -2,7 +2,6 @@ import { config } from "./config.ts";
 import {
   ButtonStyle,
   encodeBase64Url,
-  Interaction,
   MessageComponentData,
   MessageComponentType,
 } from "./deps.ts";
@@ -29,16 +28,6 @@ export function treatDiscipline(text: string): { name: string; value: number } {
     name: text.substring(index).trimStart(),
     value: index,
   };
-}
-
-export function isStoryteller(
-  interaction: Interaction,
-): boolean {
-  const result = interaction.user.id == config.storytellerId;
-  if (!result) {
-    throw new InteractionResponseError(locale.unauthorized);
-  }
-  return result;
 }
 
 export function buttonCharacterLink(

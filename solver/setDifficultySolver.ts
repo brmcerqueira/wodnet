@@ -1,6 +1,6 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { colors, isStoryteller } from "../utils.ts";
+import { colors, InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
 
 export async function setDifficultySolver(
@@ -8,7 +8,7 @@ export async function setDifficultySolver(
   chronicle: Chronicle,
   values: { difficulty: number },
 ) {
-  if (isStoryteller(interaction)) {
+  if ((await chronicle.storyteller()) == interaction.user.id) {
     await chronicle.setDifficulty(values.difficulty);
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -22,5 +22,8 @@ export async function setDifficultySolver(
         }],
       }],
     });
+  }
+  else {
+    throw new InteractionResponseError(locale.unauthorized);
   }
 }

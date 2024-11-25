@@ -1,5 +1,4 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
-import { config } from "../config.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { LocaleType } from "../i18n/localeType.ts";
 import { Character } from "../character.ts";
@@ -24,7 +23,7 @@ export async function dicePoolSolver(
   },
 ) {
   const currentCharacter = await chronicle.currentCharacter();
-  const character = config.storytellerId == interaction.user.id
+  const character = (await chronicle.storyteller()) == interaction.user.id
     ? (currentCharacter ? await chronicle.getCharacter(currentCharacter, true) : undefined)
     : await chronicle.getCharacter(interaction.user.id, true);
     

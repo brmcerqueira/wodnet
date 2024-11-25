@@ -39,10 +39,6 @@ async function clearRepository() {
   }
 }
 
-export async function saveEmojis(id: string, value: Emojis) {
-  await repository.set([emojiKey, id], value);
-}
-
 //await clearRepository();
 
 export class Chronicle {
@@ -55,6 +51,10 @@ export class Chronicle {
 
   public async emojis(): Promise<Emojis> {
     return (await repository.get<Emojis>([emojiKey, this.chronicleId])).value!;
+  }
+
+  public async setEmojis(value: Emojis) {
+    await repository.set([emojiKey, this.chronicleId], value);
   }
 
   public async lastRoll(id: string): Promise<LastRoll | null> {

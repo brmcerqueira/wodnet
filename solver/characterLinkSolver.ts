@@ -1,4 +1,3 @@
-import { config } from "../config.ts";
 import {
   Interaction,
   InteractionResponseType,
@@ -17,7 +16,7 @@ export async function characterLinkSolver(
   chronicle: Chronicle,
 ) {
   const currentCharacter = await chronicle.currentCharacter();
-  const id = config.storytellerId == interaction.user.id && currentCharacter
+  const id = (await chronicle.storyteller()) == interaction.user.id && currentCharacter
     ? currentCharacter
     : interaction.user.id;
 

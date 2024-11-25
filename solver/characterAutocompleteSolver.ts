@@ -7,7 +7,7 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { searchCharacter } from "../searchCharacter.ts";
-import { buttonCharacterLink, colors, isStoryteller } from "../utils.ts";
+import { buttonCharacterLink, colors, InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
 
 type InputType = {
@@ -37,7 +37,7 @@ export async function characterAutocompleteSolver(
   input: InputType,
 ) {
   if (await searchCharacter(interaction, chronicle, input.character, true)) {
-    if (isStoryteller(interaction)) {
+    if ((await chronicle.storyteller()) == interaction.user.id) {
       const id = input.character.value != "" ? input.character.value : null;
       await chronicle.setCurrentCharacter(id);
       const character = id != null ? await chronicle.getCharacter(id, true) : null;
@@ -76,6 +76,9 @@ export async function characterAutocompleteSolver(
         }],
         components: components,
       });
+    }
+    else {
+      throw new InteractionResponseError(locale.unauthorized);
     }
   }
 }

@@ -1,5 +1,4 @@
 import { Character, CharacterMode } from "../character.ts";
-import { config } from "../config.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { Solver } from "../commands/common.ts";
@@ -9,7 +8,7 @@ import { Chronicle } from "../chronicle.ts";
 export async function getOrBuildCharacterId(interaction: Interaction, chronicle: Chronicle): Promise<string> {
   let id: string | null | undefined;
 
-  if (config.storytellerId == interaction.user.id) {
+  if ((await chronicle.storyteller()) == interaction.user.id) {
     id = await chronicle.currentCharacter();
     if (id == null) {
       id = crypto.randomUUID();
@@ -26,7 +25,7 @@ export function buildCharacterSolver<T>(
   parse: (character: Character, input: T) => number, onlyStoryteller?: boolean
 ): Solver {
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
-    const isStoryteller = interaction.user.id == config.storytellerId;
+    const isStoryteller = interaction.user.id == (await chronicle.storyteller());
     if (!onlyStoryteller || isStoryteller) {
       const id = await getOrBuildCharacterId(interaction, chronicle);
 
@@ -37,7 +36,7 @@ export function buildCharacterSolver<T>(
       }
 
       if (character.name == "") {
-        character.name = config.storytellerId == interaction.user.id
+        character.name = isStoryteller
           ? `${interaction.member!.displayName} ${
             crypto.getRandomValues(new Int8Array(1))
           }`

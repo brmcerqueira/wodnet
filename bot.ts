@@ -169,6 +169,10 @@ client.on("ready", async () => {
     }
 
     for (const guild of await client.guilds.array()) {
+      const chronicle = new Chronicle(guild.id);
+
+      await chronicle.setStoryteller(guild.ownerID!);
+
       const guildEmojis = await client.rest.endpoints.listGuildEmojis(
         guild.id,
       );
@@ -190,7 +194,7 @@ client.on("ready", async () => {
         emojis[name as keyof Emojis] = emoji.id!;
       }
 
-      await saveEmojis(guild.id, emojis);
+      await chronicle.setEmojis(emojis);
     }
 
     logger.info("Wodbot online!");
