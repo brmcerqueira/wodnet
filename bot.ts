@@ -3,6 +3,7 @@ import {
   Client,
   encodeBase64,
   GatewayIntents,
+  Guild,
   Interaction,
   InteractionApplicationCommandData,
   InteractionApplicationCommandOption,
@@ -25,7 +26,7 @@ import {
   characterAutocompleteSolver,
   extractCharacterAutocompleteInput,
 } from "./solver/characterAutocompleteSolver.ts";
-import { Chronicle, Emojis, saveEmojis } from "./chronicle.ts";
+import { Chronicle, Emojis, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
 
 export function buildEmojis(): Emojis {
@@ -168,36 +169,52 @@ client.on("ready", async () => {
       }
     }
 
-    for (const guild of await client.guilds.array()) {
-      const chronicle = new Chronicle(guild.id);
+    logger.info("Wodbot online!");
+  } catch (error) {
+    logger.error(error);
+  }
+}).on("guildCreate", async (guild: Guild) => {
+  try {
+    logger.info("Loading Guild Created %v", guild.name);
 
-      await chronicle.setStoryteller(guild.ownerID!);
+    const chronicle = new Chronicle(guild.id);
 
-      const guildEmojis = await client.rest.endpoints.listGuildEmojis(
-        guild.id,
-      );
+    await chronicle.setStoryteller(guild.ownerID!);
 
-      const emojis = buildEmojis();
+    const guildEmojis = await client.rest.endpoints.listGuildEmojis(
+      guild.id,
+    );
 
-      for (const name in emojis) {
-        let emoji = guildEmojis.find((e) => e.name == name);
+    const emojis = buildEmojis();
 
-        if (!emoji) {
-          emoji = await client.rest.endpoints.createGuildEmoji(guild.id, {
-            name: name,
-            image: `data:image/png;base64,${
-              encodeBase64(await Deno.readFile(`./emojis/${name}.png`))
-            }`,
-          });
-        }
+    for (const name in emojis) {
+      let emoji = guildEmojis.find((e) => e.name == name);
 
-        emojis[name as keyof Emojis] = emoji.id!;
+      if (!emoji) {
+        emoji = await client.rest.endpoints.createGuildEmoji(guild.id, {
+          name: name,
+          image: `data:image/png;base64,${
+            encodeBase64(await Deno.readFile(`./emojis/${name}.png`))
+          }`,
+        });
       }
 
-      await chronicle.setEmojis(emojis);
+      emojis[name as keyof Emojis] = emoji.id!;
     }
 
-    logger.info("Wodbot online!");
+    await chronicle.setEmojis(emojis);
+
+    logger.info("Guild Created %v", guild.name);
+  } catch (error) {
+    logger.error(error);
+  }
+}).on("guildDelete", async (guild: Guild) => {
+  try {
+    logger.info("Loading Guild Delete %v", guild.name);
+
+    await removeChronicle(guild.id);
+
+    logger.info("Guild Delete %v", guild.name);
   } catch (error) {
     logger.error(error);
   }

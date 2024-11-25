@@ -30,12 +30,39 @@ const emojiKey = "emoji";
 
 async function clearRepository() {
   for await (
-    const entry of repository.list<Character>({
+    const entry of repository.list({
       prefix: [],
     })
   ) {
     logger.info("Delete %v", JSON.stringify(entry.key));
     await repository.delete(entry.key);
+  }
+}
+
+export async function removeChronicle(id: string) {
+  const array = [repository.list({
+    prefix: [characterKey, id],
+  }),repository.list({
+    prefix: [lastRollKey, id],
+  }),repository.list({
+    prefix: [currentCharacterKey, id],
+  }),repository.list({
+    prefix: [difficultyKey, id],
+  }),repository.list({
+    prefix: [modifierKey, id],
+  }),repository.list({
+    prefix: [storytellerKey, id],
+  }),repository.list({
+    prefix: [emojiKey, id],
+  })];
+
+  for (const element of array) {
+    for await (
+      const entry of element
+    ) {
+      logger.info("Delete %v", JSON.stringify(entry.key));
+      await repository.delete(entry.key);
+    }
   }
 }
 
