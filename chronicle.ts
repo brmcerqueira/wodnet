@@ -31,7 +31,7 @@ const emojiKey = "emoji";
 async function clearRepository() {
   for await (
     const entry of repository.list({
-      prefix: [],
+      prefix: [characterKey, "218894450703859712"],
     })
   ) {
     logger.info("Delete %v", JSON.stringify(entry.key));
@@ -66,7 +66,7 @@ export async function removeChronicle(id: string) {
   }
 }
 
-//await clearRepository();
+await clearRepository();
 
 export class Chronicle {
   constructor(private chronicleId: string) {
