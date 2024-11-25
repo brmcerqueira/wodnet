@@ -28,8 +28,6 @@ const modifierKey = "modifier";
 const storytellerKey = "storyteller";
 const emojiKey = "emoji";
 
-await repository.delete([characterKey, "218894450703859712"]);
-
 async function clearRepository() {
   for await (
     const entry of repository.list({
