@@ -299,7 +299,7 @@ export class Chronicle {
 
       logger.info("Update Character Mode %v", JSON.stringify(entry.value));
 
-      await repository.set([characterKey, entry.value!.id], entry.value);
+      await repository.set(entry.key, entry.value);
     }
   }
 
