@@ -121,6 +121,7 @@ Deno.serve({ port: config.port }, route({
     if (context.chronicle && context.id && context.decodeId) {
       return new Response(await characterRender(
         await context.chronicle.getCharacter(context.decodeId, true),
+        context.chronicle.id,
         context.id,
         context.url.pathname == "/dark",
         context.update

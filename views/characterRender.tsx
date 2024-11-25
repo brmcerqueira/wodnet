@@ -75,7 +75,7 @@ const Humanity = (properties: { total: number, stains: number }): TsxComplexElem
     }} />;
 }
 
-export const characterRender = (character: Character, id: string, dark: boolean, update: number): TsxComplexElement => {
+export const characterRender = (character: Character, chronicleId: string, id: string, dark: boolean, update: number): TsxComplexElement => {
     const title = character.player != null && character.player != "" ? `${character.name} (${character.player})` : character.name;
 
     return <html>
@@ -86,11 +86,12 @@ export const characterRender = (character: Character, id: string, dark: boolean,
             <meta property="og:title" content={title} />
             <meta property="og:site_name" content={locale.app} />
             <meta property="og:image" content={character.image} />
-            <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?id=${id}`} />
+            <meta property="og:url" content={`${config.host}/${dark ? "dark" : ""}?chronicleId=${chronicleId}&id=${id}`} />
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
             <link rel="stylesheet" href="/styles/main.css" />
             <script>{`const context = ${JSON.stringify({
+                chronicleId,
                 id,
                 update,
                 versionstamp: character.versionstamp
