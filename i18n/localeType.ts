@@ -20,7 +20,7 @@ export type LocaleType = {
     skill: string;
     specialty: string;
   };
-  characterLinks: string;
+  characterLinkSent: string;
   details: string;
   name: string;
   image: string;
@@ -289,6 +289,8 @@ export type LocaleType = {
   unauthorized: string;
   notFound: string;
   characterUpdate: string;
+  storyteller: string;
+  storytellerUpdate: string;
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
   storytellerChangeCurrentCharacter: string;
@@ -335,6 +337,9 @@ export type LocaleType = {
     };
     actions: {
       action: CommandOption;
+    } & CommandOption;
+    setStoryteller: {
+      user: CommandOption;
     } & CommandOption;
     setDifficulty: {
       difficulty: CommandOption;

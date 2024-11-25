@@ -6,6 +6,8 @@ export const pt: LocaleType = {
   select: "Selecionar",
   open: "Abrir",
   character: "Personagem",
+  storyteller: "Narrador",
+  storytellerUpdate: "O narrador foi alterado...",
   mode: [
     "Aberto",
     "Rastreado",
@@ -17,7 +19,7 @@ export const pt: LocaleType = {
     skill: "Habilidade",
     specialty: "Especialização",
   },
-  characterLinks: "Fichas",
+  characterLinkSent: "O link da ficha do seu personagem foi enviado no seu chat privado!",
   details: "Detalhes",
   name: "Nome",
   image: "Imagem",
@@ -396,6 +398,14 @@ export const pt: LocaleType = {
       action: {
         name: "nome",
         description: "Nome da ação",
+      },
+    },
+    setStoryteller: {
+      name: "narrador",
+      description: "Define quem será o narrador",
+      user: {
+        name: "usuário",
+        description: "Usuário a ser escolhido",
       },
     },
     setDifficulty: {

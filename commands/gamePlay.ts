@@ -17,6 +17,7 @@ import {
 } from "./common.ts";
 import { CharacterMode } from "../character.ts";
 import { deleteCharacterAutocompleteSolver } from "../solver/deleteCharacterAutocompleteSolver.ts";
+import { setStorytellerSolver } from "../solver/setStorytellerSolver.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -58,6 +59,16 @@ commands[treatKey(locale.commands.roll.name)] = {
 commands[treatKey(locale.commands.sheet.link.name)] = {
   description: locale.commands.sheet.link.description,
   solve: characterLinkSolver,
+};
+commands[treatKey(locale.commands.setStoryteller.name)] = {
+  description: locale.commands.setStoryteller.description,
+  solve: setStorytellerSolver,
+  options: option(locale.commands.setStoryteller.user.name, {
+    property: "user",
+    description: locale.commands.setStoryteller.user.description,
+    type: CommandOptionType.USER,
+    required: true
+  }).build,
 };
 commands[treatKey(locale.commands.setDifficulty.name)] = {
   description: locale.commands.setDifficulty.description,
