@@ -165,8 +165,8 @@ client.on("ready", async () => {
       if (!emoji) {
         emoji = await endpoints.createGlobalApplicationEmoji(client.applicationID!, {
           name: name,
-          image: `data:image/png;base64,${
-            encodeBase64(await Deno.readFile(`./emojis/${name}.png`))
+          image: `data:image/webp;base64,${
+            encodeBase64(await Deno.readFile(`./emojis/${name}.webp`))
           }`,
         });
       }
