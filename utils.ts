@@ -1,6 +1,7 @@
 import { config } from "./config.ts";
 import {
   ButtonStyle,
+  EmojiPayload,
   encodeBase64Url,
   MessageComponentData,
   MessageComponentType,
@@ -15,6 +16,16 @@ export const colors = {
   blue: 3447003,
   purple: 10181046,
 };
+
+export const emojis: { [key: string]: EmojiPayload | null } = {
+  bestial: null,
+  critical: null,
+  messy: null,
+  noneBlack: null,
+  noneRed: null,
+  successBlack: null,
+  successRed: null
+}
 
 export class InteractionResponseError extends Error {}
 

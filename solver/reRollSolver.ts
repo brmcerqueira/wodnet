@@ -15,7 +15,6 @@ export async function reRollSolver(interaction: Interaction, chronicle: Chronicl
       });
 
       const message = await buildRollMessage(
-        chronicle,
         reRoll(roll.result, dices),
         interaction.user.id,
         sprintf(locale.reRollHelperText, dices),

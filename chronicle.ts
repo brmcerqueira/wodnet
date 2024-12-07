@@ -8,16 +8,6 @@ type LastRoll = {
   result: RollResult;
 }
 
-export type Emojis = {
-  bestial: string;
-  critical: string;
-  messy: string;
-  noneBlack: string;
-  noneRed: string;
-  successBlack: string;
-  successRed: string;
-}
-
 const repository = await Deno.openKv();
 
 const characterKey = "character";
@@ -74,14 +64,6 @@ export class Chronicle {
 
   public get id() : string {
     return this.chronicleId;
-  }
-
-  public async emojis(): Promise<Emojis> {
-    return (await repository.get<Emojis>([emojiKey, this.chronicleId])).value!;
-  }
-
-  public async setEmojis(value: Emojis) {
-    await repository.set([emojiKey, this.chronicleId], value);
   }
 
   public async lastRoll(id: string): Promise<LastRoll | null> {

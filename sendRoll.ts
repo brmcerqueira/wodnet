@@ -43,7 +43,7 @@ export async function sendRoll(
 
   const margin = dices - hunger;
 
-  const message = await buildRollMessage(chronicle, result, authorId, description);
+  const message = await buildRollMessage(result, authorId, description);
 
   const options: SendRollData = {
     content: message.content,

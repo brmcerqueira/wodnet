@@ -1,56 +1,45 @@
-import { EmbedPayload } from "./deps.ts";
+import { EmbedPayload, EmojiPayload } from "./deps.ts";
 import { RollResult, RollStatus } from "./diceRollManager.ts";
 import { locale } from "./i18n/locale.ts";
-import { colors } from "./utils.ts";
-import { Chronicle } from "./chronicle.ts";
+import { colors, emojis } from "./utils.ts";
 
-export async function buildRollMessage(
-  chronicle: Chronicle,
+export function buildRollMessage(
   result: RollResult,
   authorId: string,
   title?: string,
-): Promise<{ content: string; embed: EmbedPayload; }> {
+): { content: string; embed: EmbedPayload; } {
   const embed: EmbedPayload = {};
 
   if (title) {
     embed.title = title;
   }
 
-  const emojis = await chronicle.emojis();
-
   const content = result.dices.sort((left, right) =>
     right.isHunger == left.isHunger
       ? (right.value - left.value)
       : (right.isHunger ? 1 : -1)
   ).map((d) => {
-    const emoji: { name: string, id: string } = { name: "", id: "" };
+    let emoji: EmojiPayload | null = null;
     if (d.isHunger) {
       if (d.value == 1) {
-        emoji.name = "bestial";
-        emoji.id = emojis.bestial;
+        emoji = emojis.bestial;
       } else if (d.value == 10) {
-        emoji.name = "messy";
-        emoji.id = emojis.messy;
+        emoji = emojis.messy;
       } else if (d.value >= 6 && d.value <= 9) {
-        emoji.name = "successRed";
-        emoji.id = emojis.successRed;
+        emoji = emojis.successRed;
       } else {
-        emoji.name = "noneRed";
-        emoji.id = emojis.noneRed;
+        emoji = emojis.noneRed;
       }
     } else {
       if (d.value == 10) {
-        emoji.name = "critical";
-        emoji.id = emojis.critical;
+        emoji = emojis.critical;
       } else if (d.value >= 6 && d.value <= 9) {
-        emoji.name = "successBlack";
-        emoji.id = emojis.successBlack;
+        emoji = emojis.successBlack;
       } else {
-        emoji.name = "noneBlack";
-        emoji.id = emojis.noneBlack;
+        emoji = emojis.noneBlack;
       }
     }
-    return printEmoji(emoji.name, emoji.id);
+    return `<:${emoji!.name}:${emoji!.id}>`;
   }).join(" ");
 
   let statusLabel = "";
@@ -111,8 +100,4 @@ export async function buildRollMessage(
   }
 
   return { content, embed };
-}
-
-function printEmoji(name: string, id: string): string {
-  return `<:${name}:${id}>`;
 }

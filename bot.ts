@@ -14,7 +14,7 @@ import {
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
-import { colors, InteractionResponseError, keys } from "./utils.ts";
+import { colors, emojis, InteractionResponseError, keys } from "./utils.ts";
 import { reRollSolver } from "./solver/reRollSolver.ts";
 import {
   CommandOptions,
@@ -26,20 +26,9 @@ import {
   characterAutocompleteSolver,
   extractCharacterAutocompleteInput,
 } from "./solver/characterAutocompleteSolver.ts";
-import { Chronicle, Emojis, removeChronicle } from "./chronicle.ts";
+import { Chronicle, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
-
-export function buildEmojis(): Emojis {
-  return {
-    bestial: "",
-    critical: "",
-    messy: "",
-    noneBlack: "",
-    noneRed: "",
-    successBlack: "",
-    successRed: ""
-  };
-}
+import { DiscordEndpoints } from "./discordEndpoints.ts";
 
 function parseCommandValues(
   options: CommandOptions,
@@ -141,14 +130,13 @@ const client = new Client({
   ],
 });
 
+const endpoints = new DiscordEndpoints(client.rest);
+
 client.on("ready", async () => {
   try {
     logger.info("Loading Wodbot...");
 
-    const discordCommands = await client.rest.endpoints
-      .getGlobalApplicationCommands(
-        client.applicationID!,
-      ) as unknown as ApplicationCommandPayload[];
+    const discordCommands = await endpoints.getGlobalApplicationCommands(client.applicationID!);
 
     //await cleanCommands(discordCommands);
 
@@ -169,6 +157,23 @@ client.on("ready", async () => {
       }
     }
 
+    const applicationEmojis = (await endpoints.listGlobalApplicationEmojis(client.applicationID!)).items;
+
+    for (const name in emojis) {
+      let emoji = applicationEmojis.find((e) => e.name == name);
+      
+      if (!emoji) {
+        emoji = await endpoints.createGlobalApplicationEmoji(client.applicationID!, {
+          name: name,
+          image: `data:image/png;base64,${
+            encodeBase64(await Deno.readFile(`./emojis/${name}.png`))
+          }`,
+        });
+      }
+
+      emojis[name] = emoji;
+    }
+
     logger.info("Wodbot online!");
   } catch (error) {
     logger.error(error);
@@ -180,29 +185,6 @@ client.on("ready", async () => {
     const chronicle = new Chronicle(guild.id);
 
     await chronicle.setStoryteller(guild.ownerID!);
-
-    const guildEmojis = await client.rest.endpoints.listGuildEmojis(
-      guild.id,
-    );
-
-    const emojis = buildEmojis();
-
-    for (const name in emojis) {
-      let emoji = guildEmojis.find((e) => e.name == name);
-
-      if (!emoji) {
-        emoji = await client.rest.endpoints.createGuildEmoji(guild.id, {
-          name: name,
-          image: `data:image/png;base64,${
-            encodeBase64(await Deno.readFile(`./emojis/${name}.png`))
-          }`,
-        });
-      }
-
-      emojis[name as keyof Emojis] = emoji.id!;
-    }
-
-    await chronicle.setEmojis(emojis);
 
     logger.info("Guild Created %v", guild.name);
   } catch (error) {

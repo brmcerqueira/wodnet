@@ -829,6 +829,7 @@
     "https://deno.land/x/harmony@v2.9.1/src/types/interactions.ts": "fbffb40948c8344453b24eeb6fde137cc207830948e4d4907406aab5ab01b994",
     "https://deno.land/x/harmony@v2.9.1/src/types/invite.ts": "90972a222decf5b0b5ecaab92b0fd0d817febc24a1cb7eaebebbbd19030a86b7",
     "https://deno.land/x/harmony@v2.9.1/src/types/messageComponents.ts": "24ba27bb61e84ea115a7cb0b51a05898e47bf5d5076eca527b03dcc17fa9cec1",
+    "https://deno.land/x/harmony@v2.9.1/src/types/mod.ts": "b3cc4d40295e816df95254622b63fa6ce95a5de19f68674633c0359589aa662d",
     "https://deno.land/x/harmony@v2.9.1/src/types/oauth.ts": "355b87753c56d89c63777f47d4ad884655bf9397da6e2ed986a0a7933eb9170f",
     "https://deno.land/x/harmony@v2.9.1/src/types/permissionFlags.ts": "3c492485876091b3c513284bbde420c50ebe7f067634d3d55fb38338a179f1de",
     "https://deno.land/x/harmony@v2.9.1/src/types/presence.ts": "9d572d8d78c50de3d14714b01a2b6ac398f5594149ff4252385cafff0efa5198",
