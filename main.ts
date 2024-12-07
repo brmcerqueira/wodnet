@@ -29,6 +29,8 @@ const styles = await loadFiles("./views/styles", async path => {
   return await Deno.readTextFile(path);
 });
 
+const favicon = await Deno.readFile("./wodnet.ico");
+
 logger.debug("Config %v", JSON.stringify(config));
 
 function route(...params: ({ path: RegExp, go: (array: RegExpExecArray, context: RouteContext) => RouteResult } 
@@ -90,6 +92,11 @@ Deno.serve({ port: config.port }, route({
     if (styles[path]) {
       return new Response(styles[path], { headers:[["Content-Type", "application/css"]]});
     }
+  }
+},{
+  path: "/favicon.ico",
+  go: (): Response =>  {
+    return new Response(favicon, { headers:[["Content-Type", "image/x-icon"]]});
   }
 },{
   path: "/bot/destroy",
