@@ -14,6 +14,8 @@ export const pt: LocaleType = {
     "Fechado",
   ],
   characterUpdate: "O personagem foi atualizado...",
+  characterCheck: "O personagem foi atualizado...",
+  characterCheckFailed: "O personagem foi atualizado...",
   specialties: {
     name: "Especializações",
     skill: "Habilidade",
@@ -398,6 +400,14 @@ export const pt: LocaleType = {
       action: {
         name: "nome",
         description: "Nome da ação",
+      },
+    },
+    check: {
+      name: "checagem",
+      description: "O jogador executa uma ou mais checagens",
+      dices: {
+        name: "dados",
+        description: "Quantidade de dados",
       },
     },
     setStoryteller: {

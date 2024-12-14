@@ -289,6 +289,8 @@ export type LocaleType = {
   unauthorized: string;
   notFound: string;
   characterUpdate: string;
+  characterCheck: string;
+  characterCheckFailed: string;
   storyteller: string;
   storytellerUpdate: string;
   storytellerChangeDifficulty: string;
@@ -337,6 +339,9 @@ export type LocaleType = {
     };
     actions: {
       action: CommandOption;
+    } & CommandOption;
+    check: {
+      dices: CommandOption;
     } & CommandOption;
     setStoryteller: {
       user: CommandOption;

@@ -4,6 +4,7 @@ import { LocaleType } from "../i18n/localeType.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { Chronicle } from "../chronicle.ts";
+import { InteractionResponseError } from "../utils.ts";
 
 type AttributeType =
   | keyof LocaleType["attributes"]["physical"]
@@ -71,6 +72,9 @@ export async function dicePoolSolver(
       description.join(" + "),
       character
     );
+  }
+  else {
+    throw new InteractionResponseError(locale.notFound);
   }
 }
 

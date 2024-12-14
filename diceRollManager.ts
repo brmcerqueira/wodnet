@@ -21,6 +21,8 @@ export enum RollStatus {
   MessyCritical,
 }
 
+const success = 6;
+
 export function roll(
   amount: number,
   hunger: number,
@@ -30,7 +32,10 @@ export function roll(
   const dices: DiceResult[] = [];
 
   for (let i = 1; i <= amount; i++) {
-    dices.push(throwDice(i <= hunger));
+    dices.push({
+      value: throwDice(),
+      isHunger: i <= hunger,
+    });
   }
 
   const computed = computedRoll(dices, difficulty);
@@ -49,7 +54,10 @@ export function roll(
 export function reRoll(result: RollResult, amount: number): RollResult {
   for (let i = result.dices.length - 1; i >= 0; i--) {
     if (!result.dices[i].isHunger) {
-      result.dices[i] = throwDice();
+      result.dices[i] = {
+        value: throwDice(),
+        isHunger: false,
+      };
       amount--;
       if (amount == 0) {
         break;
@@ -70,6 +78,15 @@ export function reRoll(result: RollResult, amount: number): RollResult {
   };
 }
 
+export function check(amount: number): boolean {
+  for (let i = amount; i >= 0; i--) {
+    if (throwDice() >= success) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function computedRoll(dices: DiceResult[], difficulty: number): {
   successes: number;
   status: RollStatus;
@@ -82,7 +99,7 @@ function computedRoll(dices: DiceResult[], difficulty: number): {
   let hasBestialFailure = false;
 
   for (const dice of dices) {
-    if (dice.value >= 6) {
+    if (dice.value >= success) {
       successes++;
       if (dice.value == 10) {
         if (lastTen) {
@@ -115,9 +132,6 @@ function computedRoll(dices: DiceResult[], difficulty: number): {
   };
 }
 
-function throwDice(isHunger = false): DiceResult {
-  return {
-    value: Math.floor((Math.random() * 10) + 1),
-    isHunger: isHunger,
-  };
+function throwDice(): number {
+  return Math.floor((Math.random() * 10) + 1);
 }

@@ -2,14 +2,12 @@ import { Chronicle } from "../chronicle.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { sendRoll } from "../sendRoll.ts";
 
-export async function rollSolver(interaction: Interaction, chronicle: Chronicle, values: {
+export async function rollSolver(interaction: Interaction, chronicle: Chronicle, input: {
   dices: number;
   hunger?: number;
   difficulty?: number;
   description?: string;
 }) {
-  const character = await chronicle.getCharacterByUserId(interaction.user.id);
-
   await sendRoll(
     chronicle,
     async (m) => {
@@ -21,16 +19,11 @@ export async function rollSolver(interaction: Interaction, chronicle: Chronicle,
       });
     },
     interaction.user.id,
-    values.dices,
-    values.hunger || 0,
-    values.difficulty || 1,
+    input.dices,
+    input.hunger || 0,
+    input.difficulty || 1,
     0,
-    values.description,
-    character
+    input.description,
+    await chronicle.getCharacterByUserId(interaction.user.id)
   );
-
-  if (character) {
-    character.willpower.superficial += 1;
-    await chronicle.updateCharacter(character);
-  }
 }

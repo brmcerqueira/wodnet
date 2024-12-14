@@ -16,6 +16,7 @@ import {
 } from "./common.ts";
 import { CharacterMode } from "../character.ts";
 import { setStorytellerSolver } from "../solver/setStorytellerSolver.ts";
+import { checkSolver } from "../solver/checkSolver.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -111,6 +112,18 @@ commands[treatKey(locale.commands.actions.name)] = {
     type: CommandOptionType.STRING,
     required: true,
     autocomplete: true,
+  }).build,
+};
+commands[treatKey(locale.commands.check.name)] = {
+  description: locale.commands.check.description,
+  solve: checkSolver,
+  options: option(locale.commands.check.dices.name, {
+    property: "dices",
+    description: locale.commands.check.dices.description,
+    type: CommandOptionType.INTEGER,
+    required: false,
+    minValue: 1,
+    maxValue: 5,
   }).build,
 };
 commands[treatKey(locale.commands.sheet.link.name)] = {

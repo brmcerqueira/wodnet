@@ -6,10 +6,10 @@ import { Chronicle } from "../chronicle.ts";
 export async function setDifficultySolver(
   interaction: Interaction,
   chronicle: Chronicle,
-  values: { difficulty: number },
+  input: { difficulty: number },
 ) {
   if (await chronicle.isStoryteller(interaction.user.id)) {
-    await chronicle.setDifficulty(values.difficulty);
+    await chronicle.setDifficulty(input.difficulty);
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       embeds: [{
@@ -17,7 +17,7 @@ export async function setDifficultySolver(
         color: colors.gray,
         fields: [{
           name: locale.difficulty,
-          value: `**${values.difficulty}**`,
+          value: `**${input.difficulty}**`,
           inline: true,
         }],
       }],
