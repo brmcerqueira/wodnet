@@ -14,8 +14,8 @@ export const pt: LocaleType = {
     "Fechado",
   ],
   characterUpdate: "O personagem foi atualizado...",
-  characterCheck: "O personagem foi atualizado...",
-  characterCheckFailed: "O personagem foi atualizado...",
+  characterCheck: "O personagem está tranquilo por enquanto...",
+  characterCheckFailed: "O personagem está com mais fome!",
   specialties: {
     name: "Especializações",
     skill: "Habilidade",
