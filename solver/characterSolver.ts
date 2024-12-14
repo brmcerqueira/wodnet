@@ -28,7 +28,7 @@ type InputType = {
   remove?: {
     character: CharacterInputType;
   }
-  clear?: {}
+  clear?: boolean
 };
 
 export function extractCharacterChooseButtonInput(text: string): InputType {

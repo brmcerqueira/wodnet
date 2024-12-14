@@ -52,6 +52,9 @@ function parseCommandValues(
               data,
             );
           }
+          else {
+            value = true;
+          }
           break;
         case CommandOptionType.ATTACHMENT:
           value =
@@ -64,7 +67,7 @@ function parseCommandValues(
           value = parseInt(interactionOption.value);
           break;
         default:
-          value = interactionOption.value;
+          value = interactionOption.value || null;
           break;
       }
 
