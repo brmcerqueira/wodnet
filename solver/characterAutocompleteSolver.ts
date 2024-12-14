@@ -20,7 +20,7 @@ type InputType = {
 };
 
 export function extractCharacterAutocompleteInput(text: string): InputType {
-  const array = text.split("-");
+  const array = text.split(":");
   return {
     character: {
       value: array[1],
@@ -49,7 +49,7 @@ export async function characterAutocompleteSolver(
             type: MessageComponentType.BUTTON,
             label: locale.select,
             style: ButtonStyle.GREEN,
-            customID: `select-${character.id}-${input.link ? true : false}`,
+            customID: `select:${character.id}:${input.link ? true : false}`,
           }],
         }]
         : undefined;
