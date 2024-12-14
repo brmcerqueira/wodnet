@@ -7,7 +7,7 @@ import { check } from "../diceRollManager.ts";
 export async function checkSolver(
   interaction: Interaction,
   chronicle: Chronicle,
-  input: { dices?: number },
+  input?: { dices: number },
 ) {
   const character = await chronicle.getCharacterByUserId(interaction.user.id);
 
@@ -18,7 +18,7 @@ export async function checkSolver(
       inline: true,
     }];
 
-    const failed = !check(input.dices || 1);
+    const failed = !check(input?.dices || 1);
 
     if (failed) {
       character.hunger += 1;

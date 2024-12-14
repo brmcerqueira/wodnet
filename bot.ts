@@ -245,7 +245,7 @@ client.on("ready", async () => {
             await command.solve(
               interaction,
               chronicle,
-              command.options
+              command.options && data.options
                 ? parseCommandValues(command.options, data.options, data)
                 : undefined,
             );
