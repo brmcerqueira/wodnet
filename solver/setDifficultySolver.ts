@@ -8,7 +8,7 @@ export async function setDifficultySolver(
   chronicle: Chronicle,
   values: { difficulty: number },
 ) {
-  if ((await chronicle.storyteller()) == interaction.user.id) {
+  if (await chronicle.isStoryteller(interaction.user.id)) {
     await chronicle.setDifficulty(values.difficulty);
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

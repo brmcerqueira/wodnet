@@ -29,12 +29,7 @@ export async function actionAutocompleteSolver(
       }),
     });
   } else {
-    const currentCharacter = await chronicle.currentCharacter();
-    const character = (await chronicle.storyteller()) == interaction.user.id
-      ? (currentCharacter
-        ? await chronicle.getCharacter(currentCharacter, true)
-        : undefined)
-      : await chronicle.getCharacter(interaction.user.id, true);
+    const character = await chronicle.getCharacterByUserId(interaction.user.id);
     if (character) {
       const result = actions[values.action.value](character);
       await sendRoll(
@@ -53,6 +48,7 @@ export async function actionAutocompleteSolver(
         result.difficulty,
         result.modifier,
         values.action.value,
+        character
       );
     }
   }

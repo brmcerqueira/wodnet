@@ -1,5 +1,6 @@
 import { Character } from "../character.ts";
 import { Chronicle } from "../chronicle.ts";
+import { config } from "../config.ts";
 import { Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { keys, treatDiscipline } from "../utils.ts";
@@ -64,6 +65,21 @@ class BuildOptions {
   public get build(): CommandOptions {
     return this._data;
   }
+}
+
+export async function uploadImage(url: string): Promise<string> {
+  const body = new FormData();
+
+  body.set("image", url);
+
+  const response = await fetch(`https://api.imgbb.com/1/upload?key=${config.imgbbKey}`, {
+    method: "POST",
+    body
+  });
+
+  const json: { data: { url: string; }; } = await response.json();
+
+  return json.data.url;
 }
 
 export function option(name: string, option: CommandOption): BuildOptions {

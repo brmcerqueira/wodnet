@@ -1,25 +1,9 @@
 import { Character, CharacterMode } from "../character.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { Solver } from "../commands/common.ts";
+import { Solver, uploadImage } from "../commands/common.ts";
 import { colors, InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
-
-export async function getOrBuildCharacterId(interaction: Interaction, chronicle: Chronicle): Promise<string> {
-  let id: string | null | undefined;
-
-  if ((await chronicle.storyteller()) == interaction.user.id) {
-    id = await chronicle.currentCharacter();
-    if (id == null) {
-      id = crypto.randomUUID();
-      chronicle.setCurrentCharacter(id);
-    }
-  } else {
-    id = interaction.user.id;
-  }
-
-  return id!;
-}
 
 export function buildCharacterSolver<T>(
   parse: (character: Character, input: T) => Promise<number> | number, onlyStoryteller?: boolean
@@ -27,7 +11,7 @@ export function buildCharacterSolver<T>(
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
     const isStoryteller = interaction.user.id == (await chronicle.storyteller());
     if (!onlyStoryteller || isStoryteller) {
-      const id = await getOrBuildCharacterId(interaction, chronicle);
+      const id = await chronicle.getOrCreateCharacterId(interaction.user.id);
 
       const character = await chronicle.getCharacter(id);
 
@@ -44,7 +28,7 @@ export function buildCharacterSolver<T>(
       }
 
       if (character.image == "") {
-        character.image = interaction.user.avatarURL();
+        character.image = await uploadImage(interaction.user.avatarURL());
       }
 
       const spent = await parse(character, input);

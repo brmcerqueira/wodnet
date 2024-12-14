@@ -37,7 +37,7 @@ export async function characterAutocompleteSolver(
   input: InputType,
 ) {
   if (await searchCharacter(interaction, chronicle, input.character, true)) {
-    if ((await chronicle.storyteller()) == interaction.user.id) {
+    if (await chronicle.isStoryteller(interaction.user.id)) {
       const id = input.character.value != "" ? input.character.value : null;
       await chronicle.setCurrentCharacter(id);
       const character = id != null ? await chronicle.getCharacter(id, true) : null;

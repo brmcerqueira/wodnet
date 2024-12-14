@@ -22,11 +22,8 @@ export async function dicePoolSolver(
     discipline?: Exclude<keyof LocaleType["disciplines"], "name">;
   },
 ) {
-  const currentCharacter = await chronicle.currentCharacter();
-  const character = (await chronicle.storyteller()) == interaction.user.id
-    ? (currentCharacter ? await chronicle.getCharacter(currentCharacter, true) : undefined)
-    : await chronicle.getCharacter(interaction.user.id, true);
-    
+  const character = await chronicle.getCharacterByUserId(interaction.user.id);
+
   if (character) {
     const description: string[] = [];
 
@@ -72,6 +69,7 @@ export async function dicePoolSolver(
       1,
       0,
       description.join(" + "),
+      character
     );
   }
 }

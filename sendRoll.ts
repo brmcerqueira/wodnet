@@ -8,6 +8,7 @@ import {
 } from "./deps.ts";
 import { buildRollMessage } from "./buildRollMessage.ts";
 import { Chronicle } from "./chronicle.ts";
+import { Character } from "./character.ts";
 
 export type SendRollData = {
   content: string;
@@ -23,7 +24,8 @@ export async function sendRoll(
   hunger: number,
   difficulty: number,
   modifier: number,
-  description: string | undefined,
+  description?: string,
+  character?: Character
 ): Promise<void> {
   const chronicleDifficulty = await chronicle.difficulty();
 
@@ -43,7 +45,7 @@ export async function sendRoll(
 
   const margin = dices - hunger;
 
-  const message = await buildRollMessage(result, authorId, description);
+  const message = await buildRollMessage(result, authorId, description, character);
 
   const options: SendRollData = {
     content: message.content,
@@ -92,7 +94,7 @@ export async function sendRoll(
     }
   }
 
-  await chronicle.setLastRoll(authorId, {
+  await chronicle.setLastRoll(character ? character.id : authorId, {
     embed: message.embed,
     result: result,
   });

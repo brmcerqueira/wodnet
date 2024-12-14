@@ -7,8 +7,7 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import {
-  buildCharacterSolver,
-  getOrBuildCharacterId,
+  buildCharacterSolver
 } from "./buildCharacterSolver.ts";
 import { Chronicle } from "../chronicle.ts";
 import { Character } from "../character.ts";
@@ -37,7 +36,7 @@ export async function editModalSolver(
   if (input) {
     await characterSolver(interaction, chronicle, input);
   } else {
-    const id = await getOrBuildCharacterId(interaction, chronicle);
+    const id = await chronicle.getOrCreateCharacterId(interaction.user.id);
 
     const character = await chronicle.getCharacter(id);
 

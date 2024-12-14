@@ -24,5 +24,6 @@ export async function rollSolver(interaction: Interaction, chronicle: Chronicle,
     values.difficulty || 1,
     0,
     values.description,
+    await chronicle.getCharacterByUserId(interaction.user.id)
   );
 }

@@ -74,6 +74,11 @@ export class Chronicle {
     }
     return entry.value;
   }
+
+  public async getLastRollByUserId(userId: string): Promise<LastRoll | null> {
+    const currentCharacter = await this.currentCharacter();
+    return await this.lastRoll(await this.isStoryteller(userId) && currentCharacter ? currentCharacter : userId);
+  }
   
   public async setLastRoll(id: string, value: LastRoll) {
     await repository.set([lastRollKey, this.chronicleId, id], value);
@@ -122,6 +127,10 @@ export class Chronicle {
   public async storyteller(): Promise<string> {
     return (await repository.get<string>([storytellerKey, this.chronicleId])).value!;
   }
+
+  public async isStoryteller(userId: string): Promise<boolean> {
+    return (await this.storyteller()) == userId;
+  }
   
   public async setStoryteller(value: string) {
     await repository.set([storytellerKey, this.chronicleId], value);
@@ -129,6 +138,32 @@ export class Chronicle {
 
   public penalty(left: number): number {
     return left <= 0 ? 3 : (left >= 1 && left <= 3 ? (3 - left) : 0);
+  }
+
+  public async getCharacterByUserId(userId: string): Promise<Character | undefined> {
+    const currentCharacter = await this.currentCharacter();
+    const character = (await this.isStoryteller(userId))
+      ? (currentCharacter
+        ? await this.getCharacter(currentCharacter, true)
+        : undefined)
+      : await this.getCharacter(userId, true);
+    return character;
+  }
+
+  public async getOrCreateCharacterId(userId: string): Promise<string> {
+    let id: string | null | undefined;
+  
+    if (await this.isStoryteller(userId)) {
+      id = await this.currentCharacter();
+      if (id == null) {
+        id = crypto.randomUUID();
+        await this.setCurrentCharacter(id);
+      }
+    } else {
+      id = userId;
+    }
+  
+    return id!;
   }
 
   public async getCharacter(

@@ -15,14 +15,9 @@ export async function characterLinkSolver(
   interaction: Interaction,
   chronicle: Chronicle,
 ) {
-  const currentCharacter = await chronicle.currentCharacter();
-  const id = (await chronicle.storyteller()) == interaction.user.id && currentCharacter
-    ? currentCharacter
-    : interaction.user.id;
+  const character = await chronicle.getCharacterByUserId(interaction.user.id);
 
-  const character = await chronicle.getCharacter(id, true);
-
-  if (character.name == "") {
+  if (!character) {
     throw new InteractionResponseError(locale.notFound);
   }
 
@@ -44,7 +39,7 @@ export async function characterLinkSolver(
     }],
     components: [{
       type: MessageComponentType.ACTION_ROW,
-      components: [buttonCharacterLink(chronicle.id, id)],
+      components: [buttonCharacterLink(chronicle.id, character.id)],
     }],
   });
 }

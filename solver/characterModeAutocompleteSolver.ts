@@ -23,7 +23,7 @@ export async function characterModeAutocompleteSolver(
     return;
   }
 
-  if ((await chronicle.storyteller()) == interaction.user.id) {
+  if (await chronicle.isStoryteller(interaction.user.id)) {
     await chronicle.updateCharacterMode(
       CharacterMode[
         CharacterMode[parseInt(input.mode)] as keyof typeof CharacterMode

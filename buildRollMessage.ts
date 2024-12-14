@@ -1,3 +1,4 @@
+import { Character } from "./character.ts";
 import { EmbedPayload, EmojiPayload } from "./deps.ts";
 import { RollResult, RollStatus } from "./diceRollManager.ts";
 import { locale } from "./i18n/locale.ts";
@@ -7,11 +8,18 @@ export function buildRollMessage(
   result: RollResult,
   authorId: string,
   title?: string,
+  character?: Character
 ): { content: string; embed: EmbedPayload; } {
   const embed: EmbedPayload = {};
 
   if (title) {
     embed.title = title;
+  }
+
+  if (character) {
+    embed.thumbnail = {
+      url: character.image
+    };
   }
 
   const content = result.dices.sort((left, right) =>
@@ -77,7 +85,17 @@ export function buildRollMessage(
     name: locale.difficulty,
     value: result.difficulty.toString(),
     inline: true,
-  }, {
+  }];
+
+  if (result.modifier != 0) {
+    embed.fields.push({
+      name: locale.modifier,
+      value: result.modifier.toString(),
+      inline: true,
+    });
+  }
+
+  embed.fields.push({
     name: locale.successes,
     value: result.successes.toString(),
     inline: true,
@@ -85,19 +103,21 @@ export function buildRollMessage(
     name: locale.status,
     value: `**${statusLabel}**`,
     inline: true,
-  }, {
-    name: locale.player,
-    value: `<@${authorId}>`,
-    inline: true,
-  }];
+  });
 
-  if (result.modifier != 0) {
-    embed.fields.splice(2, 0, {
-      name: locale.modifier,
-      value: result.modifier.toString(),
+  if (character) {
+    embed.fields.push({
+      name: locale.character,
+      value: character.name,
       inline: true,
     });
   }
+
+  embed.fields.push({
+    name: locale.player,
+    value: `<@${authorId}>`,
+    inline: true,
+  });
 
   return { content, embed };
 }
