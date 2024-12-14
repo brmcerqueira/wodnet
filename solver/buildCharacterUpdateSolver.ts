@@ -9,13 +9,15 @@ export function buildCharacterUpdateSolver<T>(
   parse: (character: Character, input: T) => Promise<number> | number, onlyStoryteller?: boolean
 ): Solver {
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
-    const isStoryteller = interaction.user.id == (await chronicle.storyteller());
+    const isStoryteller = await chronicle.isStoryteller(interaction.user.id);
     if (!onlyStoryteller || isStoryteller) {
       const id = await chronicle.getOrCreateCharacterId(interaction.user.id);
 
       const character = await chronicle.getCharacter(id);
 
-      if (!isStoryteller && character.mode == CharacterMode.Closed) {
+      const spent = await parse(character, input);
+
+      if (!isStoryteller && character.mode == CharacterMode.Closed && spent != 0) {
         throw new InteractionResponseError(locale.unauthorized);
       }
 
@@ -30,8 +32,6 @@ export function buildCharacterUpdateSolver<T>(
       if (character.image == "") {
         character.image = await uploadImage(interaction.user.avatarURL());
       }
-
-      const spent = await parse(character, input);
 
       if (character.mode != CharacterMode.Opened) {
         character.experience.spent += spent;
