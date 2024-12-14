@@ -1,5 +1,5 @@
 import { locale } from "../i18n/locale.ts";
-import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
+import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
 buildChoices,
   CommandOptions,
@@ -33,7 +33,7 @@ function buildCreateSpecialtyOptions<T extends object>(
 commands[treatKey(locale.specialties.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.specialties.name}`,
-  solve: buildCharacterSolver((c, input: {
+  solve: buildCharacterUpdateSolver((c, input: {
     physical?: NewSpecialty;
     social?: NewSpecialty;
     mental?: NewSpecialty;

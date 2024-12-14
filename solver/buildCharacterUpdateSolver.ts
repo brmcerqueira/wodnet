@@ -5,7 +5,7 @@ import { Solver, uploadImage } from "../commands/common.ts";
 import { colors, InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
 
-export function buildCharacterSolver<T>(
+export function buildCharacterUpdateSolver<T>(
   parse: (character: Character, input: T) => Promise<number> | number, onlyStoryteller?: boolean
 ): Solver {
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {

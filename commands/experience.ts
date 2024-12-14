@@ -1,5 +1,5 @@
 import { locale } from "../i18n/locale.ts";
-import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
+import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import { CommandOptionType, commands, option, treatKey } from "./common.ts";
 
 commands[treatKey(locale.experience.name)] = {
@@ -17,7 +17,7 @@ commands[treatKey(locale.experience.name)] = {
     minValue: -20,
     maxValue: 20,
   }).build,
-  solve: buildCharacterSolver((c, i: { total?: number; spent?: number }) => {
+  solve: buildCharacterUpdateSolver((c, i: { total?: number; spent?: number }) => {
     if (i.total) {
       c.experience.total += i.total;
     }

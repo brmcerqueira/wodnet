@@ -7,12 +7,12 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import {
-  buildCharacterSolver
-} from "./buildCharacterSolver.ts";
+  buildCharacterUpdateSolver
+} from "./buildCharacterUpdateSolver.ts";
 import { Chronicle } from "../chronicle.ts";
 import { Character } from "../character.ts";
 
-const characterSolver = buildCharacterSolver<InteractionModalSubmitData>(
+const characterSolver = buildCharacterUpdateSolver<InteractionModalSubmitData>(
   (character, input) => {
     for (const row of input.components) {
       const textInput = row.components[0];

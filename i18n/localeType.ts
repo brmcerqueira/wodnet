@@ -294,6 +294,7 @@ export type LocaleType = {
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
   storytellerDeleteCharacter: string;
+  storytellerClearCurrentCharacter: string;
   storytellerChangeCharacterMode: string;
   storytellerChangeAllCharacterMode: string;
   bestialFailure: string;
@@ -346,19 +347,19 @@ export type LocaleType = {
     setModifier: {
       modifier: CommandOption;
     } & CommandOption;
-    setCharacter: {
-      character: CommandOption;
-      link: CommandOption;
-    } & CommandOption;
-    deleteCharacter: {
-      character: CommandOption;
-    } & CommandOption;
-    modeCharacter: {
-      mode: CommandOption;
-      character: CommandOption;
-    } & CommandOption;
     editModal: {
       title: string;
+    } & CommandOption;
+    character: {
+      characterArg: CommandOption;
+      choose: {     
+        link: CommandOption;
+      } & CommandOption;
+      mode: {
+        value: CommandOption;
+      } & CommandOption;
+      remove: CommandOption;
+      clear: CommandOption;
     } & CommandOption;
   };
   actions: string[];

@@ -1,6 +1,6 @@
 import { Character, Damage } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
-import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
+import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
     CommandOptions,
     CommandOptionType,
@@ -47,11 +47,11 @@ function damageParse(
 commands[treatKey(locale.health)] = {
     description: `${locale.commands.sheet.description} ${locale.health}`,
     options: buildDamageOptions(),
-    solve: buildCharacterSolver(damageParse((c) => c.health)),
+    solve: buildCharacterUpdateSolver(damageParse((c) => c.health)),
 };
 
 commands[treatKey(locale.willpower)] = {
     description: `${locale.commands.sheet.description} ${locale.willpower}`,
     options: buildDamageOptions(),
-    solve: buildCharacterSolver(damageParse((c) => c.willpower)),
+    solve: buildCharacterUpdateSolver(damageParse((c) => c.willpower)),
 };

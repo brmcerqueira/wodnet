@@ -1,6 +1,6 @@
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
-import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
+import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
   CommandOptions,
   CommandOptionType,
@@ -92,12 +92,12 @@ export function buildAdvantageFlawOptions(): CommandOptions {
 
 commands[treatKey(locale.advantages)] = {
   description: `${locale.commands.sheet.description} ${locale.advantages}`,
-  solve: buildCharacterSolver(advantageFlawParse(true)),
+  solve: buildCharacterUpdateSolver(advantageFlawParse(true)),
   options: buildAdvantageFlawOptions(),
 };
 
 commands[treatKey(locale.flaws)] = {
   description: `${locale.commands.sheet.description} ${locale.flaws}`,
-  solve: buildCharacterSolver(advantageFlawParse(false)),
+  solve: buildCharacterUpdateSolver(advantageFlawParse(false)),
   options: buildAdvantageFlawOptions(),
 };

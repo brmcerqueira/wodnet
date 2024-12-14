@@ -54,22 +54,22 @@ export const pt: LocaleType = {
   clan: {
     name: "Clã",
     options: {
-      "Banu Haqim": ["Celeridade","Ofuscação","Feitiçaria do Sangue"],
-      "Brujah": ["Potência","Celeridade","Presença"],
+      "Banu Haqim": ["Celeridade", "Ofuscação", "Feitiçaria do Sangue"],
+      "Brujah": ["Potência", "Celeridade", "Presença"],
       "Caitiff": null,
-      "Gangrel": ["Animalismo","Fortitude","Proteanismo"],
-      "Hecata": ["Auspícios","Fortitude"],
-      "Lasombra": ["Dominação","Potência"],
-      "Malkaviano": ["Auspícios","Dominação","Ofuscação"],
-      "Nosferatu": ["Animalismo","Potência","Ofuscação"],
-      "O Ministério": ["Presença","Ofuscação","Proteanismo"],
-      "Ravnos": ["Animalismo","Presença","Ofuscação"],
-      "Salubri": ["Auspícios","Fortitude","Dominação"],
+      "Gangrel": ["Animalismo", "Fortitude", "Proteanismo"],
+      "Hecata": ["Auspícios", "Fortitude"],
+      "Lasombra": ["Dominação", "Potência"],
+      "Malkaviano": ["Auspícios", "Dominação", "Ofuscação"],
+      "Nosferatu": ["Animalismo", "Potência", "Ofuscação"],
+      "O Ministério": ["Presença", "Ofuscação", "Proteanismo"],
+      "Ravnos": ["Animalismo", "Presença", "Ofuscação"],
+      "Salubri": ["Auspícios", "Fortitude", "Dominação"],
       "Sangue-Ralo": null,
-      "Toreador": ["Auspícios","Celeridade","Presença"],
-      "Tremere": ["Auspícios","Feitiçaria do Sangue"],
-      "Tzimisce": ["Animalismo","Dominação","Proteanismo"],
-      "Ventrue": ["Dominação","Fortitude","Presença"],
+      "Toreador": ["Auspícios", "Celeridade", "Presença"],
+      "Tremere": ["Auspícios", "Feitiçaria do Sangue"],
+      "Tzimisce": ["Animalismo", "Dominação", "Proteanismo"],
+      "Ventrue": ["Dominação", "Fortitude", "Presença"],
     },
   },
   generation: {
@@ -330,6 +330,7 @@ export const pt: LocaleType = {
   storytellerChangeDifficulty: "O narrador mudou a dificuldade.",
   storytellerChangeModifier: "O narrador mudou o modificador.",
   storytellerDeleteCharacter: "O personagem foi excluído!",
+  storytellerClearCurrentCharacter: "O narrador limpou a seleção.",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
   storytellerChangeAllCharacterMode: "O modo de todos os personagens foi alterado!",
   bestialFailure: "Falha Bestial",
@@ -423,26 +424,6 @@ export const pt: LocaleType = {
         description: "Valor do novo modificador",
       },
     },
-    setCharacter: {
-      name: "personagem",
-      description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
-      character: {
-        name: "nome",
-        description: "Nome do personagem",
-      },
-      link: {
-        name: "link",
-        description: "Gerar link do personagem"
-      }
-    },
-    deleteCharacter: {
-      name: "excluir-personagem",
-      description: "O narrador escolhe o personagem para excluir",
-      character: {
-        name: "nome",
-        description: "Nome do personagem",
-      },
-    },
     sheet: {
       description: "Atualizar valor do campo:",
       link: {
@@ -486,22 +467,42 @@ export const pt: LocaleType = {
         description: "Círculos"
       }
     },
-    modeCharacter: {
-      name: "personagem-modo",
-      description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
-      mode: {
-        name: "modo",
-        description: "Modo do personagem",
-      },
-      character: {
-        name: "personagem",
-        description: "Personagem",
-      },
-    },
     editModal: {
       name: "editar",
       description: "Modal para edição dos campos textos do personagem",
       title: "Modal para edição"
+    },
+    character: {
+      name: "personagem",
+      description: "Para o narrador gerenciar personagens",
+      characterArg: {
+        name: "nome",
+        description: "Nome do personagem",
+      },
+      choose: {
+        name: "escolher",
+        description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
+        link: {
+          name: "link",
+          description: "Gerar link do personagem"
+        }
+      },
+      mode: {
+        name: "modo",
+        description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
+        value: {
+          name: "valor",
+          description: "Valor",
+        },
+      },
+      remove: {
+        name: "excluir",
+        description: "O narrador escolhe o personagem para excluir",
+      },
+      clear: {
+        name: "limpar",
+        description: "O narrador limpa a escolha de personagem",
+      },
     }
   },
   actions: [

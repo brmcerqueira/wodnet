@@ -1,8 +1,7 @@
 import { locale } from "../i18n/locale.ts";
 import { keys } from "../utils.ts";
 import { actionAutocompleteSolver } from "../solver/actionAutocompleteSolver.ts";
-import { characterAutocompleteSolver } from "../solver/characterAutocompleteSolver.ts";
-import { characterModeAutocompleteSolver } from "../solver/characterModeAutocompleteSolver.ts";
+import { characterSolver } from "../solver/characterSolver.ts";
 import { characterLinkSolver } from "../solver/characterLinkSolver.ts";
 import { dicePoolSolver } from "../solver/dicePoolSolver.ts";
 import { rollSolver } from "../solver/rollSolver.ts";
@@ -16,7 +15,6 @@ import {
   treatKey,
 } from "./common.ts";
 import { CharacterMode } from "../character.ts";
-import { deleteCharacterAutocompleteSolver } from "../solver/deleteCharacterAutocompleteSolver.ts";
 import { setStorytellerSolver } from "../solver/setStorytellerSolver.ts";
 
 const attributeChoices = [
@@ -54,91 +52,6 @@ commands[treatKey(locale.commands.roll.name)] = {
     description: locale.commands.roll.descriptionField.description,
     type: CommandOptionType.STRING,
     required: false,
-  }).build,
-};
-commands[treatKey(locale.commands.sheet.link.name)] = {
-  description: locale.commands.sheet.link.description,
-  solve: characterLinkSolver,
-};
-commands[treatKey(locale.commands.setStoryteller.name)] = {
-  description: locale.commands.setStoryteller.description,
-  solve: setStorytellerSolver,
-  options: option(locale.commands.setStoryteller.user.name, {
-    property: "user",
-    description: locale.commands.setStoryteller.user.description,
-    type: CommandOptionType.USER,
-    required: true
-  }).build,
-};
-commands[treatKey(locale.commands.setDifficulty.name)] = {
-  description: locale.commands.setDifficulty.description,
-  solve: setDifficultySolver,
-  options: option(locale.commands.setDifficulty.difficulty.name, {
-    property: "difficulty",
-    description: locale.commands.setDifficulty.difficulty.description,
-    type: CommandOptionType.INTEGER,
-    required: true,
-    minValue: 1,
-    maxValue: 10,
-  }).build,
-};
-commands[treatKey(locale.commands.setModifier.name)] = {
-  description: locale.commands.setModifier.description,
-  solve: setModifierSolver,
-  options: option(locale.commands.setModifier.modifier.name, {
-    property: "modifier",
-    description: locale.commands.setModifier.modifier.description,
-    type: CommandOptionType.INTEGER,
-    required: true,
-    minValue: -10,
-    maxValue: 10,
-  }).build,
-};
-commands[treatKey(locale.commands.setCharacter.name)] = {
-  description: locale.commands.setCharacter.description,
-  solve: characterAutocompleteSolver,
-  options: option(locale.commands.setCharacter.character.name, {
-    property: "character",
-    description: locale.commands.setCharacter.character.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    autocomplete: true,
-  }).option(locale.commands.setCharacter.link.name, {
-    property: "link",
-    description: locale.commands.setCharacter.link.description,
-    type: CommandOptionType.BOOLEAN
-  }).build,
-};
-commands[treatKey(locale.commands.deleteCharacter.name)] = {
-  description: locale.commands.deleteCharacter.description,
-  solve: deleteCharacterAutocompleteSolver,
-  options: option(locale.commands.deleteCharacter.character.name, {
-    property: "character",
-    description: locale.commands.deleteCharacter.character.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    autocomplete: true,
-  }).build,
-};
-commands[treatKey(locale.commands.modeCharacter.name)] = {
-  description: locale.commands.modeCharacter.description,
-  solve: characterModeAutocompleteSolver,
-  options: option(locale.commands.modeCharacter.mode.name, {
-    property: "mode",
-    description: locale.commands.modeCharacter.mode.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    choices: keys(CharacterMode).filter(item => Number(item) >= 0).map((key) => {
-      return {
-        name: locale.mode[key as unknown as number],
-        value: key,
-      };
-    }),
-  }).option(locale.commands.modeCharacter.character.name, {
-    property: "character",
-    description: locale.commands.modeCharacter.character.description,
-    type: CommandOptionType.STRING,
-    autocomplete: true,
   }).build,
 };
 commands[treatKey(locale.commands.dicePools.name)] = {
@@ -198,5 +111,99 @@ commands[treatKey(locale.commands.actions.name)] = {
     type: CommandOptionType.STRING,
     required: true,
     autocomplete: true,
+  }).build,
+};
+commands[treatKey(locale.commands.sheet.link.name)] = {
+  description: locale.commands.sheet.link.description,
+  solve: characterLinkSolver,
+};
+commands[treatKey(locale.commands.setStoryteller.name)] = {
+  description: locale.commands.setStoryteller.description,
+  solve: setStorytellerSolver,
+  options: option(locale.commands.setStoryteller.user.name, {
+    property: "user",
+    description: locale.commands.setStoryteller.user.description,
+    type: CommandOptionType.USER,
+    required: true
+  }).build,
+};
+commands[treatKey(locale.commands.setDifficulty.name)] = {
+  description: locale.commands.setDifficulty.description,
+  solve: setDifficultySolver,
+  options: option(locale.commands.setDifficulty.difficulty.name, {
+    property: "difficulty",
+    description: locale.commands.setDifficulty.difficulty.description,
+    type: CommandOptionType.INTEGER,
+    required: true,
+    minValue: 1,
+    maxValue: 10,
+  }).build,
+};
+commands[treatKey(locale.commands.setModifier.name)] = {
+  description: locale.commands.setModifier.description,
+  solve: setModifierSolver,
+  options: option(locale.commands.setModifier.modifier.name, {
+    property: "modifier",
+    description: locale.commands.setModifier.modifier.description,
+    type: CommandOptionType.INTEGER,
+    required: true,
+    minValue: -10,
+    maxValue: 10,
+  }).build,
+};
+commands[treatKey(locale.commands.character.name)] = {
+  description: locale.commands.character.description,
+  solve: characterSolver,
+  options: option(locale.commands.character.clear.name, {
+    property: "clear",
+    description: locale.commands.character.clear.description,
+    type: CommandOptionType.SUB_COMMAND,
+  }).option(locale.commands.character.choose.name, {
+    property: "choose",
+    description: locale.commands.character.choose.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.character.characterArg.name, {
+      property: "character",
+      description: locale.commands.character.characterArg.description,
+      type: CommandOptionType.STRING,
+      required: true,
+      autocomplete: true,
+    }).option(locale.commands.character.choose.link.name, {
+      property: "link",
+      description: locale.commands.character.choose.link.description,
+      type: CommandOptionType.BOOLEAN
+    }).build,
+  }).option(locale.commands.character.mode.name, {
+    property: "mode",
+    description: locale.commands.character.mode.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.character.mode.value.name, {
+      property: "value",
+      description: locale.commands.character.mode.value.description,
+      type: CommandOptionType.STRING,
+      required: true,
+      choices: keys(CharacterMode).filter(item => Number(item) >= 0).map((key) => {
+        return {
+          name: locale.mode[key as unknown as number],
+          value: key,
+        };
+      }),
+    }).option(locale.commands.character.characterArg.name, {
+      property: "character",
+      description: locale.commands.character.characterArg.description,
+      type: CommandOptionType.STRING,
+      autocomplete: true,
+    }).build
+  }).option(locale.commands.character.remove.name, {
+    property: "remove",
+    description: locale.commands.character.remove.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.character.characterArg.name, {
+      property: "character",
+      description: locale.commands.character.characterArg.description,
+      type: CommandOptionType.STRING,
+      required: true,
+      autocomplete: true,
+    }).build,
   }).build,
 };

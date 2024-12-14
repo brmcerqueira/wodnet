@@ -23,9 +23,9 @@ import {
 } from "./commands/module.ts";
 import { editModalSolver } from "./solver/editModalSolver.ts";
 import {
-  characterAutocompleteSolver,
-  extractCharacterAutocompleteInput,
-} from "./solver/characterAutocompleteSolver.ts";
+  characterSolver,
+  extractCharacterChooseButtonInput,
+} from "./solver/characterSolver.ts";
 import { Chronicle, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
@@ -219,10 +219,10 @@ client.on("ready", async () => {
         if (!isNaN(value)) {
           await reRollSolver(interaction, chronicle, value);
         } else {
-          await characterAutocompleteSolver(
+          await characterSolver(
             interaction,
             chronicle,
-            extractCharacterAutocompleteInput(data.custom_id),
+            extractCharacterChooseButtonInput(data.custom_id),
           );
         }
       } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
