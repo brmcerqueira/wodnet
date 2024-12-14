@@ -8,6 +8,8 @@ export async function rollSolver(interaction: Interaction, chronicle: Chronicle,
   difficulty?: number;
   description?: string;
 }) {
+  const character = await chronicle.getCharacterByUserId(interaction.user.id);
+
   await sendRoll(
     chronicle,
     async (m) => {
@@ -24,6 +26,11 @@ export async function rollSolver(interaction: Interaction, chronicle: Chronicle,
     values.difficulty || 1,
     0,
     values.description,
-    await chronicle.getCharacterByUserId(interaction.user.id)
+    character
   );
+
+  if (character) {
+    character.willpower.superficial += 1;
+    await chronicle.updateCharacter(character);
+  }
 }
