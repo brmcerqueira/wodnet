@@ -1,4 +1,5 @@
 import { Character } from "../character.ts";
+import { config } from "../config.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterSolver } from "../solver/buildCharacterSolver.ts";
 import { editModalSolver } from "../solver/editModalSolver.ts";
@@ -41,8 +42,20 @@ commands[treatKey(locale.image)] = {
     type: CommandOptionType.ATTACHMENT,
     required: true,
   }).build,
-  solve: buildCharacterSolver((c, i: { value: { url: string } }) => {
-    c.image = i.value.url;
+  solve: buildCharacterSolver(async (c, i: { value: { url: string } }) => {
+    const body = new FormData();
+
+    body.set("image", i.value.url);
+
+    const response = await fetch(`https://api.imgbb.com/1/upload?key=${config.imgbbKey}`, {
+      method: "POST",
+      body
+    });
+
+    const json: { data: { url: string }} = await response.json();
+
+    c.image = json.data.url;
+
     return 0;
   }),
 };

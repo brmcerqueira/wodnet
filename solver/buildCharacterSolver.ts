@@ -22,7 +22,7 @@ export async function getOrBuildCharacterId(interaction: Interaction, chronicle:
 }
 
 export function buildCharacterSolver<T>(
-  parse: (character: Character, input: T) => number, onlyStoryteller?: boolean
+  parse: (character: Character, input: T) => Promise<number> | number, onlyStoryteller?: boolean
 ): Solver {
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
     const isStoryteller = interaction.user.id == (await chronicle.storyteller());
@@ -47,7 +47,7 @@ export function buildCharacterSolver<T>(
         character.image = interaction.user.avatarURL();
       }
 
-      const spent = parse(character, input);
+      const spent = await parse(character, input);
 
       if (character.mode != CharacterMode.Opened) {
         character.experience.spent += spent;
