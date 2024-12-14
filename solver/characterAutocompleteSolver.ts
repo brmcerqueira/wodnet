@@ -61,13 +61,8 @@ export async function characterAutocompleteSolver(
       await interaction.respond({
         type: input.select ? InteractionResponseType.UPDATE_MESSAGE : InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
-          title: locale.storytellerChangeCurrentCharacter,
+          title: character?.name || locale.none,
           color: colors.gray,
-          fields: [{
-            name: locale.character,
-            value: `**${character?.name || locale.none}**`,
-            inline: true,
-          }],
           image: character
             ? {
               url: character.image,

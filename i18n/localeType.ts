@@ -293,7 +293,6 @@ export type LocaleType = {
   storytellerUpdate: string;
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
-  storytellerChangeCurrentCharacter: string;
   storytellerDeleteCharacter: string;
   storytellerChangeCharacterMode: string;
   storytellerChangeAllCharacterMode: string;

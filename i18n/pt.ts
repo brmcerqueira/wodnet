@@ -329,7 +329,6 @@ export const pt: LocaleType = {
   notFound: "Personagem não encontrado!",
   storytellerChangeDifficulty: "O narrador mudou a dificuldade.",
   storytellerChangeModifier: "O narrador mudou o modificador.",
-  storytellerChangeCurrentCharacter: "O personagem escolhido foi...",
   storytellerDeleteCharacter: "O personagem foi excluído!",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
   storytellerChangeAllCharacterMode: "O modo de todos os personagens foi alterado!",
