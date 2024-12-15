@@ -39,7 +39,7 @@ export function extractCharacterChooseButtonInput(text: string): InputType {
         value: array[1],
         focused: false,
       },
-      link: Boolean(array[2]),
+      link: array[2] === "true",
       button: true
     }
   };
