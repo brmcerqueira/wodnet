@@ -330,7 +330,7 @@ export class Chronicle {
       id,
     ]);
 
-    logger.info("Check: %v | %v | %v", id, versionstamp, entry.versionstamp);
+    logger.info("Check: %v | %v | %v", id, JSON.stringify(versionstamp), JSON.stringify(entry.versionstamp));
 
     return versionstamp != entry.versionstamp;
   }
