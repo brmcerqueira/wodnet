@@ -329,6 +329,9 @@ export class Chronicle {
       this.chronicleId,
       id,
     ]);
+
+    logger.info("Check: %v | %v | %v", id, versionstamp, entry.versionstamp);
+
     return versionstamp != entry.versionstamp;
   }
 
