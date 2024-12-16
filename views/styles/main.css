@@ -24,7 +24,7 @@ i {
     text-overflow: ellipsis;
 }
 
-.overflow-ellipsis::before {
+.overflow-ellipsis::after {
     content: attr(data-tooltip);
     position: absolute;
     transform: translateX(-50%);
@@ -40,13 +40,13 @@ i {
     margin-top: 2em;
 }
 
-.body-dark .overflow-ellipsis::before {
+.body-dark .overflow-ellipsis::after {
     background-color: white !important;
     color: black !important;
 }
 
-.overflow-ellipsis:hover::before,
-.overflow-ellipsis:active::before {
+.overflow-ellipsis:hover::after,
+.overflow-ellipsis:active::after {
     opacity: 1;
     visibility: visible;
 }
