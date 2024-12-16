@@ -31,6 +31,8 @@ export type CommandOption = {
   required?: boolean;
   minValue?: number;
   maxValue?: number;
+  minLength?: number;
+  maxLength?: number;
   autocomplete?: boolean;
   choices?: CommandChoice[];
   options?: CommandOptions;
@@ -65,6 +67,16 @@ class BuildOptions {
   public get build(): CommandOptions {
     return this._data;
   }
+}
+
+export function booleanChoices(): CommandChoice[] {
+  return [{
+    name: "👍",
+    value: "true",
+  }, {
+    name: "❌",
+    value: "false",
+  }];
 }
 
 export async function uploadImage(url: string): Promise<string> {

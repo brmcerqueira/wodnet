@@ -8,6 +8,7 @@ import { rollSolver } from "../solver/rollSolver.ts";
 import { setDifficultySolver } from "../solver/setDifficultySolver.ts";
 import { setModifierSolver } from "../solver/setModifierSolver.ts";
 import {
+booleanChoices,
   buildChoices,
   CommandOptionType,
   commands,
@@ -184,7 +185,8 @@ commands[treatKey(locale.commands.character.name)] = {
     }).option(locale.commands.character.choose.link.name, {
       property: "link",
       description: locale.commands.character.choose.link.description,
-      type: CommandOptionType.BOOLEAN
+      type: CommandOptionType.STRING, 
+      choices: booleanChoices(),
     }).build,
   }).option(locale.commands.character.mode.name, {
     property: "mode",

@@ -344,7 +344,7 @@ export class Chronicle {
       })
     ) {
       if (
-        term == "" ||
+        term == null || term == "" ||
         entry.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1
       ) {
         result.push(entry.value);

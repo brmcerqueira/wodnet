@@ -66,6 +66,14 @@ function parseCommandValues(
         case CommandOptionType.INTEGER:
           value = parseInt(interactionOption.value);
           break;
+        case CommandOptionType.STRING:
+          if (interactionOption.value === "false") {
+            value = false;
+            break;
+          }
+
+          value = interactionOption.value === "true" || interactionOption.value || null;
+          break;  
         default:
           value = interactionOption.value || null;
           break;
@@ -94,6 +102,8 @@ function transformOptions(options?: CommandOptions): any[] | undefined {
         required: option.required,
         min_value: option.minValue,
         max_value: option.maxValue,
+        min_length: option.minLength,
+        max_length: option.maxLength,
         autocomplete: option.autocomplete,
         choices: option.choices,
         options: transformOptions(option.options),
@@ -141,7 +151,7 @@ client.on("ready", async () => {
 
     const discordCommands = await endpoints.getGlobalApplicationCommands(client.applicationID!);
 
-    //await cleanCommands(discordCommands);
+    //await cleanCommands(discordCommands, "nome", "jogador", "ambição", "desejo", "detalhes");
 
     for (const name in commands) {
       const command = commands[name];

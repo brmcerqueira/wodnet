@@ -31,6 +31,8 @@ commands[treatKey(locale.name)] = {
     description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
+    minLength: 1,
+    maxLength: 50,
   }).build,
   solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.name = v)),
 };
@@ -54,6 +56,8 @@ commands[treatKey(locale.player)] = {
     description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
+    minLength: 1,
+    maxLength: 50,
   }).build,
   solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.player = v)),
 };
@@ -71,6 +75,8 @@ commands[treatKey(locale.ambition)] = {
     description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
+    minLength: 1,
+    maxLength: 150,
   }).build,
   solve: buildCharacterUpdateSolver(
     parseField<string>((c, v) => c.ambition = v),
@@ -83,6 +89,8 @@ commands[treatKey(locale.desire)] = {
     description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
+    minLength: 1,
+    maxLength: 150,
   }).build,
   solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.desire = v)),
 };
@@ -112,6 +120,8 @@ commands[treatKey(locale.details)] = {
     description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,
+    minLength: 1,
+    maxLength: 1000,
   }).build,
   solve: buildCharacterUpdateSolver(
     parseField<string>((c, v) => c.details = v),
