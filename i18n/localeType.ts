@@ -99,6 +99,7 @@ export type LocaleType = {
   damage: {
     superficial: string;
     aggravated: string;
+    add: string;
   };
   humanity: string;
   stains: string;

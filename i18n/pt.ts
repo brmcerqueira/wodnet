@@ -140,6 +140,7 @@ export const pt: LocaleType = {
   damage: {
     superficial: "Superficial",
     aggravated: "Agravado",
+    add: "somar"
   },
   humanity: "Humanidade",
   stains: "Máculas",

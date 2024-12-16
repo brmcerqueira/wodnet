@@ -8,14 +8,14 @@ commands[treatKey(locale.experience.name)] = {
     property: "total",
     description: locale.experience.total,
     type: CommandOptionType.INTEGER,
-    minValue: -20,
-    maxValue: 20,
+    minValue: -50,
+    maxValue: 50,
   }).option(locale.experience.spent, {
     property: "spent",
     description: locale.experience.spent,
     type: CommandOptionType.INTEGER,
-    minValue: -20,
-    maxValue: 20,
+    minValue: -50,
+    maxValue: 50,
   }).build,
   solve: buildCharacterUpdateSolver((c, i: { total?: number; spent?: number }) => {
     if (i.total) {
