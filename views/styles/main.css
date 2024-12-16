@@ -26,7 +26,7 @@ i {
     display: inline-block;
 }
 
-.overflow-ellipsis .tooltip {
+.tooltip {
     visibility: hidden;
     width: 120px;
     background-color: black;
@@ -43,12 +43,12 @@ i {
     transition: opacity 0.3s;
 }
 
-.body-dark .overflow-ellipsis .tooltip {
+.body-dark .tooltip {
     background-color: white !important;
     color: black !important;
 }
 
-.overflow-ellipsis .tooltip::after {
+.overflow-ellipsis + .tooltip::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -56,7 +56,7 @@ i {
     margin-left: -5px;
 }
 
-.overflow-ellipsis:hover .tooltip {
+.overflow-ellipsis:hover + .tooltip {
     visibility: visible;
     opacity: 1;
 }
