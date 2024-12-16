@@ -22,10 +22,13 @@ i {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.tooltip {
     position: relative;
 }
 
-.overflow-ellipsis::before {
+.tooltip::before {
     content: attr(data-tooltip);
     position: absolute;
     top: -30px;
@@ -41,8 +44,8 @@ i {
     transition: opacity 0.3s, visibility 0.3s;
 }
 
-.overflow-ellipsis:hover::before,
-.overflow-ellipsis:active::before {
+.tooltip:hover::before,
+.tooltip:active::before {
     opacity: 1;
     visibility: visible;
 }
