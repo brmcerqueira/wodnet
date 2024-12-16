@@ -108,11 +108,11 @@ export const characterRender = (character: Character, chronicleId: string, id: s
                     <div class="col-sm-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.name}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.name}</div>
+                            <div class="col text-start overflow-ellipsis" data-tooltip={character.name}>{character.name}</div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.player}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.player}</div>
+                            <div class="col text-start overflow-ellipsis" data-tooltip={character.player}>{character.player}</div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.experience.name}:</b></div>
@@ -126,11 +126,11 @@ export const characterRender = (character: Character, chronicleId: string, id: s
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.ambition}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.ambition}</div>
+                            <div class="col text-start overflow-ellipsis" data-tooltip={character.ambition}>{character.ambition}</div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.desire}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.desire}</div>
+                            <div class="col text-start overflow-ellipsis" data-tooltip={character.desire}>{character.desire}</div>
                         </div>
                     </div>
                     <div class="col-sm-3 mb-2">
