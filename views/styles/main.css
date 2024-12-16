@@ -36,7 +36,6 @@ i {
     transition: opacity 0.3s, visibility 0.3s;
     background-color: black;
     color: white;
-    margin-left: 2em;
     margin-top: 2em;
 }
 
