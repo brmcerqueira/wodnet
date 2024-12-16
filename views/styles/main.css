@@ -27,17 +27,18 @@ i {
 .overflow-ellipsis::before {
     content: attr(data-tooltip);
     position: absolute;
-    top: -30px;
-    left: 50%;
     transform: translateX(-50%);
     padding: 5px;
-    background-color: #000;
-    color: #fff;
     font-size: 14px;
     border-radius: 4px;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
+}
+
+.body-dark .overflow-ellipsis::before {
+    background-color: white !important;
+    color: black !important;
 }
 
 .overflow-ellipsis:hover::before,
