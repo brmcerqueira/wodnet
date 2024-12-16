@@ -125,10 +125,10 @@ Deno.serve({ port: config.port }, route({
 },{
   path: ["/dark", "/"],
   go: async (context: RouteContext): Promise<void | Response> =>  {
-    if (context.chronicle && context.id && context.decodeId) {
+    if (context.chronicle && context.id && context.chronicleId && context.decodeId) {
       return new Response(await characterRender(
         await context.chronicle.getCharacter(context.decodeId, true),
-        context.chronicle.id,
+        context.chronicleId,
         context.id,
         context.url.pathname == "/dark",
         context.update

@@ -29,6 +29,12 @@ export class RouteContext {
     return this._decodeId;
   }
 
+  public get chronicleId(): string | null {
+    return this._url.searchParams.has("chronicleId")
+    ? this._url.searchParams.get("chronicleId")
+    : null;
+  }
+
   public get chronicle(): Chronicle | null {
     if (this._chronicle == undefined) {
       this._chronicle = this._url.searchParams.has("chronicleId")
