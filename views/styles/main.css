@@ -34,6 +34,8 @@ i {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
+    background-color: black;
+    color: white;
 }
 
 .body-dark .overflow-ellipsis::before {
