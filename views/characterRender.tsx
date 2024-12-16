@@ -108,11 +108,11 @@ export const characterRender = (character: Character, chronicleId: string, id: s
                     <div class="col-sm-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.name}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.name}</div>
+                            <div class="col text-start overflow-ellipsis">{character.name}<span class="tooltip">{character.name}</span></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.player}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.player}</div>
+                            <div class="col text-start overflow-ellipsis">{character.player}<span class="tooltip">{character.player}</span></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.experience.name}:</b></div>
@@ -122,25 +122,25 @@ export const characterRender = (character: Character, chronicleId: string, id: s
                     <div class="col-sm-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.resonance.name}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.resonance}</div>
+                            <div class="col text-start">{character.resonance}</div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.ambition}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.ambition}</div>
+                            <div class="col text-start overflow-ellipsis">{character.ambition}<span class="tooltip">{character.ambition}</span></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.desire}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.desire}</div>
+                            <div class="col text-start overflow-ellipsis">{character.desire}<span class="tooltip">{character.desire}</span></div>
                         </div>
                     </div>
                     <div class="col-sm-3 mb-2">
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.predator.name}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.predator}</div>
+                            <div class="col text-start">{character.predator}</div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.clan.name}:</b></div>
-                            <div class="col text-start overflow-ellipsis">{character.clan}</div>
+                            <div class="col text-start">{character.clan}</div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col text-end"><b>{locale.generation.name}:</b></div>
