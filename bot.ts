@@ -151,7 +151,7 @@ client.on("ready", async () => {
 
     const discordCommands = await endpoints.getGlobalApplicationCommands(client.applicationID!);
 
-    //await cleanCommands(discordCommands, "nome", "jogador", "ambição", "desejo", "detalhes");
+    //await cleanCommands(discordCommands);
 
     for (const name in commands) {
       const command = commands[name];
