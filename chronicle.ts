@@ -172,9 +172,7 @@ export class Chronicle {
   ): Promise<Character> {
     const key = [characterKey, this.chronicleId, id];
 
-    const entry = await repository.get<Character>(key);
-
-    let character = entry.value;
+    let character = (await repository.get<Character>(key)).value;
 
     if (character == null) {
       character = {
@@ -190,7 +188,7 @@ export class Chronicle {
         clan: "",
         generation: 0,
         mode: CharacterMode.Opened,
-        versionstamp: null,
+        versionstamp: crypto.randomUUID(),
         attributes: {
           physical: {
             strength: 0,
@@ -272,8 +270,6 @@ export class Chronicle {
       if (!ignorePersist) {
         await repository.set(key, character);
       }
-    } else {
-      character.versionstamp = entry.versionstamp;
     }
 
     logger.info("Get Character %v", JSON.stringify(character));
@@ -292,6 +288,8 @@ export class Chronicle {
         character.attributes.mental.resolve) -
         (character.willpower.superficial + character.willpower.aggravated),
     );
+
+    character.versionstamp = crypto.randomUUID();
 
     logger.info("Update Character %v", JSON.stringify(character));
 
@@ -330,9 +328,9 @@ export class Chronicle {
       id,
     ]);
 
-    logger.info("Check: %v | %v | %v", id, JSON.stringify(versionstamp), JSON.stringify(entry.versionstamp));
+    logger.info("Check: %v | %v | %v", id, JSON.stringify(versionstamp), JSON.stringify(entry.value?.versionstamp));
 
-    return versionstamp != entry.versionstamp;
+    return versionstamp != entry.value?.versionstamp;
   }
 
   public async deleteCharacter(id: string) {

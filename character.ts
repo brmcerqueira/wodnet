@@ -27,7 +27,7 @@ export type Character = {
   clan: string;
   generation: number;
   mode: CharacterMode;
-  versionstamp: string | null;
+  versionstamp: string;
   attributes: {
     physical: {
       strength: number;
