@@ -16,6 +16,7 @@ export const pt: LocaleType = {
   characterUpdate: "O personagem foi atualizado...",
   characterCheck: "O personagem está tranquilo por enquanto...",
   characterCheckFailed: "O personagem está com mais fome!",
+  characterExport: "O personagem foi exportado!",
   specialties: {
     name: "Especializações",
     skill: "Habilidade",
@@ -397,12 +398,16 @@ export const pt: LocaleType = {
     },
     import: {
       name: "importar",
-      description: "O narrador importar um personagem no formato JSON",
+      description: "O narrador importa o personagem no formato JSON",
       json: {
         name: "json",
         description: "JSON do personagem",
       },
     },
+    export: {
+      name: "exportar",
+      description: "O narrador exporta o personagem no formato JSON",
+    }, 
     actions: {
       name: "ação",
       description: "O jogador executa uma ação de acordo com sua ficha",

@@ -19,6 +19,7 @@ import { CharacterMode } from "../character.ts";
 import { setStorytellerSolver } from "../solver/setStorytellerSolver.ts";
 import { checkSolver } from "../solver/checkSolver.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
+import { characterExportSolver } from "../solver/characterExportSolver.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -146,6 +147,10 @@ commands[treatKey(locale.commands.import.name)] = {
     minLength: 1,
     maxLength: 6000
   }).build,
+};
+commands[treatKey(locale.commands.export.name)] = {
+  description: locale.commands.export.description,
+  solve: characterExportSolver,
 };
 commands[treatKey(locale.commands.setStoryteller.name)] = {
   description: locale.commands.setStoryteller.description,

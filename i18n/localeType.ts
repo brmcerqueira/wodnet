@@ -292,6 +292,7 @@ export type LocaleType = {
   characterUpdate: string;
   characterCheck: string;
   characterCheckFailed: string;
+  characterExport: string;
   storyteller: string;
   storytellerUpdate: string;
   storytellerChangeDifficulty: string;
@@ -341,6 +342,7 @@ export type LocaleType = {
     import: {
       json: CommandOption;
     } & CommandOption;
+    export: CommandOption;
     actions: {
       action: CommandOption;
     } & CommandOption;
