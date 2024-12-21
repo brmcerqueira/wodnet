@@ -338,6 +338,9 @@ export type LocaleType = {
       wards: CommandOption;
       circles: CommandOption; 
     };
+    import: {
+      json: CommandOption;
+    } & CommandOption;
     actions: {
       action: CommandOption;
     } & CommandOption;

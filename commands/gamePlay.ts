@@ -18,6 +18,7 @@ booleanChoices,
 import { CharacterMode } from "../character.ts";
 import { setStorytellerSolver } from "../solver/setStorytellerSolver.ts";
 import { checkSolver } from "../solver/checkSolver.ts";
+import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -130,6 +131,21 @@ commands[treatKey(locale.commands.check.name)] = {
 commands[treatKey(locale.commands.sheet.link.name)] = {
   description: locale.commands.sheet.link.description,
   solve: characterLinkSolver,
+};
+commands[treatKey(locale.commands.import.name)] = {
+  description: locale.commands.import.description,
+  solve: buildCharacterUpdateSolver((c, i: { json: string }) => {
+    Object.assign(c, JSON.parse(i.json));
+    return 0;
+  }, true),
+  options: option(locale.commands.import.json.name, {
+    property: "json",
+    description: locale.commands.import.json.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    minLength: 1,
+    maxLength: 6000
+  }).build,
 };
 commands[treatKey(locale.commands.setStoryteller.name)] = {
   description: locale.commands.setStoryteller.description,

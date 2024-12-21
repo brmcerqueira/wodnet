@@ -395,6 +395,14 @@ export const pt: LocaleType = {
         description: "Nome da disciplina",
       },
     },
+    import: {
+      name: "importar",
+      description: "O narrador importar um personagem no formato JSON",
+      json: {
+        name: "json",
+        description: "JSON do personagem",
+      },
+    },
     actions: {
       name: "ação",
       description: "O jogador executa uma ação de acordo com sua ficha",
