@@ -16,6 +16,6 @@ export async function characterExportSolver(
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       title: locale.characterExport,
-      content: `\`\`\`json ${JSON.stringify(character)}\`\`\``,
+      content: `\`\`\`json\n${JSON.stringify(character, null, 2)}\n\`\`\``,
     });
 }
