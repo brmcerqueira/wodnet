@@ -1,4 +1,4 @@
-import { Interaction, InteractionResponseType } from "../deps.ts";
+import { Interaction, InteractionResponseType, MessageAttachment } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
@@ -16,6 +16,6 @@ export async function characterExportSolver(
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       title: locale.characterExport,
-      content: `\`\`\`json\n${JSON.stringify(character, null, 2)}\n\`\`\``,
+      files: [new MessageAttachment(`${character.name}.json`, JSON.stringify(character))],
     });
 }
