@@ -64,6 +64,8 @@ Bem-vindo ao guia de uso do Wodnet! Este bot foi projetado para facilitar sua ex
 1. **O bot não responde aos comandos:**
    - Abra o link de inicialização do Wodnet
 
+\s(●?●?●?●?●)\}\s(\[.*\])(\s.*)"
+
 ---
 
 Com esses passos, você está pronto para aproveitar ao máximo o Wodnet no seu servidor Discord! Caso tenha dúvidas ou precise de suporte adicional, consulte a documentação oficial ou entre em contato com a equipe de suporte do bot.
