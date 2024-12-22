@@ -1,4 +1,8 @@
-import { ApplicationCommandChoice, Interaction, InteractionResponseType } from "../deps.ts";
+import {
+  ApplicationCommandChoice,
+  Interaction,
+  InteractionResponseType,
+} from "../deps.ts";
 import { keys } from "../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { actions } from "../actions.ts";
@@ -24,8 +28,13 @@ export async function actionAutocompleteSolver(
       if (choices.length == 25) {
         break;
       } else {
-        const name = locale.actions.length > index ? locale.actions[index] : index.toString();
-        if (term === undefined || term === "" || name.toLowerCase().indexOf(term) > -1) {
+        const name = locale.actions.length > index
+          ? locale.actions[index]
+          : index.toString();
+        if (
+          term === undefined || term === "" ||
+          name.toLowerCase().indexOf(term) > -1
+        ) {
           choices.push({
             value: index.toString(),
             name: name.substring(0, 100),
@@ -59,7 +68,7 @@ export async function actionAutocompleteSolver(
         result.difficulty,
         result.modifier,
         locale.actions[index],
-        character
+        character,
       );
     }
   }
