@@ -56,12 +56,7 @@ export async function characterSolver(
     if (characterInput && characterInput.focused) {
       await interaction.respond({
         type: InteractionResponseType.APPLICATION_COMMAND_AUTOCOMPLETE_RESULT,
-        choices: (await chronicle.getCharactersByTerm(characterInput.value)).map((c) => {
-          return {
-            value: c.id,
-            name: c.name,
-          };
-        }),
+        choices: await chronicle.getCharacterChoicesByTerm(characterInput.value),
       });
 
       return;

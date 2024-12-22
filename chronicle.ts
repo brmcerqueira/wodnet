@@ -1,5 +1,5 @@
 import { Character, CharacterMode } from "./character.ts";
-import { EmbedPayload } from "./deps.ts";
+import { ApplicationCommandChoice, EmbedPayload } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
 
@@ -336,19 +336,24 @@ export class Chronicle {
     await repository.delete([characterKey, this.chronicleId, id]);
   }
 
-  public async getCharactersByTerm(term: string): Promise<Character[]> {
-    const result: Character[] = [];
+  public async getCharacterChoicesByTerm(term: string): Promise<ApplicationCommandChoice[]> {
+    const result: ApplicationCommandChoice[] = [];
     for await (
       const entry of repository.list<Character>({
         prefix: [characterKey, this.chronicleId],
       })
     ) {
-      if (
+      if (result.length == 25) {
+        break;
+      } else if (
         term == null || term == "" ||
         entry.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1
       ) {
-        result.push(entry.value);
-      }
+        result.push({
+          value: entry.value.id,
+          name: entry.value.name,
+        });
+      }      
     }
 
     result.sort((r, l) => {

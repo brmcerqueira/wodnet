@@ -1,4 +1,4 @@
-import { Interaction, InteractionResponseType } from "../deps.ts";
+import { ApplicationCommandChoice, Interaction, InteractionResponseType } from "../deps.ts";
 import { keys } from "../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { actions } from "../actions.ts";
@@ -7,31 +7,37 @@ import { Chronicle } from "../chronicle.ts";
 export async function actionAutocompleteSolver(
   interaction: Interaction,
   chronicle: Chronicle,
-  values: {
+  input: {
     action: {
-      value: string;
+      value?: string;
       focused: boolean;
     };
   },
 ) {
-  if (values.action.focused) {
+  if (input.action.focused) {
+    const term = input.action.value?.toLowerCase();
+
+    const choices: ApplicationCommandChoice[] = [];
+
+    for (const key in actions) {
+      if (choices.length == 25) {
+        break;
+      } else if (term === undefined || term === "" || (key as string).toLowerCase().indexOf(term) > -1) {
+        choices.push({
+          value: key,
+          name: key as string,
+        })
+      }
+    }
+
     await interaction.respond({
       type: InteractionResponseType.APPLICATION_COMMAND_AUTOCOMPLETE_RESULT,
-      choices: keys(actions).filter((key) =>
-        (key as string).toLowerCase().indexOf(
-          values.action.value.toLowerCase(),
-        ) > -1
-      ).map((key) => {
-        return {
-          value: key as string,
-          name: key as string,
-        };
-      }),
+      choices: choices,
     });
   } else {
     const character = await chronicle.getCharacterByUserId(interaction.user.id);
     if (character) {
-      const result = actions[values.action.value](character);
+      const result = actions[input.action.value!](character);
       await sendRoll(
         chronicle,
         async (m) => {
@@ -47,7 +53,7 @@ export async function actionAutocompleteSolver(
         character.hunger,
         result.difficulty,
         result.modifier,
-        values.action.value,
+        input.action.value,
         character
       );
     }
