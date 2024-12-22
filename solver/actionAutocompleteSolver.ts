@@ -32,7 +32,7 @@ export async function actionAutocompleteSolver(
 
     await interaction.respond({
       type: InteractionResponseType.APPLICATION_COMMAND_AUTOCOMPLETE_RESULT,
-      choices: choices,
+      choices,
     });
   } else {
     const character = await chronicle.getCharacterByUserId(interaction.user.id);
