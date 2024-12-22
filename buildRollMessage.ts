@@ -8,8 +8,8 @@ export function buildRollMessage(
   result: RollResult,
   authorId: string,
   title?: string,
-  character?: Character
-): { content: string; embed: EmbedPayload; } {
+  character?: Character,
+): { content: string; embed: EmbedPayload } {
   const embed: EmbedPayload = {};
 
   if (title) {
@@ -18,7 +18,7 @@ export function buildRollMessage(
 
   if (character) {
     embed.thumbnail = {
-      url: character.image
+      url: character.image,
     };
   }
 
@@ -85,17 +85,7 @@ export function buildRollMessage(
     name: locale.difficulty,
     value: result.difficulty.toString(),
     inline: true,
-  }];
-
-  if (result.modifier != 0) {
-    embed.fields.push({
-      name: locale.modifier,
-      value: result.modifier.toString(),
-      inline: true,
-    });
-  }
-
-  embed.fields.push({
+  }, {
     name: locale.successes,
     value: result.successes.toString(),
     inline: true,
@@ -103,7 +93,7 @@ export function buildRollMessage(
     name: locale.status,
     value: `**${statusLabel}**`,
     inline: true,
-  });
+  }];
 
   if (character) {
     embed.fields.push({
@@ -118,6 +108,14 @@ export function buildRollMessage(
     value: `<@${authorId}>`,
     inline: true,
   });
+
+  if (result.modifier != 0) {
+    embed.fields.push({
+      name: locale.modifier,
+      value: result.modifier.toString(),
+      inline: true,
+    });
+  }
 
   return { content, embed };
 }
