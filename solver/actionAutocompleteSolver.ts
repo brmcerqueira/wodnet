@@ -3,6 +3,7 @@ import { keys } from "../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { actions } from "../actions.ts";
 import { Chronicle } from "../chronicle.ts";
+import { locale } from "../i18n/locale.ts";
 
 export async function actionAutocompleteSolver(
   interaction: Interaction,
@@ -19,14 +20,17 @@ export async function actionAutocompleteSolver(
 
     const choices: ApplicationCommandChoice[] = [];
 
-    for (const key in actions) {
+    for (let index = 0; index < actions.length; index++) {
       if (choices.length == 25) {
         break;
-      } else if (term === undefined || term === "" || (key as string).toLowerCase().indexOf(term) > -1) {
-        choices.push({
-          value: key,
-          name: key as string,
-        })
+      } else {
+        const name = locale.actions.length > index ? locale.actions[index] : index.toString();
+        if (term === undefined || term === "" || name.toLowerCase().indexOf(term) > -1) {
+          choices.push({
+            value: index.toString(),
+            name: name.substring(0, 101),
+          });
+        }
       }
     }
 
@@ -37,7 +41,7 @@ export async function actionAutocompleteSolver(
   } else {
     const character = await chronicle.getCharacterByUserId(interaction.user.id);
     if (character) {
-      const result = actions[input.action.value!](character);
+      const result = actions[parseInt(input.action.value!)](character);
       await sendRoll(
         chronicle,
         async (m) => {

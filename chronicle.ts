@@ -351,7 +351,7 @@ export class Chronicle {
       ) {
         result.push({
           value: entry.value.id,
-          name: entry.value.name,
+          name: entry.value.name.substring(0, 101),
         });
       }      
     }

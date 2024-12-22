@@ -1,5 +1,4 @@
 import { Character } from "./character.ts";
-import { locale } from "./i18n/locale.ts";
 
 export type ActionResult = {
   dices: number;
@@ -9,22 +8,7 @@ export type ActionResult = {
 
 export type ActionBuilder = (character: Character) => ActionResult;
 
-export type Actions = {
-  [name: string]: ActionBuilder;
-};
-
-function createActions(array: ActionBuilder[]): Actions {
-  const result: Actions = {};
-  for (let index = 0; index < array.length; index++) {
-    const name = locale.actions.length > index
-      ? locale.actions[index]
-      : index.toString();
-    result[name] = array[index];
-  }
-  return result;
-}
-
-export const actions = createActions([
+export const actions: ActionBuilder[] = [
   (c) => {
     return {
       dices: c.attributes.physical.strength + c.skills.physical.brawl,
@@ -729,4 +713,4 @@ export const actions = createActions([
       difficulty: 1,
     };
   },
-]);
+];
