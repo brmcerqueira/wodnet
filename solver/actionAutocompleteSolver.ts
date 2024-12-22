@@ -41,7 +41,8 @@ export async function actionAutocompleteSolver(
   } else {
     const character = await chronicle.getCharacterByUserId(interaction.user.id);
     if (character) {
-      const result = actions[parseInt(input.action.value!)](character);
+      const index = parseInt(input.action.value!);
+      const result = actions[index](character);
       await sendRoll(
         chronicle,
         async (m) => {
@@ -57,7 +58,7 @@ export async function actionAutocompleteSolver(
         character.hunger,
         result.difficulty,
         result.modifier,
-        input.action.value,
+        locale.actions[index],
         character
       );
     }
