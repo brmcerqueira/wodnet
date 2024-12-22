@@ -22,7 +22,8 @@ export const pt: LocaleType = {
     skill: "Habilidade",
     specialty: "Especialização",
   },
-  characterLinkSent: "O link da ficha do seu personagem foi enviado no seu chat privado!",
+  characterLinkSent:
+    "O link da ficha do seu personagem foi enviado no seu chat privado!",
   details: "Detalhes",
   name: "Nome",
   image: "Imagem",
@@ -141,7 +142,7 @@ export const pt: LocaleType = {
   damage: {
     superficial: "Superficial",
     aggravated: "Agravado",
-    add: "somar"
+    add: "somar",
   },
   humanity: "Humanidade",
   stains: "Máculas",
@@ -233,7 +234,7 @@ export const pt: LocaleType = {
       horridForm: "●●●● Forma Hedionda",
       mistForm: "●●●●● Forma de Névoa",
       theUnfetteredHeart: "●●●●● Coração Vagante",
-      oneWithTheLand: "●●●●● Um com a Terra"
+      oneWithTheLand: "●●●●● Um com a Terra",
     },
     obfuscate: {
       name: "Ofuscação",
@@ -336,7 +337,8 @@ export const pt: LocaleType = {
   storytellerDeleteCharacter: "O personagem foi excluído!",
   storytellerClearCurrentCharacter: "O narrador limpou a seleção.",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
-  storytellerChangeAllCharacterMode: "O modo de todos os personagens foi alterado!",
+  storytellerChangeAllCharacterMode:
+    "O modo de todos os personagens foi alterado!",
   bestialFailure: "Falha Bestial",
   failure: "Falha",
   success: "Sucesso",
@@ -407,7 +409,7 @@ export const pt: LocaleType = {
     export: {
       name: "exportar",
       description: "O narrador exporta o personagem no formato JSON",
-    }, 
+    },
     actions: {
       name: "ação",
       description: "O jogador executa uma ação de acordo com sua ficha",
@@ -452,49 +454,49 @@ export const pt: LocaleType = {
       description: "Atualizar valor do campo:",
       link: {
         name: "link",
-        description: "Link"
+        description: "Link",
       },
       create: {
         name: "criar",
-        description: "Criar"
+        description: "Criar",
       },
       edit: {
         name: "editar",
-        description: "Editar"
+        description: "Editar",
       },
       delete: {
         name: "excluir",
-        description: "Excluir"
+        description: "Excluir",
       },
       name: {
         name: "nome",
-        description: "Nome"
+        description: "Nome",
       },
       index: {
         name: "índice",
-        description: "Índice"
+        description: "Índice",
       },
       value: {
         name: "valor",
-        description: "Valor"
+        description: "Valor",
       },
       common: {
         name: "comuns",
-        description: "Comuns"
+        description: "Comuns",
       },
       wards: {
         name: "proteção",
-        description: "Proteção"
+        description: "Proteção",
       },
       circles: {
         name: "círculos",
-        description: "Círculos"
-      }
+        description: "Círculos",
+      },
     },
     editModal: {
       name: "editar",
       description: "Modal para edição dos campos textos do personagem",
-      title: "Modal para edição"
+      title: "Modal para edição",
     },
     character: {
       name: "personagem",
@@ -505,15 +507,17 @@ export const pt: LocaleType = {
       },
       choose: {
         name: "escolher",
-        description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
+        description:
+          "O narrador escolhe o personagem corrente para ser usado na parada de dados",
         link: {
           name: "link",
-          description: "Gerar link do personagem"
-        }
+          description: "Gerar link do personagem",
+        },
       },
       mode: {
         name: "modo",
-        description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
+        description:
+          "O narrador escolhe o modo para um personagem ou para todos os personagens",
         value: {
           name: "valor",
           description: "Valor",
@@ -527,7 +531,7 @@ export const pt: LocaleType = {
         name: "limpar",
         description: "O narrador limpa a escolha de personagem",
       },
-    }
+    },
   },
   shortening: {
     "Círculo de Proteção Contra": "Círculo P",
@@ -539,7 +543,7 @@ export const pt: LocaleType = {
     "Fuga Para o Verdadeiro Santuário": "Fuga Santuário",
     "Fuste de Extinção Tardia": "Fuste Tardia",
     "Defesa do Refúgio Sagrado": "Defesa Refúgio",
-    "Olhos do Falcão Noturno": "Olhos Falcão"
+    "Olhos do Falcão Noturno": "Olhos Falcão",
   },
   actions: [
     "Ataque com os punhos [Força + Briga]",
@@ -604,5 +608,40 @@ export const pt: LocaleType = {
     "Atividade oculta [Destreza + Furtividade]",
     "(Resistido) Atividade oculta [Raciocínio + Percepção]",
     "Nadar [Vigor + Atletismo]",
+    "{Animalismo •} [Raciocínio + Animalismo] Sentir a Besta: Detectar o nível de hostilidade ou intenções agressivas.",
+    "{Animalismo •} [Carisma + Empatia com Animais] Vincular Famulus: Vincular um animal ao vampiro, tornando-o um servo leal.",
+    "{Animalismo ••} [Manipulação + Animalismo] Sussurros Selvagens: Comunicar-se e comandar animais para realizar tarefas específicas.",
+    "{Animalismo •••} [Carisma + Animalismo] Domar a Besta: Subjugar a agressividade de um alvo mortal ou vampiro.",
+    "{Animalismo ••••} [Manipulação + Animalismo] Subordinar o Espírito: Possuir o corpo de um animal.",
+    "{Animalismo •••••} [Carisma + Animalismo] Domínio Animal: Comandar bandos inteiros de animais para obedecer ao comando.",
+    "{Animalismo •••••} [Inteligência + Animalismo] Extrair a Besta: Transferir o frenesi de um vampiro para outro alvo.",
+    "{Dominação •} [Carisma + Dominação] Compelir: Forçar um alvo a realizar uma ação simples com base em comandos diretos.",
+    "{Dominação •} [Carisma + Dominação] Nublar a Memória: Apagar ou alterar memórias do alvo.",
+    "{Dominação ••} [Manipulação + Dominação] Mesmerizar: Implantar comandos que o alvo deve seguir mais tarde.",
+    "{Dominação ••} [Manipulação + Dominação] Demência: Infligir confusão ou terror no alvo, enfraquecendo sua força de vontade.",
+    "{Dominação •••} [Manipulação + Dominação] A Mente Esquecida: Alterar memórias profundas e detalhadas do alvo.",
+    "{Dominação ••••} [Inteligência + Dominação] Racionalizar: Forçar o alvo a justificar ações implantadas.",
+    "{Dominação •••••} [Raciocínio + Dominação] Possessão: Tomar controle completo do corpo e ações do alvo.",
+    "{Presença •} [Manipulação + Presença] Fascínio: Atrair a atenção de todos ao redor, tornando-se o foco absoluto.",
+    "{Presença •} [Carisma + Presença] Olhos da Serpente: Paralisa o alvo com um olhar direto e hipnotizante.",
+    "{Presença •••} [Carisma + Presença] Olhar Aterrorizante: Induz medo absoluto e paralisa o alvo.",
+    "{Presença •••} [Carisma + Presença] Transe: Coloca o alvo em um estado hipnótico.",
+    "{Presença ••••} [Manipulação + Presença] Convocação: Chama um alvo para vir até você, independentemente da distância.",
+    "{Presença •••••} [Carisma + Presença] Majestade: Projeta uma aura de autoridade absoluta, subjugando todos ao redor.",
+    "{Auspícios •} [Raciocínio + Auspícios] Sentidos Aguçados: Amplifica os sentidos para detectar detalhes extraordinários.",
+    "{Auspícios •} [Raciocínio + Auspícios] Sentir o Não Visto: Perceber presenças sobrenaturais escondidas.",
+    "{Auspícios ••} [Raciocínio + Auspícios] Premonição: Receber vislumbres do futuro ou do passado.",
+    "{Auspícios •••} [Raciocínio + Auspícios] Compartilhar os Sentidos: Usar os sentidos de outro ser vivo.",
+    "{Auspícios •••} [Inteligência + Auspícios] Sondar a Alma: Analisar a aura de um alvo para identificar emoções e intenções.",
+    "{Auspícios ••••} [Inteligência + Auspícios] Toque do Espírito: Detectar informações sobre objetos tocados ou locais visitados.",
+    "{Auspícios •••••} [Inteligência + Auspícios] Clarividência: Observar eventos em locais distantes.",
+    "{Auspícios •••••} [Raciocínio + Auspícios] Telepatia: Ler a mente de um alvo e permitir comunicação mental.",
+    "{Celeridade ••} [Destreza + Atletismo] Rapidez: Agir com reflexos sobrenaturais, evitando ataques ou agindo primeiro.",
+    "{Celeridade •••} [Destreza + Atletismo] Piscar: Realizar movimentos instantâneos, aparecendo ao lado de um alvo.",
+    "{Celeridade •••} [Destreza + Atletismo] Travessia: Superar obstáculos impossíveis com velocidade.",
+    "{Celeridade •••••} [Destreza + Atletismo] Movimento Relâmpago: Tornar-se um borrão em combate, atacando e movendo-se rapidamente.",
+    "{Fortitude ••} [Vigor + Fortitude] Vigor Inabalável: Resistir a danos físicos menores sem esforço.",
+    "{Fortitude •••} [Vigor + Fortitude] Desafiar a Maldade: Reduzir danos de ataques graves.",
+    "{Fortitude •••••} [Vigor + Fortitude] Proeza da Dor: Ignorar ferimentos graves e continuar lutando como se estivesse ileso."
   ],
 };

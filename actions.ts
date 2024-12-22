@@ -459,4 +459,274 @@ export const actions = createActions([
       difficulty: 1,
     };
   },
+  (c) => {
+    return {
+      dices: c.attributes.mental.resolve +
+        (c.disciplines.animalism?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma + c.skills.social.animalKen,
+      modifier: -c.willpower.penalty,
+      difficulty: 2,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.animalism?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.animalism?.length || 0),
+      modifier: -c.health.penalty,
+      difficulty: 3,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.animalism?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 4,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.animalism?.length || 0),
+      modifier: -c.health.penalty,
+      difficulty: 3,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence +
+        (c.disciplines.animalism?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 3,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.dominate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.dominate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.dominate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.dominate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.dominate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence +
+        (c.disciplines.dominate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.resolve +
+        (c.disciplines.dominate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.presence?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.presence?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.presence?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.presence?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.presence?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma +
+        (c.disciplines.presence?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.resolve + (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.resolve + (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.resolve + (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence +
+        (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence +
+        (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence +
+        (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.resolve + (c.disciplines.auspex?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.dexterity + c.skills.physical.athletics,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.dexterity + c.skills.physical.athletics,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.dexterity + c.skills.physical.athletics,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.dexterity + c.skills.physical.athletics,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.stamina +
+        (c.disciplines.fortitude?.length || 0),
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.stamina +
+        (c.disciplines.fortitude?.length || 0),
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.stamina +
+        (c.disciplines.fortitude?.length || 0),
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
 ]);
