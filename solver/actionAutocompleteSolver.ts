@@ -28,7 +28,7 @@ export async function actionAutocompleteSolver(
         if (term === undefined || term === "" || name.toLowerCase().indexOf(term) > -1) {
           choices.push({
             value: index.toString(),
-            name: name.substring(0, 101),
+            name: name.substring(0, 100),
           });
         }
       }
