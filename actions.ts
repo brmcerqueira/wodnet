@@ -445,6 +445,76 @@ export const actions: ActionBuilder[] = [
   },
   (c) => {
     return {
+      dices: c.attributes.social.manipulation + c.skills.social.subterfuge,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation + c.skills.social.persuasion,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence + c.skills.social.streetwise,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.composure + c.skills.social.animalKen,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.social.streetwise,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.dexterity + c.skills.physical.stealth,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation + c.skills.social.subterfuge,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation + c.skills.social.persuasion,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.charisma + c.skills.social.subterfuge,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
       dices: c.attributes.social.charisma + c.skills.social.animalKen,
       modifier: -c.willpower.penalty,
       difficulty: 1,
