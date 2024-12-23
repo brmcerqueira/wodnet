@@ -1,15 +1,17 @@
 Name,Dice Pool or System,Discipline
 Bond Famulus,Charisma + Animal Ken,Animalism
 Sense the Beast,Resolve + Animalism vs Composure + Subterfuge,Animalism
-Feral Whispers,Manipulation + Animalism or Charisma + Animalism,Animalism
+Feral Whispers,Manipulation + Animalism,Animalism
+Feral Whispers,Charisma + Animalism,Animalism
 Animal Succulence,-,Animalism
 Quell the Beast,Charisma + Animalism vs Stamina + Resolve,Animalism
 Unliving Hive,-,Animalism
-Subsume the Spirit,Manipulation + Animalism (Difficulty 4),Animalism
+Subsume the Spirit,Manipulation + Animalism,Animalism
 Animal Dominion,Charisma + Animalism,Animalism
 Drawing out the Beast,Wits + Animalism vs Composure + Resolve,Animalism
 heightenedSenses,Wits + Resolve,Auspex
-Sense the Unseen,Wits + Auspex or Resolve + Auspex,Auspex
+Sense the Unseen,Wits + Auspex,Auspex
+Sense the Unseen,Resolve + Auspex,Auspex
 Obeah,Composure + Auspex,Auspex
 Premonition,Resolve + Auspex,Auspex
 Scry the Soul,Intelligence + Auspex vs Composure + Subterfuge,Auspex
@@ -23,11 +25,14 @@ Corrosive Vitae,-,Blood Sorcery
 A Taste for Blood,Resolve + Blood Sorcery,Blood Sorcery
 Extinguish Vitae,Intelligence + Blood Sorcery vs Stamina + Composure,Blood Sorcery
 Blood of Potency,Resolve + Blood Sorcery,Blood Sorcery
-Scorpion's Touch,Strength + Blood Sorcery vs Stamina + Occult or Fortitude,Blood Sorcery
+Scorpion's Touch,Strength + Blood Sorcery vs Stamina + Occult,Blood Sorcery
+Scorpion's Touch,Strength + Blood Sorcery vs Stamina + Fortitude,Blood Sorcery
 Theft of Vitae,Wits + Blood Sorcery vs Wits + Occult,Blood Sorcery
-Baal's Caress,Strength + Blood Sorcery vs Stamina + Occult or Fortitude,Blood Sorcery
-Cauldron of Blood,Resolve + Blood Sorcery vs Composure + Occult or Fortitude,Blood Sorcery
-Cat's Grace,Dexterity or Athletics,Celerity
+Baal's Caress,Strength + Blood Sorcery vs Stamina + Occult,Blood Sorcery
+Baal's Caress,Strength + Blood Sorcery vs Stamina + Fortitude,Blood Sorcery
+Cauldron of Blood,Resolve + Blood Sorcery vs Composure + Occult,Blood Sorcery
+Cauldron of Blood,Resolve + Blood Sorcery vs Composure + Fortitude,Blood Sorcery
+Cat's Grace,-,Celerity
 Rapid Reflexes,-,Celerity
 Fleetness,Dexterity + Athletics,Celerity
 Blink,Dexterity + Athletics,Celerity
@@ -51,15 +56,17 @@ Terminal Decree,-,Dominate
 Resilience,-,Fortitude
 Unswayable Mind,-,Fortitude
 Toughness,-,Fortitude
-Enduring Beasts,Stamina + Animalism (For non Famulus),Fortitude
+Enduring Beasts,Stamina + Animalism,Fortitude
 Valeren,Intelligence + Fortitude,Fortitude
-Defy Bane,Wits + Survival (to Activate Reflexively),Fortitude
+Defy Bane,Wits + Survival,Fortitude
 Fortify the Inner Facade,-,Fortitude
 Draught of Endurance,-,Fortitude
-Shatter,"Stamina + Fortitude vs Stamina (+ Fortitude, if the attacker is attacking Unarmed)",Fortitude
+Shatter,Stamina + Fortitude vs Stamina,Fortitude
+Shatter,Stamina + Fortitude vs Stamina + Fortitude,Fortitude
 Flesh of Marble,-,Fortitude
 Prowess from Pain,-,Fortitude
-Ashes to Ashes,"Stamina + Oblivion ( vs .Stamina + Medicine if the corpse is animated, + Fortitude if the Corpse possesses it)",Oblivion
+Ashes to Ashes,Stamina + Oblivion vs Stamina + Medicine,Oblivion
+Ashes to Ashes,Stamina + Oblivion vs Stamina + Fortitude,Oblivion
 Oblivion's Sight,-,Oblivion
 Shadow Cloak,-,Oblivion
 The Binding Feather,Wits + Oblivion,Oblivion
@@ -67,11 +74,13 @@ Fatal Precognition,Resolve + Oblivion,Oblivion
 Shadow Cast,-,Oblivion
 Arms of Ahriman,Wits + Oblivion,Oblivion
 Where the Shroud Thins,Wits + Oblivion,Oblivion
-Aura of Decay,Stamina + Oblivion vs Stamina + MedicineorFortitude,Oblivion
+Aura of Decay,Stamina + Oblivion vs Stamina + Medicine,Oblivion
+Aura of Decay,Stamina + Oblivion vs Stamina + Fortitude,Oblivion
 Passion Feast,-,Oblivion
 Shadow perspective,-,Oblivion
-Touch of Oblivion,Strength + Brawl (To Grapple),Oblivion
-Necrotic Plague,Intelligence + Oblivion vs Stamina + MedicineorFortitude,Oblivion
+Touch of Oblivion,Strength + Brawl,Oblivion
+Necrotic Plague,Intelligence + Oblivion vs Stamina + Medicine,Oblivion
+Necrotic Plague,Intelligence + Oblivion vs Stamina + Fortitude,Oblivion
 Stygian Shroud,-,Oblivion
 Shadow Step,-,Oblivion
 Skuld Fulfilled,Stamina + Oblivion vs Stamina + Medicine + Fortitude,Oblivion
@@ -82,12 +91,11 @@ Silence of Death,-,Obfuscate
 chimerstry,Manipulation + Obfuscate vs Composure + Wits,Obfuscate
 Mental Maze,Charisma + Obfuscate vs Wits + Resolve,Obfuscate
 Unseen Passage,-,Obfuscate
-Fata Morgana,Manipulate + Obfuscate,Obfuscate
+Fata Morgana,Manipulation + Obfuscate,Obfuscate
 Ghost in the Machine,-,Obfuscate
 Mask of a Thousand Faces,-,Obfuscate
 Conceal,Intelligence + Obfuscate,Obfuscate
 Vanish,Wits + Obfuscate vs Wits + Awareness,Obfuscate
-Cloak the Gathering,As power Augmented,Obfuscate
 impostorsGuise,Wits + Obfuscate vs Manipulation + Performance,Obfuscate
 Lethal Body,-,Potence
 Soaring Leap,-,Potence
@@ -108,7 +116,6 @@ True Love's Face,Charisma + Obfuscate vs Wits + Composure,Presence
 Irresistible Voice,-,Presence
 Summon,Manipulation + Presence vs Composure + Intelligence,Presence
 Majesty,Charisma + Presence vs Composure + Resolve,Presence
-Star Magnetism,As per amplified power,Presence
 Eyes of the Beast,-,Protean
 Weight of the Feather,Wits + Survival,Protean
 Feral Weapons,-,Protean
