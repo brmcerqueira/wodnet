@@ -7,7 +7,9 @@
     "jsr:@std/assert@0.217": "0.217.0",
     "jsr:@std/assert@~0.218.2": "0.218.2",
     "jsr:@std/bytes@0.217": "0.217.0",
+    "jsr:@std/bytes@^1.0.3": "1.0.4",
     "jsr:@std/bytes@~0.218.2": "0.218.2",
+    "jsr:@std/csv@*": "1.0.4",
     "jsr:@std/encoding@0.217": "0.217.0",
     "jsr:@std/fmt@~0.218.2": "0.218.2",
     "jsr:@std/fs@0.217": "0.217.0",
@@ -16,6 +18,7 @@
     "jsr:@std/io@~0.218.2": "0.218.2",
     "jsr:@std/path@0.217": "0.217.0",
     "jsr:@std/path@~0.218.2": "0.218.2",
+    "jsr:@std/streams@^1.0.8": "1.0.8",
     "npm:@evan/wasm@0.0.95": "0.0.95",
     "npm:@types/node@*": "18.16.19",
     "npm:redis@4.6.13": "4.6.13_@redis+client@1.5.14",
@@ -49,6 +52,15 @@
     },
     "@std/bytes@0.218.2": {
       "integrity": "91fe54b232dcca73856b79a817247f4a651dbb60d51baafafb6408c137241670"
+    },
+    "@std/bytes@1.0.4": {
+      "integrity": "11a0debe522707c95c7b7ef89b478c13fb1583a7cfb9a85674cd2cc2e3a28abc"
+    },
+    "@std/csv@1.0.4": {
+      "integrity": "aa351de654b10b8a407275b61f588863b9538027fd47aed90dd9e7f54ab5bdc0",
+      "dependencies": [
+        "jsr:@std/streams"
+      ]
     },
     "@std/encoding@0.217.0": {
       "integrity": "b03e8ff94c98d6b6a02c02c5cf8e5d203400155516248964fc4559abc04669dc"
@@ -88,6 +100,12 @@
       "integrity": "b568fd923d9e53ad76d17c513e7310bda8e755a3e825e6289a0ce536404e2662",
       "dependencies": [
         "jsr:@std/assert@~0.218.2"
+      ]
+    },
+    "@std/streams@1.0.8": {
+      "integrity": "b41332d93d2cf6a82fe4ac2153b930adf1a859392931e2a19d9fabfb6f154fb3",
+      "dependencies": [
+        "jsr:@std/bytes@^1.0.3"
       ]
     }
   },

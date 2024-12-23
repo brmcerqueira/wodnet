@@ -9,7 +9,7 @@ Unliving Hive,-,Animalism
 Subsume the Spirit,Manipulation + Animalism (Difficulty 4),Animalism
 Animal Dominion,Charisma + Animalism,Animalism
 Drawing out the Beast,Wits + Animalism vs Composure + Resolve,Animalism
-Highten Senses,Wits + Resolve,Auspex
+heightenedSenses,Wits + Resolve,Auspex
 Sense the Unseen,Wits + Auspex or Resolve + Auspex,Auspex
 Obeah,Composure + Auspex,Auspex
 Premonition,Resolve + Auspex,Auspex
@@ -19,7 +19,7 @@ Spirit's Touch,Intelligence + Auspex,Auspex
 Clairvoyance,Intelligence + Auspex,Auspex
 Possession,Resolve + Auspex vs Resolve + Intelligence,Auspex
 Telepathy,Resolve + Auspex vs Wits + Subterfuge,Auspex
-Unburdening the Beastial Soul,Composure + Auspex vs Humanity,Auspex
+Unburdening the Bestial Soul,Composure + Auspex vs Humanity,Auspex
 Corrosive Vitae,-,Blood Sorcery
 A Taste for Blood,Resolve + Blood Sorcery,Blood Sorcery
 Shape the Sanguine Sacrament,Manipulation + Blood Sorcery,Blood Sorcery
@@ -57,7 +57,7 @@ Enduring Beasts,Stamina + Animalism (For non Famulus),Fortitude
 Obdurate,Stamina + Survival,Fortitude
 Valeren,Intelligence + Fortitude,Fortitude
 Defy Bane,Wits + Survival (to Activate Reflexively),Fortitude
-Fortify the Inner Façade,-,Fortitude
+Fortify the Inner Facade,-,Fortitude
 Draught of Endurance,-,Fortitude
 Shatter,"Stamina + Fortitude vs Stamina (+ Fortitude, if the attacker is attacking Unarmed)",Fortitude
 Flesh of Marble,-,Fortitude
@@ -82,7 +82,7 @@ Tenebrous Avatar,-,Oblivion
 Withering Spirit,Resolve + Oblivion vs Resolve + Occult + Fortitude,Oblivion
 Cloak of Shadows,-,Obfuscate
 Silence of Death,-,Obfuscate
-Chimestry,Manipulation + Obfuscate vs Composure + Wits,Obfuscate
+chimerstry,Manipulation + Obfuscate vs Composure + Wits,Obfuscate
 Mental Maze,Charisma + Obfuscate vs Wits + Resolve,Obfuscate
 Unseen Passage,-,Obfuscate
 Fata Morgana,Manipulate + Obfuscate,Obfuscate
@@ -91,7 +91,7 @@ Mask of a Thousand Faces,-,Obfuscate
 Conceal,Intelligence + Obfuscate,Obfuscate
 Vanish,Wits + Obfuscate vs Wits + Awareness,Obfuscate
 Cloak the Gathering,As power Augmented,Obfuscate
-Imposter's Guise,Wits + Obfuscate vs Manipulation + Performance,Obfuscate
+impostorsGuise,Wits + Obfuscate vs Manipulation + Performance,Obfuscate
 Lethal Body,-,Potence
 Soaring Leap,-,Potence
 Prowess,-,Potence
@@ -100,7 +100,7 @@ Spark of Rage,Manipulation + Potence,Potence
 Uncanny Grip,-,Potence
 Draught of Might,-,Potence
 Earthshock,-,Potence
-Fists of Caine,-,Potence
+fistOfCaine,-,Potence
 Awe,Manipulation + Presence vs Composure + Intelligence,Presence
 Daunt,-,Presence
 Eyes of the Serpent,Charisma + Presence vs Wits + Composure,Presence

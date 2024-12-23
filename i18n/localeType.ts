@@ -186,7 +186,7 @@ export type LocaleType = {
       vicissitude: string;
       earthMeld: string;
       shapechange: string;
-      fleshcrafting: string;
+      fleshCrafting: string;
       metamorphosis: string;
       horridForm: string;
       mistForm: string;
@@ -219,6 +219,27 @@ export type LocaleType = {
       earthshock: string;
       fistOfCaine: string;
     };
+    oblivion: {
+      name: string;
+      ashesToAshes: string;
+      oblivionsSight: string;
+      shadowCloak: string;
+      theBindingFeather: string;
+      fatalPrecognition: string;
+      shadowCast: string;
+      armsOfAhriman: string;
+      whereTheShroudThins: string;
+      auraOfDecay: string;
+      passionFeast: string;
+      shadowPerspective: string;
+      touchOfOblivion: string;
+      necroticPlague: string;
+      stygianShroud: string;
+      shadowStep: string;
+      skuldFulfilled: string;
+      tenebrousAvatar: string;
+      witheringSpirit: string;
+    },
     presence: {
       name: string;
       awe: string;

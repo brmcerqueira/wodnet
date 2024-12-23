@@ -379,9 +379,9 @@ commands[treatKey(locale.disciplines.protean.name)] = {
     description: locale.disciplines.protean.shapechange,
     type: CommandOptionType.STRING,
     choices: booleanChoices(),
-  }).option(locale.disciplines.protean.fleshcrafting, {
-    property: "fleshcrafting",
-    description: locale.disciplines.protean.fleshcrafting,
+  }).option(locale.disciplines.protean.fleshCrafting, {
+    property: "fleshCrafting",
+    description: locale.disciplines.protean.fleshCrafting,
     type: CommandOptionType.STRING,
     choices: booleanChoices(),
   }).option(locale.disciplines.protean.metamorphosis, {
