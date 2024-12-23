@@ -1,7 +1,6 @@
 Name,Dice Pool or System,Discipline
 Bond Famulus,Charisma + Animal Ken,Animalism
 Sense the Beast,Resolve + Animalism vs Composure + Subterfuge,Animalism
-Atavism,Composure + Animalism,Animalism
 Feral Whispers,Manipulation + Animalism or Charisma + Animalism,Animalism
 Animal Succulence,-,Animalism
 Quell the Beast,Charisma + Animalism vs Stamina + Resolve,Animalism
@@ -22,7 +21,6 @@ Telepathy,Resolve + Auspex vs Wits + Subterfuge,Auspex
 Unburdening the Bestial Soul,Composure + Auspex vs Humanity,Auspex
 Corrosive Vitae,-,Blood Sorcery
 A Taste for Blood,Resolve + Blood Sorcery,Blood Sorcery
-Shape the Sanguine Sacrament,Manipulation + Blood Sorcery,Blood Sorcery
 Extinguish Vitae,Intelligence + Blood Sorcery vs Stamina + Composure,Blood Sorcery
 Blood of Potency,Resolve + Blood Sorcery,Blood Sorcery
 Scorpion's Touch,Strength + Blood Sorcery vs Stamina + Occult or Fortitude,Blood Sorcery
@@ -54,7 +52,6 @@ Resilience,-,Fortitude
 Unswayable Mind,-,Fortitude
 Toughness,-,Fortitude
 Enduring Beasts,Stamina + Animalism (For non Famulus),Fortitude
-Obdurate,Stamina + Survival,Fortitude
 Valeren,Intelligence + Fortitude,Fortitude
 Defy Bane,Wits + Survival (to Activate Reflexively),Fortitude
 Fortify the Inner Facade,-,Fortitude
@@ -109,7 +106,6 @@ Dread Gaze,Charisma + Presence vs Composure + Resolve,Presence
 Entrancement,Charisma + Presence vs Wits + Composure,Presence
 True Love's Face,Charisma + Obfuscate vs Wits + Composure,Presence
 Irresistible Voice,-,Presence
-Magnum Opus,Charisma or Manipulation + Crafts,Presence
 Summon,Manipulation + Presence vs Composure + Intelligence,Presence
 Majesty,Charisma + Presence vs Composure + Resolve,Presence
 Star Magnetism,As per amplified power,Presence

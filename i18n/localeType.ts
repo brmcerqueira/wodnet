@@ -148,8 +148,10 @@ export type LocaleType = {
       mesmerize: string;
       dementation: string;
       domitorsFavor: string;
+      slavishDevotion: string;
       theForgetfulMind: string;
       submergedDirective: string;
+      ancestralDominion: string;
       rationalize: string;
       massManipulation: string;
       terminalDecree: string;
@@ -175,6 +177,7 @@ export type LocaleType = {
       defyBane: string;
       fortifyTheInnerFacade: string;
       draughtOfEndurance: string;
+      shatter: string;
       fleshOfMarble: string;
       prowessFromPain: string;
     };
@@ -192,6 +195,7 @@ export type LocaleType = {
       mistForm: string;
       theUnfetteredHeart: string;
       oneWithTheLand: string;
+      theHeartOfDarkness: string;
     };
     obfuscate: {
       name: string;
@@ -199,6 +203,7 @@ export type LocaleType = {
       silenceOfDeath: string;
       unseenPassage: string;
       chimerstry: string;
+      mentalMaze: string;
       ghostInTheMachine: string;
       maskOfAThousandFaces: string;
       fataMorgana: string;
@@ -248,6 +253,7 @@ export type LocaleType = {
       lingeringKiss: string;
       dreadGaze: string;
       entrancement: string;
+      trueLovesFace: string;
       irresistibleVoice: string;
       summon: string;
       majesty: string;
