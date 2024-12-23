@@ -501,7 +501,7 @@ export const actions: ActionBuilder[] = [
       dices: c.attributes.social.manipulation +
         (c.disciplines.animalism?.length || 0),
       modifier: -c.willpower.penalty,
-      difficulty: 1,
+      difficulty: 4,
     };
   },
   (c) => {
