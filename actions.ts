@@ -713,4 +713,174 @@ export const actions: ActionBuilder[] = [
       difficulty: 1,
     };
   },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.athletics,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.athletics,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.physical.strength + c.skills.physical.brawl,
+      modifier: -c.health.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.physical.stealth,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.physical.stealth,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.attributes.social.manipulation,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation + c.skills.physical.stealth,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.obfuscate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.physical.stealth,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.physical.stealth,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.social.manipulation +
+        (c.disciplines.obfuscate?.length || 0),
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence + c.skills.mental.occult,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.mental.occult,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.mental.occult,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.mental.occult,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.mental.occult,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.intelligence + c.skills.mental.occult,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
+  (c) => {
+    return {
+      dices: c.attributes.mental.wits + c.skills.mental.occult,
+      modifier: -c.willpower.penalty,
+      difficulty: 1,
+    };
+  },
 ];

@@ -64,7 +64,7 @@ Bem-vindo ao guia de uso do Wodnet! Este bot foi projetado para facilitar sua ex
 1. **O bot não responde aos comandos:**
    - Abra o link de inicialização do Wodnet
 
-\s(●?●?●?●?●)\}\s(\[.*\])(\s.*)"
+\s(●?●?●?●?●)\}\s(\[.*\])(\s.*):\s.*"
 
 ---
 

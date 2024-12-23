@@ -4,7 +4,6 @@ import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
-import { onMessage, onOpen, setSocket } from "./socket.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -45,17 +44,7 @@ function route(...params: ({ path: RegExp, go: (array: RegExpExecArray, context:
       request.url
     );
   
-    if (request.headers.get("upgrade") == "websocket") {
-      const socketUpgrade = Deno.upgradeWebSocket(request);
-
-      setSocket(socketUpgrade.socket);
-
-      socketUpgrade.socket.onopen = e => onOpen(e);
-      socketUpgrade.socket.onmessage = e => onMessage(e);
-
-      response = socketUpgrade.response;
-    } 
-    else if (request.method == "GET") {
+    if (request.method == "GET") {
       const context = new RouteContext(request.url);
 
       for (const item of params) {
