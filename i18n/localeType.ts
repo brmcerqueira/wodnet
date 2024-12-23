@@ -276,31 +276,35 @@ export type LocaleType = {
       bloodWalk: string;
       clingingOfTheInsect: string;
       craftBloodstone: string;
-      wakeWithEveningsFreshness: string;
-      wardAgainstGhouls: string;
+      wakeWithEveningsFreshness: string;   
       communicateWithKindredSire: string;
       eyesOfBabel: string;
       illuminateTheTrailOfPrey: string;
       ishtarsTouch: string;
       truthOfBlood: string;
-      wardAgainstSpirits: string;
-      wardingCircleAgainstGhouls: string;
       dagonsCall: string;
       deflectionOfWoodenDoom: string;
       essenceOfAir: string;
       firewalker: string;
-      wardAgainstLupines: string;
-      wardingCircleAgainstSpirits: string;
       oneWithTheBlade: string;
       defenseOfTheSacredHaven: string;
       eyesOfTheNighthawk: string;
       incorporealPassage: string;
-      wardAgainstCainites: string;
-      wardingCircleAgainstLupines: string;
       escapeToTrueSanctuary: string;
       heartOfStone: string;
       shaftOfBelatedDissolution: string;
-      wardingCircleAgainstCainites: string;
+      wards: {
+        wardAgainstGhouls: string;
+        wardAgainstSpirits: string;
+        wardAgainstLupines: string;
+        wardAgainstCainites: string;
+      } & CommandOption;
+      circles: {
+        wardingCircleAgainstGhouls: string;
+        wardingCircleAgainstSpirits: string;
+        wardingCircleAgainstLupines: string;
+        wardingCircleAgainstCainites: string;
+      } & CommandOption;
     };
     thinBloodAlchemy: {
       name: string;
@@ -362,9 +366,7 @@ export type LocaleType = {
       name: CommandOption;
       index: CommandOption;
       value: CommandOption;
-      common: CommandOption;
-      wards: CommandOption;
-      circles: CommandOption; 
+      common: CommandOption; 
     };
     import: {
       json: CommandOption;

@@ -105,6 +105,7 @@ export type Character = {
     fortitude?: string[];
     protean?: string[];
     obfuscate?: string[];
+    oblivion?: string[];
     potence?: string[];
     presence?: string[];
     celerity?: string[];

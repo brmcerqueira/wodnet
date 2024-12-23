@@ -52,7 +52,7 @@ export const commands: {
   };
 } = {};
 
-class BuildOptions {
+export class BuildOptions {
   private _data: CommandOptions;
 
   constructor() {
