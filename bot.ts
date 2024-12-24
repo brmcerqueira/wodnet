@@ -23,7 +23,7 @@ import { editModalSolver } from "./solver/editModalSolver.ts";
 import { Chronicle, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
-import { interactionButton } from "./buttons/common.ts";
+import { interactionButton } from "./buttons/module.ts";
 
 function parseCommandValues(
   options: CommandOptions,

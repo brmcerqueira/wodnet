@@ -1,16 +1,13 @@
 import { Chronicle } from "../chronicle.ts";
 import { Solver } from "../commands/module.ts";
-import { config } from "../config.ts";
 import {
   ButtonComponent,
   ButtonStyle,
-  encodeBase64Url,
   Interaction,
   InteractionMessageComponentData,
   MessageComponentEmoji,
   MessageComponentType,
 } from "../deps.ts";
-import { locale } from "../i18n/locale.ts";
 
 export type ButtonOptions = {
   label: string;
@@ -20,9 +17,12 @@ export type ButtonOptions = {
 
 const separator = "^";
 
-const buttons: { parse: (data: string[]) => any, solve: Solver }[] = [];
+const buttons: { parse: (data: string[]) => any; solve: Solver }[] = [];
 
-export async function interactionButton(interaction: Interaction, chronicle: Chronicle) {
+export async function interactionButton(
+  interaction: Interaction,
+  chronicle: Chronicle,
+) {
   const data = interaction.data as InteractionMessageComponentData;
   const array = data.custom_id.split(separator);
 
@@ -37,12 +37,12 @@ export async function interactionButton(interaction: Interaction, chronicle: Chr
 
 export function button<T>(
   parse: (data: string[]) => T,
-  solve: Solver
+  solve: Solver,
 ): (options: ButtonOptions, ...data: any[]) => ButtonComponent {
   const id = buttons.length;
   buttons.push({
     parse,
-    solve
+    solve,
   });
   return (options: ButtonOptions, ...data: any[]): ButtonComponent => {
     return {
@@ -52,19 +52,5 @@ export function button<T>(
       emoji: options.emoji,
       customID: [id, ...data].join(separator),
     };
-  };
-}
-
-export function characterLinkButton(
-  chronicleId: string,
-  id: string,
-): ButtonComponent {
-  return {
-    type: MessageComponentType.BUTTON,
-    label: locale.open,
-    style: ButtonStyle.LINK,
-    url: `${config.host}/dark?chronicleId=${encodeBase64Url(chronicleId)}&id=${
-      encodeBase64Url(id)
-    }`,
   };
 }
