@@ -402,7 +402,4 @@ export type LocaleType = {
     } & CommandOption;
   };
   actions: string[];
-  shortening: {
-    [key: string]: string;
-  }
 };

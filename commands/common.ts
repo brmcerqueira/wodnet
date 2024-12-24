@@ -100,9 +100,6 @@ export function option(name: string, option: CommandOption): BuildOptions {
 
 export function treatKey(key: string | number): string {
   let data = treatDiscipline(key.toString()).name;
-  for (const key in locale.shortening) {
-    data = data.replaceAll(key, locale.shortening[key]);
-  }
   return data.toLowerCase().replaceAll(/\s/g, "-");
 }
 
