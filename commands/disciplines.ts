@@ -14,7 +14,8 @@ import {
   treatKey,
 } from "./common.ts";
 
-type Input = { level: string; value: boolean };
+type Value = { level: string; value: boolean } | Input;
+type Input = { [key: string]: Value };
 
 function getMultiplier(
   key: keyof Character["disciplines"],
@@ -24,6 +25,26 @@ function getMultiplier(
   return disciplines
     ? (disciplines.indexOf((locale.disciplines as any)[key].name) > -1 ? 5 : 7)
     : (disciplines == null ? 6 : 7);
+}
+
+function updateDiscipline(input: Input, array: string[]) {
+  for (const key in input) {
+    const item = input[key];
+
+    if (item.level && item.value && typeof item.level === "string") {
+      const index = array.indexOf(item.level);
+
+      if (item.value) {
+        if (index == -1) {
+          array.push(item.level);
+        }
+      } else if (index > -1) {
+        array.splice(index, 1);
+      }
+    } else {
+      updateDiscipline(item as Input, array);
+    }
+  }
 }
 
 function disciplineParse(
@@ -42,15 +63,7 @@ function disciplineParse(
 
     const old = array.length;
 
-    const index = array.indexOf(input.level);
-
-    if (input.value) {
-      if (index == -1) {
-        array.push(input.level);
-      }
-    } else if (index > -1) {
-      array.splice(index, 1);
-    }
+    updateDiscipline(input, array);
 
     if (array.length == 0) {
       delete c.disciplines[key];
