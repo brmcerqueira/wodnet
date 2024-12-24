@@ -9,6 +9,7 @@ import {
 import { buildRollMessage } from "./buildRollMessage.ts";
 import { Chronicle } from "./chronicle.ts";
 import { Character } from "./character.ts";
+import { reRollButton } from "./buttons.ts";
 
 export type SendRollData = {
   content: string;
@@ -25,7 +26,7 @@ export async function sendRoll(
   difficulty: number,
   modifier: number,
   description?: string,
-  character?: Character
+  character?: Character,
 ): Promise<void> {
   const chronicleDifficulty = await chronicle.difficulty();
 
@@ -45,7 +46,12 @@ export async function sendRoll(
 
   const margin = dices - hunger;
 
-  const message = await buildRollMessage(result, authorId, description, character);
+  const message = await buildRollMessage(
+    result,
+    authorId,
+    description,
+    character,
+  );
 
   const options: SendRollData = {
     content: message.content,
@@ -53,45 +59,40 @@ export async function sendRoll(
   };
 
   if (margin > 0) {
-
-    const buttons: MessageComponentData[] = [{
-      type: MessageComponentType.Button,
-      label: "",
-      emoji: {
-        name: "1️⃣",
-      },
-      style: ButtonStyle.SECONDARY,
-      customID: "1",
-    }];
-
-    options.components = [{
-      type: MessageComponentType.ActionRow,
-      components: buttons,
-    }];
+    const buttons: MessageComponentData[] = [
+      reRollButton.build({
+        label: "",
+        emoji: {
+          name: "1️⃣",
+        },
+        style: ButtonStyle.SECONDARY,
+      }, 1),
+    ];
 
     if (margin >= 2) {
-      buttons.push({
-        type: MessageComponentType.Button,
+      buttons.push(reRollButton.build({
         label: "",
         emoji: {
           name: "2️⃣",
         },
         style: ButtonStyle.SECONDARY,
-        customID: "2",
-      });
+      }, 2));
     }
 
     if (margin >= 3) {
-      buttons.push({
-        type: MessageComponentType.Button,
+      buttons.push(reRollButton.build({
         label: "",
         emoji: {
           name: "3️⃣",
         },
         style: ButtonStyle.SECONDARY,
-        customID: "3",
-      });
+      }, 3));
     }
+
+    options.components = [{
+      type: MessageComponentType.ActionRow,
+      components: buttons,
+    }];
   }
 
   await chronicle.setLastRoll(character ? character.id : authorId, {

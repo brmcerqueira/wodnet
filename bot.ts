@@ -24,11 +24,11 @@ import {
 import { editModalSolver } from "./solver/editModalSolver.ts";
 import {
   characterSolver,
-  extractCharacterChooseButtonInput,
 } from "./solver/characterSolver.ts";
 import { Chronicle, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
+import { reRollButton, selectButton } from "./buttons.ts";
 
 function parseCommandValues(
   options: CommandOptions,
@@ -228,14 +228,14 @@ client.on("ready", async () => {
       const chronicle = new Chronicle(interaction.guild!.id);
       if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
         const data = interaction.data as InteractionMessageComponentData;
-        const value = parseInt(data.custom_id);
-        if (!isNaN(value)) {
+        const value = reRollButton.extract(data.custom_id);
+        if (value) {
           await reRollSolver(interaction, chronicle, value);
         } else {
           await characterSolver(
             interaction,
             chronicle,
-            extractCharacterChooseButtonInput(data.custom_id),
+            selectButton.extract(data.custom_id)!,
           );
         }
       } else if (interaction.type == InteractionType.MODAL_SUBMIT) {

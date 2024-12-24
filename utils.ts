@@ -1,12 +1,4 @@
-import { config } from "./config.ts";
-import {
-  ButtonStyle,
-  EmojiPayload,
-  encodeBase64Url,
-  MessageComponentData,
-  MessageComponentType,
-} from "./deps.ts";
-import { locale } from "./i18n/locale.ts";
+import { EmojiPayload } from "./deps.ts";
 
 export const colors = {
   red: 15158332,
@@ -24,8 +16,8 @@ export const emojis: { [key: string]: EmojiPayload | null } = {
   noneBlack: null,
   noneRed: null,
   successBlack: null,
-  successRed: null
-}
+  successRed: null,
+};
 
 export class InteractionResponseError extends Error {}
 
@@ -38,17 +30,5 @@ export function treatDiscipline(text: string): { name: string; value: number } {
   return {
     name: text.substring(index).trimStart(),
     value: index,
-  };
-}
-
-export function buttonCharacterLink(
-  chronicleId: string,
-  id: string,
-): MessageComponentData {
-  return {
-    type: MessageComponentType.BUTTON,
-    label: locale.open,
-    style: ButtonStyle.LINK,
-    url: `${config.host}/dark?chronicleId=${encodeBase64Url(chronicleId)}&id=${encodeBase64Url(id)}`,
   };
 }
