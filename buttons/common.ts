@@ -26,7 +26,7 @@ export async function interactionButton(interaction: Interaction, chronicle: Chr
   const data = interaction.data as InteractionMessageComponentData;
   const array = data.custom_id.split(separator);
 
-  if (array.length > 0 && parseInt(array[0])) {
+  if (array.length > 0) {
     const index = parseInt(array[0]);
     if (!isNaN(index)) {
       const button = buttons[index];
