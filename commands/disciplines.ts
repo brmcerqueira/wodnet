@@ -1,5 +1,6 @@
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
+import { LocaleType } from "../i18n/localeType.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
   booleanChoices,
@@ -13,8 +14,7 @@ import {
   treatKey,
 } from "./common.ts";
 
-
-type Input = { level: string, value: boolean };
+type Input = { level: string; value: boolean };
 
 function getMultiplier(
   key: keyof Character["disciplines"],
@@ -58,6 +58,41 @@ function disciplineParse(
 
     return calculateSpent(old, array.length, multiplier(key, c));
   };
+}
+
+function disciplineGroupBy(
+  discipline: Exclude<keyof LocaleType["disciplines"], "name">,
+  groups: {
+    [key: string]: {
+      name: string;
+      description: string;
+      prefix: string;
+    };
+  },
+): any {
+  const result: any = {};
+
+  Object.assign(result, locale.disciplines[discipline]);
+
+  for (const groupKey in groups) {
+    const group = groups[groupKey];
+
+    const data: any = {
+      name: group.name,
+      description: group.description
+    };
+
+    for (const key in result) {
+      if (key.startsWith(group.prefix)) {
+        data[key] = result[key];
+        delete result[key];
+      }    
+    }
+
+    result[groupKey] = data;
+  }
+
+  return result;
 }
 
 function buildDisciplineOptions(data: any): CommandOptions {
@@ -193,7 +228,18 @@ commands[treatKey(locale.disciplines.rituals.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.rituals.name}`,
   solve: buildCharacterUpdateSolver(disciplineParse("rituals", () => 3)),
-  options: buildDisciplineOptions(locale.disciplines.rituals),
+  options: buildDisciplineOptions(disciplineGroupBy("rituals", {
+    wards: {
+      name: locale.commands.sheet.wards.name,
+      description: locale.commands.sheet.wards.description,
+      prefix: "wardAgainst",
+    },
+    circles: {
+      name: locale.commands.sheet.circles.name,
+      description: locale.commands.sheet.circles.description,
+      prefix: "wardingCircleAgainst",
+    },
+  })),
 };
 commands[treatKey(locale.disciplines.thinBloodAlchemy.name)] = {
   description:
