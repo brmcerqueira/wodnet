@@ -520,6 +520,10 @@ export const pt: LocaleType = {
         name: "comuns",
         description: "Comuns",
       },
+      level: {
+        name: "nível",
+        description: "Nível",
+      }
     },
     editModal: {
       name: "editar",

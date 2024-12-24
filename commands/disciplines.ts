@@ -5,14 +5,16 @@ import {
   booleanChoices,
   BuildOptions,
   calculateSpent,
+  CommandChoice,
   CommandOptions,
   CommandOptionType,
   commands,
+  option,
   treatKey,
 } from "./common.ts";
 
-type Value = boolean | Input;
-type Input = { [key: string]: Value };
+
+type Input = { level: string, value: boolean };
 
 function getMultiplier(
   key: keyof Character["disciplines"],
@@ -22,26 +24,6 @@ function getMultiplier(
   return disciplines
     ? (disciplines.indexOf((locale.disciplines as any)[key].name) > -1 ? 5 : 7)
     : (disciplines == null ? 6 : 7);
-}
-
-function updateDiscipline(input: Input, array: string[]) {
-  for (const key in input) {
-    const item = input[key];
-
-    if (typeof item == "boolean") {
-      const index = array.indexOf(key);
-
-      if (item) {
-        if (index == -1) {
-          array.push(key);
-        }
-      } else if (index > -1) {
-        array.splice(index, 1);
-      }
-    } else {
-      updateDiscipline(item, array);
-    }
-  }
 }
 
 function disciplineParse(
@@ -60,7 +42,15 @@ function disciplineParse(
 
     const old = array.length;
 
-    updateDiscipline(input, array);
+    const index = array.indexOf(input.level);
+
+    if (input.value) {
+      if (index == -1) {
+        array.push(input.level);
+      }
+    } else if (index > -1) {
+      array.splice(index, 1);
+    }
 
     if (array.length == 0) {
       delete c.disciplines[key];
@@ -70,24 +60,20 @@ function disciplineParse(
   };
 }
 
-function buildDisciplineOptions(data: any, deepen?: boolean): CommandOptions {
-  const common = new BuildOptions();
-  let result = common;
-  let createSubCommandCommon = false;
+function buildDisciplineOptions(data: any): CommandOptions {
+  const choices: CommandChoice[] = [];
+  let result: BuildOptions | undefined;
 
   for (const key in data) {
     if (key !== "name" && key !== "description") {
       const item = data[key];
       if (typeof item === "string") {
-        common.option(item, {
-          property: key,
-          description: item,
-          type: CommandOptionType.STRING,
-          choices: booleanChoices(),
+        choices.push({
+          name: item,
+          value: key,
         });
-      } else if (deepen === undefined || deepen) {
-        if (!createSubCommandCommon) {
-          createSubCommandCommon = true;
+      } else {
+        if (!result) {
           result = new BuildOptions();
         }
 
@@ -95,19 +81,35 @@ function buildDisciplineOptions(data: any, deepen?: boolean): CommandOptions {
           property: key,
           description: item.description || item.name,
           type: CommandOptionType.SUB_COMMAND,
-          options: buildDisciplineOptions(item, false),
+          options: buildDisciplineOptions(item),
         });
       }
     }
   }
 
-  if (createSubCommandCommon) {
+  const common = option(locale.commands.sheet.level.name, {
+    property: "level",
+    description: locale.commands.sheet.level.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    choices: choices,
+  }).option(locale.commands.sheet.value.name, {
+    property: "value",
+    description: locale.commands.sheet.value.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    choices: booleanChoices(),
+  });
+
+  if (result) {
     result = result.option(locale.commands.sheet.common.name, {
       property: "common",
       description: locale.commands.sheet.common.description,
       type: CommandOptionType.SUB_COMMAND,
       options: common.build,
     });
+  } else {
+    result = common;
   }
 
   return result.build;

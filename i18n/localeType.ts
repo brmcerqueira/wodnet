@@ -366,7 +366,8 @@ export type LocaleType = {
       name: CommandOption;
       index: CommandOption;
       value: CommandOption;
-      common: CommandOption; 
+      common: CommandOption;
+      level: CommandOption; 
     };
     import: {
       json: CommandOption;
