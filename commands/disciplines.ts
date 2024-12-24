@@ -92,14 +92,14 @@ function disciplineGroupBy(
 
     const data: any = {
       name: group.name,
-      description: group.description
+      description: group.description,
     };
 
     for (const key in result) {
       if (key.startsWith(group.prefix)) {
         data[key] = result[key];
         delete result[key];
-      }    
+      }
     }
 
     result[groupKey] = data;
