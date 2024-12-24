@@ -39,7 +39,7 @@ const separator = "^";
 let index = 1;
 
 function button(
-  parse: (data: any[]) => any,
+  parse: (data: string[]) => any,
 ): {
   build: (options: ButtonOptions, ...data: any[]) => ButtonComponent;
   extract: (text: string) => any | null;
@@ -61,27 +61,7 @@ function button(
       const array = text.split(separator);
 
       if (array.length > 0 && parseInt(array[0]) == id) {
-        result = parse(
-          array.slice(1).map((value) => {
-            if (!isNaN(Number(value))) {
-              return Number(value);
-            }
-
-            if (value === "true") {
-              return true;
-            }
-
-            if (value === "false") {
-              return false;
-            }
-
-            if (value === "null") {
-              return null;
-            }
-
-            return value;
-          }),
-        );
+        result = parse(array.slice(1));
       }
 
       return result;
@@ -107,7 +87,7 @@ export const reRollButton: {
   build: (options: ButtonOptions, value: number) => ButtonComponent;
   extract: (text: string) => number | null;
 } = button(
-  (array) => array[1],
+  (array) => parseInt(array[1]),
 );
 
 export const selectButton: {
@@ -121,7 +101,7 @@ export const selectButton: {
           value: array[0],
           focused: false,
         },
-        link: array[1],
+        link: array[1] === "true",
         button: true,
       },
     };
