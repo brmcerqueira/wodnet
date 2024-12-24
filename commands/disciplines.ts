@@ -74,8 +74,8 @@ function disciplineParse(
   };
 }
 
-function disciplineGroupBy(
-  discipline: Exclude<keyof LocaleType["disciplines"], "name">,
+function groupBy(
+  data: any,
   groups: {
     [key: string]: {
       name: string;
@@ -86,7 +86,7 @@ function disciplineGroupBy(
 ): any {
   const result: any = {};
 
-  Object.assign(result, locale.disciplines[discipline]);
+  Object.assign(result, data);
 
   for (const groupKey in groups) {
     const group = groups[groupKey];
@@ -242,7 +242,7 @@ commands[treatKey(locale.disciplines.rituals.name)] = {
   description:
     `${locale.commands.sheet.description} ${locale.disciplines.rituals.name}`,
   solve: buildCharacterUpdateSolver(disciplineParse("rituals", () => 3)),
-  options: buildDisciplineOptions(disciplineGroupBy("rituals", {
+  options: buildDisciplineOptions(groupBy(locale.disciplines.rituals, {
     wards: {
       name: locale.commands.sheet.wards.name,
       description: locale.commands.sheet.wards.description,
