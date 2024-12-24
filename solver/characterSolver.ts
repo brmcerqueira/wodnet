@@ -1,5 +1,4 @@
 import {
-  ActionRowComponent,
   Interaction,
   InteractionResponseType,
   MessageComponentType,
@@ -39,25 +38,8 @@ export async function characterSolver(
         ? await chronicle.getCharacter(id, true)
         : null;
 
-      const components: ActionRowComponent[] | undefined = character
-        ? [{
-          type: MessageComponentType.ACTION_ROW,
-          components: [
-            selectButton(
-              { label: locale.select },
-              character.id,
-              input.choose.link ? true : false,
-            ),
-          ],
-        }]
-        : undefined;
-
-      if (components && input.choose.link) {
-        components[0].components.push(characterLinkButton(chronicle.id, id!));
-      }
-
       await interaction.respond({
-        type: input.choose.button
+        type: input.choose.isSelect
           ? InteractionResponseType.UPDATE_MESSAGE
           : InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         embeds: [{
@@ -69,7 +51,16 @@ export async function characterSolver(
             }
             : undefined,
         }],
-        components: components,
+        components: character && input.choose.buttons ? [{
+          type: MessageComponentType.ACTION_ROW,
+          components: [
+            selectButton(
+              { label: locale.select },
+              character.id,
+            ),
+            characterLinkButton(chronicle.id, id!)
+          ],
+        }] : undefined,
       });
     } else if (input.mode) {
       await chronicle.updateCharacterMode(

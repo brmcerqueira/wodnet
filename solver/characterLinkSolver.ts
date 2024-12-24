@@ -9,7 +9,7 @@ import {
   InteractionResponseError,
 } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
-import { characterLinkButton } from "../buttons/common.ts";
+import { characterLinkButton } from "../buttons/module.ts";
 
 export async function characterLinkSolver(
   interaction: Interaction,

@@ -540,9 +540,9 @@ export const pt: LocaleType = {
         name: "escolher",
         description:
           "O narrador escolhe o personagem corrente para ser usado na parada de dados",
-        link: {
-          name: "link",
-          description: "Gerar link do personagem",
+        buttons: {
+          name: "botões",
+          description: "Gerar os botões de interação do personagem",
         },
       },
       mode: {

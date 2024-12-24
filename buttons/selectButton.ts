@@ -10,8 +10,8 @@ type CharacterAutocompleteInput = {
 export type CharacterSolverInput = {
   choose?: {
     character: CharacterAutocompleteInput;
-    link?: boolean;
-    button?: boolean;
+    buttons?: boolean;
+    isSelect?: boolean;
   };
   mode?: {
     character?: CharacterAutocompleteInput;
@@ -23,7 +23,7 @@ export type CharacterSolverInput = {
   clear?: boolean;
 };
 
-export const selectButton: (options: ButtonOptions, id: string, link: boolean) => ButtonComponent = button<CharacterSolverInput>(
+export const selectButton: (options: ButtonOptions, id: string) => ButtonComponent = button<CharacterSolverInput>(
   (array) => {
     return {
       choose: {
@@ -31,8 +31,8 @@ export const selectButton: (options: ButtonOptions, id: string, link: boolean) =
           value: array[0],
           focused: false,
         },
-        link: array[1] === "true",
-        button: true,
+        buttons: true,
+        isSelect: true,
       },
     };
   },

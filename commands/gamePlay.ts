@@ -203,9 +203,9 @@ commands[treatKey(locale.commands.character.name)] = {
       type: CommandOptionType.STRING,
       required: true,
       autocomplete: true,
-    }).option(locale.commands.character.choose.link.name, {
-      property: "link",
-      description: locale.commands.character.choose.link.description,
+    }).option(locale.commands.character.choose.buttons.name, {
+      property: "buttons",
+      description: locale.commands.character.choose.buttons.description,
       type: CommandOptionType.STRING, 
       choices: booleanChoices(),
     }).build,

@@ -392,7 +392,7 @@ export type LocaleType = {
     character: {
       characterArg: CommandOption;
       choose: {     
-        link: CommandOption;
+        buttons: CommandOption;
       } & CommandOption;
       mode: {
         value: CommandOption;
