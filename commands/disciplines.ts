@@ -31,7 +31,7 @@ function updateDiscipline(input: Input, array: string[]) {
   for (const key in input) {
     const item = input[key];
 
-    if (item.level && item.value && typeof item.level === "string") {
+    if (item.level !== undefined && item.value !== undefined && typeof item.level === "string") {
       const index = array.indexOf(item.level);
 
       if (item.value) {
