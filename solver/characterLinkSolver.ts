@@ -5,11 +5,11 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import {
-  buttonCharacterLink,
   colors,
   InteractionResponseError,
 } from "../utils.ts";
 import { Chronicle } from "../chronicle.ts";
+import { characterLinkButton } from "../buttons.ts";
 
 export async function characterLinkSolver(
   interaction: Interaction,
@@ -39,7 +39,7 @@ export async function characterLinkSolver(
     }],
     components: [{
       type: MessageComponentType.ACTION_ROW,
-      components: [buttonCharacterLink(chronicle.id, character.id)],
+      components: [characterLinkButton(chronicle.id, character.id)],
     }],
   });
 }
