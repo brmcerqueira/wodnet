@@ -42,7 +42,7 @@ export type CommandOptions = {
   [name: string]: CommandOption;
 };
 
-export type Solver = (interaction: Interaction, chronicle: Chronicle, values?: any) => Promise<void>;
+export type Solver = (interaction: Interaction, chronicle: Chronicle, input?: any) => Promise<void>;
 
 export const commands: {
   [name: string]: {

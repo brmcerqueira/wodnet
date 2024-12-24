@@ -10,9 +10,8 @@ import { Chronicle } from "../chronicle.ts";
 import { CharacterMode } from "../character.ts";
 import {
   characterLinkButton,
-  CharacterSolverInput,
-  selectButton,
-} from "../buttons.ts";
+} from "../buttons/common.ts";
+import { CharacterSolverInput, selectButton } from "../buttons/selectButton.ts";
 
 export async function characterSolver(
   interaction: Interaction,
@@ -47,7 +46,7 @@ export async function characterSolver(
         ? [{
           type: MessageComponentType.ACTION_ROW,
           components: [
-            selectButton.build(
+            selectButton(
               { label: locale.select },
               character.id,
               input.choose.link ? true : false,

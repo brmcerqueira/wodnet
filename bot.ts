@@ -7,7 +7,6 @@ import {
   Interaction,
   InteractionApplicationCommandData,
   InteractionApplicationCommandOption,
-  InteractionMessageComponentData,
   InteractionModalSubmitData,
   InteractionResponseType,
   InteractionType,
@@ -15,20 +14,16 @@ import {
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { colors, emojis, InteractionResponseError, keys } from "./utils.ts";
-import { reRollSolver } from "./solver/reRollSolver.ts";
 import {
   CommandOptions,
   CommandOptionType,
   commands,
 } from "./commands/module.ts";
 import { editModalSolver } from "./solver/editModalSolver.ts";
-import {
-  characterSolver,
-} from "./solver/characterSolver.ts";
 import { Chronicle, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
-import { reRollButton, selectButton } from "./buttons.ts";
+import { interactionButton } from "./buttons/common.ts";
 
 function parseCommandValues(
   options: CommandOptions,
@@ -227,17 +222,7 @@ client.on("ready", async () => {
       }
       const chronicle = new Chronicle(interaction.guild!.id);
       if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
-        const data = interaction.data as InteractionMessageComponentData;
-        const value = reRollButton.extract(data.custom_id);
-        if (value) {
-          await reRollSolver(interaction, chronicle, value);
-        } else {
-          await characterSolver(
-            interaction,
-            chronicle,
-            selectButton.extract(data.custom_id)!,
-          );
-        }
+        await interactionButton(interaction, chronicle);
       } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
         await editModalSolver(
           interaction,

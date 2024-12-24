@@ -9,7 +9,7 @@ import {
 import { buildRollMessage } from "./buildRollMessage.ts";
 import { Chronicle } from "./chronicle.ts";
 import { Character } from "./character.ts";
-import { reRollButton } from "./buttons.ts";
+import { reRollButton } from "./buttons/reRollButton.ts";
 
 export type SendRollData = {
   content: string;
@@ -60,7 +60,7 @@ export async function sendRoll(
 
   if (margin > 0) {
     const buttons: MessageComponentData[] = [
-      reRollButton.build({
+      reRollButton({
         label: "",
         emoji: {
           name: "1️⃣",
@@ -70,7 +70,7 @@ export async function sendRoll(
     ];
 
     if (margin >= 2) {
-      buttons.push(reRollButton.build({
+      buttons.push(reRollButton({
         label: "",
         emoji: {
           name: "2️⃣",
@@ -80,7 +80,7 @@ export async function sendRoll(
     }
 
     if (margin >= 3) {
-      buttons.push(reRollButton.build({
+      buttons.push(reRollButton({
         label: "",
         emoji: {
           name: "3️⃣",
