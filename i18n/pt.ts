@@ -538,8 +538,7 @@ export const pt: LocaleType = {
       },
       choose: {
         name: "escolher",
-        description:
-          "O narrador escolhe o personagem corrente para ser usado na parada de dados",
+        description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
         buttons: {
           name: "botões",
           description: "Gerar os botões de interação do personagem",
@@ -547,8 +546,7 @@ export const pt: LocaleType = {
       },
       mode: {
         name: "modo",
-        description:
-          "O narrador escolhe o modo para um personagem ou para todos os personagens",
+        description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
         value: {
           name: "valor",
           description: "Valor",
@@ -563,6 +561,9 @@ export const pt: LocaleType = {
         description: "O narrador limpa a escolha de personagem",
       },
     },
+    macro: {
+      add: "Adicionar botão para macro"
+    }
   },
   actions: [
     "Ataque com os punhos [Força + Briga]",

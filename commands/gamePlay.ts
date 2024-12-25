@@ -20,6 +20,8 @@ import { setStorytellerSolver } from "../solver/setStorytellerSolver.ts";
 import { checkSolver } from "../solver/checkSolver.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import { characterExportSolver } from "../solver/characterExportSolver.ts";
+import { ApplicationCommandType } from "../deps.ts";
+import { macroSolver } from "../solver/macroSolver.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -151,6 +153,10 @@ commands[treatKey(locale.commands.import.name)] = {
 commands[treatKey(locale.commands.export.name)] = {
   description: locale.commands.export.description,
   solve: characterExportSolver,
+};
+commands[locale.commands.macro.add] = {
+  type: ApplicationCommandType.MESSAGE,
+  solve: macroSolver,
 };
 commands[treatKey(locale.commands.setStoryteller.name)] = {
   description: locale.commands.setStoryteller.description,

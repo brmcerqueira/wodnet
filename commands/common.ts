@@ -1,7 +1,7 @@
 import { Character } from "../character.ts";
 import { Chronicle } from "../chronicle.ts";
 import { config } from "../config.ts";
-import { Interaction } from "../deps.ts";
+import { ApplicationCommandType, Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { keys, treatDiscipline } from "../utils.ts";
 
@@ -46,8 +46,9 @@ export type Solver = (interaction: Interaction, chronicle: Chronicle, input?: an
 
 export const commands: {
   [name: string]: {
-    description: string;
     solve: Solver;
+    type?: ApplicationCommandType,
+    description?: string;
     options?: CommandOptions;
   };
 } = {};

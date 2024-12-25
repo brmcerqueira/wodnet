@@ -371,6 +371,9 @@ export type LocaleType = {
       json: CommandOption;
     } & CommandOption;
     export: CommandOption;
+    macro: {
+      add: string
+    }
     actions: {
       action: CommandOption;
     } & CommandOption;

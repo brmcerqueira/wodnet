@@ -1,5 +1,6 @@
 import {
   ApplicationCommandPayload,
+  ApplicationCommandType,
   Client,
   encodeBase64,
   GatewayIntents,
@@ -10,6 +11,8 @@ import {
   InteractionModalSubmitData,
   InteractionResponseType,
   InteractionType,
+  Message,
+  User,
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
@@ -25,7 +28,7 @@ import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
 import { interactionButton } from "./buttons/module.ts";
 
-function parseCommandValues(
+function parseCommandOptions(
   options: CommandOptions,
   interactionOptions: InteractionApplicationCommandOption[],
   data: InteractionApplicationCommandData,
@@ -41,7 +44,7 @@ function parseCommandValues(
       switch (option.type) {
         case CommandOptionType.SUB_COMMAND:
           if (option.options) {
-            value = parseCommandValues(
+            value = parseCommandOptions(
               option.options,
               interactionOption.options!,
               data,
@@ -131,7 +134,6 @@ const client = new Client({
     GatewayIntents.GUILDS,
     GatewayIntents.GUILD_MESSAGES,
     GatewayIntents.GUILD_MESSAGE_REACTIONS,
-    GatewayIntents.GUILD_MESSAGE_REACTIONS,
     GatewayIntents.DIRECT_MESSAGES,
     GatewayIntents.DIRECT_MESSAGE_REACTIONS,
     GatewayIntents.MESSAGE_CONTENT,
@@ -152,8 +154,8 @@ client.on("ready", async () => {
       const command = commands[name];
       if (!discordCommands.find((c) => c.name == name)) {
         const data = {
-          type: CommandOptionType.SUB_COMMAND,
           name,
+          type: command.type || ApplicationCommandType.CHAT_INPUT,
           description: command.description,
           options: transformOptions(command.options),
         };
@@ -237,13 +239,28 @@ client.on("ready", async () => {
         for (const name in commands) {
           if (data.name == name) {
             const command = commands[name];
+            let input: any;
+
+            if (data.type == ApplicationCommandType.MESSAGE) {
+              const messagePayload = data.resolved!.messages![data.target_id!];
+              input = {
+                message: new Message(interaction.client, 
+                  messagePayload, 
+                  interaction.channel!,
+                  new User(interaction.client, messagePayload.author)),
+                button: data.name
+              };
+            }
+            else if (command.options && data.options) {
+              input = parseCommandOptions(command.options, data.options, data);
+            }
+
             await command.solve(
               interaction,
               chronicle,
-              command.options && data.options
-                ? parseCommandValues(command.options, data.options, data)
-                : undefined,
+              input
             );
+
             break;
           }
         }
