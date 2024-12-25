@@ -376,8 +376,10 @@ export type LocaleType = {
         title: CommandOption;
         descriptionField: CommandOption;
       } & CommandOption;
+      name: string;
+      buttons: string;
       code: string;
-      button: string;
+      saved: string;
     }
     actions: {
       action: CommandOption;

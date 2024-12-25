@@ -21,7 +21,7 @@ import { checkSolver } from "../solver/checkSolver.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import { characterExportSolver } from "../solver/characterExportSolver.ts";
 import { ApplicationCommandType } from "../deps.ts";
-import { macroSolver } from "../solver/macroSolver.ts";
+import { macroModalSolver } from "../solver/macroModalSolver.ts";
 import { panelSolver } from "../solver/panelSolver.ts";
 
 const attributeChoices = [
@@ -173,9 +173,9 @@ commands[treatKey(locale.commands.macro.panel.name)] = {
     maxLength: 6000
   }).build,
 };
-commands[locale.commands.macro.button] = {
+commands[locale.commands.macro.name] = {
   type: ApplicationCommandType.MESSAGE,
-  solve: macroSolver,
+  solve: macroModalSolver,
 };
 commands[treatKey(locale.commands.setStoryteller.name)] = {
   description: locale.commands.setStoryteller.description,

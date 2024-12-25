@@ -1,11 +1,17 @@
 import { Character, CharacterMode } from "./character.ts";
-import { ApplicationCommandChoice, EmbedPayload } from "./deps.ts";
+import { ApplicationCommandChoice, EmbedPayload, MessagePayload } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
 
 type LastRoll = {
   embed: EmbedPayload;
   result: RollResult;
+}
+
+export type Macro = {
+  message: MessagePayload;
+  buttons?: string[];
+  code?: string;
 }
 
 const repository = await Deno.openKv();
@@ -17,6 +23,7 @@ const difficultyKey = "difficulty";
 const modifierKey = "modifier";
 const storytellerKey = "storyteller";
 const emojiKey = "emoji";
+const macroKey = "macro";
 
 async function clearRepository() {
   for await (
@@ -82,6 +89,14 @@ export class Chronicle {
   
   public async setLastRoll(id: string, value: LastRoll) {
     await repository.set([lastRollKey, this.chronicleId, id], value);
+  }
+
+  public async macro(id: string): Promise<Macro | null> {
+    return (await repository.get<Macro>([macroKey, id])).value;
+  }
+  
+  public async saveMacro(value: Macro) {
+    await repository.set([macroKey, value.message.id], value);
   }
 
   public async difficulty(): Promise<number | null> {

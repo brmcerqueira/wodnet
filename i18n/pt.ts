@@ -574,8 +574,10 @@ export const pt: LocaleType = {
           description: "Descrição do painel",
         }
       },
+      name: "Macro",
       code: "Código",
-      button: "Macro"
+      buttons: "Botões",
+      saved: "O Macro foi salvo!" 
     }
   },
   actions: [

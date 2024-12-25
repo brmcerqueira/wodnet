@@ -8,14 +8,13 @@ import {
   MessageComponentEmoji,
   MessageComponentType,
 } from "../deps.ts";
+import { separator } from "../utils.ts";
 
 export type ButtonOptions = {
   label: string;
   style?: ButtonStyle;
   emoji?: MessageComponentEmoji;
 };
-
-const separator = "^";
 
 const buttons: { parse: (data: string[]) => any; solve: Solver }[] = [];
 

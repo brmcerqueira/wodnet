@@ -22,11 +22,12 @@ import {
   CommandOptionType,
   commands,
 } from "./commands/module.ts";
-import { editModalSolver } from "./solver/editModalSolver.ts";
+import { editModalSolver, modalEditId } from "./solver/editModalSolver.ts";
 import { Chronicle, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
 import { interactionButton } from "./buttons/module.ts";
+import { macroModalSolver } from "./solver/macroModalSolver.ts";
 
 function parseCommandOptions(
   options: CommandOptions,
@@ -226,11 +227,20 @@ client.on("ready", async () => {
       if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
         await interactionButton(interaction, chronicle);
       } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
-        await editModalSolver(
-          interaction,
-          chronicle,
-          interaction.data as InteractionModalSubmitData,
-        );
+        const data = interaction.data as InteractionModalSubmitData;
+        if (data.custom_id == modalEditId) {
+          await editModalSolver(
+            interaction,
+            chronicle,
+            data,
+          );
+        } else {
+          await macroModalSolver(
+            interaction,
+            chronicle,
+            data,
+          );
+        }
       } else if (
         interaction.type == InteractionType.APPLICATION_COMMAND ||
         interaction.type == InteractionType.AUTOCOMPLETE
@@ -242,12 +252,8 @@ client.on("ready", async () => {
             let input: any;
 
             if (data.type == ApplicationCommandType.MESSAGE) {
-              const messagePayload = data.resolved!.messages![data.target_id!];
               input = {
-                message: new Message(interaction.client, 
-                  messagePayload, 
-                  interaction.channel!,
-                  new User(interaction.client, messagePayload.author)),
+                message: data.resolved!.messages![data.target_id!],
                 button: data.name
               };
             }

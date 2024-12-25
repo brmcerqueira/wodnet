@@ -1,5 +1,7 @@
 import { EmojiPayload } from "./deps.ts";
 
+export const separator = "^";
+
 export const colors = {
   red: 15158332,
   green: 3066993,

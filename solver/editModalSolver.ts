@@ -28,6 +28,8 @@ const characterSolver = buildCharacterUpdateSolver<InteractionModalSubmitData>(
   },
 );
 
+export const modalEditId = "edit";
+
 export async function editModalSolver(
   interaction: Interaction,
   chronicle: Chronicle,
@@ -42,7 +44,7 @@ export async function editModalSolver(
 
     await interaction.respond({
       type: InteractionResponseType.MODAL,
-      customID: "edit",
+      customID: modalEditId,
       title: locale.commands.editModal.title,
       components: [{
         type: MessageComponentType.ACTION_ROW,
