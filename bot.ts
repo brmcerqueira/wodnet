@@ -275,6 +275,7 @@ client.on("ready", async () => {
           title: error.message,
           color: colors.red,
         }],
+        ephemeral: true
       });
     }
   }
