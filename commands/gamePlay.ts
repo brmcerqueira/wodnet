@@ -22,6 +22,7 @@ import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver
 import { characterExportSolver } from "../solver/characterExportSolver.ts";
 import { ApplicationCommandType } from "../deps.ts";
 import { macroSolver } from "../solver/macroSolver.ts";
+import { panelSolver } from "../solver/panelSolver.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -154,7 +155,25 @@ commands[treatKey(locale.commands.export.name)] = {
   description: locale.commands.export.description,
   solve: characterExportSolver,
 };
-commands[locale.commands.macro.add] = {
+commands[treatKey(locale.commands.macro.panel.name)] = {
+  description: locale.commands.macro.panel.description,
+  solve: panelSolver,
+  options: option(locale.commands.macro.panel.title.name, {
+    property: "title",
+    description: locale.commands.macro.panel.title.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    minLength: 1,
+    maxLength: 100
+  }).option(locale.commands.macro.panel.descriptionField.name, {
+    property: "description",
+    description: locale.commands.macro.panel.descriptionField.description,
+    type: CommandOptionType.STRING,
+    minLength: 1,
+    maxLength: 6000
+  }).build,
+};
+commands[locale.commands.macro.button] = {
   type: ApplicationCommandType.MESSAGE,
   solve: macroSolver,
 };

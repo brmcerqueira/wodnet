@@ -562,7 +562,20 @@ export const pt: LocaleType = {
       },
     },
     macro: {
-      add: "Adicionar botão para macro"
+      panel: {
+        name: "painel",
+        description: "Cria um painel",
+        title: {
+          name: "título",
+          description: "Título do painel",
+        },
+        descriptionField: {
+          name: "descrição",
+          description: "Descrição do painel",
+        }
+      },
+      code: "Código",
+      button: "Macro"
     }
   },
   actions: [

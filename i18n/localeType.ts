@@ -372,7 +372,12 @@ export type LocaleType = {
     } & CommandOption;
     export: CommandOption;
     macro: {
-      add: string
+      panel: {
+        title: CommandOption;
+        descriptionField: CommandOption;
+      } & CommandOption;
+      code: string;
+      button: string;
     }
     actions: {
       action: CommandOption;
