@@ -1,10 +1,4 @@
-import { Character } from "./character.ts";
-
-export type ActionResult = {
-  dices: number;
-  modifier: number;
-  difficulty: number;
-};
+import { ActionResult, Character } from "./character.ts";
 
 export type ActionBuilder = (character: Character) => ActionResult;
 

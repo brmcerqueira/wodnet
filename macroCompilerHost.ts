@@ -1,11 +1,26 @@
+import { ActionResult, Character } from "./character.ts";
 import { ts } from "./deps.ts";
+import { logger } from "./logger.ts";
+
+export type MacroFunction = (
+  character: Character,
+  result: ActionResult,
+) => void;
 
 export class MacroCompilerHost implements ts.CompilerHost {
   private host: ts.CompilerHost;
   private dependencies: ts.SourceFile[] = [];
   private dummy: ts.SourceFile | undefined;
-  constructor(compilerOptions: ts.CompilerOptions) {
-    this.host = ts.createCompilerHost(compilerOptions, true);
+  constructor() {
+    this.host = ts.createCompilerHost(this.compilerOptions, true);
+  }
+
+  public get compilerOptions(): ts.CompilerOptions {
+    return {
+      target: ts.ScriptTarget.Latest,
+      noEmit: true,
+      allowImportingTsExtensions: true,
+    };
   }
 
   private get files(): ts.SourceFile[] {
@@ -27,7 +42,12 @@ export class MacroCompilerHost implements ts.CompilerHost {
   code(value: string): string[] {
     this.dummy = ts.createSourceFile(
       "./dummy.ts",
-      value,
+      `import { ActionResult, Character } from "./character.ts";
+
+      declare const character: Character;
+      declare const result: ActionResult;
+
+      ${value}`,
       ts.ScriptTarget.Latest,
     );
     return [this.dummy.fileName];
@@ -99,85 +119,17 @@ export class MacroCompilerHost implements ts.CompilerHost {
       data,
     );
   }
-}
 
-/*
-async function compileTypeScriptCode(
-  code: string,
-): Promise<string | undefined> {
-  const dummyFilePath = "/in-memory-file.ts";
-  const characterSourceFile = ts.createSourceFile(
-    "/character.ts",
-    await Deno.readTextFile("./character.ts"),
-    ts.ScriptTarget.Latest,
-  );
-  const dummySourceFile = ts.createSourceFile(
-    dummyFilePath,
-    code,
-    ts.ScriptTarget.Latest,
-  );
-
-  const host: ts.CompilerHost = {
-    fileExists: (filePath) => {
-      logger.info(filePath);
-      return filePath === characterSourceFile.fileName ||
-        filePath === dummyFilePath || realHost.fileExists(filePath);
-    },
-    directoryExists: (path) => {
-      return realHost.directoryExists!(path);
-    },
-    getCurrentDirectory: realHost.getCurrentDirectory.bind(realHost),
-    getDirectories: realHost.getDirectories?.bind(realHost),
-    getCanonicalFileName: (fileName) => realHost.getCanonicalFileName(fileName),
-    getNewLine: realHost.getNewLine.bind(realHost),
-    getDefaultLibFileName: realHost.getDefaultLibFileName.bind(realHost),
-    getSourceFile: (
-      fileName,
-      languageVersion,
-      onError,
-      shouldCreateNewSourceFile,
-    ) => {
-      logger.info("File: %v %v", fileName, shouldCreateNewSourceFile);
-
-      if (fileName === characterSourceFile.fileName) {
-        return characterSourceFile;
-      }
-
-      return fileName === dummyFilePath
-        ? dummySourceFile
-        : realHost.getSourceFile(
-          fileName,
-          languageVersion,
-          onError,
-          shouldCreateNewSourceFile,
-        );
-    },
-    getSourceFileByPath: realHost.getSourceFileByPath?.bind(realHost),
-    readFile: (filePath) =>
-      filePath === dummyFilePath ? code : realHost.readFile(filePath),
-    useCaseSensitiveFileNames: () => realHost.useCaseSensitiveFileNames(),
-    writeFile: realHost.writeFile.bind(realHost),
-  };
-
-  const program = ts.createProgram([dummyFilePath], compilerOptions, host);
-  const diagnostics = ts.getPreEmitDiagnostics(program);
-
-  program.emit();
-
-  if (diagnostics.length > 0) {
-    diagnostics.forEach((diagnostic) => {
-      const message = ts.flattenDiagnosticMessageText(
-        diagnostic.messageText,
-        "\n",
-      );
-      const { line, character } =
-        diagnostic.file?.getLineAndCharacterOfPosition(diagnostic.start!) ?? {};
-      logger.error(
-        `file: ${diagnostic.file?.fileName}, line: ${line}, column: ${character} -> ${message}`,
-      );
+  buildMacroFunction(): MacroFunction {
+    const code = ts.transpile(this.dummy!.getText(), {
+      target: ts.ScriptTarget.Latest,
+      module: ts.ModuleKind.Preserve,
     });
+    logger.info("Code: %v", code);
+    return new Function(
+      "character",
+      "result",
+      code,
+    ) as MacroFunction;
   }
-
-  return ts.transpile(code, compilerOptions);
 }
- */

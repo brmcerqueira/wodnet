@@ -14,6 +14,12 @@ export type AdvantageFlaw = {
   [name: string]: number
 }
 
+export type ActionResult = {
+  dices: number;
+  modifier: number;
+  difficulty: number;
+};
+
 export type Character = {
   id: string;
   details: string;

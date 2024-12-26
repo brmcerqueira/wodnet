@@ -4,7 +4,6 @@ import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
-import { macro } from "./macro.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -21,8 +20,6 @@ async function loadFiles(root: string, parse: (path: string) => Promise<string>)
   }
   return result;
 }
-
-macro("const a: strings = 'text';");
 
 const scripts = await loadFiles("./views/scripts", async path => {
   return (await bundle(path, {

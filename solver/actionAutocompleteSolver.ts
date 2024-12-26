@@ -3,7 +3,6 @@ import {
   Interaction,
   InteractionResponseType,
 } from "../deps.ts";
-import { keys } from "../utils.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { actions } from "../actions.ts";
 import { Chronicle } from "../chronicle.ts";

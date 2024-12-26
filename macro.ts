@@ -1,28 +1,15 @@
-import { ActionResult } from "./actions.ts";
-import { Character } from "./character.ts";
 import { ts } from "./deps.ts";
 import { logger } from "./logger.ts";
-import { MacroCompilerHost } from "./macroCompilerHost.ts";
+import { MacroCompilerHost, MacroFunction } from "./macroCompilerHost.ts";
 
-export type MacroFunction = (
-  character: Character,
-  result: ActionResult,
-) => void;
-
-const compilerOptions: ts.CompilerOptions = {
-  target: ts.ScriptTarget.Latest,
-  noEmit: true,
-  allowImportingTsExtensions: true,
-};
-
-const host = new MacroCompilerHost(compilerOptions);
+const host = new MacroCompilerHost();
 
 await host.load();
 
 export function macro(code: string): MacroFunction {
   const program = ts.createProgram(
     host.code(code),
-    compilerOptions,
+    host.compilerOptions,
     host,
   );
 
@@ -44,9 +31,5 @@ export function macro(code: string): MacroFunction {
     });
   }
 
-  return new Function(
-    "character",
-    "result",
-    ts.transpile(code, compilerOptions),
-  ) as MacroFunction;
+  return host.buildMacroFunction();
 }
