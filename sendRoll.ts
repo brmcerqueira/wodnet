@@ -9,7 +9,7 @@ import {
 import { buildRollMessage } from "./buildRollMessage.ts";
 import { Chronicle } from "./chronicle.ts";
 import { Character } from "./character.ts";
-import { reRollButton } from "./buttons/module.ts";
+import { reRollButton } from "./custom/module.ts";
 
 export type SendRollData = {
   content: string;

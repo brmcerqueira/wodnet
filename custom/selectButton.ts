@@ -24,11 +24,11 @@ export type CharacterSolverInput = {
 };
 
 export const selectButton: (options: ButtonOptions, id: string) => ButtonComponent = button<CharacterSolverInput>(
-  (array) => {
+  (context) => {
     return {
       choose: {
         character: {
-          value: array[0],
+          value: context[0],
           focused: false,
         },
         buttons: true,

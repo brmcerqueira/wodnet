@@ -1,97 +1,56 @@
-import { macroButton } from "../buttons/module.ts";
+import { macroButton, ModalInput } from "../custom/module.ts";
 import { Chronicle } from "../chronicle.ts";
 import {
   Interaction,
-  InteractionModalSubmitData,
   InteractionResponseType,
   Message,
   MessageComponentType,
-  MessagePayload,
-  TextInputStyle,
   User,
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { colors, InteractionResponseError, separator } from "../utils.ts";
+import { colors } from "../utils.ts";
 
 export async function macroModalSolver(
   interaction: Interaction,
   chronicle: Chronicle,
-  input: { message?: MessagePayload } & InteractionModalSubmitData,
+  input: ModalInput<{ buttons: string; code: string }>,
 ) {
-  if (input.message) {
-    if (input.message.interaction?.name !== locale.commands.macro.panel.name) {
-      throw new InteractionResponseError(locale.unauthorized);
-    }
+  const messageId = input.context[0];
+  const macro = (await chronicle.macro(messageId))!;
 
-    await chronicle.saveMacro({ message: input.message });
+  macro.buttons = input.fields.buttons.split("\n");
+  macro.code = input.fields.code;
 
-    await interaction.respond({
-      type: InteractionResponseType.MODAL,
-      customID: `macroModal${separator}${input.message.id}`,
-      title: `${locale.commands.macro.name}: ${input.message.embeds[0].title}`,
-      components: [{
-        type: MessageComponentType.ACTION_ROW,
-        components: [{
-          type: MessageComponentType.TEXT_INPUT,
-          label: locale.commands.macro.buttons,
-          value: undefined,
-          style: TextInputStyle.PARAGRAPH,
-          minLength: 1,
-          maxLength: 4000,
-          required: true,
-          customID: "buttons",
-        }],
-      }, {
-        type: MessageComponentType.ACTION_ROW,
-        components: [{
-          type: MessageComponentType.TEXT_INPUT,
-          label: locale.commands.macro.code,
-          value: undefined,
-          style: TextInputStyle.PARAGRAPH,
-          minLength: 1,
-          maxLength: 4000,
-          required: true,
-          customID: "code",
-        }],
-      }],
-    });
-  } else {
-    const messageId = input.custom_id.split(separator)[1];
-    const macro = (await chronicle.macro(messageId))!;
+  await chronicle.saveMacro(macro);
 
-    const buttonsTextInput = input.components[0].components[0];
-    const codeTextInput = input.components[1].components[0];
+  const message = new Message(
+    interaction.client,
+    macro.message,
+    interaction.channel!,
+    new User(interaction.client, macro.message.author),
+  );
 
-    macro.buttons = buttonsTextInput.value.split("\n");
-    macro.code = codeTextInput.value;
-
-    await chronicle.saveMacro(macro);
-
-    const message = new Message(
-      interaction.client,
-      macro.message,
-      interaction.channel!,
-      new User(interaction.client, macro.message.author),
-    );
-
-    await message.edit({
-      components: [{
-        type: MessageComponentType.ACTION_ROW,
-        components: macro.buttons.map((label, index) =>
-          macroButton({
+  await message.edit({
+    components: [{
+      type: MessageComponentType.ACTION_ROW,
+      components: macro.buttons.map((label, index) =>
+        macroButton(
+          {
             label: label,
-          }, messageId, index)
-        ),
-      }],
-    });
+          },
+          messageId,
+          index,
+        )
+      ),
+    }],
+  });
 
-    await interaction.respond({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: locale.commands.macro.saved,
-        color: colors.green,
-      }],
-      ephemeral: true
-    });
-  }
+  await interaction.respond({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    embeds: [{
+      title: locale.commands.macro.saved,
+      color: colors.green,
+    }],
+    ephemeral: true,
+  });
 }

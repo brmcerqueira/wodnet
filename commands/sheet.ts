@@ -1,7 +1,7 @@
+import { editModal } from "../custom/module.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
-import { editModalSolver } from "../solver/editModalSolver.ts";
 import {
   buildChoicesOptions,
   buildIntegerOptions,
@@ -155,5 +155,5 @@ commands[treatKey(locale.stains)] = {
 };
 commands[treatKey(locale.commands.editModal.name)] = {
   description: locale.commands.editModal.description,
-  solve: editModalSolver,
+  solve: editModal,
 };

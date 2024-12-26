@@ -23,6 +23,7 @@ import { characterExportSolver } from "../solver/characterExportSolver.ts";
 import { ApplicationCommandType } from "../deps.ts";
 import { macroModalSolver } from "../solver/macroModalSolver.ts";
 import { panelSolver } from "../solver/panelSolver.ts";
+import { macroModal } from "../custom/module.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -175,7 +176,7 @@ commands[treatKey(locale.commands.macro.panel.name)] = {
 };
 commands[locale.commands.macro.name] = {
   type: ApplicationCommandType.MESSAGE,
-  solve: macroModalSolver,
+  solve: macroModal,
 };
 commands[treatKey(locale.commands.setStoryteller.name)] = {
   description: locale.commands.setStoryteller.description,

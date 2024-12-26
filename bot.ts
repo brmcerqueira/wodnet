@@ -8,11 +8,8 @@ import {
   Interaction,
   InteractionApplicationCommandData,
   InteractionApplicationCommandOption,
-  InteractionModalSubmitData,
   InteractionResponseType,
   InteractionType,
-  Message,
-  User,
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
@@ -22,12 +19,10 @@ import {
   CommandOptionType,
   commands,
 } from "./commands/module.ts";
-import { editModalSolver, modalEditId } from "./solver/editModalSolver.ts";
 import { Chronicle, removeChronicle } from "./chronicle.ts";
 import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
-import { interactionButton } from "./buttons/module.ts";
-import { macroModalSolver } from "./solver/macroModalSolver.ts";
+import { interactionCustomId } from "./custom/module.ts";
 
 function parseCommandOptions(
   options: CommandOptions,
@@ -50,8 +45,7 @@ function parseCommandOptions(
               interactionOption.options!,
               data,
             );
-          }
-          else {
+          } else {
             value = true;
           }
           break;
@@ -71,8 +65,9 @@ function parseCommandOptions(
             break;
           }
 
-          value = interactionOption.value === "true" || interactionOption.value || null;
-          break;  
+          value = interactionOption.value === "true" ||
+            interactionOption.value || null;
+          break;
         default:
           value = interactionOption.value || null;
           break;
@@ -147,7 +142,9 @@ client.on("ready", async () => {
   try {
     logger.info("Loading Wodbot...");
 
-    const discordCommands = await endpoints.getGlobalApplicationCommands(client.applicationID!);
+    const discordCommands = await endpoints.getGlobalApplicationCommands(
+      client.applicationID!,
+    );
 
     //await cleanCommands(discordCommands);
 
@@ -168,18 +165,23 @@ client.on("ready", async () => {
       }
     }
 
-    const applicationEmojis = (await endpoints.listGlobalApplicationEmojis(client.applicationID!)).items;
+    const applicationEmojis =
+      (await endpoints.listGlobalApplicationEmojis(client.applicationID!))
+        .items;
 
     for (const name in emojis) {
       let emoji = applicationEmojis.find((e) => e.name == name);
-      
+
       if (!emoji) {
-        emoji = await endpoints.createGlobalApplicationEmoji(client.applicationID!, {
-          name: name,
-          image: `data:image/webp;base64,${
-            encodeBase64(await Deno.readFile(`./emojis/${name}.webp`))
-          }`,
-        });
+        emoji = await endpoints.createGlobalApplicationEmoji(
+          client.applicationID!,
+          {
+            name: name,
+            image: `data:image/webp;base64,${
+              encodeBase64(await Deno.readFile(`./emojis/${name}.webp`))
+            }`,
+          },
+        );
       }
 
       emojis[name] = emoji;
@@ -224,23 +226,11 @@ client.on("ready", async () => {
         throw new InteractionResponseError(locale.unauthorized);
       }
       const chronicle = new Chronicle(interaction.guild!.id);
-      if (interaction.type == InteractionType.MESSAGE_COMPONENT) {
-        await interactionButton(interaction, chronicle);
-      } else if (interaction.type == InteractionType.MODAL_SUBMIT) {
-        const data = interaction.data as InteractionModalSubmitData;
-        if (data.custom_id == modalEditId) {
-          await editModalSolver(
-            interaction,
-            chronicle,
-            data,
-          );
-        } else {
-          await macroModalSolver(
-            interaction,
-            chronicle,
-            data,
-          );
-        }
+      if (
+        interaction.type == InteractionType.MESSAGE_COMPONENT ||
+        interaction.type == InteractionType.MODAL_SUBMIT
+      ) {
+        await interactionCustomId(interaction, chronicle);
       } else if (
         interaction.type == InteractionType.APPLICATION_COMMAND ||
         interaction.type == InteractionType.AUTOCOMPLETE
@@ -254,17 +244,16 @@ client.on("ready", async () => {
             if (data.type == ApplicationCommandType.MESSAGE) {
               input = {
                 message: data.resolved!.messages![data.target_id!],
-                button: data.name
+                button: data.name,
               };
-            }
-            else if (command.options && data.options) {
+            } else if (command.options && data.options) {
               input = parseCommandOptions(command.options, data.options, data);
             }
 
             await command.solve(
               interaction,
               chronicle,
-              input
+              input,
             );
 
             break;
@@ -281,7 +270,7 @@ client.on("ready", async () => {
           title: error.message,
           color: colors.red,
         }],
-        ephemeral: true
+        ephemeral: true,
       });
     }
   }
