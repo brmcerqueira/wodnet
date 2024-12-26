@@ -1,4 +1,4 @@
-import { bundle, join } from "./deps.ts";
+import { join, ts } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import * as bot from "./bot.ts";
 import { config } from "./config.ts";
@@ -22,7 +22,9 @@ async function loadFiles(root: string, parse: (path: string) => Promise<string>)
 }
 
 const scripts = await loadFiles("./views/scripts", async path => {
-  return (await bundle(path)).code;
+  return ts.transpile(await Deno.readTextFile(path), {
+    target: ts.ScriptTarget.Latest
+  });
 });
 
 const styles = await loadFiles("./views/styles", async path => {

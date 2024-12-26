@@ -22,7 +22,8 @@
     "npm:@evan/wasm@0.0.95": "0.0.95",
     "npm:@types/node@*": "18.16.19",
     "npm:redis@4.6.13": "4.6.13_@redis+client@1.5.14",
-    "npm:ts-mixer@6.0.0": "6.0.0"
+    "npm:ts-mixer@6.0.0": "6.0.0",
+    "npm:typescript@*": "5.7.2"
   },
   "jsr": {
     "@deno/cache-dir@0.8.0": {
@@ -173,6 +174,9 @@
     },
     "ts-mixer@6.0.0": {
       "integrity": "sha512-nXIb1fvdY5CBSrDIblLn73NW0qRDk5yJ0Sk1qPBF560OdJfQp9jhl+0tzcY09OZ9U+6GpeoI9RjwoIKFIoB9MQ=="
+    },
+    "typescript@5.7.2": {
+      "integrity": "sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg=="
     },
     "yallist@4.0.0": {
       "integrity": "sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A=="
