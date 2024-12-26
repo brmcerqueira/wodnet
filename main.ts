@@ -4,6 +4,7 @@ import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
+import { macro } from "./macro.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -20,66 +21,8 @@ async function loadFiles(root: string, parse: (path: string) => Promise<string>)
   }
   return result;
 }
-/*
-async function compileTypeScriptCode(code: string): Promise<string | undefined> {
-  const options: ts.CompilerOptions = {
-    target: ts.ScriptTarget.Latest,
-    noEmit: true,
-    allowImportingTsExtensions: true
-  }
 
-  const realHost = ts.createCompilerHost(options, true);
-
-  const dummyFilePath = "/in-memory-file.ts";
-  const characterSourceFile = ts.createSourceFile("/character.ts", await Deno.readTextFile("./character.ts"), ts.ScriptTarget.Latest);
-  const dummySourceFile = ts.createSourceFile(dummyFilePath, code, ts.ScriptTarget.Latest);
-
-  const host: ts.CompilerHost = {
-      fileExists: filePath => {
-        logger.info(filePath)
-        return filePath === characterSourceFile.fileName || filePath === dummyFilePath || realHost.fileExists(filePath)
-      },
-      directoryExists: path => {
-        return realHost.directoryExists!(path);
-      },
-      getCurrentDirectory: realHost.getCurrentDirectory.bind(realHost),
-      getDirectories: realHost.getDirectories?.bind(realHost),
-      getCanonicalFileName: fileName => realHost.getCanonicalFileName(fileName),
-      getNewLine: realHost.getNewLine.bind(realHost),
-      getDefaultLibFileName: realHost.getDefaultLibFileName.bind(realHost),
-      getSourceFile: (fileName, languageVersion, onError, shouldCreateNewSourceFile) => { 
-        logger.info("File: %v %v",fileName, shouldCreateNewSourceFile);
-
-        if (fileName === characterSourceFile.fileName) {
-          return characterSourceFile;
-        }
-
-        return fileName === dummyFilePath 
-          ? dummySourceFile 
-          : realHost.getSourceFile(fileName, languageVersion, onError, shouldCreateNewSourceFile) },
-      getSourceFileByPath: realHost.getSourceFileByPath?.bind(realHost),    
-      readFile: filePath => filePath === dummyFilePath 
-          ? code 
-          : realHost.readFile(filePath),
-      useCaseSensitiveFileNames: () => realHost.useCaseSensitiveFileNames(),
-      writeFile: realHost.writeFile.bind(realHost),
-  };
-
-  const program = ts.createProgram([dummyFilePath], options, host);
-  const diagnostics = ts.getPreEmitDiagnostics(program);
-
-  program.emit();
-
-  if (diagnostics.length > 0) {
-    diagnostics.forEach((diagnostic) => {
-      const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
-      const { line, character } = diagnostic.file?.getLineAndCharacterOfPosition(diagnostic.start!) ?? {};
-      logger.error(`file: ${diagnostic.file?.fileName}, line: ${line}, column: ${character} -> ${message}`);
-    });
-  }
-
-  return ts.transpile(code, options);
-}*/
+macro("const a: strings = 'text';");
 
 const scripts = await loadFiles("./views/scripts", async path => {
   return (await bundle(path, {
