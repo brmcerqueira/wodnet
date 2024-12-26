@@ -1,15 +1,20 @@
 import { ts } from "./deps.ts";
 import { logger } from "./logger.ts";
-import { MacroCompilerHost, MacroFunction } from "./macroCompilerHost.ts";
+import {
+compilerOptions,
+loadSourceFiles,
+  MacroCompilerHost,
+  MacroFunction,
+} from "./macroCompilerHost.ts";
 
-const host = new MacroCompilerHost();
-
-await host.load();
+await loadSourceFiles();
 
 export function macro(code: string): MacroFunction {
+  const host = new MacroCompilerHost(code);
+
   const program = ts.createProgram(
-    host.code(code),
-    host.compilerOptions,
+    [host.root.fileName],
+    compilerOptions,
     host,
   );
 
@@ -29,5 +34,5 @@ export function macro(code: string): MacroFunction {
     });
   }
 
-  return host.buildMacroFunction();
+  return host.macro();
 }
