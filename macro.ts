@@ -15,8 +15,6 @@ export function macro(code: string): MacroFunction {
 
   const diagnostics = ts.getPreEmitDiagnostics(program);
 
-  program.emit();
-
   if (diagnostics.length > 0) {
     diagnostics.forEach((diagnostic) => {
       const message = ts.flattenDiagnosticMessageText(
