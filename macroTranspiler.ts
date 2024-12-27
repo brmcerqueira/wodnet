@@ -2,7 +2,7 @@ import { ActionResult, Character } from "./character.ts";
 import { MessagePayload, ts } from "./deps.ts";
 import { logger } from "./logger.ts";
 
-export type MacroData = {
+export type Macro = {
   message: MessagePayload;
   buttons?: string[];
   code?: string;
@@ -20,45 +20,8 @@ const target = ts.ScriptTarget.Latest;
 const compilerOptions: ts.CompilerOptions = {
   target,
   allowImportingTsExtensions: true,
-  noEmit: true
+  noEmit: true,
 };
-
-
-export function includeFileTransformer<
-  T extends ts.Node,
->(): ts.TransformerFactory<T> {
-  return (context: ts.TransformationContext) => {
-    return (rootNode: T): any => {
-      function visit(node: ts.Node): any {
-        if (node.kind == ts.SyntaxKind.ExportKeyword) {
-          return ts.visitNode(undefined, visit);
-        }
-
-        if (ts.isImportDeclaration(node)) {
-          const moduleName = node.moduleSpecifier.getText().replace(
-            /['"]/g,
-            "",
-          );
-
-          return ts.visitNode(
-            ts.createSourceFile(
-              moduleName,
-              Deno.readTextFileSync(moduleName),
-              target,
-              true,
-              ts.ScriptKind.TS,
-            ),
-            visit,
-          );
-        }
-
-        return ts.visitEachChild(node, visit, context);
-      }
-
-      return ts.visitNode(rootNode, visit);
-    };
-  };
-}
 
 const host = ts.createCompilerHost(compilerOptions, true);
 
@@ -71,7 +34,7 @@ export function macro(transpiled: string): MacroFunction {
   ) as MacroFunction;
 }
 
-export class Transpiler {
+export class MacroTranspiler {
   private _code: string;
 
   constructor(code: string) {
@@ -100,7 +63,7 @@ export class Transpiler {
       compilerOptions,
       host,
     );
-  
+
     return ts.getPreEmitDiagnostics(program);
   }
 
@@ -111,8 +74,36 @@ export class Transpiler {
         module: ts.ModuleKind.Preserve,
       },
       transformers: {
-        before: [includeFileTransformer()]
-      }
+        before: [(context: ts.TransformationContext) => {
+          function visit(node: ts.Node): any {
+            if (node.kind == ts.SyntaxKind.ExportKeyword) {
+              return ts.visitNode(undefined, visit);
+            }
+
+            if (ts.isImportDeclaration(node)) {
+              const moduleName = node.moduleSpecifier.getText().replace(
+                /['"]/g,
+                "",
+              );
+
+              return ts.visitNode(
+                ts.createSourceFile(
+                  moduleName,
+                  Deno.readTextFileSync(moduleName),
+                  target,
+                  true,
+                  ts.ScriptKind.TS,
+                ),
+                visit,
+              );
+            }
+
+            return ts.visitEachChild(node, visit, context);
+          }
+
+          return (rootNode) => ts.visitNode(rootNode, visit);
+        }],
+      },
     });
 
     logger.info("Code: %v", output.outputText);
@@ -121,9 +112,8 @@ export class Transpiler {
   }
 }
 
-export class MacroCompilerHost implements ts.CompilerHost {
+class MacroCompilerHost implements ts.CompilerHost {
   constructor(private _root: ts.SourceFile) {
-
   }
 
   fileExists(filePath: string): boolean {
@@ -175,17 +165,4 @@ export class MacroCompilerHost implements ts.CompilerHost {
   }
 
   writeFile(): void {}
-  /*
-  macro(): MacroFunction {
-    const code = ts.transpile(this._root!.getText(), {
-      target: ts.ScriptTarget.Latest,
-      module: ts.ModuleKind.Preserve,
-    });
-    logger.info("Code: %v", code);
-    return new Function(
-      "character",
-      "result",
-      code,
-    ) as MacroFunction;
-  }*/
 }

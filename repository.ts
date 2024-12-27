@@ -2,7 +2,7 @@ import { Character, CharacterMode } from "./character.ts";
 import { ApplicationCommandChoice, EmbedPayload } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
-import { MacroData } from "./macro.ts";
+import { Macro } from "./macroTranspiler.ts";
 
 type LastRoll = {
   embed: EmbedPayload;
@@ -60,11 +60,11 @@ export async function removeChronicle(id: string) {
   }
 }
 
-export async function getMacro(id: string): Promise<MacroData | null> {
-  return (await repository.get<MacroData>([macroKey, id])).value;
+export async function getMacro(id: string): Promise<Macro | null> {
+  return (await repository.get<Macro>([macroKey, id])).value;
 }
 
-export async function saveMacro(value: MacroData) {
+export async function saveMacro(value: Macro) {
   await repository.set([macroKey, value.message.id], value);
 }
 

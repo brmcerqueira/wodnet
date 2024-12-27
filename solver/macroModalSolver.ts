@@ -10,7 +10,7 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { colors } from "../utils.ts";
-import { macro as macroF, Transpiler } from "../macro.ts";
+import { macro as macroF, MacroTranspiler } from "../macroTranspiler.ts";
 import { ActionResult, Character, CharacterMode } from "../character.ts";
 import { logger } from "../logger.ts";
 
@@ -24,7 +24,7 @@ export async function macroModalSolver(
 
   macro.buttons = input.fields.buttons.split("\n");
 
-  const transpiler = new Transpiler(input.fields.code);
+  const transpiler = new MacroTranspiler(input.fields.code);
 
   if (transpiler.diagnostics.length > 0) {
     transpiler.diagnostics.forEach((diagnostic) => {
