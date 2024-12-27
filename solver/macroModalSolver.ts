@@ -10,8 +10,7 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { colors } from "../utils.ts";
-import { macro as macroF, MacroTranspiler } from "../macroTranspiler.ts";
-import { ActionResult, Character, CharacterMode } from "../character.ts";
+import { MacroTranspiler } from "../macroTranspiler.ts";
 import { logger } from "../logger.ts";
 
 export async function macroModalSolver(
@@ -19,11 +18,6 @@ export async function macroModalSolver(
   _chronicle: Chronicle,
   input: ModalInput<{ buttons: string; code: string }>,
 ) {
-  const messageId = input.context[0];
-  const macro = (await getMacro(messageId))!;
-
-  macro.buttons = input.fields.buttons.split("\n");
-
   const transpiler = new MacroTranspiler(input.fields.code);
 
   if (transpiler.diagnostics.length > 0) {
@@ -38,116 +32,16 @@ export async function macroModalSolver(
         `file: ${diagnostic.file?.fileName}, line: ${line}, column: ${character} -> ${message}`,
       );
     });
-  }
-  else {
+  } else {
+    const messageId = input.context[0];
+
+    const macro = (await getMacro(messageId))!;
+  
+    macro.buttons = input.fields.buttons.split("\n");
     macro.code = input.fields.code;
     macro.transpiled = transpiler.transpiled;
 
     await saveMacro(macro);
-
-    const func = macroF(macro.transpiled);
-
-    const character: Character = {
-      id: "",
-      details: "",
-      image: "",
-      name: "",
-      player: "",
-      resonance: "",
-      ambition: "",
-      desire: "",
-      predator: "",
-      clan: "",
-      generation: 0,
-      mode: CharacterMode.Opened,
-      versionstamp: crypto.randomUUID(),
-      attributes: {
-        physical: {
-          strength: 0,
-          dexterity: 0,
-          stamina: 0,
-        },
-        social: {
-          charisma: 0,
-          manipulation: 0,
-          composure: 0,
-        },
-        mental: {
-          intelligence: 0,
-          wits: 0,
-          resolve: 0,
-        },
-      },
-      skills: {
-        physical: {
-          athletics: 0,
-          brawl: 0,
-          craft: 0,
-          drive: 0,
-          firearms: 0,
-          melee: 0,
-          larceny: 0,
-          stealth: 0,
-          survival: 0,
-        },
-        social: {
-          animalKen: 0,
-          etiquette: 0,
-          insight: 0,
-          intimidation: 0,
-          leadership: 0,
-          performance: 0,
-          persuasion: 0,
-          streetwise: 0,
-          subterfuge: 0,
-        },
-        mental: {
-          academics: 0,
-          awareness: 0,
-          finance: 0,
-          investigation: 0,
-          medicine: 0,
-          occult: 0,
-          politics: 0,
-          science: 0,
-          technology: 0,
-        },
-      },
-      health: {
-        superficial: 0,
-        aggravated: 0,
-        penalty: 0,
-      },
-      willpower: {
-        superficial: 0,
-        aggravated: 0,
-        penalty: 0,
-      },
-      humanity: {
-        total: 0,
-        stains: 0,
-      },
-      bloodPotency: 0,
-      hunger: 0,
-      experience: {
-        total: 0,
-        spent: 0,
-      },
-      specialties: {},
-      advantages: {},
-      flaws: {},
-      disciplines: {},
-    };
-
-    const result: ActionResult = {
-      dices: 0,
-      difficulty: 0,
-      modifier: 0,
-    };
-
-    func(character, result, 0);
-
-    logger.info("Result %v", JSON.stringify(result));
 
     const message = new Message(
       interaction.client,
