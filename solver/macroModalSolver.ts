@@ -20,8 +20,10 @@ export async function macroModalSolver(
 ) {
   const transpiler = new MacroTranspiler(input.fields.code);
 
-  if (transpiler.diagnostics.length > 0) {
-    transpiler.diagnostics.forEach((diagnostic) => {
+  const diagnostics = transpiler.diagnostics;
+
+  if (diagnostics.length > 0) {
+    diagnostics.forEach((diagnostic) => {
       const message = ts.flattenDiagnosticMessageText(
         diagnostic.messageText,
         "\n",
