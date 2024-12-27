@@ -58,13 +58,11 @@ export class MacroTranspiler {
 
     const host = new MacroCompilerHost(root);
 
-    const program = ts.createProgram(
+    return ts.getPreEmitDiagnostics(ts.createProgram(
       [root.fileName],
       compilerOptions,
       host,
-    );
-
-    return ts.getPreEmitDiagnostics(program);
+    ), root);
   }
 
   public get transpiled(): string {
