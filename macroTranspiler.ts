@@ -43,6 +43,7 @@ export class MacroTranspiler {
 
         declare const character: Character;
         declare const result: ActionResult;
+        declare const button: number;
   
         ${code}`;
   }
