@@ -20,7 +20,7 @@ export async function macroModalSolver(
 ) {
   const transpiler = new MacroTranspiler(input.fields.code);
 
-  const diagnostics = transpiler.diagnostics;
+/*  const diagnostics = transpiler.diagnostics;
 
   if (diagnostics.length > 0) {
     diagnostics.forEach((diagnostic) => {
@@ -34,7 +34,7 @@ export async function macroModalSolver(
         `file: ${diagnostic.file?.fileName}, line: ${line}, column: ${character} -> ${message}`,
       );
     });
-  } else {
+  } else {*/
     const messageId = input.context[0];
 
     const macro = (await getMacro(messageId))!;
@@ -75,5 +75,5 @@ export async function macroModalSolver(
       }],
       ephemeral: true,
     });
-  }
+  //}
 }
