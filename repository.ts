@@ -1,17 +1,12 @@
 import { Character, CharacterMode } from "./character.ts";
-import { ApplicationCommandChoice, EmbedPayload, MessagePayload } from "./deps.ts";
+import { ApplicationCommandChoice, EmbedPayload } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
+import { Macro } from "./macro.ts";
 
 type LastRoll = {
   embed: EmbedPayload;
   result: RollResult;
-}
-
-export type Macro = {
-  message: MessagePayload;
-  buttons?: string[];
-  code?: string;
 }
 
 const repository = await Deno.openKv();
