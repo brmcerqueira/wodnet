@@ -1,7 +1,7 @@
 import { EmbedField, Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { colors, InteractionResponseError } from "../utils.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { check } from "../diceRollManager.ts";
 
 export async function checkSolver(

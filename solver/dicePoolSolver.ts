@@ -3,7 +3,7 @@ import { sendRoll } from "../sendRoll.ts";
 import { LocaleType } from "../i18n/localeType.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { InteractionResponseError } from "../utils.ts";
 
 type AttributeType =

@@ -7,7 +7,7 @@ import {
   MessageComponentType,
 } from "./deps.ts";
 import { buildRollMessage } from "./buildRollMessage.ts";
-import { Chronicle } from "./chronicle.ts";
+import { Chronicle } from "./repository.ts";
 import { Character } from "./character.ts";
 import { reRollButton } from "./custom/module.ts";
 

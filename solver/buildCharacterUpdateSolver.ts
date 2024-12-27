@@ -3,7 +3,7 @@ import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { Solver, uploadImage } from "../commands/common.ts";
 import { colors, InteractionResponseError } from "../utils.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 
 export function buildCharacterUpdateSolver<T>(
   parse: (character: Character, input: T) => Promise<number> | number, onlyStoryteller?: boolean

@@ -2,7 +2,7 @@ import { reRoll } from "../diceRollManager.ts";
 import { Interaction, InteractionResponseType, sprintf } from "../deps.ts";
 import { buildRollMessage } from "../buildRollMessage.ts";
 import { locale } from "../i18n/locale.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { InteractionResponseError } from "../utils.ts";
 
 export async function reRollSolver(interaction: Interaction, chronicle: Chronicle, dices: number) {

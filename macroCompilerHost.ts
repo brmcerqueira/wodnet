@@ -9,24 +9,22 @@ export type MacroFunction = (
 
 export const compilerOptions: ts.CompilerOptions = {
   target: ts.ScriptTarget.Latest,
-  noEmit: true,
-  allowImportingTsExtensions: true,
+  noEmitOnError: true,
+  module: ts.ModuleKind.Preserve,
 };
 
 const host = ts.createCompilerHost(compilerOptions, true);
 
 const files: ts.SourceFile[] = [];
 
-export async function loadSourceFiles() {
-  const array = ["./character.ts"];
+const paths = ["./character.ts"];
 
-  for (const file of array) {
-    files.push(ts.createSourceFile(
-      file,
-      await Deno.readTextFile(file),
-      ts.ScriptTarget.Latest,
-    ));
-  }
+for (const file of paths) {
+  files.push(ts.createSourceFile(
+    file,
+    await Deno.readTextFile(file),
+    ts.ScriptTarget.Latest,
+  ));
 }
 
 export class MacroCompilerHost implements ts.CompilerHost {
@@ -38,7 +36,7 @@ export class MacroCompilerHost implements ts.CompilerHost {
   ) {
     this._root = ts.createSourceFile(
       "./root.ts",
-      `import { ActionResult, Character } from "./character.ts";
+      `import { ActionResult, Character, CharacterMode } from "./character";
   
         declare const character: Character;
         declare const result: ActionResult;
@@ -110,14 +108,15 @@ export class MacroCompilerHost implements ts.CompilerHost {
     sourceFiles?: readonly ts.SourceFile[],
     data?: ts.WriteFileCallbackData,
   ): void {
-    host.writeFile(
+    logger.info("writeFile: %v -> %v", fileName, text);
+    /*host.writeFile(
       fileName,
       text,
       writeByteOrderMark,
       onError,
       sourceFiles,
       data,
-    );
+    );*/
   }
 
   macro(): MacroFunction {

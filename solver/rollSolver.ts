@@ -1,4 +1,4 @@
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { sendRoll } from "../sendRoll.ts";
 

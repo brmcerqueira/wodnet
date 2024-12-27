@@ -5,7 +5,7 @@ import {
 } from "../deps.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { actions } from "../actions.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { locale } from "../i18n/locale.ts";
 
 export async function actionAutocompleteSolver(

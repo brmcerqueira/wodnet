@@ -1,4 +1,4 @@
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { Solver } from "../commands/module.ts";
 import {
   ButtonComponent,

@@ -8,7 +8,7 @@ import {
   colors,
   InteractionResponseError,
 } from "../utils.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { characterLinkButton } from "../custom/module.ts";
 
 export async function characterLinkSolver(

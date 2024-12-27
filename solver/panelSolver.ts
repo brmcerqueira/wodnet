@@ -1,6 +1,6 @@
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { colors } from "../utils.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 
 export async function panelSolver(
   interaction: Interaction,

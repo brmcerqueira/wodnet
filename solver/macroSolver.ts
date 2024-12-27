@@ -1,5 +1,5 @@
 import { Interaction } from "../deps.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { MacroButtonInput } from "../custom/module.ts";
 
 export async function macroSolver(

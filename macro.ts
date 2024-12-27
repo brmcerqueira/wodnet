@@ -2,12 +2,9 @@ import { ts } from "./deps.ts";
 import { logger } from "./logger.ts";
 import {
 compilerOptions,
-loadSourceFiles,
   MacroCompilerHost,
   MacroFunction,
 } from "./macroCompilerHost.ts";
-
-await loadSourceFiles();
 
 export function macro(code: string): MacroFunction {
   const host = new MacroCompilerHost(code);

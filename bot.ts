@@ -19,7 +19,7 @@ import {
   CommandOptionType,
   commands,
 } from "./commands/module.ts";
-import { Chronicle, removeChronicle } from "./chronicle.ts";
+import { Chronicle, removeChronicle } from "./repository.ts";
 import { locale } from "./i18n/locale.ts";
 import { DiscordEndpoints } from "./discordEndpoints.ts";
 import { interactionCustomId } from "./custom/module.ts";

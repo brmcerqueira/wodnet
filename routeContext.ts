@@ -1,4 +1,4 @@
-import { Chronicle } from "./chronicle.ts";
+import { Chronicle } from "./repository.ts";
 import { decodeBase64Url } from "./deps.ts";
 
 const textDecoder = new TextDecoder();

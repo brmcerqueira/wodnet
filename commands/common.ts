@@ -1,5 +1,5 @@
 import { Character } from "../character.ts";
-import { Chronicle } from "../chronicle.ts";
+import { Chronicle } from "../repository.ts";
 import { config } from "../config.ts";
 import { ApplicationCommandType, Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";

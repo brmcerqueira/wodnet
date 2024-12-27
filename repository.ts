@@ -36,6 +36,8 @@ async function clearRepository() {
   }
 }
 
+//await clearRepository();
+
 export async function removeChronicle(id: string) {
   const array = [repository.list({
     prefix: [characterKey, id],
@@ -63,7 +65,13 @@ export async function removeChronicle(id: string) {
   }
 }
 
-//await clearRepository();
+export async function getMacro(id: string): Promise<Macro | null> {
+  return (await repository.get<Macro>([macroKey, id])).value;
+}
+
+export async function saveMacro(value: Macro) {
+  await repository.set([macroKey, value.message.id], value);
+}
 
 export class Chronicle {
   constructor(private chronicleId: string) {
@@ -89,14 +97,6 @@ export class Chronicle {
   
   public async setLastRoll(id: string, value: LastRoll) {
     await repository.set([lastRollKey, this.chronicleId, id], value);
-  }
-
-  public async macro(id: string): Promise<Macro | null> {
-    return (await repository.get<Macro>([macroKey, id])).value;
-  }
-  
-  public async saveMacro(value: Macro) {
-    await repository.set([macroKey, value.message.id], value);
   }
 
   public async difficulty(): Promise<number | null> {
