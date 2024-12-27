@@ -10,14 +10,9 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { colors } from "../utils.ts";
-import {
-  compilerOptions,
-  macro as macroF,
-  MacroCompilerHost,
-  includeFileTransformer,
-} from "../macro.ts";
-import { logger } from "../logger.ts";
+import { macro as macroF, Transpiler } from "../macro.ts";
 import { ActionResult, Character, CharacterMode } from "../character.ts";
+import { logger } from "../logger.ts";
 
 export async function macroModalSolver(
   interaction: Interaction,
@@ -29,18 +24,10 @@ export async function macroModalSolver(
 
   macro.buttons = input.fields.buttons.split("\n");
 
-  const host = new MacroCompilerHost(input.fields.code);
+  const transpiler = new Transpiler(input.fields.code);
 
-  const program = ts.createProgram(
-    [host.root.fileName],
-    compilerOptions,
-    host,
-  );
-
-  const diagnostics = ts.getPreEmitDiagnostics(program);
-
-  if (diagnostics.length > 0) {
-    diagnostics.forEach((diagnostic) => {
+  if (transpiler.diagnostics.length > 0) {
+    transpiler.diagnostics.forEach((diagnostic) => {
       const message = ts.flattenDiagnosticMessageText(
         diagnostic.messageText,
         "\n",
@@ -51,14 +38,10 @@ export async function macroModalSolver(
         `file: ${diagnostic.file?.fileName}, line: ${line}, column: ${character} -> ${message}`,
       );
     });
-  } else {
-    program.emit(undefined, undefined, undefined, undefined, {
-      before: [includeFileTransformer()],
-      after: [],
-    });
-
+  }
+  else {
     macro.code = input.fields.code;
-    macro.transpiled = host.transpiled;
+    macro.transpiled = transpiler.transpiled;
 
     await saveMacro(macro);
 
@@ -163,6 +146,8 @@ export async function macroModalSolver(
     };
 
     func(character, result, 0);
+
+    logger.info("Result %v", JSON.stringify(result));
 
     const message = new Message(
       interaction.client,
