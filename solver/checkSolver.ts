@@ -11,37 +11,37 @@ export async function checkSolver(
 ) {
   const character = await chronicle.getCharacterByUserId(interaction.user.id);
 
-  if (character) {
-    const fields: EmbedField[] = [{
-      name: locale.character,
-      value: character.name,
-      inline: true,
-    }];
-
-    const failed = !check(input?.dices || 1);
-
-    if (failed) {
-      character.hunger += 1;
-      await chronicle.updateCharacter(character);
-      fields.push({
-        name: locale.hunger,
-        value: `**${character.hunger}**`,
-        inline: true,
-      });
-    }
-
-    await interaction.respond({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: failed ? locale.characterCheckFailed : locale.characterCheck,
-        thumbnail: {
-          url: character.image,
-        },
-        color: failed ? colors.red : colors.green,
-        fields,
-      }],
-    });
-  } else {
+  if (!character) {
     throw new InteractionResponseError(locale.notFound);
   }
+
+  const fields: EmbedField[] = [{
+    name: locale.character,
+    value: character.name,
+    inline: true,
+  }];
+
+  const failed = !check(input?.dices || 1);
+
+  if (failed) {
+    character.hunger += 1;
+    await chronicle.updateCharacter(character);
+    fields.push({
+      name: locale.hunger,
+      value: `**${character.hunger}**`,
+      inline: true,
+    });
+  }
+
+  await interaction.respond({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    embeds: [{
+      title: failed ? locale.characterCheckFailed : locale.characterCheck,
+      thumbnail: {
+        url: character.image,
+      },
+      color: failed ? colors.red : colors.green,
+      fields,
+    }],
+  });
 }

@@ -8,22 +8,21 @@ export async function setDifficultySolver(
   chronicle: Chronicle,
   input: { difficulty: number },
 ) {
-  if (await chronicle.isStoryteller(interaction.user.id)) {
-    await chronicle.setDifficulty(input.difficulty);
-    await interaction.respond({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: locale.storytellerChangeDifficulty,
-        color: colors.gray,
-        fields: [{
-          name: locale.difficulty,
-          value: `**${input.difficulty}**`,
-          inline: true,
-        }],
-      }],
-    });
-  }
-  else {
+  if (!(await chronicle.isStoryteller(interaction.user.id))) {
     throw new InteractionResponseError(locale.unauthorized);
   }
+
+  await chronicle.setDifficulty(input.difficulty);
+  await interaction.respond({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    embeds: [{
+      title: locale.storytellerChangeDifficulty,
+      color: colors.gray,
+      fields: [{
+        name: locale.difficulty,
+        value: `**${input.difficulty}**`,
+        inline: true,
+      }],
+    }],
+  });
 }

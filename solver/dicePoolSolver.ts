@@ -25,61 +25,68 @@ export async function dicePoolSolver(
 ) {
   const character = await chronicle.getCharacterByUserId(interaction.user.id);
 
-  if (character) {
-    const description: string[] = [];
-
-    let dices = getAttributeValue(character, values.attribute, description);
-    
-    if (values.secondaryAttribute) {
-      dices += getAttributeValue(character, values.secondaryAttribute, description);
-    }
-
-    if (values.skillPhysical) {
-      description.push(locale.skills.physical[values.skillPhysical]);
-      dices += character.skills.physical[values.skillPhysical];
-    }
-
-    if (values.skillSocial) {
-      description.push(locale.skills.social[values.skillSocial]);
-      dices += character.skills.social[values.skillSocial];
-    }
-
-    if (values.skillMental) {
-      description.push(locale.skills.mental[values.skillMental]);
-      dices += character.skills.mental[values.skillMental];
-    }
-
-    if (values.discipline) {
-      description.push((locale.disciplines[values.discipline] as any).name);
-      dices += character.disciplines[values.discipline]?.length || 0;
-    }
-
-    await sendRoll(
-      chronicle,
-      async (m) => {
-        await interaction.respond({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          content: m.content,
-          embeds: m.embeds,
-          components: m.components,
-        });
-      },
-      interaction.user.id,
-      dices,
-      character.hunger,
-      1,
-      0,
-      description.join(" + "),
-      character
-    );
-  }
-  else {
+  if (!character) {
     throw new InteractionResponseError(locale.notFound);
   }
+
+  const description: string[] = [];
+
+  let dices = getAttributeValue(character, values.attribute, description);
+
+  if (values.secondaryAttribute) {
+    dices += getAttributeValue(
+      character,
+      values.secondaryAttribute,
+      description,
+    );
+  }
+
+  if (values.skillPhysical) {
+    description.push(locale.skills.physical[values.skillPhysical]);
+    dices += character.skills.physical[values.skillPhysical];
+  }
+
+  if (values.skillSocial) {
+    description.push(locale.skills.social[values.skillSocial]);
+    dices += character.skills.social[values.skillSocial];
+  }
+
+  if (values.skillMental) {
+    description.push(locale.skills.mental[values.skillMental]);
+    dices += character.skills.mental[values.skillMental];
+  }
+
+  if (values.discipline) {
+    description.push((locale.disciplines[values.discipline] as any).name);
+    dices += character.disciplines[values.discipline]?.length || 0;
+  }
+
+  await sendRoll(
+    chronicle,
+    async (m) => {
+      await interaction.respond({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        content: m.content,
+        embeds: m.embeds,
+        components: m.components,
+      });
+    },
+    interaction.user.id,
+    dices,
+    character.hunger,
+    1,
+    0,
+    description.join(" + "),
+    character,
+  );
 }
 
-function getAttributeValue(character: Character, attribute: AttributeType, description: string[]): number {
-  switch(attribute) {
+function getAttributeValue(
+  character: Character,
+  attribute: AttributeType,
+  description: string[],
+): number {
+  switch (attribute) {
     case "strength":
     case "dexterity":
     case "stamina":

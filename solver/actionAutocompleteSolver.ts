@@ -3,10 +3,11 @@ import {
   Interaction,
   InteractionResponseType,
 } from "../deps.ts";
-import { sendRoll } from "../sendRoll.ts";
 import { actions } from "../actions.ts";
 import { Chronicle } from "../repository.ts";
 import { locale } from "../i18n/locale.ts";
+import { InteractionResponseError } from "../utils.ts";
+import { sendRoll } from "../sendRoll.ts";
 
 export async function actionAutocompleteSolver(
   interaction: Interaction,
@@ -48,27 +49,30 @@ export async function actionAutocompleteSolver(
     });
   } else {
     const character = await chronicle.getCharacterByUserId(interaction.user.id);
-    if (character) {
-      const index = parseInt(input.action.value!);
-      const result = actions[index](character);
-      await sendRoll(
-        chronicle,
-        async (m) => {
-          await interaction.respond({
-            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-            content: m.content,
-            embeds: m.embeds,
-            components: m.components,
-          });
-        },
-        interaction.user.id,
-        result.dices,
-        character.hunger,
-        result.difficulty,
-        result.modifier,
-        locale.actions[index],
-        character,
-      );
+
+    if (!character) {
+      throw new InteractionResponseError(locale.notFound);
     }
+
+    const index = parseInt(input.action.value!);
+    const result = actions[index](character);
+    await sendRoll(
+      chronicle,
+      async (m) => {
+        await interaction.respond({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          content: m.content,
+          embeds: m.embeds,
+          components: m.components,
+        });
+      },
+      interaction.user.id,
+      result.dices,
+      character.hunger,
+      result.difficulty,
+      result.modifier,
+      locale.actions[index],
+      character,
+    );
   }
 }

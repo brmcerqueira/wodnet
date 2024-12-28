@@ -25,12 +25,12 @@ const compilerOptions: ts.CompilerOptions = {
 
 const host = ts.createCompilerHost(compilerOptions, true);
 
-export function macroFunction(macro: Macro): MacroFunction {
+export function macroFunction(code: string): MacroFunction {
   return new Function(
     "character",
     "result",
     "button",
-    macro.transpiled!,
+    code,
   ) as MacroFunction;
 }
 
