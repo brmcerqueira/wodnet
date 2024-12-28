@@ -380,6 +380,7 @@ export type LocaleType = {
       buttons: string;
       code: string;
       saved: string;
+      loading: string;
       error: string;
     }
     actions: {
