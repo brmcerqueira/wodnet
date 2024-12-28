@@ -32,7 +32,9 @@ export async function macroSolver(
     modifier: 0,
   };
 
-  action(structuredClone(character), result, input.index);
+  const button = macro.buttons![input.index];
+
+  action(structuredClone(character), result, button.value || input.index);
   
   await sendRoll(
     chronicle,
@@ -49,7 +51,7 @@ export async function macroSolver(
     character.hunger,
     result.difficulty,
     result.modifier,
-    macro.buttons![input.index],
+    button.label || button.emoji,
     character,
   );
 }

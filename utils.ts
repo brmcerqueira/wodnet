@@ -32,3 +32,13 @@ export function treatDiscipline(text: string): { name: string; value: number } {
     value: index,
   };
 }
+
+export function jsonRelaxedKeysParse<T>(json: string): T {
+  return JSON.parse(
+    json.replace(/([a-zA-Z0-9_]+)(?=\s*:)/g, '"$1"'),
+  );
+}
+
+export function jsonRelaxedKeysStringify(value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string {
+  return JSON.stringify(value, replacer, space).replace(/"([^"]+)":/g, "$1:");
+}

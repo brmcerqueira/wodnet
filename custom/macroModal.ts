@@ -2,18 +2,20 @@ import { MessagePayload, TextInputStyle } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { getMacro, saveMacro } from "../repository.ts";
 import { macroModalSolver } from "../solver/macroModalSolver.ts";
-import { InteractionResponseError } from "../utils.ts";
+import { InteractionResponseError, jsonRelaxedKeysStringify } from "../utils.ts";
 import { modal, ModalOptions } from "./common.ts";
 
 export const macroModal = modal<{ message: MessagePayload }>(
   async (_interaction, _chronicle, context, input): Promise<ModalOptions> => {
-   if (input.message.interaction?.name !== locale.commands.macro.panel.name) {
+    if (input.message.interaction?.name !== locale.commands.macro.panel.name) {
       throw new InteractionResponseError(locale.unauthorized);
     }
 
     const macro = await getMacro(input.message.id);
 
-    await saveMacro({ message: input.message });
+    if (!macro) {
+      await saveMacro({ message: input.message });
+    }
 
     context.push(input.message.id);
 
@@ -22,7 +24,10 @@ export const macroModal = modal<{ message: MessagePayload }>(
       fields: {
         buttons: {
           label: locale.commands.macro.buttons,
-          value: macro?.buttons?.join("\n"),
+          value: macro?.buttons?.map((b) => {
+            const data = jsonRelaxedKeysStringify(b, (k, v) => k !== "label" ? v : undefined);
+            return `${b.label || ""}${b.label && data === "{}" ? " " : ""}${data === "{}" ? "" : data}`}
+          ).join("\n"),
           style: TextInputStyle.PARAGRAPH,
           minLength: 1,
           maxLength: 4000,

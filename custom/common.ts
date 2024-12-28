@@ -104,7 +104,7 @@ export function button<T>(
     return {
       type: MessageComponentType.BUTTON,
       label: options.label,
-      style: options.style || ButtonStyle.GREEN,
+      style: options.style || ButtonStyle.PRIMARY,
       emoji: options.emoji,
       customID: [id, ...context].join(separator),
     };

@@ -1,5 +1,5 @@
 import { locale } from "../i18n/locale.ts";
-import { keys } from "../utils.ts";
+import { keys, jsonRelaxedKeysParse } from "../utils.ts";
 import { actionAutocompleteSolver } from "../solver/actionAutocompleteSolver.ts";
 import { characterSolver } from "../solver/characterSolver.ts";
 import { characterLinkSolver } from "../solver/characterLinkSolver.ts";
@@ -140,7 +140,7 @@ commands[treatKey(locale.commands.sheet.link.name)] = {
 commands[treatKey(locale.commands.import.name)] = {
   description: locale.commands.import.description,
   solve: buildCharacterUpdateSolver((c, i: { json: string }) => {
-    Object.assign(c, JSON.parse(i.json));
+    Object.assign(c, jsonRelaxedKeysParse(i.json));
     return 0;
   }, true),
   options: option(locale.commands.import.json.name, {

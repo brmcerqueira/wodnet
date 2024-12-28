@@ -8,8 +8,8 @@ import {
   User,
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { colors } from "../utils.ts";
-import { Macro, MacroTranspiler } from "../macroTranspiler.ts";
+import { colors, jsonRelaxedKeysParse } from "../utils.ts";
+import { Macro, MacroButton, MacroTranspiler } from "../macroTranspiler.ts";
 
 async function updateMacro(macro: Macro, message: Message) {
   const transpiler = new MacroTranspiler(macro.code!);
@@ -34,9 +34,13 @@ async function updateMacro(macro: Macro, message: Message) {
       embeds: macro.message.embeds,
       components: [{
         type: MessageComponentType.ACTION_ROW,
-        components: macro.buttons!.map((label, index) => macroButton(
+        components: macro.buttons!.map((button, index) => macroButton(
           {
-            label: label,
+            label: button.label || "",
+            style: button.style,
+            emoji: button.emoji ? {
+              name: button.emoji
+            } : undefined
           },
           message.id,
           index
@@ -54,7 +58,28 @@ export async function macroModalSolver(
 ) {
   const macro = (await getMacro(input.context[0]))!;
 
-  macro.buttons = input.fields.buttons.split("\n");
+  macro.buttons = input.fields.buttons.split("\n").map(text => {
+    const result: MacroButton = {};
+
+    const index = text.indexOf("{");
+    if (index > -1) {
+      result.label = text.substring(0, index).trim();
+      try {
+        const data = jsonRelaxedKeysParse<any>(text.slice(index));
+        const style = Number(data.style);
+        if (!isNaN(style) && style >= 1 && style <= 5) {
+          result.style = style;
+        }       
+        result.emoji = data.emoji;
+        result.value = data.value;
+      } catch (_error) {}
+    } 
+    else {
+      result.label = text.trim();
+    }
+
+    return result;
+  });
   macro.code = input.fields.code;
   macro.transpiled = undefined;
 

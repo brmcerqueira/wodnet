@@ -1,10 +1,17 @@
 import { ActionResult, Character } from "./character.ts";
-import { MessagePayload, ts } from "./deps.ts";
+import { ButtonStyle, MessagePayload, ts } from "./deps.ts";
 import { logger } from "./logger.ts";
+
+export type MacroButton = {
+  label?: string;
+  style?: ButtonStyle;
+  emoji?: string;
+  value?: any
+};
 
 export type Macro = {
   message: MessagePayload;
-  buttons?: string[];
+  buttons?: MacroButton[];
   code?: string;
   transpiled?: string;
 };
@@ -12,7 +19,7 @@ export type Macro = {
 export type MacroFunction = (
   character: Character,
   result: ActionResult,
-  button: number,
+  button: any,
 ) => void;
 
 const target = ts.ScriptTarget.Latest;
@@ -39,7 +46,7 @@ export class MacroTranspiler {
 
   constructor(code: string) {
     this._code =
-      `import { ActionResult, Character, CharacterMode } from "./character.ts";declare const character: Character;declare const result: ActionResult;declare const button: number;
+      `import { ActionResult, Character, CharacterMode } from "./character.ts";declare const character: Character;declare const result: ActionResult;declare const button: any;
       ${code}`;
   }
 
