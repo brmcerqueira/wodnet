@@ -23,16 +23,23 @@ export async function macroModalSolver(
   const diagnostics = transpiler.diagnostics;
 
   if (diagnostics.length > 0) {
-    diagnostics.forEach((diagnostic) => {
-      const message = ts.flattenDiagnosticMessageText(
-        diagnostic.messageText,
-        "\n",
-      );
-      const { line, character } =
-        diagnostic.file?.getLineAndCharacterOfPosition(diagnostic.start!) ?? {};
-      logger.error(
-        `file: ${diagnostic.file?.fileName}, line: ${line}, column: ${character} -> ${message}`,
-      );
+    await interaction.respond({
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      embeds: [{
+        title: locale.commands.macro.error,
+        description: diagnostics.map(diagnostic => {
+          const message = ts.flattenDiagnosticMessageText(
+            diagnostic.messageText,
+            "\n",
+          );
+          const { line, character } =
+            diagnostic.file?.getLineAndCharacterOfPosition(diagnostic.start!) ?? {};
+  
+          return `[${line}, ${character}] -> ${message}`;
+        }).join("\n"),
+        color: colors.red,
+      }],
+      ephemeral: true,
     });
   } else {
     const messageId = input.context[0];

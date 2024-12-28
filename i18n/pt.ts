@@ -577,7 +577,8 @@ export const pt: LocaleType = {
       name: "Macro",
       code: "Código",
       buttons: "Botões",
-      saved: "O Macro foi salvo!" 
+      saved: "O Macro foi salvo!",
+      error: "O Macro contém os seguintes erros..." 
     }
   },
   actions: [
