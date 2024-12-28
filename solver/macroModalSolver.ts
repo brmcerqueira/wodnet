@@ -16,11 +16,20 @@ export async function macroModalSolver(
   _chronicle: Chronicle,
   input: ModalInput<{ buttons: string; code: string }>,
 ) {
+  const messageId = input.context[0];
+
+  const macro = (await getMacro(messageId))!;
+
+  macro.buttons = input.fields.buttons.split("\n");
+  macro.code = input.fields.code;
+
   const transpiler = new MacroTranspiler(input.fields.code);
 
   const diagnostics = transpiler.diagnostics;
 
   if (diagnostics.length > 0) {
+    await saveMacro(macro);
+
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       embeds: [{
@@ -31,12 +40,15 @@ export async function macroModalSolver(
       ephemeral: true,
     });
   } else {
-    const messageId = input.context[0];
+    await interaction.respond({
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      embeds: [{
+        title: locale.commands.macro.saved,
+        color: colors.green,
+      }],
+      ephemeral: true,
+    });
 
-    const macro = (await getMacro(messageId))!;
-
-    macro.buttons = input.fields.buttons.split("\n");
-    macro.code = input.fields.code;
     macro.transpiled = transpiler.transpiled;
 
     await saveMacro(macro);
@@ -61,15 +73,6 @@ export async function macroModalSolver(
           )
         ),
       }],
-    });
-
-    await interaction.respond({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: locale.commands.macro.saved,
-        color: colors.green,
-      }],
-      ephemeral: true,
     });
   }
 }
