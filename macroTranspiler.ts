@@ -39,13 +39,7 @@ export class MacroTranspiler {
 
   constructor(code: string) {
     this._code =
-      `import { ActionResult, Character, CharacterMode } from "./character.ts";
-
-        declare const character: Character;
-        declare const result: ActionResult;
-        declare const button: number;
-  
-        ${code}`;
+      `import { ActionResult, Character, CharacterMode } from "./character.ts";declare const character: Character;declare const result: ActionResult;declare const button: number;${code}`;
   }
 
   public get diagnostics(): readonly ts.Diagnostic[] {
