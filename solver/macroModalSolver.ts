@@ -11,7 +11,6 @@ import {
 import { locale } from "../i18n/locale.ts";
 import { colors } from "../utils.ts";
 import { MacroTranspiler } from "../macroTranspiler.ts";
-import { logger } from "../logger.ts";
 
 export async function macroModalSolver(
   interaction: Interaction,
