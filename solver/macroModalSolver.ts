@@ -98,7 +98,7 @@ export async function macroModalSolver(
         try {
           const data = jsonRelaxedKeysParse<any>(text.slice(index));
           const style = Number(data.style);
-          if (!isNaN(style) && style >= 1 && style <= 5) {
+          if (!isNaN(style) && style >= 1 && style <= 4) {
             result.style = style;
           }
 
