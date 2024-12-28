@@ -39,10 +39,11 @@ export class MacroTranspiler {
 
   constructor(code: string) {
     this._code =
-      `import { ActionResult, Character, CharacterMode } from "./character.ts";declare const character: Character;declare const result: ActionResult;declare const button: number;${code}`;
+      `import { ActionResult, Character, CharacterMode } from "./character.ts";declare const character: Character;declare const result: ActionResult;declare const button: number;
+      ${code}`;
   }
 
-  public get diagnostics(): readonly ts.Diagnostic[] {
+  public get diagnostics(): string[] {
     const root = ts.createSourceFile(
       "./root.ts",
       this._code,
@@ -51,13 +52,24 @@ export class MacroTranspiler {
       ts.ScriptKind.TS,
     );
 
-    const host = new MacroCompilerHost(root);
+    return ts.getPreEmitDiagnostics(
+      ts.createProgram(
+        [root.fileName],
+        compilerOptions,
+        new MacroCompilerHost(root),
+      ),
+      root,
+    ).map((diagnostic) => {
+      const lineAndCharacter = diagnostic.file?.getLineAndCharacterOfPosition(
+        diagnostic.start!,
+      );
 
-    return ts.getPreEmitDiagnostics(ts.createProgram(
-      [root.fileName],
-      compilerOptions,
-      host,
-    ), root);
+      return `${
+        lineAndCharacter
+          ? `[${lineAndCharacter.line}, ${lineAndCharacter.character}] -> `
+          : ""
+      }${ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")}`;
+    });
   }
 
   public get transpiled(): string {

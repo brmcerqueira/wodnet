@@ -5,7 +5,6 @@ import {
   InteractionResponseType,
   Message,
   MessageComponentType,
-  ts,
   User,
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
@@ -26,16 +25,7 @@ export async function macroModalSolver(
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       embeds: [{
         title: locale.commands.macro.error,
-        description: diagnostics.map(diagnostic => {
-          const message = ts.flattenDiagnosticMessageText(
-            diagnostic.messageText,
-            "\n",
-          );
-          const { line, character } =
-            diagnostic.file?.getLineAndCharacterOfPosition(diagnostic.start!) ?? {};
-  
-          return `[${line}, ${character}] -> ${message}`;
-        }).join("\n"),
+        description: diagnostics.join("\n"),
         color: colors.red,
       }],
       ephemeral: true,
