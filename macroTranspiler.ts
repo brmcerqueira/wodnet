@@ -1,11 +1,11 @@
 import { ActionResult, Character } from "./character.ts";
-import { ButtonStyle, MessagePayload, ts } from "./deps.ts";
+import { ButtonStyle, MessageComponentEmoji, MessagePayload, ts } from "./deps.ts";
 import { logger } from "./logger.ts";
 
 export type MacroButton = {
   label?: string;
   style?: ButtonStyle;
-  emoji?: string;
+  emoji?: MessageComponentEmoji;
   value?: any
 };
 

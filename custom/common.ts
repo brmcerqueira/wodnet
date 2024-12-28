@@ -13,7 +13,7 @@ import {
 } from "../deps.ts";
 
 export type ButtonOptions = {
-  label: string;
+  label?: string;
   style?: ButtonStyle;
   emoji?: MessageComponentEmoji;
 };
@@ -103,7 +103,7 @@ export function button<T>(
   return (options: ButtonOptions, ...context: any[]): ButtonComponent => {
     return {
       type: MessageComponentType.BUTTON,
-      label: options.label,
+      label: options.label || "",
       style: options.style || ButtonStyle.PRIMARY,
       emoji: options.emoji,
       customID: [id, ...context].join(separator),

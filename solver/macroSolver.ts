@@ -51,7 +51,7 @@ export async function macroSolver(
     character.hunger,
     result.difficulty,
     result.modifier,
-    button.label || button.emoji,
+    `${button.emoji ? `<:${button.emoji!.name}:${button.emoji!.id}> ` : ""}${button.label || ""}`,
     character,
   );
 }

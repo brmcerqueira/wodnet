@@ -26,7 +26,7 @@ export const macroModal = modal<{ message: MessagePayload }>(
           label: locale.commands.macro.buttons,
           value: macro?.buttons?.map((b) => {
             const data = jsonRelaxedKeysStringify(b, (k, v) => k !== "label" ? v : undefined);
-            return `${b.label || ""}${b.label && data === "{}" ? " " : ""}${data === "{}" ? "" : data}`}
+            return `${b.label || ""}${b.label && data !== "{}" ? " " : ""}${data === "{}" ? "" : data}`}
           ).join("\n"),
           style: TextInputStyle.PARAGRAPH,
           minLength: 1,
