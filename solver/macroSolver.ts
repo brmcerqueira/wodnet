@@ -39,7 +39,7 @@ export async function macroSolver(
   let description = "";
 
   if (button.emoji) {
-    if (button.emoji!.id) {
+    if (button.emoji.id) {
       description += `<:${button.emoji.name}:${button.emoji.id}>`;
     }
     else {
