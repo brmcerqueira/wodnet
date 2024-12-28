@@ -36,6 +36,23 @@ export async function macroSolver(
 
   action(structuredClone(character), result, button.value || input.index);
   
+  let description = "";
+
+  if (button.emoji) {
+    if (button.emoji!.id) {
+      description += `<:${button.emoji.name}:${button.emoji.id}>`;
+    }
+    else {
+      description += button.emoji!.name;
+    }
+
+    description += " ";
+  }
+
+  if (button.label) {
+    description += button.label;
+  }
+
   await sendRoll(
     chronicle,
     async (m) => {
@@ -51,7 +68,7 @@ export async function macroSolver(
     character.hunger,
     result.difficulty,
     result.modifier,
-    `${button.emoji ? `<:${button.emoji!.name}:${button.emoji!.id}> ` : ""}${button.label || ""}`,
+    description,
     character,
   );
 }
