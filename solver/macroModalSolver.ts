@@ -11,8 +11,8 @@ import { locale } from "../i18n/locale.ts";
 import { colors } from "../utils.ts";
 import { Macro, MacroTranspiler } from "../macroTranspiler.ts";
 
-async function updateMacro(code: string, macro: Macro, message: Message) {
-  const transpiler = new MacroTranspiler(code);
+async function updateMacro(macro: Macro, message: Message) {
+  const transpiler = new MacroTranspiler(macro.code!);
 
   const diagnostics = transpiler.diagnostics;
 
@@ -83,5 +83,5 @@ export async function macroModalSolver(
     ephemeral: true,
   });
 
-  updateMacro(input.fields.code, macro, message);
+  updateMacro(macro, message);
 }
