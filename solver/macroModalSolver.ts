@@ -62,14 +62,14 @@ export async function macroModalSolver(
 
   const message = new Message(
     interaction.client,
-    macro.message,
+    Object.assign({}, macro.message),
     interaction.channel!,
     new User(interaction.client, macro.message.author),
   );
 
   await message.edit({
     embeds: [...macro.message.embeds, {
-      title: locale.commands.macro.saved,
+      title: locale.commands.macro.loading,
       color: colors.gray,
     }]
   });
