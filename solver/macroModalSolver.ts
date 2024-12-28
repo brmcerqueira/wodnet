@@ -66,7 +66,7 @@ export async function macroModalSolver(
         ),
       }],
     });
-/*
+
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       embeds: [{
@@ -74,6 +74,6 @@ export async function macroModalSolver(
         color: colors.green,
       }],
       ephemeral: true,
-    });*/
+    });
   }
 }
