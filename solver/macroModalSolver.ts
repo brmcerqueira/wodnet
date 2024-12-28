@@ -70,8 +70,9 @@ export async function macroModalSolver(
   await message.edit({
     embeds: [...macro.message.embeds, {
       title: locale.commands.macro.loading,
-      color: colors.gray,
-    }]
+      color: colors.blue,
+    }],
+    components: [],
   });
 
   await interaction.respond({
