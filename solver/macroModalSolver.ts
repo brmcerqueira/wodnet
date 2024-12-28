@@ -62,7 +62,7 @@ export async function macroModalSolver(
 
   const message = new Message(
     interaction.client,
-    Object.assign({}, macro.message),
+    structuredClone(macro.message),
     interaction.channel!,
     new User(interaction.client, macro.message.author),
   );

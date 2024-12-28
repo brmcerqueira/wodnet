@@ -32,7 +32,7 @@ export async function macroSolver(
     modifier: 0,
   };
 
-  action(Object.assign({}, character), result, input.index);
+  action(structuredClone(character), result, input.index);
   
   await sendRoll(
     chronicle,
