@@ -81,21 +81,6 @@ export function booleanChoices(): CommandChoice[] {
   }];
 }
 
-export async function uploadImage(url: string): Promise<string> {
-  const body = new FormData();
-
-  body.set("image", url);
-
-  const response = await fetch(`https://api.imgbb.com/1/upload?key=${config.imgbbKey}`, {
-    method: "POST",
-    body
-  });
-
-  const json: { data: { url: string; }; } = await response.json();
-
-  return json.data.url;
-}
-
 export function option(name: string, option: CommandOption): BuildOptions {
   return new BuildOptions().option(name, option);
 }

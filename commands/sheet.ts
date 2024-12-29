@@ -11,9 +11,9 @@ import {
   parseNumberField,
   property,
   treatKey,
-  uploadImage,
   value,
 } from "./common.ts";
+import { uploadImage } from "../utils.ts";
 
 function parseField<T>(
   set: (character: Character, value: T) => void,

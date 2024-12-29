@@ -1,3 +1,4 @@
+import { config } from "./config.ts";
 import { EmojiPayload } from "./deps.ts";
 
 export const colors = {
@@ -31,6 +32,21 @@ export function treatDiscipline(text: string): { name: string; value: number } {
     name: text.substring(index).trimStart(),
     value: index,
   };
+}
+
+export async function uploadImage(url: string): Promise<string> {
+  const body = new FormData();
+
+  body.set("image", url);
+
+  const response = await fetch(`https://api.imgbb.com/1/upload?key=${config.imgbbKey}`, {
+    method: "POST",
+    body
+  });
+
+  const json: { data: { url: string; }; } = await response.json();
+
+  return json.data.url;
 }
 
 export function jsonRelaxedKeysParse<T>(json: string): T {
