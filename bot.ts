@@ -98,6 +98,7 @@ function transformOptions(options?: CommandOptions): any[] | undefined {
         max_value: option.maxValue,
         min_length: option.minLength,
         max_length: option.maxLength,
+        channel_types: option.channelTypes,
         autocomplete: option.autocomplete,
         choices: option.choices,
         options: transformOptions(option.options),

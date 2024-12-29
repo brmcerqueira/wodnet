@@ -20,10 +20,10 @@ import { setStorytellerSolver } from "../solver/setStorytellerSolver.ts";
 import { checkSolver } from "../solver/checkSolver.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import { characterExportSolver } from "../solver/characterExportSolver.ts";
-import { ApplicationCommandType } from "../deps.ts";
-import { macroModalSolver } from "../solver/macroModalSolver.ts";
+import { ApplicationCommandType, ChannelTypes } from "../deps.ts";
 import { panelSolver } from "../solver/panelSolver.ts";
 import { macroModal } from "../custom/module.ts";
+import { setRollChannel } from "../solver/setRollChannel.ts";
 
 const attributeChoices = [
   ...buildChoices(locale.attributes.physical),
@@ -155,6 +155,17 @@ commands[treatKey(locale.commands.import.name)] = {
 commands[treatKey(locale.commands.export.name)] = {
   description: locale.commands.export.description,
   solve: characterExportSolver,
+};
+commands[treatKey(locale.commands.rollChannel.name)] = {
+  description: locale.commands.rollChannel.description,
+  solve: setRollChannel,
+  options: option(locale.commands.rollChannel.channel.name, {
+    property: "channel",
+    description: locale.commands.rollChannel.channel.description,
+    type: CommandOptionType.CHANNEL,
+    required: true,
+    channelTypes: [ChannelTypes.GUILD_TEXT]
+  }).build,
 };
 commands[treatKey(locale.commands.macro.panel.name)] = {
   description: locale.commands.macro.panel.description,

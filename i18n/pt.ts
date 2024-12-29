@@ -359,8 +359,10 @@ export const pt: LocaleType = {
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",
   notFound: "Personagem não encontrado!",
+  rollChannel: "Canal de rolagem",
   storytellerChangeDifficulty: "O narrador mudou a dificuldade.",
   storytellerChangeModifier: "O narrador mudou o modificador.",
+  storytellerChangeRollChannel: "O narrador mudou o canal de rolagem.",
   storytellerDeleteCharacter: "O personagem foi excluído!",
   storytellerClearCurrentCharacter: "O narrador limpou a seleção.",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
@@ -477,6 +479,14 @@ export const pt: LocaleType = {
         description: "Valor do novo modificador",
       },
     },
+    rollChannel: {
+      name: "canal-rolagem",
+      description: "Canal de rolagem determinado pelo narrador",
+      channel: {
+        name: "canal",
+        description: "Canal de texto",
+      },
+    },
     sheet: {
       description: "Atualizar valor do campo:",
       link: {
@@ -579,7 +589,8 @@ export const pt: LocaleType = {
       buttons: "Botões",
       saved: "O Macro foi salvo!",
       loading: "Atualizando...",
-      error: "O Macro contém os seguintes erros..." 
+      error: "O Macro contém os seguintes erros...",
+      executed: "O Macro foi executado!" 
     }
   },
   actions: [

@@ -23,14 +23,14 @@ export async function reRollSolver(interaction: Interaction, chronicle: Chronicl
       character
     );
 
-    await interaction.message!.channel.send({
+    interaction.message!.channel.send({
       content: message.content,
       embeds: [message.embed],
     });
 
     if (character) {
       character.willpower.superficial += 1;
-      await chronicle.updateCharacter(character);
+      chronicle.updateCharacter(character);
     }
   }
   else {

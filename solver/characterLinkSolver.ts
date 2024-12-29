@@ -29,7 +29,7 @@ export async function characterLinkSolver(
     }],
   });
 
-  await interaction.user.send({
+  interaction.user.send({
     embeds: [{
       title: character.name,
       color: colors.gray,

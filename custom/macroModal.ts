@@ -1,20 +1,19 @@
 import { MessagePayload, TextInputStyle } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { getMacro, saveMacro } from "../repository.ts";
 import { macroModalSolver } from "../solver/macroModalSolver.ts";
 import { InteractionResponseError, jsonRelaxedKeysStringify } from "../utils.ts";
 import { modal, ModalOptions } from "./common.ts";
 
 export const macroModal = modal<{ message: MessagePayload }>(
-  async (_interaction, _chronicle, context, input): Promise<ModalOptions> => {
+  async (_interaction, chronicle, context, input): Promise<ModalOptions> => {
     if (input.message.interaction?.name !== locale.commands.macro.panel.name) {
       throw new InteractionResponseError(locale.unauthorized);
     }
 
-    const macro = await getMacro(input.message.id);
+    const macro = await chronicle.macro(input.message.id);
 
     if (!macro) {
-      await saveMacro({ message: input.message });
+      await chronicle.saveMacro({ message: input.message });
     }
 
     context.push(input.message.id);

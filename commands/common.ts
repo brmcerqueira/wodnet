@@ -1,7 +1,7 @@
 import { Character } from "../character.ts";
 import { Chronicle } from "../repository.ts";
 import { config } from "../config.ts";
-import { ApplicationCommandType, Interaction } from "../deps.ts";
+import { ApplicationCommandType, ChannelTypes, Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { keys, treatDiscipline } from "../utils.ts";
 
@@ -33,6 +33,7 @@ export type CommandOption = {
   maxValue?: number;
   minLength?: number;
   maxLength?: number;
+  channelTypes?: ChannelTypes[];
   autocomplete?: boolean;
   choices?: CommandChoice[];
   options?: CommandOptions;

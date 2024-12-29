@@ -316,6 +316,7 @@ export type LocaleType = {
   reRollHelperText: string;
   unauthorized: string;
   notFound: string;
+  rollChannel: string;
   characterUpdate: string;
   characterCheck: string;
   characterCheckFailed: string;
@@ -324,6 +325,7 @@ export type LocaleType = {
   storytellerUpdate: string;
   storytellerChangeDifficulty: string;
   storytellerChangeModifier: string;
+  storytellerChangeRollChannel: string;
   storytellerDeleteCharacter: string;
   storytellerClearCurrentCharacter: string;
   storytellerChangeCharacterMode: string;
@@ -382,6 +384,7 @@ export type LocaleType = {
       saved: string;
       loading: string;
       error: string;
+      executed: string;
     }
     actions: {
       action: CommandOption;
@@ -397,6 +400,9 @@ export type LocaleType = {
     } & CommandOption;
     setModifier: {
       modifier: CommandOption;
+    } & CommandOption;
+    rollChannel: {
+      channel: CommandOption;
     } & CommandOption;
     editModal: {
       title: string;

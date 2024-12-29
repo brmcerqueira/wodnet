@@ -17,7 +17,7 @@ const currentCharacterKey = "currentCharacter";
 const difficultyKey = "difficulty";
 const modifierKey = "modifier";
 const storytellerKey = "storyteller";
-const emojiKey = "emoji";
+const rollChannelKey = "rollChannel";
 const macroKey = "macro";
 
 async function clearRepository() {
@@ -47,7 +47,9 @@ export async function removeChronicle(id: string) {
   }),repository.list({
     prefix: [storytellerKey, id],
   }),repository.list({
-    prefix: [emojiKey, id],
+    prefix: [rollChannelKey, id],
+  }),repository.list({
+    prefix: [macroKey, id],
   })];
 
   for (const element of array) {
@@ -58,14 +60,6 @@ export async function removeChronicle(id: string) {
       await repository.delete(entry.key);
     }
   }
-}
-
-export async function getMacro(id: string): Promise<Macro | null> {
-  return (await repository.get<Macro>([macroKey, id])).value;
-}
-
-export async function saveMacro(value: Macro) {
-  await repository.set([macroKey, value.message.id], value);
 }
 
 export class Chronicle {
@@ -119,6 +113,22 @@ export class Chronicle {
   public async setModifier(value: number) {
     await repository.set([modifierKey, this.chronicleId], value);
   } 
+
+  public async rollChannel(): Promise<string | null> {
+    return (await repository.get<string>([rollChannelKey, this.chronicleId])).value;
+  }
+
+  public async setRollChannel(value: string) {
+    await repository.set([rollChannelKey, this.chronicleId], value);
+  }
+
+  public async macro(id: string): Promise<Macro | null> {
+    return (await repository.get<Macro>([macroKey, this.chronicleId, id])).value;
+  }
+  
+  public async saveMacro(value: Macro) {
+    await repository.set([macroKey, this.chronicleId, value.message.id], value);
+  }
 
   public async currentCharacter(): Promise<string | null> {
     return (await repository.get<string>([currentCharacterKey, this.chronicleId])).value;

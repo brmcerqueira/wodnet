@@ -1,5 +1,5 @@
 import { macroButton, ModalInput } from "../custom/module.ts";
-import { Chronicle, getMacro, saveMacro } from "../repository.ts";
+import { Chronicle } from "../repository.ts";
 import {
   ButtonComponent,
   Interaction,
@@ -15,7 +15,7 @@ import { colors, jsonRelaxedKeysParse } from "../utils.ts";
 import { Macro, MacroButton, MacroTranspiler } from "../macroTranspiler.ts";
 import { logger } from "../logger.ts";
 
-async function updateMacro(macro: Macro, message: Message) {
+async function updateMacro(chronicle: Chronicle, macro: Macro, message: Message) {
   async function macroError(description: string) {
     await message.edit({
       embeds: [...macro.message.embeds, {
@@ -36,7 +36,7 @@ async function updateMacro(macro: Macro, message: Message) {
     } else {
       macro.transpiled = transpiler.transpiled;
 
-      await saveMacro(macro);
+      await chronicle.saveMacro(macro);
 
       const components: MessageComponentData[] = [];
       let buttonComponents: ButtonComponent[] | undefined;
@@ -100,10 +100,10 @@ async function updateMacro(macro: Macro, message: Message) {
 
 export async function macroModalSolver(
   interaction: Interaction,
-  _chronicle: Chronicle,
+  chronicle: Chronicle,
   input: ModalInput<{ buttons: string; code: string }>,
 ) {
-  const macro = (await getMacro(input.context[0]))!;
+  const macro = (await chronicle.macro(input.context[0]))!;
 
   macro.buttons = input.fields.buttons.split("\n").slice(undefined, 25).map(
     (text) => {
@@ -146,7 +146,7 @@ export async function macroModalSolver(
   macro.code = input.fields.code;
   macro.transpiled = undefined;
 
-  await saveMacro(macro);
+  await chronicle.saveMacro(macro);
 
   const message = new Message(
     interaction.client,
@@ -172,5 +172,5 @@ export async function macroModalSolver(
     ephemeral: true,
   });
 
-  updateMacro(macro, message);
+  updateMacro(chronicle, macro, message);
 }
