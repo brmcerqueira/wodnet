@@ -1,6 +1,5 @@
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
-import { LocaleType } from "../i18n/localeType.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
   booleanChoices,
@@ -11,6 +10,7 @@ import {
   CommandOptionType,
   commands,
   option,
+  property,
   treatKey,
 } from "./common.ts";
 
@@ -143,7 +143,7 @@ function buildDisciplineOptions(data: any): CommandOptions {
     required: true,
     choices: choices,
   }).option(locale.commands.sheet.value.name, {
-    property: "value",
+    property: property,
     description: locale.commands.sheet.value.description,
     type: CommandOptionType.STRING,
     required: true,

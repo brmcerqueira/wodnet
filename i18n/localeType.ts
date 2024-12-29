@@ -328,6 +328,7 @@ export type LocaleType = {
   storytellerChangeRollChannel: string;
   storytellerDeleteCharacter: string;
   storytellerClearCurrentCharacter: string;
+  storytellerClearRollChannel: string;
   storytellerChangeCharacterMode: string;
   storytellerChangeAllCharacterMode: string;
   bestialFailure: string;
@@ -412,9 +413,7 @@ export type LocaleType = {
       choose: {     
         buttons: CommandOption;
       } & CommandOption;
-      mode: {
-        value: CommandOption;
-      } & CommandOption;
+      mode: CommandOption;
       remove: CommandOption;
       clear: CommandOption;
     } & CommandOption;

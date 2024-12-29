@@ -13,6 +13,7 @@ booleanChoices,
   CommandOptionType,
   commands,
   option,
+  property,
   treatKey,
 } from "./common.ts";
 import { CharacterMode } from "../character.ts";
@@ -159,12 +160,21 @@ commands[treatKey(locale.commands.export.name)] = {
 commands[treatKey(locale.commands.rollChannel.name)] = {
   description: locale.commands.rollChannel.description,
   solve: setRollChannel,
-  options: option(locale.commands.rollChannel.channel.name, {
+  options: option(locale.commands.character.clear.name, {
+    property: "clear",
+    description: locale.commands.character.clear.description,
+    type: CommandOptionType.SUB_COMMAND,
+  }).option(locale.commands.rollChannel.channel.name, {
     property: "channel",
     description: locale.commands.rollChannel.channel.description,
-    type: CommandOptionType.CHANNEL,
-    required: true,
-    channelTypes: [ChannelTypes.GUILD_TEXT]
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.sheet.value.name, {
+      property: property,
+      description: locale.commands.sheet.value.description,
+      type: CommandOptionType.CHANNEL,
+      required: true,
+      channelTypes: [ChannelTypes.GUILD_TEXT]
+    }).build,
   }).build,
 };
 commands[treatKey(locale.commands.macro.panel.name)] = {
@@ -250,9 +260,9 @@ commands[treatKey(locale.commands.character.name)] = {
     property: "mode",
     description: locale.commands.character.mode.description,
     type: CommandOptionType.SUB_COMMAND,
-    options: option(locale.commands.character.mode.value.name, {
-      property: "value",
-      description: locale.commands.character.mode.value.description,
+    options: option(locale.commands.sheet.value.name, {
+      property: property,
+      description: locale.commands.sheet.value.description,
       type: CommandOptionType.STRING,
       required: true,
       choices: keys(CharacterMode).filter(item => Number(item) >= 0).map((key) => {

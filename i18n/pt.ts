@@ -365,6 +365,7 @@ export const pt: LocaleType = {
   storytellerChangeRollChannel: "O narrador mudou o canal de rolagem.",
   storytellerDeleteCharacter: "O personagem foi excluído!",
   storytellerClearCurrentCharacter: "O narrador limpou a seleção.",
+  storytellerClearRollChannel: "O narrador limpou a seleção do canal de rolagem.",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
   storytellerChangeAllCharacterMode:
     "O modo de todos os personagens foi alterado!",
@@ -557,10 +558,6 @@ export const pt: LocaleType = {
       mode: {
         name: "modo",
         description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
-        value: {
-          name: "valor",
-          description: "Valor",
-        },
       },
       remove: {
         name: "excluir",

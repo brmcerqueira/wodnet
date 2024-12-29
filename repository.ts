@@ -118,8 +118,14 @@ export class Chronicle {
     return (await repository.get<string>([rollChannelKey, this.chronicleId])).value;
   }
 
-  public async setRollChannel(value: string) {
-    await repository.set([rollChannelKey, this.chronicleId], value);
+  public async setRollChannel(value: string | null) {
+    const key = [rollChannelKey, this.chronicleId];
+    if (value != null) {
+      await repository.set(key, value);
+    }
+    else {
+      await repository.delete(key);
+    }
   }
 
   public async macro(id: string): Promise<Macro | null> {
