@@ -1,5 +1,5 @@
 import { locale } from "../i18n/locale.ts";
-import { keys, jsonRelaxedKeysParse } from "../utils.ts";
+import { jsonRelaxedKeysParse, keys } from "../utils.ts";
 import { actionAutocompleteSolver } from "../solver/actionAutocompleteSolver.ts";
 import { characterSolver } from "../solver/characterSolver.ts";
 import { characterLinkSolver } from "../solver/characterLinkSolver.ts";
@@ -8,7 +8,7 @@ import { rollSolver } from "../solver/rollSolver.ts";
 import { setDifficultySolver } from "../solver/setDifficultySolver.ts";
 import { setModifierSolver } from "../solver/setModifierSolver.ts";
 import {
-booleanChoices,
+  booleanChoices,
   buildChoices,
   CommandOptionType,
   commands,
@@ -150,7 +150,7 @@ commands[treatKey(locale.commands.import.name)] = {
     type: CommandOptionType.STRING,
     required: true,
     minLength: 1,
-    maxLength: 6000
+    maxLength: 6000,
   }).build,
 };
 commands[treatKey(locale.commands.export.name)] = {
@@ -173,7 +173,7 @@ commands[treatKey(locale.commands.rollChannel.name)] = {
       description: locale.commands.sheet.value.description,
       type: CommandOptionType.CHANNEL,
       required: true,
-      channelTypes: [ChannelTypes.GUILD_TEXT]
+      channelTypes: [ChannelTypes.GUILD_TEXT],
     }).build,
   }).build,
 };
@@ -186,13 +186,27 @@ commands[treatKey(locale.commands.macro.panel.name)] = {
     type: CommandOptionType.STRING,
     required: true,
     minLength: 1,
-    maxLength: 100
+    maxLength: 100,
   }).option(locale.commands.macro.panel.descriptionField.name, {
     property: "description",
     description: locale.commands.macro.panel.descriptionField.description,
     type: CommandOptionType.STRING,
     minLength: 1,
-    maxLength: 6000
+    maxLength: 6000,
+  }).option(locale.commands.macro.panel.character.name, {
+    property: "character",
+    description: locale.commands.macro.panel.character.description,
+    type: CommandOptionType.STRING,
+    autocomplete: true,
+  }).option(locale.commands.macro.panel.image.name, {
+    property: "image",
+    description: locale.commands.macro.panel.image.description,
+    type: CommandOptionType.ATTACHMENT,
+  }).option(locale.commands.macro.panel.thumbnail.name, {
+    property: "thumbnail",
+    description: locale.commands.macro.panel.thumbnail.description,
+    type: CommandOptionType.STRING,
+    choices: booleanChoices(),
   }).build,
 };
 commands[locale.commands.macro.name] = {
@@ -206,7 +220,7 @@ commands[treatKey(locale.commands.setStoryteller.name)] = {
     property: "user",
     description: locale.commands.setStoryteller.user.description,
     type: CommandOptionType.USER,
-    required: true
+    required: true,
   }).build,
 };
 commands[treatKey(locale.commands.setDifficulty.name)] = {
@@ -253,7 +267,7 @@ commands[treatKey(locale.commands.character.name)] = {
     }).option(locale.commands.character.choose.buttons.name, {
       property: "buttons",
       description: locale.commands.character.choose.buttons.description,
-      type: CommandOptionType.STRING, 
+      type: CommandOptionType.STRING,
       choices: booleanChoices(),
     }).build,
   }).option(locale.commands.character.mode.name, {
@@ -265,18 +279,20 @@ commands[treatKey(locale.commands.character.name)] = {
       description: locale.commands.sheet.value.description,
       type: CommandOptionType.STRING,
       required: true,
-      choices: keys(CharacterMode).filter(item => Number(item) >= 0).map((key) => {
-        return {
-          name: locale.mode[key as unknown as number],
-          value: key,
-        };
-      }),
+      choices: keys(CharacterMode).filter((item) => Number(item) >= 0).map(
+        (key) => {
+          return {
+            name: locale.mode[key as unknown as number],
+            value: key,
+          };
+        },
+      ),
     }).option(locale.commands.character.characterArg.name, {
       property: "character",
       description: locale.commands.character.characterArg.description,
       type: CommandOptionType.STRING,
       autocomplete: true,
-    }).build
+    }).build,
   }).option(locale.commands.character.remove.name, {
     property: "remove",
     description: locale.commands.character.remove.description,

@@ -379,6 +379,9 @@ export type LocaleType = {
       panel: {
         title: CommandOption;
         descriptionField: CommandOption;
+        character: CommandOption;
+        image: CommandOption;
+        thumbnail: CommandOption;
       } & CommandOption;
       name: string;
       buttons: string;

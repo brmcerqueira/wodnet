@@ -5,7 +5,16 @@ import { Chronicle } from "../repository.ts";
 export async function panelSolver(
   interaction: Interaction,
   _chronicle: Chronicle,
-  input: { title: string; description?: string },
+  input: {
+    title: string;
+    description?: string;
+    character?: {
+      value: string;
+      focused: boolean;
+    };
+    image?: { url: string };
+    thumbnail?: boolean;
+  },
 ) {
   await interaction.respond({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

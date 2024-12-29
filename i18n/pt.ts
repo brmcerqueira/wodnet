@@ -580,6 +580,18 @@ export const pt: LocaleType = {
         descriptionField: {
           name: "descrição",
           description: "Descrição do painel",
+        },
+        character: {
+          name: "personagem",
+          description: "Para usar a imagem de um personagem",
+        },
+        image: {
+          name: "imagem",
+          description: "Para usar a imagem qualquer",
+        },
+        thumbnail: {
+          name: "miniatura",
+          description: "Se a imagem deve ser miniatura ou não",
         }
       },
       name: "Macro",
