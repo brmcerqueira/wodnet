@@ -21,7 +21,7 @@ export async function setRollChannel(
         color: colors.gray,
         fields: [{
           name: locale.rollChannel,
-          value: `<#${input.channel}>`,
+          value: `<#${input.channel.value}>`,
           inline: true,
         }],
       }],
