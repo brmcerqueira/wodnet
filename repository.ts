@@ -136,6 +136,10 @@ export class Chronicle {
     await repository.set([macroKey, this.chronicleId, value.message.id], value);
   }
 
+  public async removeMacro(id: string) {
+    await repository.delete([macroKey, this.chronicleId, id]);
+  }
+
   public async currentCharacter(): Promise<string | null> {
     return (await repository.get<string>([currentCharacterKey, this.chronicleId])).value;
   }

@@ -10,6 +10,7 @@ import {
   InteractionApplicationCommandOption,
   InteractionResponseType,
   InteractionType,
+  Message,
 } from "./deps.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
@@ -211,6 +212,18 @@ client.on("ready", async () => {
     await removeChronicle(guild.id);
 
     logger.info("Guild Delete %v", guild.name);
+  } catch (error) {
+    logger.error(error);
+  }
+}).on("messageDelete", async (message: Message) => {
+  try {
+    logger.info("Loading Macro Delete %v", message.id);
+
+    const chronicle = new Chronicle(message.guildID!);
+
+    await chronicle.removeMacro(message.id);
+
+    logger.info("Macro Delete %v", message.id);
   } catch (error) {
     logger.error(error);
   }
