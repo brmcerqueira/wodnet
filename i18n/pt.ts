@@ -379,6 +379,7 @@ export const pt: LocaleType = {
   successes: "Sucessos",
   status: "Status",
   modifier: "Modificador",
+  rollExecuted: "A rolagem está no canal de rolagem!",
   commands: {
     roll: {
       name: "jogar",
@@ -586,8 +587,7 @@ export const pt: LocaleType = {
       buttons: "Botões",
       saved: "O Macro foi salvo!",
       loading: "Atualizando...",
-      error: "O Macro contém os seguintes erros...",
-      executed: "O Macro foi executado!" 
+      error: "O Macro contém os seguintes erros..." 
     }
   },
   actions: [

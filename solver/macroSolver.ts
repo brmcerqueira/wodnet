@@ -1,10 +1,10 @@
-import { Interaction, InteractionResponseType } from "../deps.ts";
+import { Interaction } from "../deps.ts";
 import { Chronicle } from "../repository.ts";
 import { MacroButtonInput } from "../custom/module.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { macroFunction } from "../macroTranspiler.ts";
 import { ActionResult } from "../character.ts";
-import { colors, InteractionResponseError } from "../utils.ts";
+import { InteractionResponseError } from "../utils.ts";
 import { locale } from "../i18n/locale.ts";
 
 export async function macroSolver(
@@ -54,34 +54,8 @@ export async function macroSolver(
   }
 
   await sendRoll(
+    interaction,
     chronicle,
-    async (m) => {
-      const channel = await chronicle.rollChannel();
-      if (channel) {
-        await interaction.respond({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          embeds: [{
-            title: locale.commands.macro.executed,
-            color: colors.green,
-          }],
-          ephemeral: true,
-        });
-
-        interaction.client.channels.sendMessage(channel, {
-          content: m.content,
-          embeds: m.embeds,
-          components: m.components,
-        });
-      } else {
-        await interaction.respond({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          content: m.content,
-          embeds: m.embeds,
-          components: m.components,
-        });
-      }
-    },
-    interaction.user.id,
     result.dices,
     character.hunger,
     result.difficulty,

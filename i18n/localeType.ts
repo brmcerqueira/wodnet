@@ -341,6 +341,7 @@ export type LocaleType = {
   successes: string;
   status: string;
   modifier: string;
+  rollExecuted: string;
   commands: {
     roll: {
       dices: CommandOption;
@@ -385,7 +386,6 @@ export type LocaleType = {
       saved: string;
       loading: string;
       error: string;
-      executed: string;
     }
     actions: {
       action: CommandOption;

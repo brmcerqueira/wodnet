@@ -57,16 +57,8 @@ export async function actionAutocompleteSolver(
     const index = parseInt(input.action.value!);
     const result = actions[index](character);
     await sendRoll(
+      interaction,
       chronicle,
-      async (m) => {
-        await interaction.respond({
-          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-          content: m.content,
-          embeds: m.embeds,
-          components: m.components,
-        });
-      },
-      interaction.user.id,
       result.dices,
       character.hunger,
       result.difficulty,

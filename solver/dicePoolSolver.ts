@@ -1,4 +1,4 @@
-import { Interaction, InteractionResponseType } from "../deps.ts";
+import { Interaction } from "../deps.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { LocaleType } from "../i18n/localeType.ts";
 import { Character } from "../character.ts";
@@ -62,16 +62,8 @@ export async function dicePoolSolver(
   }
 
   await sendRoll(
+    interaction,
     chronicle,
-    async (m) => {
-      await interaction.respond({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        content: m.content,
-        embeds: m.embeds,
-        components: m.components,
-      });
-    },
-    interaction.user.id,
     dices,
     character.hunger,
     1,

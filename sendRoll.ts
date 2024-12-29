@@ -1,8 +1,8 @@
 import { roll } from "./diceRollManager.ts";
 import {
   ButtonStyle,
-  Embed,
-  EmbedPayload,
+  Interaction,
+  InteractionResponseType,
   MessageComponentData,
   MessageComponentType,
 } from "./deps.ts";
@@ -10,17 +10,12 @@ import { buildRollMessage } from "./buildRollMessage.ts";
 import { Chronicle } from "./repository.ts";
 import { Character } from "./character.ts";
 import { reRollButton } from "./custom/module.ts";
-
-export type SendRollData = {
-  content: string;
-  embeds: Array<Embed | EmbedPayload>;
-  components?: MessageComponentData[];
-};
+import { colors } from "./utils.ts";
+import { locale } from "./i18n/locale.ts";
 
 export async function sendRoll(
+  interaction: Interaction,
   chronicle: Chronicle,
-  send: (data: SendRollData) => Promise<void>,
-  authorId: string,
   dices: number,
   hunger: number,
   difficulty: number,
@@ -28,6 +23,8 @@ export async function sendRoll(
   description?: string,
   character?: Character,
 ): Promise<void> {
+  const authorId = interaction.user.id;
+
   const chronicleDifficulty = await chronicle.difficulty();
 
   if (chronicleDifficulty) {
@@ -53,10 +50,7 @@ export async function sendRoll(
     character,
   );
 
-  const options: SendRollData = {
-    content: message.content,
-    embeds: [message.embed],
-  };
+  let components: MessageComponentData[] | undefined;
 
   if (margin > 0) {
     const buttons: MessageComponentData[] = [
@@ -89,7 +83,7 @@ export async function sendRoll(
       }, 3));
     }
 
-    options.components = [{
+    components = [{
       type: MessageComponentType.ActionRow,
       components: buttons,
     }];
@@ -100,5 +94,31 @@ export async function sendRoll(
     result: result,
   });
 
-  await send(options);
+  const channelId = await chronicle.rollChannel();
+
+  if (
+    channelId && interaction.channel && interaction.channel.id !== channelId
+  ) {
+    await interaction.respond({
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      embeds: [{
+        title: locale.rollExecuted,
+        color: colors.green,
+      }],
+      ephemeral: true,
+    });
+
+    interaction.client.channels.sendMessage(channelId, {
+      content: message.content,
+      embeds: [message.embed],
+      components,
+    });
+  } else {
+    await interaction.respond({
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      content: message.content,
+      embeds: [message.embed],
+      components,
+    });
+  }
 }
