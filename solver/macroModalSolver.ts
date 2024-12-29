@@ -6,6 +6,7 @@ import {
   InteractionResponseType,
   Message,
   MessageComponentData,
+  MessageComponentEmoji,
   MessageComponentType,
   User,
 } from "../deps.ts";
@@ -57,11 +58,27 @@ async function updateMacro(macro: Macro, message: Message) {
 
         const button = macro.buttons![index];
 
+        let emoji: MessageComponentEmoji | undefined;
+
+        if (button.emoji) {
+          if (typeof button.emoji === "string") {
+            emoji = {
+              name: button.emoji
+            }
+          }
+          else {
+            emoji = {
+              id: button.emoji.id,
+              name: button.emoji.name
+            }
+          }
+        }
+
         buttonComponents!.push(macroButton(
           {
             label: button.label,
             style: button.style,
-            emoji: button.emoji,
+            emoji: emoji,
           },
           message.id,
           index,
@@ -103,17 +120,17 @@ export async function macroModalSolver(
           }
 
           if (data.emoji) {
-            result.emoji = {
-              id: data.emoji.id !== undefined
-                ? String(data.emoji.id)
-                : undefined,
-              name: data.emoji.name !== undefined
-                ? String(data.emoji.name)
-                : undefined,
-              animated: data.emoji.animated !== undefined
-                ? data.emoji.animated === true
-                : undefined,
-            };
+            if (typeof data.emoji === "string") {
+              result.emoji = data.emoji;
+            }
+            else if (data.emoji.id && data.emoji.name && typeof data.emoji.id === "string" && typeof data.emoji.name === "string") {
+              result.emoji = {
+                id: data.emoji.id,
+                name: data.emoji.name
+              };
+            } else if (data.emoji.name && typeof data.emoji.name === "string") {
+              result.emoji = data.emoji.name;
+            }
           }
 
           result.value = data.value;

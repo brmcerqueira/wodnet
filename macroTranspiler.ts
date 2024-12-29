@@ -5,7 +5,10 @@ import { logger } from "./logger.ts";
 export type MacroButton = {
   label?: string;
   style?: ButtonStyle;
-  emoji?: MessageComponentEmoji;
+  emoji?: {
+    id: string
+    name: string
+  } | string;
   value?: any
 };
 
