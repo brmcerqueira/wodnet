@@ -388,8 +388,8 @@ export class Chronicle {
   
       cursor = Number(newCursor);
 
-      for (const id of keys) {
-        const character: Character = JSON.parse((await repository.hget(`${characterKey}:${this.chronicleId}:${id}`, sheetKey))!);
+      for (const key of keys) {
+        const character: Character = JSON.parse((await repository.hget(`${characterKey}:${this.chronicleId}:${await repository.get(key)}`, sheetKey))!);
 
         result.push({
           value: character.id,
