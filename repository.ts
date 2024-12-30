@@ -1,5 +1,7 @@
+
 import { Character, CharacterMode } from "./character.ts";
-import { ApplicationCommandChoice, EmbedPayload } from "./deps.ts";
+import { config } from "./config.ts";
+import { ApplicationCommandChoice, connect, EmbedPayload } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
 import { Macro } from "./macroTranspiler.ts";
@@ -9,9 +11,11 @@ type LastRoll = {
   result: RollResult;
 }
 
-const repository = await Deno.openKv();
+const repository = await connect(config.redis);
 
 const characterKey = "character";
+const sheetKey = "sheet";
+const versionstampKey = "versionstamp";
 const lastRollKey = "lastRoll";
 const currentCharacterKey = "currentCharacter";
 const difficultyKey = "difficulty";
@@ -20,45 +24,17 @@ const storytellerKey = "storyteller";
 const rollChannelKey = "rollChannel";
 const macroKey = "macro";
 
-async function clearRepository() {
-  for await (
-    const entry of repository.list({
-      prefix: [],
-    })
-  ) {
-    logger.info("Delete %v", JSON.stringify(entry.key));
-    await repository.delete(entry.key);
-  }
-}
-
-//await clearRepository();
-
 export async function removeChronicle(id: string) {
-  const array = [repository.list({
-    prefix: [characterKey, id],
-  }),repository.list({
-    prefix: [lastRollKey, id],
-  }),repository.list({
-    prefix: [currentCharacterKey, id],
-  }),repository.list({
-    prefix: [difficultyKey, id],
-  }),repository.list({
-    prefix: [modifierKey, id],
-  }),repository.list({
-    prefix: [storytellerKey, id],
-  }),repository.list({
-    prefix: [rollChannelKey, id],
-  }),repository.list({
-    prefix: [macroKey, id],
-  })];
-
-  for (const element of array) {
-    for await (
-      const entry of element
-    ) {
-      logger.info("Delete %v", JSON.stringify(entry.key));
-      await repository.delete(entry.key);
-    }
+  for (const key of [... await repository.keys(`${characterKey}:${id}`),
+    ...await repository.keys(`${lastRollKey}:${id}`),
+    ...await repository.keys(`${currentCharacterKey}:${id}`),
+    ...await repository.keys(`${difficultyKey}:${id}`),
+    ...await repository.keys(`${modifierKey}:${id}`),
+    ...await repository.keys(`${storytellerKey}:${id}`),
+    ...await repository.keys(`${rollChannelKey}:${id}`),
+    ...await repository.keys(`${macroKey}:${id}`)]) {
+      logger.info("Delete %v", key);
+      await repository.del(key);
   }
 }
 
@@ -71,12 +47,13 @@ export class Chronicle {
   }
 
   public async lastRoll(id: string): Promise<LastRoll | null> {
-    const key = [lastRollKey, this.chronicleId, id];
-    const entry = await repository.get<LastRoll>(key);
-    if (entry.value != null) {
-      await repository.delete(key);
+    const key = `${lastRollKey}:${this.chronicleId}:${id}`;
+    const bulk = await repository.get(key);
+    if (bulk != null) {
+      await repository.del(key);
+      return JSON.parse(bulk);
     }
-    return entry.value;
+    return null;
   }
 
   public async getLastRollByUserId(userId: string): Promise<LastRoll | null> {
@@ -85,77 +62,81 @@ export class Chronicle {
   }
   
   public async setLastRoll(id: string, value: LastRoll) {
-    await repository.set([lastRollKey, this.chronicleId, id], value);
+    await repository.set(`${lastRollKey}:${this.chronicleId}:${id}`, JSON.stringify(value));
   }
 
   public async difficulty(): Promise<number | null> {
-    const key = [difficultyKey, this.chronicleId];
-    const entry = await repository.get<number>(key);
-    if (entry.value != null) {
-      await repository.delete(key);
+    const key = `${difficultyKey}:${this.chronicleId}`;
+    const bulk = await repository.get(key);
+    if (bulk != null) {
+      await repository.del(key);
+      return Number(bulk);
     }
-    return entry.value;
+    return null;
   }
   
   public async setDifficulty(value: number) {
-    await repository.set([difficultyKey, this.chronicleId], value);
+    await repository.set(`${difficultyKey}:${this.chronicleId}`, value);
   }
 
   public async modifier(): Promise<number | null> {
-    const key = [modifierKey, this.chronicleId];
-    const entry = await repository.get<number>(key);
-    if (entry.value != null) {
-      await repository.delete(key);
+    const key = `${modifierKey}:${this.chronicleId}`;
+    const bulk = await repository.get(key);
+    if (bulk != null) {
+      await repository.del(key);
+      return Number(bulk);
     }
-    return entry.value;
+    return null;
   }
   
   public async setModifier(value: number) {
-    await repository.set([modifierKey, this.chronicleId], value);
+    await repository.set(`${difficultyKey}:${this.chronicleId}`, value);
   } 
 
   public async rollChannel(): Promise<string | null> {
-    return (await repository.get<string>([rollChannelKey, this.chronicleId])).value;
+    return await repository.get(`${rollChannelKey}:${this.chronicleId}`);
   }
 
   public async setRollChannel(value: string | null) {
-    const key = [rollChannelKey, this.chronicleId];
+    const key = `${rollChannelKey}:${this.chronicleId}`;
     if (value != null) {
       await repository.set(key, value);
     }
     else {
-      await repository.delete(key);
+      await repository.del(key);
     }
   }
 
   public async macro(id: string): Promise<Macro | null> {
-    return (await repository.get<Macro>([macroKey, this.chronicleId, id])).value;
+    const key = `${macroKey}:${this.chronicleId}:${id}`;
+    const bulk = await repository.get(key);
+    return bulk != null ? JSON.parse(bulk) : null;
   }
   
   public async saveMacro(value: Macro) {
-    await repository.set([macroKey, this.chronicleId, value.message.id], value);
+    await repository.set(`${macroKey}:${this.chronicleId}:${value.message.id}`, JSON.stringify(value));
   }
 
   public async removeMacro(id: string) {
-    await repository.delete([macroKey, this.chronicleId, id]);
+    await repository.del(`${macroKey}:${this.chronicleId}:${id}`);
   }
 
   public async currentCharacter(): Promise<string | null> {
-    return (await repository.get<string>([currentCharacterKey, this.chronicleId])).value;
+    return await repository.get(`${currentCharacterKey}:${this.chronicleId}`);
   }
   
   public async setCurrentCharacter(value: string | null) {
-    const key = [currentCharacterKey, this.chronicleId];
+    const key = `${currentCharacterKey}:${this.chronicleId}`;
     if (value != null) {
       await repository.set(key, value);
     }
     else {
-      await repository.delete(key);
+      await repository.del(key);
     }
   }
 
   public async storyteller(): Promise<string> {
-    return (await repository.get<string>([storytellerKey, this.chronicleId])).value!;
+    return (await repository.get(`${storytellerKey}:${this.chronicleId}`))!;
   }
 
   public async isStoryteller(userId: string): Promise<boolean> {
@@ -163,7 +144,7 @@ export class Chronicle {
   }
   
   public async setStoryteller(value: string) {
-    await repository.set([storytellerKey, this.chronicleId], value);
+    await repository.set(`${storytellerKey}:${this.chronicleId}`, value);
   }
 
   public penalty(left: number): number {
@@ -200,11 +181,13 @@ export class Chronicle {
     id: string,
     ignorePersist?: boolean,
   ): Promise<Character> {
-    const key = [characterKey, this.chronicleId, id];
+    const key = `${characterKey}:${this.chronicleId}:${id}`;
 
-    let character = (await repository.get<Character>(key)).value;
+    const bulk = await repository.get(key);
 
-    if (character == null) {
+    let character: Character | undefined;
+
+    if (bulk == null) {
       character = {
         id: id,
         details: "",
@@ -298,13 +281,20 @@ export class Chronicle {
       };
 
       if (!ignorePersist) {
-        await repository.set(key, character);
+        await repository.hset(`${characterKey}:${this.chronicleId}:${character.id}`,
+          [character.name.toLowerCase(), character.id],
+          [sheetKey, JSON.stringify(character)],
+          [versionstampKey, character.versionstamp]
+        )
       }
     }
+    else {
+      character = JSON.parse(bulk);
+    }
 
-    logger.info("Get Character %v", JSON.stringify(character));
+    logger.info("Get Character %v", bulk);
 
-    return character;
+    return character!;
   }
 
   public async updateCharacter(character: Character) {
@@ -323,67 +313,78 @@ export class Chronicle {
 
     logger.info("Update Character %v", JSON.stringify(character));
 
-    await repository.set(
-      [characterKey, this.chronicleId, character.id],
-      character,
-    );
+    await repository.hset(`${characterKey}:${this.chronicleId}:${character.id}`,
+      [character.name.toLowerCase(), character.id],
+      [sheetKey, JSON.stringify(character)],
+      [versionstampKey, character.versionstamp]
+    )
   }
 
   public async updateCharacterMode(mode: CharacterMode, id?: string) {
     const entries = id
-      ? [repository.get<Character>([characterKey, this.chronicleId, id])]
-        [Symbol.iterator]()
-      : repository.list<Character>({
-        prefix: [characterKey, this.chronicleId],
-      });
+      ? [`${characterKey}:${this.chronicleId}:${id}`]
+      : await repository.hkeys(`${characterKey}:${this.chronicleId}:*`);
 
-    for await (
-      const entry of entries
-    ) {
-      entry.value!.mode = mode;
+    const pipeline = repository.pipeline();
 
-      logger.info("Update Character Mode %v", JSON.stringify(entry.value));
+    for (const key of entries) {
+      const character: Character = JSON.parse((await pipeline.hget(key, sheetKey))!);
 
-      await repository.set(entry.key, entry.value);
+      character.mode = mode;
+
+      const json = JSON.stringify(character);
+
+      logger.info("Update Character Mode %v", json);
+
+      await pipeline.set(key, json);
     }
+
+    await pipeline.exec();
   }
 
   public async checkCharacter(
     id: string,
     versionstamp: string,
   ): Promise<boolean> {
-    const entry = await repository.get<Character>([
-      characterKey,
-      this.chronicleId,
-      id,
-    ]);
-
-    return versionstamp !== entry.value?.versionstamp;
+    const bulk = await repository.hget(`${characterKey}:${this.chronicleId}:${id}`, versionstampKey);
+    return versionstamp !== bulk;
   }
 
   public async deleteCharacter(id: string) {
     logger.info("Delete Character %v", id);
-    await repository.delete([characterKey, this.chronicleId, id]);
+    await repository.del(`${characterKey}:${this.chronicleId}:${id}`);
   }
 
-  public async getCharacterChoicesByTerm(term: string): Promise<ApplicationCommandChoice[]> {
+  public async getCharacterChoicesByTerm(term: string | null): Promise<ApplicationCommandChoice[]> {
     const result: ApplicationCommandChoice[] = [];
-    for await (
-      const entry of repository.list<Character>({
-        prefix: [characterKey, this.chronicleId],
-      })
-    ) {
-      if (result.length == 25) {
-        break;
-      } else if (
-        term == null || term == "" ||
-        entry.value.name.toLowerCase().indexOf(term.toLowerCase()) > -1
-      ) {
+    let cursor = 0;
+
+    hscan: while (cursor !== 0) {
+      const [newCursor, keys] = await repository.hscan(`${characterKey}:${this.chronicleId}:*`, cursor, {
+        pattern: term == null || term == "" ? "*" : `*${term.toLowerCase()}*`,
+        count: 50
+      });
+  
+      cursor = Number(newCursor);
+
+      for (let index = 0; index < keys.length; index += 2) {
+        const key = keys[index];
+   
+        if (key === sheetKey || key === versionstampKey) {
+          continue;
+        }
+
+        const character: Character = JSON.parse((await repository.hget(`${characterKey}:${this.chronicleId}:${keys[index + 1]}`, sheetKey))!);
+
         result.push({
-          value: entry.value.id,
-          name: entry.value.name.substring(0, 100),
+          value: character.id,
+          name: character.name.substring(0, 100),
         });
-      }      
+
+        if (result.length == 25) {
+          break hscan;
+        }
+      }
     }
 
     result.sort((r, l) => {

@@ -1,12 +1,16 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@db/redis@*": "0.37.1",
     "jsr:@deno/cache-dir@0.8": "0.8.0",
     "jsr:@deno/graph@~0.69.7": "0.69.10",
     "jsr:@denosaurs/event@2.0.2": "2.0.2",
     "jsr:@std/assert@0.217": "0.217.0",
     "jsr:@std/assert@~0.218.2": "0.218.2",
+    "jsr:@std/async@1": "1.0.9",
     "jsr:@std/bytes@0.217": "0.217.0",
+    "jsr:@std/bytes@1": "1.0.4",
+    "jsr:@std/bytes@^1.0.2-rc.3": "1.0.4",
     "jsr:@std/bytes@^1.0.3": "1.0.4",
     "jsr:@std/bytes@~0.218.2": "0.218.2",
     "jsr:@std/csv@*": "1.0.4",
@@ -15,6 +19,7 @@
     "jsr:@std/fs@0.217": "0.217.0",
     "jsr:@std/fs@~0.218.2": "0.218.2",
     "jsr:@std/io@0.217": "0.217.0",
+    "jsr:@std/io@0.224.5": "0.224.5",
     "jsr:@std/io@~0.218.2": "0.218.2",
     "jsr:@std/path@0.217": "0.217.0",
     "jsr:@std/path@~0.218.2": "0.218.2",
@@ -26,6 +31,14 @@
     "npm:typescript@*": "5.7.2"
   },
   "jsr": {
+    "@db/redis@0.37.1": {
+      "integrity": "46ca414091c47b64ddccbac621754713b6261599f559584b8498ee871acff348",
+      "dependencies": [
+        "jsr:@std/async",
+        "jsr:@std/bytes@1",
+        "jsr:@std/io@0.224.5"
+      ]
+    },
     "@deno/cache-dir@0.8.0": {
       "integrity": "e87e80a404958f6350d903e6238b72afb92468378b0b32111f7a1e4916ac7fe7",
       "dependencies": [
@@ -47,6 +60,9 @@
     },
     "@std/assert@0.218.2": {
       "integrity": "7f0a5a1a8cf86607cd6c2c030584096e1ffad27fc9271429a8cb48cfbdee5eaf"
+    },
+    "@std/async@1.0.9": {
+      "integrity": "c6472fd0623b3f3daae023cdf7ca5535e1b721dfbf376562c0c12b3fb4867f91"
     },
     "@std/bytes@0.217.0": {
       "integrity": "58209975707478fe12423d0b3270f4d400fd135a4edb1f50eeca8f92e34e6580"
@@ -89,6 +105,12 @@
       "dependencies": [
         "jsr:@std/assert@~0.218.2",
         "jsr:@std/bytes@~0.218.2"
+      ]
+    },
+    "@std/io@0.224.5": {
+      "integrity": "cb84fe655d1273fca94efcff411465027a8b0b4225203f19d6ee98d9c8920a2d",
+      "dependencies": [
+        "jsr:@std/bytes@^1.0.2-rc.3"
       ]
     },
     "@std/path@0.217.0": {
