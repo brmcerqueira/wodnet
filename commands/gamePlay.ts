@@ -141,7 +141,7 @@ commands[treatKey(locale.commands.sheet.link.name)] = {
 commands[treatKey(locale.commands.import.name)] = {
   description: locale.commands.import.description,
   solve: buildCharacterUpdateSolver((c, i: { json: string }) => {
-    Object.assign(c, jsonRelaxedKeysParse(i.json));
+    Object.assign(c, JSON.parse(i.json));
     return 0;
   }, true),
   options: option(locale.commands.import.json.name, {
