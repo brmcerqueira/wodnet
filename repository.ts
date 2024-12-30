@@ -183,7 +183,7 @@ export class Chronicle {
   ): Promise<Character> {
     const key = `${characterKey}:${this.chronicleId}:${id}`;
 
-    const bulk = await repository.get(key);
+    const bulk = await repository.hget(key, sheetKey);
 
     let character: Character | undefined;
 
