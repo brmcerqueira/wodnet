@@ -27,14 +27,15 @@ const rollChannelKey = "rollChannel";
 const macroKey = "macro";
 
 export async function removeChronicle(id: string) {
-  for (const key of [... await repository.keys(`${characterKey}:${id}`),
-    ...await repository.keys(`${lastRollKey}:${id}`),
+  for (const key of [...await repository.keys(`${characterKey}:${id}:*`),
+    ...await repository.keys(`${characterNameKey}:${id}:*`),
+    ...await repository.keys(`${lastRollKey}:${id}:*`),
+    ...await repository.keys(`${macroKey}:${id}:*`),
     ...await repository.keys(`${currentCharacterKey}:${id}`),
     ...await repository.keys(`${difficultyKey}:${id}`),
     ...await repository.keys(`${modifierKey}:${id}`),
     ...await repository.keys(`${storytellerKey}:${id}`),
-    ...await repository.keys(`${rollChannelKey}:${id}`),
-    ...await repository.keys(`${macroKey}:${id}`)]) {
+    ...await repository.keys(`${rollChannelKey}:${id}`)]) {
       logger.info("Delete %v", key);
       await repository.del(key);
   }
