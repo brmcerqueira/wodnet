@@ -20,6 +20,39 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Docker",
+            "type": "shell",  
+            "command": "docker",
+            "options": {
+                "cwd": "${workspaceFolder}",
+            },
+            "args": [
+                "build",
+                "--build-arg",
+                "IMGBB_KEY=$IMGBB_KEY",
+                "--build-arg",
+                "DISCORD_TOKEN=$DISCORD_TOKEN",
+                "--build-arg",
+                "REDIS_HOST=$REDIS_HOST",
+                "--build-arg",
+                "REDIS_PORT=19857",
+                "--build-arg",
+                "REDIS_PASSWORD=$REDIS_PASSWORD",
+                "--build-arg",
+                "BOT_HOST=$BOT_HOST",
+                "--build-arg",
+                "PORT=3000",
+                "--build-arg",
+                "LOG_LEVEL=DEBUG",
+                "-t",
+                "wodnet",
+                "."     
+            ],
+            "group": {
+                "kind": "build",
+            }
         }
     ]
 }

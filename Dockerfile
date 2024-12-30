@@ -1,0 +1,34 @@
+FROM denoland/deno:2.1.4
+
+ARG IMGBB_KEY
+ARG DISCORD_TOKEN
+ARG REDIS_HOST
+ARG REDIS_PORT
+ARG REDIS_PASSWORD
+ARG BOT_HOST
+ARG PORT
+ARG LOG_LEVEL
+
+ENV IMGBB_KEY=${IMGBB_KEY}
+ENV DISCORD_TOKEN=${DISCORD_TOKEN}
+ENV REDIS_HOST=${REDIS_HOST}
+ENV REDIS_PORT=${REDIS_PORT}
+ENV REDIS_PASSWORD=${REDIS_PASSWORD}
+ENV BOT_HOST=${BOT_HOST}
+ENV PORT=${PORT}
+ENV LOG_LEVEL=${LOG_LEVEL}
+
+EXPOSE ${PORT}
+
+WORKDIR /app
+
+USER deno
+
+COPY deps.ts .
+RUN deno install --entrypoint deps.ts
+
+COPY . .
+
+RUN deno cache main.ts
+
+CMD ["run", "--allow-net", "--allow-read", "--allow-env", "--allow-write", "main.ts"]
