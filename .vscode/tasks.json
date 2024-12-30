@@ -4,17 +4,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Start",
+            "label": "Run",
             "type": "shell",  
             "command": "deno",
             "options": {
                 "cwd": "${workspaceFolder}",
             },
             "args": [
-                "run",
-                "--allow-all",
-                "--unstable-kv",
-                "main.ts"     
+                "task",
+                "run"    
             ],
             "group": {
                 "kind": "build",
@@ -22,48 +20,30 @@
             }
         },
         {
-            "label": "Docker",
+            "label": "Docker Build",
             "type": "shell",  
-            "command": "docker",
+            "command": "deno",
             "options": {
                 "cwd": "${workspaceFolder}",
             },
             "args": [
-                "build",
-                "-t",
-                "wodnet",
-                "."     
+                "task",
+                "docker-build"   
             ],
             "group": {
                 "kind": "build",
             }
         },
         {
-            "label": "Run",
+            "label": "Docker Run",
             "type": "shell",  
-            "command": "docker",
+            "command": "deno",
             "options": {
                 "cwd": "${workspaceFolder}",
             },
             "args": [
-                "run",
-                "-e",
-                "IMGBB_KEY=$IMGBB_KEY",
-                "-e",
-                "DISCORD_TOKEN=$DISCORD_TOKEN",
-                "-e",
-                "REDIS_HOST=$REDIS_HOST",
-                "-e",
-                "REDIS_PORT=19857",
-                "-e",
-                "REDIS_PASSWORD=$REDIS_PASSWORD",
-                "-e",
-                "BOT_HOST=$BOT_HOST",
-                "-e",
-                "PORT=3000",
-                "-e",
-                "LOG_LEVEL=DEBUG",
-                "wodnet",  
+                "task",
+                "docker-run" 
             ],
             "group": {
                 "kind": "build",
