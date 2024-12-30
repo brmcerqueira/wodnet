@@ -382,7 +382,7 @@ export class Chronicle {
 
     hscan: do {
       const [newCursor, keys] = await repository.scan(cursor, {
-        pattern: `${characterKey}:${this.chronicleId}:${term == null || term == "" ? "*" : `*${term.toLowerCase()}*`}`,
+        pattern: `${characterNameKey}:${this.chronicleId}:${term == null || term == "" ? "*" : `*${term.toLowerCase()}*`}`,
         count: 25
       });
   
