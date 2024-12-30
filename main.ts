@@ -33,8 +33,6 @@ const styles = await loadFiles("./views/styles", async path => {
 
 const favicon = await Deno.readFile("./wodnet.ico");
 
-logger.debug("Config %v", JSON.stringify(config));
-
 function route(...params: ({ path: RegExp, go: (array: RegExpExecArray, context: RouteContext) => RouteResult } 
 | { path: string[] | string, go: (context: RouteContext) => RouteResult })[]): (request: Request) => Promise<Response> {
   return async (request: Request): Promise<Response> => {
