@@ -5,7 +5,7 @@ export const config = {
     discordToken: Deno.env.get("DISCORD_TOKEN")!,
     redis: {
         hostname: Deno.env.get("REDIS_HOST")!,
-        port: Deno.env.has("REDIS_PORT") ? parseInt(Deno.env.get("REDIS_PORT")!) : 18386,
+        port: Deno.env.has("REDIS_PORT") ? parseInt(Deno.env.get("REDIS_PORT")!) : 19857,
         password: Deno.env.get("REDIS_PASSWORD")!,
     },
     host: Deno.env.get("BOT_HOST")!,
