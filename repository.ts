@@ -303,19 +303,23 @@ export class Chronicle {
   }
 
   private async saveCharacter(character: Character) {
-    const pipeline = repository.pipeline();
+    const json = JSON.stringify(character);
+
+    logger.info("Save Character %v", json);
+
+    await repository.multi();
 
     const name = sanitizeRedisKey(character.name);
 
-    await pipeline.set(`${characterNameKey}:${this.chronicleId}:${name}`, character.id);
+    await repository.set(`${characterNameKey}:${this.chronicleId}:${name}`, character.id);
 
-    await pipeline.hset(`${characterKey}:${this.chronicleId}:${character.id}`,
+    await repository.hset(`${characterKey}:${this.chronicleId}:${character.id}`,
       [nameKey, name],
-      [sheetKey, JSON.stringify(character)],
+      [sheetKey, json],
       [versionstampKey, character.versionstamp]
     );
 
-    await pipeline.exec();
+    await repository.exec();
   }
 
   public async updateCharacter(character: Character) {
@@ -332,8 +336,6 @@ export class Chronicle {
 
     character.versionstamp = crypto.randomUUID();
 
-    logger.info("Update Character %v", JSON.stringify(character));
-
     await this.saveCharacter(character);
   }
 
@@ -342,10 +344,10 @@ export class Chronicle {
       ? [`${characterKey}:${this.chronicleId}:${id}`]
       : await repository.hkeys(`${characterKey}:${this.chronicleId}:*`);
 
-    const pipeline = repository.pipeline();
+    await repository.multi();
 
     for (const key of entries) {
-      const character: Character = JSON.parse((await pipeline.hget(key, sheetKey))!);
+      const character: Character = JSON.parse((await repository.hget(key, sheetKey))!);
 
       character.mode = mode;
 
@@ -353,10 +355,10 @@ export class Chronicle {
 
       logger.info("Update Character Mode %v", json);
 
-      await pipeline.set(key, json);
+      await repository.set(key, json);
     }
 
-    await pipeline.exec();
+    await repository.exec();
   }
 
   public async checkCharacter(
@@ -369,11 +371,11 @@ export class Chronicle {
 
   public async deleteCharacter(id: string) {
     logger.info("Delete Character %v", id);
-    const pipeline = repository.pipeline();
-    const bulk = await pipeline.hget(`${characterKey}:${this.chronicleId}:${id}`, nameKey);
-    await pipeline.del(`${characterNameKey}:${this.chronicleId}:${bulk}`);
-    await pipeline.del(`${characterKey}:${this.chronicleId}:${id}`);
-    await pipeline.exec();
+    await repository.multi();
+    const bulk = await repository.hget(`${characterKey}:${this.chronicleId}:${id}`, nameKey);
+    await repository.del(`${characterNameKey}:${this.chronicleId}:${bulk}`);
+    await repository.del(`${characterKey}:${this.chronicleId}:${id}`);
+    await repository.exec();
   }
 
   public async getCharacterChoicesByTerm(term: string | null): Promise<ApplicationCommandChoice[]> {
