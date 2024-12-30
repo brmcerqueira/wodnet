@@ -359,7 +359,7 @@ export class Chronicle {
     const result: ApplicationCommandChoice[] = [];
     let cursor = 0;
 
-    hscan: while (cursor !== 0) {
+    hscan: do {
       const [newCursor, keys] = await repository.hscan(`${characterKey}:${this.chronicleId}:*`, cursor, {
         pattern: term == null || term == "" ? "*" : `*${term.toLowerCase()}*`,
         count: 50
@@ -385,7 +385,7 @@ export class Chronicle {
           break hscan;
         }
       }
-    }
+    } while (cursor !== 0)
 
     result.sort((r, l) => {
       if (r.name < l.name) {
