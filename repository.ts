@@ -14,7 +14,6 @@ type LastRoll = {
 const repository = await connect(config.redis);
 
 const characterKey = "character";
-const characterNameKey = "characterName";
 const nameKey = "name";
 const sheetKey = "sheet";
 const versionstampKey = "versionstamp";
@@ -31,12 +30,11 @@ const indexes = await repository.sendCommand("FT._LIST") as string[];
 
 if (indexes.indexOf(indexCharacter) == -1) {
   logger.info("Create index: %v", indexCharacter);
-  await repository.sendCommand("FT.CREATE", [indexCharacter, "ON", "HASH", "PREFIX", "1", "character:", "SCHEMA", "name", "TEXT"]);
+  await repository.sendCommand("FT.CREATE", [indexCharacter, "ON", "HASH", "PREFIX", 1, "character:", "SCHEMA", "name", "TEXT"]);
 }
 
 export async function removeChronicle(id: string) {
   for (const key of [...await repository.keys(`${characterKey}:${id}:*`),
-    ...await repository.keys(`${characterNameKey}:${id}:*`),
     ...await repository.keys(`${lastRollKey}:${id}:*`),
     ...await repository.keys(`${macroKey}:${id}:*`),
     ...await repository.keys(`${currentCharacterKey}:${id}`),
@@ -47,13 +45,6 @@ export async function removeChronicle(id: string) {
       logger.info("Delete %v", key);
       await repository.del(key);
   }
-}
-
-function sanitizeRedisKey(name: string): string {
-  return name.toLowerCase().replace(/[^a-zA-Z0-9\-_:\.]+/g, "")
-  .replace(/^\:/, "")
-  .replace(/\s+/g, "")
-  .substring(0, 255);  
 }
 
 export class Chronicle {
@@ -316,19 +307,11 @@ export class Chronicle {
 
     logger.info("Save Character %v", json);
 
-    await repository.multi();
-
-    const name = sanitizeRedisKey(character.name);
-
-    await repository.set(`${characterNameKey}:${this.chronicleId}:${name}`, character.id);
-
     await repository.hset(`${characterKey}:${this.chronicleId}:${character.id}`,
-      [nameKey, name],
+      [nameKey, character.name],
       [sheetKey, json],
       [versionstampKey, character.versionstamp]
     );
-
-    await repository.exec();
   }
 
   public async updateCharacter(character: Character) {
@@ -380,38 +363,25 @@ export class Chronicle {
 
   public async deleteCharacter(id: string) {
     logger.info("Delete Character %v", id);
-    await repository.multi();
-    const bulk = await repository.hget(`${characterKey}:${this.chronicleId}:${id}`, nameKey);
-    await repository.del(`${characterNameKey}:${this.chronicleId}:${bulk}`);
     await repository.del(`${characterKey}:${this.chronicleId}:${id}`);
-    await repository.exec();
   }
 
   public async getCharacterChoicesByTerm(term: string | null): Promise<ApplicationCommandChoice[]> {
     const result: ApplicationCommandChoice[] = [];
-    let cursor = 0;
 
-    hscan: do {
-      const [newCursor, keys] = await repository.scan(cursor, {
-        pattern: `${characterNameKey}:${this.chronicleId}:${term == null || term == "" ? "*" : `*${term.toLowerCase()}*`}`,
-        count: 25
-      });
-  
-      cursor = Number(newCursor);
+    const [_, ...keys] = await repository.sendCommand("FT.SEARCH", 
+      [indexCharacter, term == null || term == "" ? "*" : `*${term.toLowerCase()}*`, "LIMIT", 0, 25]) as [number, ...(string | string[])[]];
 
-      for (const key of keys) {
-        const character: Character = JSON.parse((await repository.hget(`${characterKey}:${this.chronicleId}:${await repository.get(key)}`, sheetKey))!);
+    for (const array of keys) {
+      if (Array.isArray(array)) {
+        const character: Character = JSON.parse(array[3]);
 
         result.push({
           value: character.id,
           name: character.name.substring(0, 100),
         });
-
-        if (result.length == 25) {
-          break hscan;
-        }
       }
-    } while (cursor !== 0)
+    }
 
     result.sort((r, l) => {
       if (r.name < l.name) {
