@@ -25,6 +25,14 @@ const modifierKey = "modifier";
 const storytellerKey = "storyteller";
 const rollChannelKey = "rollChannel";
 const macroKey = "macro";
+const indexCharacter = "idx:character";
+
+const indexes = await repository.sendCommand("FT._LIST") as string[];
+
+if (indexes.indexOf(indexCharacter) == -1) {
+  logger.info("Create index: %v", indexCharacter);
+  await repository.sendCommand("FT.CREATE", [indexCharacter, "ON", "HASH", "PREFIX", "1", "character:", "SCHEMA", "name", "TEXT"]);
+}
 
 export async function removeChronicle(id: string) {
   for (const key of [...await repository.keys(`${characterKey}:${id}:*`),
