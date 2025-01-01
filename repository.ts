@@ -16,6 +16,7 @@ const repository = await connect(config.redis);
 const characterKey = "character";
 const nameKey = "name";
 const sheetKey = "sheet";
+const chronicleKey = "chronicle";
 const versionstampKey = "versionstamp";
 const lastRollKey = "lastRoll";
 const currentCharacterKey = "currentCharacter";
@@ -30,7 +31,7 @@ const indexes = await repository.sendCommand("FT._LIST") as string[];
 
 if (indexes.indexOf(indexCharacter) == -1) {
   logger.info("Create index: %v", indexCharacter);
-  await repository.sendCommand("FT.CREATE", [indexCharacter, "ON", "HASH", "PREFIX", 1, "character:", "SCHEMA", "name", "TEXT"]);
+  await repository.sendCommand("FT.CREATE", [indexCharacter, "ON", "HASH", "PREFIX", 1, "character:", "SCHEMA", nameKey, "TEXT", chronicleKey, "TAG"]);
 }
 
 export async function removeChronicle(id: string) {
@@ -310,6 +311,7 @@ export class Chronicle {
     await repository.hset(`${characterKey}:${this.chronicleId}:${character.id}`,
       [nameKey, character.name],
       [sheetKey, json],
+      [chronicleKey, this.chronicleId],
       [versionstampKey, character.versionstamp]
     );
   }
@@ -370,11 +372,11 @@ export class Chronicle {
     const result: ApplicationCommandChoice[] = [];
 
     const [_, ...keys] = await repository.sendCommand("FT.SEARCH", 
-      [indexCharacter, term == null || term == "" ? "*" : `*${term.toLowerCase()}*`, "LIMIT", 0, 25]) as [number, ...(string | string[])[]];
+      [indexCharacter,`@${chronicleKey}:{${this.chronicleId}}${term == null || term == "" ? "" : ` @${nameKey}:*${term.toLowerCase()}*`}`, "LIMIT", 0, 25]) as [number, ...(string | string[])[]];
 
     for (const array of keys) {
       if (Array.isArray(array)) {
-        const character: Character = JSON.parse(array[3]);
+        const character: Character = JSON.parse(array[5]);
 
         result.push({
           value: character.id,
