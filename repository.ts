@@ -31,7 +31,7 @@ const indexes = await repository.sendCommand("FT._LIST") as string[];
 
 if (indexes.indexOf(indexCharacter) == -1) {
   logger.info("Create index: %v", indexCharacter);
-  await repository.sendCommand("FT.CREATE", [indexCharacter, "ON", "HASH", "PREFIX", 1, "character:", "SCHEMA", nameKey, "TEXT", chronicleKey, "TAG"]);
+  await repository.sendCommand("FT.CREATE", [indexCharacter, "ON", "HASH", "PREFIX", 1, `${characterKey}:`, "SCHEMA", nameKey, "TEXT", chronicleKey, "TAG"]);
 }
 
 export async function removeChronicle(id: string) {
