@@ -376,7 +376,7 @@ export class Chronicle {
 
     for (const array of keys) {
       if (Array.isArray(array)) {
-        const character: Character = JSON.parse(array[5]);
+        const character: Character = JSON.parse(array[3]);
 
         result.push({
           value: character.id,
