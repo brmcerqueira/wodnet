@@ -224,7 +224,7 @@ export const characterRender = (character: Character, chronicleId: string, id: s
                             <div class="col text-center"><b>{locale.health}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + 3} /></div>
+                            <div class="col text-center"><Damage superficial={character.health.superficial} aggravated={character.health.aggravated} total={character.attributes.physical.stamina + character.health.start} /></div>
                         </div>
                     </div>
                     <div class="col-sm-2">

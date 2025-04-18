@@ -95,6 +95,7 @@ export type LocaleType = {
     };
   };
   health: string;
+  healthStart: string;
   willpower: string;
   damage: {
     superficial: string;
@@ -187,6 +188,7 @@ export type LocaleType = {
       weightOfTheFeather: string;
       feralWeapons: string;
       vicissitude: string;
+      serpentsKiss: string;
       earthMeld: string;
       shapechange: string;
       fleshCrafting: string;

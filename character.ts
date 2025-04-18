@@ -86,7 +86,9 @@ export type Character = {
       technology: number;
     };
   };
-  health: Damage;
+  health: Damage & {
+    start: number;
+  };
   willpower: Damage;
   humanity: {
     total: number;

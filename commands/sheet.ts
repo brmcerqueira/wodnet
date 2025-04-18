@@ -8,21 +8,13 @@ import {
   CommandOptionType,
   commands,
   option,
+  parseField,
   parseNumberField,
   property,
   treatKey,
   value,
 } from "./common.ts";
 import { uploadImage } from "../utils.ts";
-
-function parseField<T>(
-  set: (character: Character, value: T) => void,
-): (character: Character, input: { value: T }) => number {
-  return (character, input) => {
-    set(character, input.value);
-    return 0;
-  };
-}
 
 commands[treatKey(locale.name)] = {
   description: `${locale.commands.sheet.description} ${locale.name}`,

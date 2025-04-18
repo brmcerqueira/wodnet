@@ -45,6 +45,7 @@ export const pt: LocaleType = {
     options: [
       "Consensualista",
       "Fazendeiro",
+      "Montero",
       "Osíris",
       "Sacoleiro",
       "Sandman",
@@ -138,6 +139,7 @@ export const pt: LocaleType = {
     },
   },
   health: "Vitalidade",
+  healthStart: "Vitalidade Start",
   willpower: "Força de Vontade",
   damage: {
     superficial: "Superficial",
@@ -230,6 +232,7 @@ export const pt: LocaleType = {
       weightOfTheFeather: "● Peso Pena",
       feralWeapons: "●● Armas Ferais",
       vicissitude: "●● Vicissitude",
+      serpentsKiss: "●● Beijo da Serpente",
       earthMeld: "●●● Fusão com a Terra",
       shapechange: "●●● Mudança de Forma",
       fleshCrafting: "●●● Modelagem de Carne",

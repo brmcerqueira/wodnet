@@ -1,6 +1,5 @@
 import { Character } from "../character.ts";
 import { Chronicle } from "../repository.ts";
-import { config } from "../config.ts";
 import { ApplicationCommandType, ChannelTypes, Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { keys, treatDiscipline } from "../utils.ts";
@@ -86,7 +85,7 @@ export function option(name: string, option: CommandOption): BuildOptions {
 }
 
 export function treatKey(key: string | number): string {
-  let data = treatDiscipline(key.toString()).name;
+  const data = treatDiscipline(key.toString()).name;
   return data.toLowerCase().replaceAll(/\s/g, "-");
 }
 
@@ -114,6 +113,15 @@ export function buildIntegerOptions(
     minValue,
     maxValue,
   }).build;
+}
+
+export function parseField<T>(
+  set: (character: Character, value: T) => void,
+): (character: Character, input: { value: T }) => number {
+  return (character, input) => {
+    set(character, input.value);
+    return 0;
+  };
 }
 
 export function parseNumberField(get: (character: Character) => number, 

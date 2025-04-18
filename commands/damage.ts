@@ -7,7 +7,11 @@ booleanChoices,
     CommandOptionType,
     commands,
     option,
+    parseField,
+    parseNumberField,
+    property,
     treatKey,
+    value,
 } from "./common.ts";
 
 function buildDamageOptions(): CommandOptions {
@@ -64,6 +68,18 @@ commands[treatKey(locale.health)] = {
     description: `${locale.commands.sheet.description} ${locale.health}`,
     options: buildDamageOptions(),
     solve: buildCharacterUpdateSolver(damageParse((c) => c.health)),
+};
+
+commands[treatKey(locale.healthStart)] = {
+    description: `${locale.commands.sheet.description} ${locale.healthStart}`,
+    options: option(value, {
+        property: property,
+        description: locale.commands.sheet.value.description,
+        type: CommandOptionType.INTEGER,
+        required: true,
+        minValue: 3,
+      }).build,
+  solve: buildCharacterUpdateSolver(parseField<number>((c, v) => c.health.start = v))
 };
 
 commands[treatKey(locale.willpower)] = {

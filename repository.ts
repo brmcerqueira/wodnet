@@ -268,6 +268,7 @@ export class Chronicle {
           superficial: 0,
           aggravated: 0,
           penalty: 0,
+          start: 3,
         },
         willpower: {
           superficial: 0,
@@ -318,7 +319,7 @@ export class Chronicle {
 
   public async updateCharacter(character: Character) {
     character.health.penalty = this.penalty(
-      (character.attributes.physical.stamina + 3) -
+      (character.attributes.physical.stamina + character.health.start) -
         (character.health.superficial + character.health.aggravated),
     );
 
