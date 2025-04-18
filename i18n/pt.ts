@@ -139,7 +139,7 @@ export const pt: LocaleType = {
     },
   },
   health: "Vitalidade",
-  healthStart: "Vitalidade Start",
+  healthStart: "Vitalidade Início",
   willpower: "Força de Vontade",
   damage: {
     superficial: "Superficial",
