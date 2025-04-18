@@ -6,7 +6,7 @@
     "jsxFragmentFactory": "React.Fragment"
   },
   "tasks": {
-    "run": "deno run --allow-net --allow-read --allow-env --allow-write main.ts",
+    "run": "deno run --allow-net --allow-read --allow-env --allow-write --env-file=.env main.ts",
     "docker-build": "docker build -t wodnet .",
     "docker-run": "docker run -e IMGBB_KEY=$IMGBB_KEY -e DISCORD_TOKEN=$DISCORD_TOKEN -e REDIS_HOST=$REDIS_HOST -e REDIS_PORT=19857 -e REDIS_PASSWORD=$REDIS_PASSWORD -e BOT_HOST=$BOT_HOST -e PORT=3000 -e LOG_LEVEL=DEBUG -p 3000:3000 wodnet"
   }
