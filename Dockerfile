@@ -1,4 +1,4 @@
-FROM denoland/deno:2.1.4
+FROM denoland/deno:2.2.11
 
 EXPOSE ${PORT}
 

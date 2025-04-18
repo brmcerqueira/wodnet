@@ -4,6 +4,7 @@ import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
+import { locale } from "./i18n/locale.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -109,9 +110,9 @@ Deno.serve({ port: config.port }, route({
 },{
   path: "/bot",
   go: async (): Promise<void | Response> =>  {
-    return new Response(JSON.stringify({
+    return new Response(JSON.stringify(config.bot ? {
       upSince: await bot.connect()
-    }), { headers:[["Content-Type", "application/json"], ["Refresh", "300"]]});
+    } : locale.unauthorized), { headers:[["Content-Type", "application/json"], ["Refresh", "300"]]});
   }
 },{
   path: "/check",
