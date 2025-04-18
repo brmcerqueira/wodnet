@@ -14,8 +14,8 @@
             "runtimeArgs": [
                 "run",
                 "--allow-all",
-                "--unstable-kv",
-                "--inspect"
+                "--inspect",
+                "--env-file=.env"
             ],
             "attachSimplePort": 9229
         }

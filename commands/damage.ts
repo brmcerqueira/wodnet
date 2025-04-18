@@ -39,7 +39,7 @@ function damageParse(
 ) => number {
     return (c, i) => {
         const damage = get(c);
-        if (i.superficial) {
+        if (i.superficial !== undefined) {
             if (i.add === undefined || i.add) {
                 damage.superficial += i.superficial;
             }
@@ -48,7 +48,7 @@ function damageParse(
             }     
         }
 
-        if (i.aggravated) {
+        if (i.aggravated !== undefined) {
             if (i.add === undefined || i.add) {
                 damage.aggravated += i.aggravated;
             }
