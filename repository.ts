@@ -100,7 +100,7 @@ export class Chronicle {
   }
   
   public async setModifier(value: number) {
-    await repository.set(`${difficultyKey}:${this.chronicleId}`, value);
+    await repository.set(`${modifierKey}:${this.chronicleId}`, value);
   } 
 
   public async rollChannel(): Promise<string | null> {

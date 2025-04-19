@@ -14,13 +14,15 @@ type AttributeType =
 export async function dicePoolSolver(
   interaction: Interaction,
   chronicle: Chronicle,
-  values: {
+  input: {
     attribute: AttributeType;
     secondaryAttribute?: AttributeType;
     skillPhysical?: keyof LocaleType["skills"]["physical"];
     skillSocial?: keyof LocaleType["skills"]["social"];
     skillMental?: keyof LocaleType["skills"]["mental"];
     discipline?: Exclude<keyof LocaleType["disciplines"], "name">;
+    difficulty?: number;
+    modifier?: number; 
   },
 ) {
   const character = await chronicle.getCharacterByUserId(interaction.user.id);
@@ -31,34 +33,34 @@ export async function dicePoolSolver(
 
   const description: string[] = [];
 
-  let dices = getAttributeValue(character, values.attribute, description);
+  let dices = getAttributeValue(character, input.attribute, description);
 
-  if (values.secondaryAttribute) {
+  if (input.secondaryAttribute) {
     dices += getAttributeValue(
       character,
-      values.secondaryAttribute,
+      input.secondaryAttribute,
       description,
     );
   }
 
-  if (values.skillPhysical) {
-    description.push(locale.skills.physical[values.skillPhysical]);
-    dices += character.skills.physical[values.skillPhysical];
+  if (input.skillPhysical) {
+    description.push(locale.skills.physical[input.skillPhysical]);
+    dices += character.skills.physical[input.skillPhysical];
   }
 
-  if (values.skillSocial) {
-    description.push(locale.skills.social[values.skillSocial]);
-    dices += character.skills.social[values.skillSocial];
+  if (input.skillSocial) {
+    description.push(locale.skills.social[input.skillSocial]);
+    dices += character.skills.social[input.skillSocial];
   }
 
-  if (values.skillMental) {
-    description.push(locale.skills.mental[values.skillMental]);
-    dices += character.skills.mental[values.skillMental];
+  if (input.skillMental) {
+    description.push(locale.skills.mental[input.skillMental]);
+    dices += character.skills.mental[input.skillMental];
   }
 
-  if (values.discipline) {
-    description.push((locale.disciplines[values.discipline] as any).name);
-    dices += character.disciplines[values.discipline]?.length || 0;
+  if (input.discipline) {
+    description.push((locale.disciplines[input.discipline] as any).name);
+    dices += character.disciplines[input.discipline]?.length || 0;
   }
 
   await sendRoll(
@@ -66,8 +68,8 @@ export async function dicePoolSolver(
     chronicle,
     dices,
     character.hunger,
-    1,
-    0,
+    input.difficulty || 1,
+    input.modifier || 0,
     description.join(" + "),
     character,
   );

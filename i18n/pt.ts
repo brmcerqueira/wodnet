@@ -431,6 +431,14 @@ export const pt: LocaleType = {
         name: "disciplina",
         description: "Nome da disciplina",
       },
+      difficulty: {
+        name: "dificuldade",
+        description: "Dificuldade da jogada",
+      },
+      modifier: {
+        name: "modificador",
+        description: "Modificador da jogada",
+      },
     },
     import: {
       name: "importar",

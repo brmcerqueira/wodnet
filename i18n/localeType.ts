@@ -358,6 +358,8 @@ export type LocaleType = {
       skillSocial: CommandOption;
       skillMental: CommandOption;
       discipline: CommandOption;
+      difficulty: CommandOption;
+      modifier: CommandOption;
     } & CommandOption;
     sheet: {
       description: string;

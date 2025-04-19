@@ -109,6 +109,20 @@ commands[treatKey(locale.commands.dicePools.name)] = {
         };
       },
     ),
+  }).option(locale.commands.dicePools.difficulty.name, {
+    property: "difficulty",
+    description: locale.commands.dicePools.difficulty.description,
+    type: CommandOptionType.INTEGER,
+    required: false,
+    minValue: 2,
+    maxValue: 9,
+  }).option(locale.commands.dicePools.modifier.name, {
+    property: "modifier",
+    description: locale.commands.dicePools.modifier.description,
+    type: CommandOptionType.INTEGER,
+    required: false,
+    minValue: -10,
+    maxValue: 10,
   }).build,
 };
 commands[treatKey(locale.commands.actions.name)] = {
