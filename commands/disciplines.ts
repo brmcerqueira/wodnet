@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";

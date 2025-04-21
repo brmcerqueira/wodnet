@@ -1,5 +1,4 @@
 import { editModal } from "../custom/module.ts";
-import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {

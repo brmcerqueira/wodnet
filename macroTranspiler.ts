@@ -1,5 +1,6 @@
+// deno-lint-ignore-file no-explicit-any
 import { ActionResult, Character } from "./character.ts";
-import { ButtonStyle, MessageComponentEmoji, MessagePayload, ts } from "./deps.ts";
+import { ButtonStyle, MessagePayload, ts } from "./deps.ts";
 import { logger } from "./logger.ts";
 
 export type MacroButton = {

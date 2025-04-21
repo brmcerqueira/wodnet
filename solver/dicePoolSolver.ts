@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { Interaction } from "../deps.ts";
 import { sendRoll } from "../sendRoll.ts";
 import { LocaleType } from "../i18n/localeType.ts";

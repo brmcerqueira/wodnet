@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { macroButton, ModalInput } from "../custom/module.ts";
 import { Chronicle } from "../repository.ts";
 import {
@@ -41,6 +42,7 @@ async function updateMacro(chronicle: Chronicle, macro: Macro, message: Message)
       const components: MessageComponentData[] = [];
       let buttonComponents: ButtonComponent[] | undefined;
 
+      // deno-lint-ignore no-inner-declarations
       function pushActionRow() {
         buttonComponents = [];
         components.push({
@@ -134,6 +136,7 @@ export async function macroModalSolver(
           }
 
           result.value = data.value;
+        // deno-lint-ignore no-empty
         } catch (_error) {}
       } else {
         result.label = text.trim();

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { Character } from "../character.ts";
 import { Chronicle } from "../repository.ts";
 import { ApplicationCommandType, ChannelTypes, Interaction } from "../deps.ts";

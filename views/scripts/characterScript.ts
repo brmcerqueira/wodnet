@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-window
 declare const context: {
     chronicleId: string;
     id: string;

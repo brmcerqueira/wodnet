@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import {
   ApplicationCommandPayload,
   ApplicationCommandType,
@@ -108,6 +109,7 @@ function transformOptions(options?: CommandOptions): any[] | undefined {
     : undefined;
 }
 
+// deno-lint-ignore no-unused-vars
 async function cleanCommands(
   discordCommands: ApplicationCommandPayload[],
   ...keys: string[]
@@ -232,7 +234,7 @@ client.on("ready", async () => {
     logger.info(
       "Interaction %v %v",
       interaction.type,
-      JSON.stringify(interaction.data),
+      interaction.data,
     );
 
     if (!interaction.user.bot) {
