@@ -121,7 +121,7 @@ async function cleanCommands(
       );
       discordCommands.splice(index, 1);
       index--;
-      logger.info("Delete Command %v", JSON.stringify(command));
+      logger.info("Delete Command %v", command);
     }
   }
 }
@@ -159,7 +159,7 @@ client.on("ready", async () => {
           description: command.description,
           options: transformOptions(command.options),
         };
-        logger.info("Create Command %v", JSON.stringify(data));
+        logger.info("Create Command %v", data);
         await client.rest.endpoints.createGlobalApplicationCommand(
           client.applicationID!,
           data,

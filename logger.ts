@@ -3,15 +3,24 @@ import { log, sprintf } from "./deps.ts";
 
 await log.setup({
     handlers: {
-        console: new log.ConsoleHandler("NOTSET", {
+        default: new log.ConsoleHandler("NOTSET", {
             formatter: rec => `${rec.levelName} [${rec.datetime.toISOString()}] ${
-                rec.args.length > 0 ? sprintf(rec.msg, ...rec.args): rec.msg}` 
-        })
+                rec.args.length > 0 ? sprintf(rec.msg, ...rec.args.map(arg => { 
+                    switch (typeof arg) {
+                        case "object":
+                            return JSON.stringify(arg);
+                        case "undefined":
+                            return "undefined";    
+                        default:
+                            return arg;
+                    }
+                })): rec.msg}`
+        }),
     },
     loggers: {
         default: {
             level: config.level,
-            handlers: ["console"],
+            handlers: ["default"],
         }
     },
 });

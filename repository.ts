@@ -396,7 +396,7 @@ export class Chronicle {
       return 0;
     });
 
-    logger.info("Search: %v", JSON.stringify(result));
+    logger.info("Search: %s", result);
 
     return result;
   }
