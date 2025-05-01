@@ -13,7 +13,7 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { colors, jsonRelaxedKeysParse } from "../utils.ts";
-import { Macro, MacroButton, macroTranspile } from "../macro.ts";
+import { Macro, MacroButton, macroTranspile } from "../transpile.ts";
 import { logger } from "../logger.ts";
 
 async function updateMacro(

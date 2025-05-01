@@ -2,7 +2,7 @@ import { Interaction } from "../deps.ts";
 import { Chronicle } from "../repository.ts";
 import { MacroButtonInput } from "../custom/module.ts";
 import { sendRoll } from "../sendRoll.ts";
-import { macroFunction } from "../macro.ts";
+import { macroFunction } from "../transpile.ts";
 import { ActionResult } from "../character.ts";
 import { InteractionResponseError } from "../utils.ts";
 import { locale } from "../i18n/locale.ts";

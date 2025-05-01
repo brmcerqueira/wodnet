@@ -5,7 +5,7 @@ import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
 import { locale } from "./i18n/locale.ts";
-import { transpile } from "./macro.ts";
+import { transpile } from "./transpile.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
