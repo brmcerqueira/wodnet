@@ -2,8 +2,8 @@
 import { ActionResult, Character } from "./character.ts";
 import {
   ButtonStyle,
-  esbuild,
   MessagePayload,
+  minify,
   ModuleKind,
   Project,
   ScriptTarget,
@@ -61,7 +61,7 @@ export async function transpile(
 ): Promise<string> {
   const project = new Project({
     compilerOptions: {
-      module: ModuleKind.Preserve,
+      module: ModuleKind.ESNext,
       moduleResolution: ts.ModuleResolutionKind.Bundler,
       target: ScriptTarget.ESNext,
     },
@@ -107,25 +107,10 @@ export async function transpile(
     customTransformers: {
       after: [(context) => (sourceFile) => {
         function visitor(node: ts.Node): ts.Node {
-          if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) {
-            if (
-              node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)
-            ) {
-              const specifier = node.moduleSpecifier.text;
-              if (specifier.startsWith(".") && specifier.endsWith(".ts")) {
-                const importDeclaration = node as ts.ImportDeclaration;
-                return ts.factory.updateImportDeclaration(
-                  importDeclaration,
-                  importDeclaration.modifiers,
-                  importDeclaration.importClause,
-                  ts.factory.createStringLiteral(
-                    specifier.replace(/\.ts$/, ".js"),
-                  ),
-                  importDeclaration.attributes,
-                );
-              }
-            }
+          if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node) || node.kind == ts.SyntaxKind.ExportKeyword) {
+            return ts.factory.createNotEmittedStatement(node);
           }
+
           return ts.visitEachChild(node, visitor, context);
         }
 
@@ -136,48 +121,16 @@ export async function transpile(
 
   const tranpiled: { [file: string]: string } = {};
 
-  const jsName = `/${name.replace(/\.ts$/, ".js")}`;
-
   for (const file of emitResult.getFiles()) {
     logger.info("Script: %v => %v", file.filePath, file.text);
     tranpiled[file.filePath] = file.text;
   }
 
-  const buildResult = await esbuild.build({
-    stdin: {
-      contents: tranpiled[jsName],
-      sourcefile: jsName,
-      loader: "js",
-    },
-    plugins: [
-      {
-        name: "memory-fs",
-        setup(build) {
-          build.onResolve({ filter: /.*/ }, (args) => {
-            return {
-              path: args.path.replace(/^.\//, "/"),
-              namespace: "memory",
-            };
-          });
-
-          build.onLoad({ filter: /.*/, namespace: "memory" }, (args) => {
-            if (tranpiled[args.path]) {
-              return { contents: tranpiled[args.path], loader: "js" };
-            }
-          });
-        },
-      },
-    ],
-    bundle: true,
-    write: false,
-    minify: true,
-    format: "esm",
-    platform: "browser",
+  const bundle = await minify(tranpiled, { 
+    toplevel: true,  
   });
 
-  const bundled = buildResult.outputFiles[0].text;
+  logger.info("Code: %v", bundle.code!);
 
-  logger.info("Code: %v", bundled);
-
-  return bundled;
+  return bundle.code!;
 }
