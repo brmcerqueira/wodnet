@@ -1,6 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
 import { ActionResult, Character } from "./character.ts";
-import { ButtonStyle, MessagePayload, Project, ScriptTarget, terser, ts } from "./deps.ts";
+import {
+  ButtonStyle,
+  esbuild,
+  MessagePayload,
+  ModuleKind,
+  Project,
+  ScriptTarget,
+  ts,
+} from "./deps.ts";
 import { logger } from "./logger.ts";
 
 const characterCode = await Deno.readTextFile("./character.ts");
@@ -39,18 +47,54 @@ export function macroFunction(code: string): MacroFunction {
 
 export async function macroTranspile(code: string): Promise<string> {
   return await transpile({
-    "macro.ts": [characterCode,
+    "character.ts": characterCode,
+    "macro.ts": [
+      'import { ActionResult, Character, CharacterMode } from "./character.ts";',
       "declare const character: Character;declare const result: ActionResult;declare const button: any;",
-      code].join("")
+      code,
+    ].join(""),
   });
 }
 
-export async function transpile(files: { [file: string]: string }): Promise<string> {
+export async function transpile(
+  files: { [file: string]: string },
+): Promise<string> {
   const project = new Project({
     compilerOptions: {
+      module: ModuleKind.Preserve,
+      moduleResolution: ts.ModuleResolutionKind.Bundler,
       target: ScriptTarget.ESNext,
     },
-    useInMemoryFileSystem: true
+    useInMemoryFileSystem: true,
+    resolutionHost: (moduleResolutionHost, getCompilerOptions) => {
+      return {
+        resolveModuleNames: (moduleNames, containingFile) => {
+          const compilerOptions = getCompilerOptions();
+          const resolvedModules: ts.ResolvedModule[] = [];
+
+          for (
+            const moduleName of moduleNames.map((moduleName) => {
+              if (moduleName.slice(-3).toLowerCase() === ".ts") {
+                return moduleName.slice(0, -3);
+              }
+              return moduleName;
+            })
+          ) {
+            const result = ts.resolveModuleName(
+              moduleName,
+              containingFile,
+              compilerOptions,
+              moduleResolutionHost,
+            );
+            if (result.resolvedModule) {
+              resolvedModules.push(result.resolvedModule);
+            }
+          }
+
+          return resolvedModules;
+        },
+      };
+    },
   });
 
   for (const key in files) {
@@ -64,7 +108,7 @@ export async function transpile(files: { [file: string]: string }): Promise<stri
   }
 
   const result = await project.emitToMemory({
-    customTransformers: {
+    /*customTransformers: {
       after: [context => sourceFile => {
         function visitNodeAndChildren(node: ts.Node): ts.Node {
           if (node.kind == ts.SyntaxKind.ExportKeyword || (ts.isExportDeclaration(node) &&
@@ -72,11 +116,39 @@ export async function transpile(files: { [file: string]: string }): Promise<stri
           !node.moduleSpecifier)) {
             return context.factory.createNotEmittedStatement(node);
           }
-        
+
           return ts.visitEachChild(node, visitNodeAndChildren, context);
         }
 
         return visitNodeAndChildren(sourceFile) as ts.SourceFile;
+      }],
+    },*/
+    customTransformers: {
+      after: [(context) => (sourceFile) => {
+        function visitor(node: ts.Node): ts.Node {
+          if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) {
+            if (
+              node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)
+            ) {
+              const specifier = node.moduleSpecifier.text;
+              if (specifier.startsWith(".") && specifier.endsWith(".ts")) {
+                const importDeclaration = node as ts.ImportDeclaration;
+                return ts.factory.updateImportDeclaration(
+                  importDeclaration,
+                  importDeclaration.modifiers,
+                  importDeclaration.importClause,
+                  ts.factory.createStringLiteral(
+                    specifier.replace(/\.ts$/, ".js"),
+                  ),
+                  importDeclaration.attributes,
+                );
+              }
+            }
+          }
+          return ts.visitEachChild(node, visitor, context);
+        }
+
+        return visitor(sourceFile) as ts.SourceFile;
       }],
     },
   });
@@ -84,13 +156,45 @@ export async function transpile(files: { [file: string]: string }): Promise<stri
   const tranpiled: { [file: string]: string } = {};
 
   for (const file of result.getFiles()) {
-    logger.info("TypeScript: %v => %v", file.filePath, file.text);
+    logger.info("Script: %v => %v", file.filePath, file.text);
     tranpiled[file.filePath] = file.text;
   }
 
-  const minify = (await terser.minify(tranpiled)).code!;
+  const k = Object.keys(tranpiled);
 
-  logger.info("Code: %v", minify);
+  const key = k[k.length - 1];
 
-  return minify;
+  const a = await esbuild.build({
+    stdin: {
+      contents: tranpiled[key],
+      sourcefile: key,
+      loader: "js",
+    },
+    plugins: [
+      {
+        name: "memory-fs",
+        setup(build) {
+          build.onResolve({ filter: /.*/ }, (args) => {
+            return { path: args.path.replace(/^.\//, "/"), namespace: "memory" };
+          });
+
+          build.onLoad({ filter: /.*/, namespace: "memory" }, (args) => {
+            if (tranpiled[args.path]) {
+              return { contents: tranpiled[args.path], loader: "js" };
+            }
+          });
+        },
+      },
+    ],
+    bundle: true,
+    write: false,
+    format: "esm",
+    platform: "node",
+  });
+
+  const bundledCode = a.outputFiles[0].text;
+
+  logger.info("Code: %v", bundledCode);
+
+  return bundledCode;
 }
