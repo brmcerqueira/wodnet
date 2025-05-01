@@ -1,15 +1,18 @@
 // deno-lint-ignore-file no-explicit-any
 import { ActionResult, Character } from "./character.ts";
-import { ButtonStyle, MessagePayload } from "./deps.ts";
+import { ButtonStyle, MessagePayload, swc } from "./deps.ts";
+import { logger } from "./logger.ts";
+
+const characterCode = await Deno.readTextFile("./character.ts");
 
 export type MacroButton = {
   label?: string;
   style?: ButtonStyle;
   emoji?: {
-    id: string
-    name: string
+    id: string;
+    name: string;
   } | string;
-  value?: any
+  value?: any;
 };
 
 export type Macro = {
@@ -32,4 +35,54 @@ export function macroFunction(code: string): MacroFunction {
     "button",
     code,
   ) as MacroFunction;
+}
+
+export async function transpile(code: string): Promise<string> {
+  let result = "";
+
+  const ast = await swc.parse([characterCode,
+    "declare const character: Character;declare const result: ActionResult;declare const button: any;", 
+    code].join(""),
+    {
+      syntax: "typescript",
+      comments: false,
+      script: true,
+      target: "esnext",
+    },
+  );
+
+  result = (await swc.transform(ast, {
+    jsc: {
+      parser: {
+        syntax: "typescript",
+        tsx: false,
+        decorators: false,
+        dynamicImport: false,
+      },
+      target: "es5",
+      loose: false,
+      externalHelpers: false,
+      keepClassNames: false,
+    },
+    plugin: (program) => {
+      program.body = program.body.filter((statement) => {
+        if (
+          statement.type === "ExportDeclaration" ||
+          statement.type === "ExportNamedDeclaration" ||
+          statement.type === "ImportDeclaration"
+        ) {
+          //return false;
+        }
+
+        return true;
+      });
+
+      return program;
+    },
+    isModule: false,
+  })).code;
+
+  logger.info("Code: %v", result);
+
+  return result;
 }

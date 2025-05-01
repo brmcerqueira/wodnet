@@ -9,12 +9,11 @@ import {
   MessageComponentData,
   MessageComponentEmoji,
   MessageComponentType,
-  swc,
   User,
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { colors, jsonRelaxedKeysParse } from "../utils.ts";
-import { Macro, MacroButton } from "../macro.ts";
+import { Macro, MacroButton, transpile } from "../macro.ts";
 import { logger } from "../logger.ts";
 
 async function updateMacro(
@@ -33,48 +32,7 @@ async function updateMacro(
   }
 
   try {
-    const ast = await swc.parse(
-      `import { ActionResult, Character, CharacterMode } from "./character.ts";declare const character: Character;declare const result: ActionResult;declare const button: any;
-      ${macro.code!}`,
-      {
-        syntax: "typescript",
-        comments: false,
-        script: true,
-        target: "esnext",
-      },
-    );
-
-    ast.body = ast.body.filter((node) => {
-      if (node.type === "ImportDeclaration") return false;
-      if (
-        node.type === "ExportDeclaration" &&
-        node.declaration == null
-      ) return false;
-      if (
-        node.type === "ExportNamedDeclaration" &&
-        node.specifiers.length === 0 &&
-        node.source == null
-      ) return false;
-      return true;
-    });
-
-    macro.transpiled = (await swc.transform(ast, {
-      jsc: {
-        parser: {
-          syntax: "typescript",
-          tsx: false,
-          decorators: false,
-          dynamicImport: false,
-        },
-        target: "es5",
-        loose: false,
-        externalHelpers: false,
-        keepClassNames: false,
-      },
-      isModule: false,
-    })).code;
-
-    logger.info("Code: %v", macro.transpiled);
+    macro.transpiled = await transpile(macro.code!);
 
     await chronicle.saveMacro(macro);
 
