@@ -24,9 +24,7 @@ async function loadFiles(root: string, parse: (path: string) => Promise<string>)
 }
 
 const scripts = await loadFiles("./views/scripts", async path => {
-  const files: { [file: string]: string } = {}
-  files[path] = await Deno.readTextFile(path);
-  return await transpile(files);
+  return await transpile(path, await Deno.readTextFile(path));
 });
 
 const styles = await loadFiles("./views/styles", async path => {

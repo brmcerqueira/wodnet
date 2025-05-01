@@ -46,18 +46,18 @@ export function macroFunction(code: string): MacroFunction {
 }
 
 export async function macroTranspile(code: string): Promise<string> {
-  return await transpile({
-    "character.ts": characterCode,
-    "macro.ts": [
-      'import { ActionResult, Character, CharacterMode } from "./character.ts";',
-      "declare const character: Character;declare const result: ActionResult;declare const button: any;",
-      code,
-    ].join(""),
-  });
+  return await transpile(
+    "macro.ts",
+    `import { ActionResult, Character, CharacterMode } from \"./character.ts\";declare const character: Character;declare const result: ActionResult;declare const button: any;
+    ${code}`,
+    { "character.ts": characterCode },
+  );
 }
 
 export async function transpile(
-  files: { [file: string]: string },
+  name: string,
+  code: string,
+  dependencies?: { [name: string]: string },
 ): Promise<string> {
   const project = new Project({
     compilerOptions: {
@@ -69,21 +69,13 @@ export async function transpile(
     resolutionHost: (moduleResolutionHost, getCompilerOptions) => {
       return {
         resolveModuleNames: (moduleNames, containingFile) => {
-          const compilerOptions = getCompilerOptions();
           const resolvedModules: ts.ResolvedModule[] = [];
 
-          for (
-            const moduleName of moduleNames.map((moduleName) => {
-              if (moduleName.slice(-3).toLowerCase() === ".ts") {
-                return moduleName.slice(0, -3);
-              }
-              return moduleName;
-            })
-          ) {
+          for (const moduleName of moduleNames) {
             const result = ts.resolveModuleName(
-              moduleName,
+              moduleName.endsWith(".ts") ? moduleName.slice(0, -3) : moduleName,
               containingFile,
-              compilerOptions,
+              getCompilerOptions(),
               moduleResolutionHost,
             );
             if (result.resolvedModule) {
@@ -97,9 +89,13 @@ export async function transpile(
     },
   });
 
-  for (const key in files) {
-    project.createSourceFile(key, files[key]);
+  if (dependencies) {
+    for (const key in dependencies) {
+      project.createSourceFile(key, dependencies[key]);
+    }
   }
+
+  project.createSourceFile(name, code);
 
   const diagnostics = project.getPreEmitDiagnostics();
 
@@ -107,22 +103,7 @@ export async function transpile(
     throw new Error(project.formatDiagnosticsWithColorAndContext(diagnostics));
   }
 
-  const result = await project.emitToMemory({
-    /*customTransformers: {
-      after: [context => sourceFile => {
-        function visitNodeAndChildren(node: ts.Node): ts.Node {
-          if (node.kind == ts.SyntaxKind.ExportKeyword || (ts.isExportDeclaration(node) &&
-          !node.exportClause &&
-          !node.moduleSpecifier)) {
-            return context.factory.createNotEmittedStatement(node);
-          }
-
-          return ts.visitEachChild(node, visitNodeAndChildren, context);
-        }
-
-        return visitNodeAndChildren(sourceFile) as ts.SourceFile;
-      }],
-    },*/
+  const emitResult = await project.emitToMemory({
     customTransformers: {
       after: [(context) => (sourceFile) => {
         function visitor(node: ts.Node): ts.Node {
@@ -155,19 +136,17 @@ export async function transpile(
 
   const tranpiled: { [file: string]: string } = {};
 
-  for (const file of result.getFiles()) {
+  const jsName = `/${name.replace(/\.ts$/, ".js")}`;
+
+  for (const file of emitResult.getFiles()) {
     logger.info("Script: %v => %v", file.filePath, file.text);
     tranpiled[file.filePath] = file.text;
   }
 
-  const k = Object.keys(tranpiled);
-
-  const key = k[k.length - 1];
-
-  const a = await esbuild.build({
+  const buildResult = await esbuild.build({
     stdin: {
-      contents: tranpiled[key],
-      sourcefile: key,
+      contents: tranpiled[jsName],
+      sourcefile: jsName,
       loader: "js",
     },
     plugins: [
@@ -175,7 +154,10 @@ export async function transpile(
         name: "memory-fs",
         setup(build) {
           build.onResolve({ filter: /.*/ }, (args) => {
-            return { path: args.path.replace(/^.\//, "/"), namespace: "memory" };
+            return {
+              path: args.path.replace(/^.\//, "/"),
+              namespace: "memory",
+            };
           });
 
           build.onLoad({ filter: /.*/, namespace: "memory" }, (args) => {
@@ -188,13 +170,13 @@ export async function transpile(
     ],
     bundle: true,
     write: false,
+    minify: true,
     format: "esm",
-    platform: "node",
   });
 
-  const bundledCode = a.outputFiles[0].text;
+  const bundled = buildResult.outputFiles[0].text;
 
-  logger.info("Code: %v", bundledCode);
+  logger.info("Code: %v", bundled);
 
-  return bundledCode;
+  return bundled;
 }
