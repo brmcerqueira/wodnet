@@ -1,10 +1,11 @@
-import { bundle, join } from "./deps.ts";
+import { join } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
 import { locale } from "./i18n/locale.ts";
+import { transpile } from "./macro.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -23,9 +24,7 @@ async function loadFiles(root: string, parse: (path: string) => Promise<string>)
 }
 
 const scripts = await loadFiles("./views/scripts", async path => {
-  return (await bundle(path, {
-    minify: true
-  })).code;
+  return await transpile(await Deno.readTextFile(path));
 });
 
 const styles = await loadFiles("./views/styles", async path => {

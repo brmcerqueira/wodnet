@@ -13,7 +13,7 @@ import {
 } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
 import { colors, jsonRelaxedKeysParse } from "../utils.ts";
-import { Macro, MacroButton, transpile } from "../macro.ts";
+import { Macro, MacroButton, macroTranspile } from "../macro.ts";
 import { logger } from "../logger.ts";
 
 async function updateMacro(
@@ -32,7 +32,7 @@ async function updateMacro(
   }
 
   try {
-    macro.transpiled = await transpile(macro.code!);
+    macro.transpiled = await macroTranspile(macro.code!);
 
     await chronicle.saveMacro(macro);
 

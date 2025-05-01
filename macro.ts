@@ -37,12 +37,16 @@ export function macroFunction(code: string): MacroFunction {
   ) as MacroFunction;
 }
 
-export async function transpile(code: string): Promise<string> {
+export async function macroTranspile(code: string): Promise<string> {
+  return await transpile(characterCode,
+    "declare const character: Character;declare const result: ActionResult;declare const button: any;", 
+    code);
+}
+
+export async function transpile(...codes: string[]): Promise<string> {
   let result = "";
 
-  const ast = await swc.parse([characterCode,
-    "declare const character: Character;declare const result: ActionResult;declare const button: any;", 
-    code].join(""),
+  const ast = await swc.parse(codes.join(""),
     {
       syntax: "typescript",
       comments: false,
@@ -59,7 +63,7 @@ export async function transpile(code: string): Promise<string> {
         decorators: false,
         dynamicImport: false,
       },
-      target: "es5",
+      target: "es2024",
       loose: false,
       externalHelpers: false,
       keepClassNames: false,
@@ -83,6 +87,10 @@ export async function transpile(code: string): Promise<string> {
   })).code;
 
   logger.info("Code: %v", result);
+
+  result = (await swc.minify(result, {
+    compress: true
+  })).code;
 
   return result;
 }
