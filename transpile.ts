@@ -2,10 +2,10 @@
 import { ActionResult, Character } from "./character.ts";
 import {
   ButtonStyle,
-  esbuild,
   MessagePayload,
   ModuleKind,
   Project,
+  rollup,
   ScriptTarget,
   ts,
 } from "./deps.ts";
@@ -143,41 +143,30 @@ export async function transpile(
     tranpiled[file.filePath] = file.text;
   }
 
-  const buildResult = await esbuild.build({
-    stdin: {
-      contents: tranpiled[jsName],
-      sourcefile: jsName,
-      loader: "js",
-    },
+  const bundle = await rollup.rollup({
+    input: jsName,
     plugins: [
       {
-        name: "memory-fs",
-        setup(build) {
-          build.onResolve({ filter: /.*/ }, (args) => {
-            return {
-              path: args.path.replace(/^.\//, "/"),
-              namespace: "memory",
-            };
-          });
-
-          build.onLoad({ filter: /.*/, namespace: "memory" }, (args) => {
-            if (tranpiled[args.path]) {
-              return { contents: tranpiled[args.path], loader: "js" };
-            }
-          });
+        name: "inline-code",
+        resolveId(source) {
+          return source.replace(/^.\//, "/");
+        },
+        load(id) {
+          if (tranpiled[id]) {
+            return tranpiled[id];
+          }
+          return null;
         },
       },
     ],
-    bundle: true,
-    write: false,
-    minify: true,
-    format: "esm",
-    platform: "browser",
   });
 
-  const bundled = buildResult.outputFiles[0].text;
+  const { output } = await bundle.generate({
+    format: "iife",
+    name: "MyBundle",
+  });
 
-  logger.info("Code: %v", bundled);
+  logger.info("Code: %v", output[0].code);
 
-  return bundled;
+  return output[0].code;
 }
