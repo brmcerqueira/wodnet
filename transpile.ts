@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { ActionResult, Character } from "./character.ts";
-import { ButtonStyle, MessagePayload, swc } from "./deps.ts";
+import { ButtonStyle, MessagePayload, Project, swc, ts } from "./deps.ts";
 import { logger } from "./logger.ts";
 
 const characterCode = await Deno.readTextFile("./character.ts");
@@ -38,15 +38,38 @@ export function macroFunction(code: string): MacroFunction {
 }
 
 export async function macroTranspile(code: string): Promise<string> {
-  return await transpile(characterCode,
-    "declare const character: Character;declare const result: ActionResult;declare const button: any;", 
-    code);
+  const project = new Project({
+    useInMemoryFileSystem: true,
+  });
+
+  const sourceFile = project.createSourceFile("in-memory.ts", [characterCode,
+    "declare const character: Character;declare const result: ActionResult;declare const button: any;",
+    code
+  ].join(""));
+
+  sourceFile.transform(traversal => {
+    const node = traversal.visitChildren();
+    
+    if (node.kind == ts.SyntaxKind.ExportKeyword) {
+      return traversal.factory.createNotEmittedStatement(node);
+    }
+  
+    return node;
+  });
+
+  logger.info("TypeScript: %v", sourceFile.getFullText());
+
+  const diagnostics = project.getPreEmitDiagnostics();
+
+  logger.info("Diagnostics: %v", project.formatDiagnosticsWithColorAndContext(diagnostics));
+
+  return await transpile(sourceFile.getFullText());
 }
 
-export async function transpile(...codes: string[]): Promise<string> {
+export async function transpile(code: string): Promise<string> {
   let result = "";
 
-  const ast = await swc.parse(codes.join(""),
+  const ast = await swc.parse(code,
     {
       syntax: "typescript",
       comments: false,
@@ -67,21 +90,6 @@ export async function transpile(...codes: string[]): Promise<string> {
       loose: false,
       externalHelpers: false,
       keepClassNames: false,
-    },
-    plugin: (program) => {
-      program.body = program.body.filter((statement) => {
-        if (
-          statement.type === "ExportDeclaration" ||
-          statement.type === "ExportNamedDeclaration" ||
-          statement.type === "ImportDeclaration"
-        ) {
-          //return false;
-        }
-
-        return true;
-      });
-
-      return program;
     },
     isModule: false,
   })).code;
