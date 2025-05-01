@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { ActionResult, Character } from "./character.ts";
-import { ButtonStyle, MessagePayload, Project, swc, ts } from "./deps.ts";
+import { ButtonStyle, MessagePayload, Project, ScriptTarget, terser, ts } from "./deps.ts";
 import { logger } from "./logger.ts";
 
 const characterCode = await Deno.readTextFile("./character.ts");
@@ -38,67 +38,59 @@ export function macroFunction(code: string): MacroFunction {
 }
 
 export async function macroTranspile(code: string): Promise<string> {
+  return await transpile({
+    "macro.ts": [characterCode,
+      "declare const character: Character;declare const result: ActionResult;declare const button: any;",
+      code].join("")
+  });
+}
+
+export async function transpile(files: { [file: string]: string }): Promise<string> {
   const project = new Project({
-    useInMemoryFileSystem: true,
+    compilerOptions: {
+      target: ScriptTarget.ESNext,
+    },
+    useInMemoryFileSystem: true
   });
 
-  const sourceFile = project.createSourceFile("in-memory.ts", [characterCode,
-    "declare const character: Character;declare const result: ActionResult;declare const button: any;",
-    code
-  ].join(""));
-
-  sourceFile.transform(traversal => {
-    const node = traversal.visitChildren();
-    
-    if (node.kind == ts.SyntaxKind.ExportKeyword) {
-      return traversal.factory.createNotEmittedStatement(node);
-    }
-  
-    return node;
-  });
-
-  logger.info("TypeScript: %v", sourceFile.getFullText());
+  for (const key in files) {
+    project.createSourceFile(key, files[key]);
+  }
 
   const diagnostics = project.getPreEmitDiagnostics();
 
-  logger.info("Diagnostics: %v", project.formatDiagnosticsWithColorAndContext(diagnostics));
+  if (diagnostics.length > 0) {
+    throw new Error(project.formatDiagnosticsWithColorAndContext(diagnostics));
+  }
 
-  return await transpile(sourceFile.getFullText());
-}
+  const result = await project.emitToMemory({
+    customTransformers: {
+      after: [context => sourceFile => {
+        function visitNodeAndChildren(node: ts.Node): ts.Node {
+          if (node.kind == ts.SyntaxKind.ExportKeyword || (ts.isExportDeclaration(node) &&
+          !node.exportClause &&
+          !node.moduleSpecifier)) {
+            return context.factory.createNotEmittedStatement(node);
+          }
+        
+          return ts.visitEachChild(node, visitNodeAndChildren, context);
+        }
 
-export async function transpile(code: string): Promise<string> {
-  let result = "";
-
-  const ast = await swc.parse(code,
-    {
-      syntax: "typescript",
-      comments: false,
-      script: true,
-      target: "esnext",
+        return visitNodeAndChildren(sourceFile) as ts.SourceFile;
+      }],
     },
-  );
+  });
 
-  result = (await swc.transform(ast, {
-    jsc: {
-      parser: {
-        syntax: "typescript",
-        tsx: false,
-        decorators: false,
-        dynamicImport: false,
-      },
-      target: "es2024",
-      loose: false,
-      externalHelpers: false,
-      keepClassNames: false,
-    },
-    isModule: false,
-  })).code;
+  const tranpiled: { [file: string]: string } = {};
 
-  logger.info("Code: %v", result);
+  for (const file of result.getFiles()) {
+    logger.info("TypeScript: %v => %v", file.filePath, file.text);
+    tranpiled[file.filePath] = file.text;
+  }
 
-  result = (await swc.minify(result, {
-    compress: true
-  })).code;
+  const minify = (await terser.minify(tranpiled)).code!;
 
-  return result;
+  logger.info("Code: %v", minify);
+
+  return minify;
 }
