@@ -6,7 +6,6 @@ import {
   MessagePayload,
   ModuleKind,
   Project,
-  rollup,
   ScriptTarget,
   ts,
 } from "./deps.ts";
