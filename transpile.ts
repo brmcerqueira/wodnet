@@ -172,6 +172,7 @@ export async function transpile(
     write: false,
     minify: true,
     format: "esm",
+    platform: "browser",
   });
 
   const bundled = buildResult.outputFiles[0].text;
