@@ -6,7 +6,7 @@
     "jsxFragmentFactory": "React.Fragment"
   },
   "tasks": {
-    "run": "deno run --allow-net --allow-read --allow-env --allow-write --env-file=.env main.ts",
+    "run": "deno run --allow-net --allow-read --allow-env --allow-write --allow-ffi --env-file=.env main.ts",
     "docker-build": "docker build -t wodnet .",
     "docker-run": "docker run --env-file .env -p 3000:3000 wodnet"
   }

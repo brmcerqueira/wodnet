@@ -1,7 +1,6 @@
 import React from "https://deno.land/x/tsx_render@1.0/mod.ts";
-import * as ts from "npm:typescript";
 
-export { ts }
+export * as swc from "npm:@swc/core";
 export * from "jsr:@db/redis";
 export * from "https://deno.land/x/emit@0.40.0/mod.ts";
 export * from "https://deno.land/x/tsx_render@1.6/mod.ts";

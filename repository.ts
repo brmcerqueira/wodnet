@@ -4,7 +4,7 @@ import { config } from "./config.ts";
 import { ApplicationCommandChoice, connect, EmbedPayload } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
-import { Macro } from "./macroTranspiler.ts";
+import { Macro } from "./macro.ts";
 
 type LastRoll = {
   embed: EmbedPayload;
