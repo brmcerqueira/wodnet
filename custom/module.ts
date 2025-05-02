@@ -8,4 +8,4 @@ export * from "./updateHealthButton.ts";
 export * from "./updateWillpowerButton.ts";
 export * from "./updateHungerButton.ts";
 export { interactionCustomId } from "./common.ts";
-export type { ModalInput } from "./common.ts";
+export type { ModalInput, DamageInput } from "./common.ts";

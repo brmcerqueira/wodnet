@@ -13,6 +13,8 @@ import {
   TextInputStyle,
 } from "../deps.ts";
 
+export type DamageInput = { superficial?: number; aggravated?: number; add?: boolean }
+
 export type ButtonOptions = {
   label?: string;
   style?: ButtonStyle;

@@ -1,4 +1,5 @@
 import { Character, Damage } from "../character.ts";
+import { DamageInput } from "../custom/module.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
@@ -34,11 +35,11 @@ function buildDamageOptions(): CommandOptions {
   }).build;
 }
 
-function damageParse(
+export function damageParse(
   get: (character: Character) => Damage,
 ): (
   character: Character,
-  input: { superficial?: number; aggravated?: number; add?: boolean },
+  input: DamageInput,
 ) => number {
   return (c, i) => {
     const damage = get(c);
