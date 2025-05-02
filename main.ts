@@ -37,10 +37,6 @@ const styles = await loadFiles("./views/styles", async (path) => {
 
 const favicon = await Deno.readFile("./wodnet.ico");
 
-if (config.botStart) {
-  await bot.connect();
-}
-
 function route(
   ...params: (
     | {
@@ -184,3 +180,7 @@ Deno.serve(
     },
   }),
 );
+
+if (config.botStart) {
+  await bot.connect();
+}
