@@ -125,7 +125,7 @@ export function parseField<T>(
   };
 }
 
-export function parseNumberField(get: (character: Character) => number, 
+export function parseNumberFieldWithSpent(get: (character: Character) => number, 
 set: (character: Character, value: number) => void, multiplier: number): (character: Character, input: { value: number }) => number {
   return (character, input) => {
     const old = get(character);

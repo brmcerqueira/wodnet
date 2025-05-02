@@ -8,7 +8,7 @@ import {
   commands,
   option,
   parseField,
-  parseNumberField,
+  parseNumberFieldWithSpent,
   property,
   treatKey,
   value,
@@ -122,7 +122,7 @@ commands[treatKey(locale.bloodPotency)] = {
   description: `${locale.commands.sheet.description} ${locale.bloodPotency}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) => c.bloodPotency, (c, v) => c.bloodPotency = v, 10),
+    parseNumberFieldWithSpent((c) => c.bloodPotency, (c, v) => c.bloodPotency = v, 10),
   ),
 };
 commands[treatKey(locale.hunger)] = {

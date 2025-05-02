@@ -3,7 +3,7 @@ import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver
 import {
   buildIntegerOptions,
   commands,
-  parseNumberField,
+  parseNumberFieldWithSpent,
   treatKey,
 } from "./common.ts";
 
@@ -14,7 +14,7 @@ commands[treatKey(locale.skills.physical.melee)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.melee}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.melee, (c, v) =>
       c.skills.physical.melee = v, multiplier),
   ),
@@ -24,7 +24,7 @@ commands[treatKey(locale.skills.physical.firearms)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.firearms}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.firearms, (c, v) =>
       c.skills.physical.firearms = v, multiplier),
   ),
@@ -34,7 +34,7 @@ commands[treatKey(locale.skills.physical.athletics)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.athletics}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.athletics, (c, v) =>
       c.skills.physical.athletics = v, multiplier),
   ),
@@ -44,7 +44,7 @@ commands[treatKey(locale.skills.physical.brawl)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.brawl}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.brawl, (c, v) =>
       c.skills.physical.brawl = v, multiplier),
   ),
@@ -54,7 +54,7 @@ commands[treatKey(locale.skills.physical.drive)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.drive}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.drive, (c, v) =>
       c.skills.physical.drive = v, multiplier),
   ),
@@ -64,7 +64,7 @@ commands[treatKey(locale.skills.physical.stealth)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.stealth}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.stealth, (c, v) =>
       c.skills.physical.stealth = v, multiplier),
   ),
@@ -74,7 +74,7 @@ commands[treatKey(locale.skills.physical.larceny)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.larceny}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.larceny, (c, v) =>
       c.skills.physical.larceny = v, multiplier),
   ),
@@ -84,7 +84,7 @@ commands[treatKey(locale.skills.physical.craft)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.craft}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.craft, (c, v) =>
       c.skills.physical.craft = v, multiplier),
   ),
@@ -94,7 +94,7 @@ commands[treatKey(locale.skills.physical.survival)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.survival}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberField((c) =>
+    parseNumberFieldWithSpent((c) =>
       c.skills.physical.survival, (c, v) =>
       c.skills.physical.survival = v, multiplier),
   ),

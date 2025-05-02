@@ -1,13 +1,183 @@
 import {
+ButtonComponent,
 ButtonStyle,
   Interaction,
+  InteractionResponse,
   InteractionResponseType,
   MessageComponentType,
 } from "../deps.ts";
 import { colors, uploadImage } from "../utils.ts";
 import { Chronicle } from "../repository.ts";
 import { locale } from "../i18n/locale.ts";
-import { updateNumberFieldButton, UpdateNumberFieldButtonKind } from "../custom/module.ts";
+import { updateHealthButton, updateHungerButton, updateWillpowerButton } from "../custom/module.ts";
+import { ButtonOptions } from "../custom/common.ts";
+
+function buildDamageInteractionResponse(title: string, aggravated: boolean, button: (options: ButtonOptions, value: number, aggravated: boolean) => ButtonComponent): InteractionResponse {
+  return {
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    embeds: [{
+      title: title,
+      color: colors.gray,
+    }],
+    components:   [{
+      type: MessageComponentType.ACTION_ROW,
+      components: [
+        button({
+          label: "1️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -1, aggravated),
+        button({
+          label: "2️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -2, aggravated),
+        button({
+          label: "3️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -3, aggravated),
+        button({
+          label: "4️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -4, aggravated),
+        button({
+          label: "5️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -5, aggravated),
+      ],
+    },{
+      type: MessageComponentType.ACTION_ROW,
+      components: [
+        button({
+          label: "6️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -6, aggravated),
+        button({
+          label: "7️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -7, aggravated),
+        button({
+          label: "8️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -8, aggravated),
+        button({
+          label: "9️⃣",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -9, aggravated),
+        button({
+          label: "🔟",
+          emoji: {
+            name: "➖",
+          },
+          style: ButtonStyle.SUCCESS
+        }, -10, aggravated),
+      ],
+    },{
+      type: MessageComponentType.ACTION_ROW,
+      components: [
+        button({
+          label: "1️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 1, aggravated),
+        button({
+          label: "2️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 2, aggravated),
+        button({
+          label: "3️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 3, aggravated),
+        button({
+          label: "4️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 4, aggravated),
+        button({
+          label: "5️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 5, aggravated),
+      ],
+    },{
+      type: MessageComponentType.ACTION_ROW,
+      components: [
+        button({
+          label: "6️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 6, aggravated),
+        button({
+          label: "7️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 7, aggravated),
+        button({
+          label: "8️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 8, aggravated),
+        button({
+          label: "9️⃣",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 9, aggravated),
+        button({
+          label: "🔟",
+          emoji: {
+            name: "➕",
+          },
+          style: ButtonStyle.DANGER
+        }, 10, aggravated),
+      ],
+    }]
+  }
+}
 
 export async function panelSolver(
   interaction: Interaction,
@@ -29,178 +199,9 @@ export async function panelSolver(
   },
 ) {
   if (input.health) {
-    await interaction.respond({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: locale.health,
-        color: colors.gray,
-      }],
-    });
+    await interaction.respond(buildDamageInteractionResponse(locale.health, false, updateHealthButton));
   } else if (input.willpower) {
-    await interaction.respond({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: locale.willpower,
-        color: colors.gray,
-      }],
-      components: [{
-        type: MessageComponentType.ACTION_ROW,
-        components: [
-          updateNumberFieldButton({
-            label: "1️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -1, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "2️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -2, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "3️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -3, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "4️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -4, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "5️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -5, UpdateNumberFieldButtonKind.Willpower),
-        ],
-      },{
-        type: MessageComponentType.ACTION_ROW,
-        components: [
-          updateNumberFieldButton({
-            label: "6️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -6, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "7️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -7, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "8️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -8, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "9️⃣",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -9, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "🔟",
-            emoji: {
-              name: "➖",
-            },
-            style: ButtonStyle.SUCCESS
-          }, -10, UpdateNumberFieldButtonKind.Willpower),
-        ],
-      },{
-        type: MessageComponentType.ACTION_ROW,
-        components: [
-          updateNumberFieldButton({
-            label: "1️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 1, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "2️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 2, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "3️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 3, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "4️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 4, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "5️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 5, UpdateNumberFieldButtonKind.Willpower),
-        ],
-      },{
-        type: MessageComponentType.ACTION_ROW,
-        components: [
-          updateNumberFieldButton({
-            label: "6️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 6, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "7️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 7, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "8️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 8, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "9️⃣",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 9, UpdateNumberFieldButtonKind.Willpower),
-          updateNumberFieldButton({
-            label: "🔟",
-            emoji: {
-              name: "➕",
-            },
-            style: ButtonStyle.DANGER
-          }, 10, UpdateNumberFieldButtonKind.Willpower),
-        ],
-      }],
-    });
+    await interaction.respond(buildDamageInteractionResponse(locale.willpower, false, updateWillpowerButton));
   } else if (input.hunger) {
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -211,36 +212,36 @@ export async function panelSolver(
       components: [{
         type: MessageComponentType.ACTION_ROW,
         components: [
-          updateNumberFieldButton({
+          updateHungerButton({
             label: "",
             emoji: {
               name: "1️⃣",
             },
-          }, 1, UpdateNumberFieldButtonKind.Hunger),
-          updateNumberFieldButton({
+          }, 1),
+          updateHungerButton({
             label: "",
             emoji: {
               name: "2️⃣",
             },
-          }, 2, UpdateNumberFieldButtonKind.Hunger),
-          updateNumberFieldButton({
+          }, 2),
+          updateHungerButton({
             label: "",
             emoji: {
               name: "3️⃣",
             },
-          }, 3, UpdateNumberFieldButtonKind.Hunger),
-          updateNumberFieldButton({
+          }, 3),
+          updateHungerButton({
             label: "",
             emoji: {
               name: "4️⃣",
             },
-          }, 4, UpdateNumberFieldButtonKind.Hunger),
-          updateNumberFieldButton({
+          }, 4),
+          updateHungerButton({
             label: "",
             emoji: {
               name: "5️⃣",
             },
-          }, 5, UpdateNumberFieldButtonKind.Hunger),
+          }, 5),
         ],
       }],
     });
