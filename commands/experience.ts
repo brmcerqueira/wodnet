@@ -17,15 +17,19 @@ commands[treatKey(locale.experience.name)] = {
     minValue: -50,
     maxValue: 50,
   }).build,
-  solve: buildCharacterUpdateSolver((c, i: { total?: number; spent?: number }) => {
-    if (i.total) {
-      c.experience.total += i.total;
-    }
+  solve: buildCharacterUpdateSolver(
+    (c, i: { total?: number; spent?: number }) => {
+      if (i.total) {
+        c.experience.total += i.total;
+      }
 
-    if (i.spent) {
-      c.experience.spent += i.spent;
-    }
+      if (i.spent) {
+        c.experience.spent += i.spent;
+      }
 
-    return 0;
-  }, true),
+      return 0;
+    },
+    false,
+    true,
+  ),
 };

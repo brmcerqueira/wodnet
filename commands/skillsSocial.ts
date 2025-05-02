@@ -14,9 +14,12 @@ commands[treatKey(locale.skills.social.animalKen)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.animalKen}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.animalKen, (c, v) =>
-      c.skills.social.animalKen = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.animalKen,
+      (c, v) => c.skills.social.animalKen = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.etiquette)] = {
@@ -24,9 +27,12 @@ commands[treatKey(locale.skills.social.etiquette)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.etiquette}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.etiquette, (c, v) =>
-      c.skills.social.etiquette = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.etiquette,
+      (c, v) => c.skills.social.etiquette = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.intimidation)] = {
@@ -34,9 +40,12 @@ commands[treatKey(locale.skills.social.intimidation)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.intimidation}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.intimidation, (c, v) =>
-      c.skills.social.intimidation = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.intimidation,
+      (c, v) => c.skills.social.intimidation = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.leadership)] = {
@@ -44,9 +53,12 @@ commands[treatKey(locale.skills.social.leadership)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.leadership}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.leadership, (c, v) =>
-      c.skills.social.leadership = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.leadership,
+      (c, v) => c.skills.social.leadership = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.streetwise)] = {
@@ -54,9 +66,12 @@ commands[treatKey(locale.skills.social.streetwise)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.streetwise}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.streetwise, (c, v) =>
-      c.skills.social.streetwise = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.streetwise,
+      (c, v) => c.skills.social.streetwise = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.performance)] = {
@@ -64,9 +79,12 @@ commands[treatKey(locale.skills.social.performance)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.performance}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.performance, (c, v) =>
-      c.skills.social.performance = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.performance,
+      (c, v) => c.skills.social.performance = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.persuasion)] = {
@@ -74,9 +92,12 @@ commands[treatKey(locale.skills.social.persuasion)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.persuasion}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.persuasion, (c, v) =>
-      c.skills.social.persuasion = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.persuasion,
+      (c, v) => c.skills.social.persuasion = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.insight)] = {
@@ -84,9 +105,12 @@ commands[treatKey(locale.skills.social.insight)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.insight}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.insight, (c, v) =>
-      c.skills.social.insight = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.insight,
+      (c, v) => c.skills.social.insight = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.social.subterfuge)] = {
@@ -94,8 +118,11 @@ commands[treatKey(locale.skills.social.subterfuge)] = {
     `${locale.commands.sheet.description} ${locale.skills.social.subterfuge}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.social.subterfuge, (c, v) =>
-      c.skills.social.subterfuge = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.social.subterfuge,
+      (c, v) => c.skills.social.subterfuge = v,
+      multiplier,
+    ),
+    false,
   ),
 };

@@ -6,7 +6,7 @@ import { Chronicle } from "../repository.ts";
 import { Solver } from "../commands/module.ts";
 
 export function buildCharacterUpdateSolver<T>(
-  parse: (character: Character, input: T) => Promise<number> | number, onlyStoryteller?: boolean
+  parse: (character: Character, input: T) => Promise<number> | number, silent: boolean, onlyStoryteller?: boolean
 ): Solver {
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
     const isStoryteller = await chronicle.isStoryteller(interaction.user.id);

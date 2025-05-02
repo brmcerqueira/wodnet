@@ -11,8 +11,8 @@ import { setModifierSolver } from "../solver/setModifierSolver.ts";
 import {
   booleanChoices,
   buildChoices,
-  CommandOptionType,
   CommandOptions,
+  CommandOptionType,
   commands,
   option,
   property,
@@ -168,10 +168,14 @@ commands[treatKey(locale.commands.sheet.link.name)] = {
 };
 commands[treatKey(locale.commands.import.name)] = {
   description: locale.commands.import.description,
-  solve: buildCharacterUpdateSolver((c, i: { json: string }) => {
-    Object.assign(c, JSON.parse(i.json));
-    return 0;
-  }, true),
+  solve: buildCharacterUpdateSolver(
+    (c, i: { json: string }) => {
+      Object.assign(c, JSON.parse(i.json));
+      return 0;
+    },
+    false,
+    true,
+  ),
   options: option(locale.commands.import.json.name, {
     property: "json",
     description: locale.commands.import.json.description,
@@ -212,12 +216,12 @@ commands[treatKey(locale.commands.panel.name)] = {
     property: "health",
     description: locale.commands.panel.health.description,
     type: CommandOptionType.SUB_COMMAND_GROUP,
-    options: buildDamageOptions()
+    options: buildDamageOptions(),
   }).option(locale.commands.panel.willpower.name, {
     property: "willpower",
     description: locale.commands.panel.willpower.description,
     type: CommandOptionType.SUB_COMMAND_GROUP,
-    options: buildDamageOptions()
+    options: buildDamageOptions(),
   }).option(locale.commands.panel.hunger.name, {
     property: "hunger",
     description: locale.commands.panel.hunger.description,

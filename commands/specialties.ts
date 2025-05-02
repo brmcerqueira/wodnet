@@ -1,7 +1,7 @@
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
-buildChoices,
+  buildChoices,
   CommandOptions,
   CommandOptionType,
   commands,
@@ -9,7 +9,7 @@ buildChoices,
   treatKey,
 } from "./common.ts";
 
-type NewSpecialty = { skill: string; name: string; };
+type NewSpecialty = { skill: string; name: string };
 
 const multiplier = 3;
 
@@ -47,7 +47,7 @@ commands[treatKey(locale.specialties.name)] = {
         for (let i = 0; i < array.length; i++) {
           if (index == input.delete.index) {
             array.splice(i, 1);
-            spent = - multiplier;
+            spent = -multiplier;
             if (array.length == 0) {
               delete c.specialties[key];
             }
@@ -72,7 +72,7 @@ commands[treatKey(locale.specialties.name)] = {
       }
     }
     return spent;
-  }),
+  }, false),
   options: option(locale.physical, {
     property: "physical",
     description: locale.physical,

@@ -43,12 +43,16 @@ export type CommandOptions = {
   [name: string]: CommandOption;
 };
 
-export type Solver = (interaction: Interaction, chronicle: Chronicle, input?: any) => Promise<void>;
+export type Solver = (
+  interaction: Interaction,
+  chronicle: Chronicle,
+  input?: any,
+) => Promise<void>;
 
 export const commands: {
   [name: string]: {
     solve: Solver;
-    type?: ApplicationCommandType,
+    type?: ApplicationCommandType;
     description?: string;
     options?: CommandOptions;
   };
@@ -125,32 +129,42 @@ export function parseField<T>(
   };
 }
 
-export function parseNumberFieldWithSpent(get: (character: Character) => number, 
-set: (character: Character, value: number) => void, multiplier: number): (character: Character, input: { value: number }) => number {
+export function parseNumberFieldWithSpent(
+  get: (character: Character) => number,
+  set: (character: Character, value: number) => void,
+  multiplier: number,
+): (character: Character, input: { value: number }) => number {
   return (character, input) => {
     const old = get(character);
     set(character, input.value);
     return calculateSpent(old, input.value, multiplier);
-  }
+  };
 }
 
 export function calculateSpent(old: number, value: number, multiplier: number) {
   let spent = 0;
   const growing = value >= old;
-  for (let index = (growing ? old : value) + 1; index <= (growing ? value : old); index++) {
+  for (
+    let index = (growing ? old : value) + 1;
+    index <= (growing ? value : old);
+    index++
+  ) {
     const result = index * multiplier;
     spent += growing ? result : -result;
   }
   return spent;
 }
 
-export function buildChoicesOptions(choices: string[], none?: boolean): CommandOptions {
-  const array = choices.map(item => {
+export function buildChoicesOptions(
+  choices: string[],
+  none?: boolean,
+): CommandOptions {
+  const array = choices.map((item) => {
     return {
       value: item,
       name: item,
     };
-  })
+  });
 
   if (none) {
     array.unshift({

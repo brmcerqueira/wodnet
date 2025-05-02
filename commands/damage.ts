@@ -65,7 +65,7 @@ export function damageParse(
 commands[treatKey(locale.health)] = {
   description: `${locale.commands.sheet.description} ${locale.health}`,
   options: buildDamageOptions(),
-  solve: buildCharacterUpdateSolver(damageParse((c) => c.health)),
+  solve: buildCharacterUpdateSolver(damageParse((c) => c.health), false),
 };
 
 commands[treatKey(locale.healthStart)] = {
@@ -79,11 +79,12 @@ commands[treatKey(locale.healthStart)] = {
   }).build,
   solve: buildCharacterUpdateSolver(
     parseField<number>((c, v) => c.health.start = v),
+    false,
   ),
 };
 
 commands[treatKey(locale.willpower)] = {
   description: `${locale.commands.sheet.description} ${locale.willpower}`,
   options: buildDamageOptions(),
-  solve: buildCharacterUpdateSolver(damageParse((c) => c.willpower)),
+  solve: buildCharacterUpdateSolver(damageParse((c) => c.willpower), false),
 };

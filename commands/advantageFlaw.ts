@@ -37,7 +37,7 @@ export function advantageFlawParse(
           if (edit.value == 0) {
             delete advantageFlaw[key];
           } else {
-            advantageFlaw[key] = edit.value;    
+            advantageFlaw[key] = edit.value;
           }
           spent = (edit.value - old) * multiplier;
           break;
@@ -92,12 +92,12 @@ export function buildAdvantageFlawOptions(): CommandOptions {
 
 commands[treatKey(locale.advantages)] = {
   description: `${locale.commands.sheet.description} ${locale.advantages}`,
-  solve: buildCharacterUpdateSolver(advantageFlawParse(true)),
+  solve: buildCharacterUpdateSolver(advantageFlawParse(true), false),
   options: buildAdvantageFlawOptions(),
 };
 
 commands[treatKey(locale.flaws)] = {
   description: `${locale.commands.sheet.description} ${locale.flaws}`,
-  solve: buildCharacterUpdateSolver(advantageFlawParse(false)),
+  solve: buildCharacterUpdateSolver(advantageFlawParse(false), false),
   options: buildAdvantageFlawOptions(),
 };

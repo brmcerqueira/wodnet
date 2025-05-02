@@ -5,5 +5,5 @@ import { ButtonOptions, button } from "./common.ts";
 
 export const updateHungerButton: (options: ButtonOptions, value: number) => ButtonComponent = button(
   (context) => parseInt(context[0]),
-  buildCharacterUpdateSolver(parseField<number>((c, v) => c.hunger = v)),
+  buildCharacterUpdateSolver(parseField<number>((c, v) => c.hunger = v), false),
 );

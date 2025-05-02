@@ -9,5 +9,5 @@ export const updateHealthButton: (options: ButtonOptions, value: number, aggrava
     const aggravated = "true" == context[1];
     return { superficial: aggravated ? undefined : value, aggravated: aggravated ? value: undefined, add: true }
   },
-  buildCharacterUpdateSolver(damageParse((c) => c.health))
+  buildCharacterUpdateSolver(damageParse((c) => c.health), false)
 );

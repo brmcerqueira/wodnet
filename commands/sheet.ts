@@ -25,7 +25,7 @@ commands[treatKey(locale.name)] = {
     minLength: 1,
     maxLength: 50,
   }).build,
-  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.name = v)),
+  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.name = v), false),
 };
 commands[treatKey(locale.image)] = {
   description: `${locale.commands.sheet.description} ${locale.image}`,
@@ -38,7 +38,7 @@ commands[treatKey(locale.image)] = {
   solve: buildCharacterUpdateSolver(async (c, i: { value: { url: string } }) => {
     c.image = await uploadImage(i.value.url);
     return 0;
-  }),
+  }, false),
 };
 commands[treatKey(locale.player)] = {
   description: `${locale.commands.sheet.description} ${locale.player}`,
@@ -50,13 +50,13 @@ commands[treatKey(locale.player)] = {
     minLength: 1,
     maxLength: 50,
   }).build,
-  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.player = v)),
+  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.player = v), false),
 };
 commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
   options: buildChoicesOptions(locale.resonance.options, true),
   solve: buildCharacterUpdateSolver(
-    parseField<string>((c, v) => c.resonance = v),
+    parseField<string>((c, v) => c.resonance = v), false
   ),
 };
 commands[treatKey(locale.ambition)] = {
@@ -70,7 +70,7 @@ commands[treatKey(locale.ambition)] = {
     maxLength: 150,
   }).build,
   solve: buildCharacterUpdateSolver(
-    parseField<string>((c, v) => c.ambition = v),
+    parseField<string>((c, v) => c.ambition = v), false
   ),
 };
 commands[treatKey(locale.desire)] = {
@@ -83,25 +83,25 @@ commands[treatKey(locale.desire)] = {
     minLength: 1,
     maxLength: 150,
   }).build,
-  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.desire = v)),
+  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.desire = v), false),
 };
 commands[treatKey(locale.predator.name)] = {
   description: `${locale.commands.sheet.description} ${locale.predator.name}`,
   options: buildChoicesOptions(locale.predator.options),
   solve: buildCharacterUpdateSolver(
-    parseField<string>((c, v) => c.predator = v),
+    parseField<string>((c, v) => c.predator = v),false
   ),
 };
 commands[treatKey(locale.clan.name)] = {
   description: `${locale.commands.sheet.description} ${locale.clan.name}`,
   options: buildChoicesOptions(Object.keys(locale.clan.options)),
-  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.clan = v)),
+  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.clan = v), false),
 };
 commands[treatKey(locale.generation.name)] = {
   description: `${locale.commands.sheet.description} ${locale.generation.name}`,
   options: buildIntegerOptions(4, 16),
   solve: buildCharacterUpdateSolver(
-    parseField<number>((c, v) => c.generation = v),
+    parseField<number>((c, v) => c.generation = v),false
   ),
 };
 commands[treatKey(locale.details)] = {
@@ -115,33 +115,33 @@ commands[treatKey(locale.details)] = {
     maxLength: 1000,
   }).build,
   solve: buildCharacterUpdateSolver(
-    parseField<string>((c, v) => c.details = v),
+    parseField<string>((c, v) => c.details = v),false
   ),
 };
 commands[treatKey(locale.bloodPotency)] = {
   description: `${locale.commands.sheet.description} ${locale.bloodPotency}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) => c.bloodPotency, (c, v) => c.bloodPotency = v, 10),
+    parseNumberFieldWithSpent((c) => c.bloodPotency, (c, v) => c.bloodPotency = v, 10),false
   ),
 };
 commands[treatKey(locale.hunger)] = {
   description: `${locale.commands.sheet.description} ${locale.hunger}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterUpdateSolver(parseField<number>((c, v) => c.hunger = v)),
+  solve: buildCharacterUpdateSolver(parseField<number>((c, v) => c.hunger = v), false),
 };
 commands[treatKey(locale.humanity)] = {
   description: `${locale.commands.sheet.description} ${locale.humanity}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterUpdateSolver(
-    parseField<number>((c, v) => c.humanity.total = v),
+    parseField<number>((c, v) => c.humanity.total = v),false
   ),
 };
 commands[treatKey(locale.stains)] = {
   description: `${locale.commands.sheet.description} ${locale.stains}`,
   options: buildIntegerOptions(0, 10),
   solve: buildCharacterUpdateSolver(
-    parseField<number>((c, v) => c.humanity.stains = v),
+    parseField<number>((c, v) => c.humanity.stains = v),false
   ),
 };
 commands[treatKey(locale.commands.editModal.name)] = {

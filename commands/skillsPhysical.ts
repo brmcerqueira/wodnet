@@ -14,9 +14,12 @@ commands[treatKey(locale.skills.physical.melee)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.melee}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.melee, (c, v) =>
-      c.skills.physical.melee = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.melee,
+      (c, v) => c.skills.physical.melee = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.firearms)] = {
@@ -24,9 +27,12 @@ commands[treatKey(locale.skills.physical.firearms)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.firearms}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.firearms, (c, v) =>
-      c.skills.physical.firearms = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.firearms,
+      (c, v) => c.skills.physical.firearms = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.athletics)] = {
@@ -34,9 +40,12 @@ commands[treatKey(locale.skills.physical.athletics)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.athletics}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.athletics, (c, v) =>
-      c.skills.physical.athletics = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.athletics,
+      (c, v) => c.skills.physical.athletics = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.brawl)] = {
@@ -44,9 +53,12 @@ commands[treatKey(locale.skills.physical.brawl)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.brawl}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.brawl, (c, v) =>
-      c.skills.physical.brawl = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.brawl,
+      (c, v) => c.skills.physical.brawl = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.drive)] = {
@@ -54,9 +66,12 @@ commands[treatKey(locale.skills.physical.drive)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.drive}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.drive, (c, v) =>
-      c.skills.physical.drive = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.drive,
+      (c, v) => c.skills.physical.drive = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.stealth)] = {
@@ -64,9 +79,12 @@ commands[treatKey(locale.skills.physical.stealth)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.stealth}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.stealth, (c, v) =>
-      c.skills.physical.stealth = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.stealth,
+      (c, v) => c.skills.physical.stealth = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.larceny)] = {
@@ -74,9 +92,12 @@ commands[treatKey(locale.skills.physical.larceny)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.larceny}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.larceny, (c, v) =>
-      c.skills.physical.larceny = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.larceny,
+      (c, v) => c.skills.physical.larceny = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.craft)] = {
@@ -84,9 +105,12 @@ commands[treatKey(locale.skills.physical.craft)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.craft}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.craft, (c, v) =>
-      c.skills.physical.craft = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.craft,
+      (c, v) => c.skills.physical.craft = v,
+      multiplier,
+    ),
+    false,
   ),
 };
 commands[treatKey(locale.skills.physical.survival)] = {
@@ -94,8 +118,11 @@ commands[treatKey(locale.skills.physical.survival)] = {
     `${locale.commands.sheet.description} ${locale.skills.physical.survival}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseNumberFieldWithSpent((c) =>
-      c.skills.physical.survival, (c, v) =>
-      c.skills.physical.survival = v, multiplier),
+    parseNumberFieldWithSpent(
+      (c) => c.skills.physical.survival,
+      (c, v) => c.skills.physical.survival = v,
+      multiplier,
+    ),
+    false,
   ),
 };

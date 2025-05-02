@@ -9,5 +9,5 @@ export const updateWillpowerButton: (options: ButtonOptions, value: number, aggr
     const aggravated = "true" == context[1];
     return { superficial: aggravated ? undefined : value, aggravated: aggravated ? value: undefined, add: true }
   },
-  buildCharacterUpdateSolver(damageParse((c) => c.willpower))
+  buildCharacterUpdateSolver(damageParse((c) => c.willpower), false)
 );
