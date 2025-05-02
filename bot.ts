@@ -51,6 +51,13 @@ function parseCommandOptions(
             value = true;
           }
           break;
+        case CommandOptionType.SUB_COMMAND_GROUP:
+          value = parseCommandOptions(
+            option.options!,
+            interactionOption.options!,
+            data,
+          );
+          break;  
         case CommandOptionType.ATTACHMENT:
           value =
             (data.resolved! as any)["attachments"][interactionOption.value];
