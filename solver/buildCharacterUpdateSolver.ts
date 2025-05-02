@@ -43,17 +43,23 @@ export function buildCharacterUpdateSolver<T>(
 
     await chronicle.updateCharacter(character);
 
-    await interaction.respond({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: locale.characterUpdate,
-        color: colors.green,
-        fields: [{
-          name: locale.character,
-          value: character.name,
-          inline: true,
+    if (silent) {
+      await interaction.respond({
+        type: InteractionResponseType.UPDATE_MESSAGE,
+      }); 
+    } else {
+      await interaction.respond({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        embeds: [{
+          title: locale.characterUpdate,
+          color: colors.green,
+          fields: [{
+            name: locale.character,
+            value: character.name,
+            inline: true,
+          }],
         }],
-      }],
-    });
+      });
+    }
   };
 }
