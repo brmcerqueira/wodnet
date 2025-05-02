@@ -10,6 +10,6 @@ export const config = {
     },
     host: Deno.env.get("BOT_HOST")!,
     port: Deno.env.has("PORT") ? parseInt(Deno.env.get("PORT")!) : 3000,
-    bot: Deno.env.get("BOT_ENABLE") === undefined,
+    botStart: Deno.env.has("BOT_START"),
     level: (Deno.env.get("LOG_LEVEL") || "DEBUG") as LevelName
 };

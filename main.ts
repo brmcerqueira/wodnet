@@ -9,12 +9,16 @@ import { transpile } from "./transpile.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
-async function loadFiles(root: string, parse: (path: string) => Promise<string>): Promise<{ [key: string]: string; }> {
+async function loadFiles(
+  root: string,
+  parse: (path: string) => Promise<string>,
+): Promise<{ [key: string]: string }> {
   const result: { [key: string]: string } = {};
   for await (const dirEntry of Deno.readDir(root)) {
     try {
       if (dirEntry.isFile) {
-        result[dirEntry.name.substring(0, dirEntry.name.lastIndexOf("."))] = await parse(join(root, dirEntry.name));
+        result[dirEntry.name.substring(0, dirEntry.name.lastIndexOf("."))] =
+          await parse(join(root, dirEntry.name));
       }
     } catch (e) {
       logger.error(e);
@@ -23,27 +27,38 @@ async function loadFiles(root: string, parse: (path: string) => Promise<string>)
   return result;
 }
 
-const scripts = await loadFiles("./views/scripts", async path => {
+const scripts = await loadFiles("./views/scripts", async (path) => {
   return await transpile(path, await Deno.readTextFile(path));
 });
 
-const styles = await loadFiles("./views/styles", async path => {
+const styles = await loadFiles("./views/styles", async (path) => {
   return await Deno.readTextFile(path);
 });
 
 const favicon = await Deno.readFile("./wodnet.ico");
 
-function route(...params: ({ path: RegExp, go: (array: RegExpExecArray, context: RouteContext) => RouteResult } 
-| { path: string[] | string, go: (context: RouteContext) => RouteResult })[]): (request: Request) => Promise<Response> {
+if (config.botStart) {
+  await bot.connect();
+}
+
+function route(
+  ...params: (
+    | {
+      path: RegExp;
+      go: (array: RegExpExecArray, context: RouteContext) => RouteResult;
+    }
+    | { path: string[] | string; go: (context: RouteContext) => RouteResult }
+  )[]
+): (request: Request) => Promise<Response> {
   return async (request: Request): Promise<Response> => {
     let response = new Response(null, { status: 404 });
 
     logger.info(
       "Request %v %v",
       request.method,
-      request.url
+      request.url,
     );
-  
+
     if (request.method == "GET") {
       const context = new RouteContext(request.url);
 
@@ -51,15 +66,17 @@ function route(...params: ({ path: RegExp, go: (array: RegExpExecArray, context:
         if (item.path instanceof RegExp) {
           const regex = item.path.exec(context.url.pathname);
           if (regex) {
-            const go = item.go as (array: RegExpExecArray, context: RouteContext) => RouteResult;
+            const go = item.go as (
+              array: RegExpExecArray,
+              context: RouteContext,
+            ) => RouteResult;
             const result = await go(regex, context);
             if (result instanceof Response) {
               response = result;
             }
             break;
-          }      
-        }
-        else {
+          }
+        } else {
           const array = typeof item.path == "string" ? [item.path] : item.path;
           if (array.indexOf(context.url.pathname) > -1) {
             const go = item.go as (context: RouteContext) => RouteResult;
@@ -72,67 +89,98 @@ function route(...params: ({ path: RegExp, go: (array: RegExpExecArray, context:
         }
       }
     }
-  
-    return response;
-  }
-} 
 
-Deno.serve({ port: config.port }, route({
-  path: /\/scripts\/(\w*).js/,
-  go: (array: RegExpExecArray): Response | void =>  {
-    const path = array[1];
-    if (scripts[path]) {
-      return new Response(scripts[path], { headers:[["Content-Type", "application/javascript"]]});
-    }
-  }
-},{
-  path: /\/styles\/(\w*).css/,
-  go: (array: RegExpExecArray): Response | void =>  {
-    const path = array[1];
-    if (styles[path]) {
-      return new Response(styles[path], { headers:[["Content-Type", "application/css"]]});
-    }
-  }
-},{
-  path: "/favicon.ico",
-  go: (): Response =>  {
-    return new Response(favicon, { headers:[["Content-Type", "image/x-icon"]]});
-  }
-},{
-  path: "/bot/destroy",
-  go: async (): Promise<void | Response> =>  {
-    await bot.destroy();
-    return new Response(JSON.stringify({
-      ok: true 
-    }), { headers:[["Content-Type", "application/json"]]});
-  }
-},{
-  path: "/bot",
-  go: async (): Promise<void | Response> =>  {
-    return new Response(JSON.stringify(config.bot ? {
-      upSince: await bot.connect()
-    } : locale.unauthorized), { headers:[["Content-Type", "application/json"], ["Refresh", "300"]]});
-  }
-},{
-  path: "/check",
-  go: async (context: RouteContext): Promise<void | Response> =>  {
-    if (context.chronicle && context.decodeId) { 
-      return new Response(JSON.stringify({
-        update: await context.chronicle.checkCharacter(context.decodeId, context.versionstamp!),
-      }), { headers:[["Content-Type", "application/json"]]});
-    }
-  }
-},{
-  path: ["/dark", "/"],
-  go: async (context: RouteContext): Promise<void | Response> =>  {
-    if (context.chronicle && context.id && context.chronicleId && context.decodeId) {
-      return new Response(await characterRender(
-        await context.chronicle.getCharacter(context.decodeId, true),
-        context.chronicleId,
-        context.id,
-        context.url.pathname == "/dark",
-        context.update
-      ).render(), { headers:[["Content-Type", "text/html"]]});
-    }
-  }
-}));
+    return response;
+  };
+}
+
+Deno.serve(
+  { port: config.port },
+  route({
+    path: /\/scripts\/(\w*).js/,
+    go: (array: RegExpExecArray): Response | void => {
+      const path = array[1];
+      if (scripts[path]) {
+        return new Response(scripts[path], {
+          headers: [["Content-Type", "application/javascript"]],
+        });
+      }
+    },
+  }, {
+    path: /\/styles\/(\w*).css/,
+    go: (array: RegExpExecArray): Response | void => {
+      const path = array[1];
+      if (styles[path]) {
+        return new Response(styles[path], {
+          headers: [["Content-Type", "application/css"]],
+        });
+      }
+    },
+  }, {
+    path: "/favicon.ico",
+    go: (): Response => {
+      return new Response(favicon, {
+        headers: [["Content-Type", "image/x-icon"]],
+      });
+    },
+  }, {
+    path: "/bot/destroy",
+    go: async (): Promise<void | Response> => {
+      await bot.destroy();
+      return new Response(
+        JSON.stringify(
+          config.botStart ? locale.unauthorized : {
+            ok: true,
+          },
+        ),
+        { headers: [["Content-Type", "application/json"]] },
+      );
+    },
+  }, {
+    path: "/bot",
+    go: async (): Promise<void | Response> => {
+      return new Response(
+        JSON.stringify(
+          config.botStart ? locale.unauthorized : {
+            upSince: await bot.connect(),
+          },
+        ),
+        { headers: [["Content-Type", "application/json"], ["Refresh", "300"]] },
+      );
+    },
+  }, {
+    path: "/check",
+    go: async (context: RouteContext): Promise<void | Response> => {
+      if (context.chronicle && context.decodeId) {
+        return new Response(
+          JSON.stringify({
+            update: await context.chronicle.checkCharacter(
+              context.decodeId,
+              context.versionstamp!,
+            ),
+          }),
+          { headers: [["Content-Type", "application/json"]] },
+        );
+      }
+    },
+  }, {
+    path: ["/dark", "/"],
+    go: async (context: RouteContext): Promise<void | Response> => {
+      if (
+        context.chronicle && context.id && context.chronicleId &&
+        context.decodeId
+      ) {
+        return new Response(
+          await characterRender(
+            await context.chronicle.getCharacter(context.decodeId, true),
+            context.chronicleId,
+            context.id,
+            context.url.pathname == "/dark",
+            context.update,
+          ).render(),
+          { headers: [["Content-Type", "text/html"]] },
+        );
+      }
+    },
+  }),
+);
