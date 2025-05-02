@@ -6,7 +6,9 @@ import { Chronicle } from "../repository.ts";
 import { Solver } from "../commands/module.ts";
 
 export function buildCharacterUpdateSolver<T>(
-  parse: (character: Character, input: T) => Promise<number> | number, silent: boolean, onlyStoryteller?: boolean
+  parse: (character: Character, input: T) => Promise<number> | number,
+  silent: boolean,
+  onlyStoryteller?: boolean,
 ): Solver {
   return async (interaction: Interaction, chronicle: Chronicle, input: T) => {
     const isStoryteller = await chronicle.isStoryteller(interaction.user.id);
@@ -21,7 +23,9 @@ export function buildCharacterUpdateSolver<T>(
 
     const spent = await parse(character, input);
 
-    if (!isStoryteller && character.mode == CharacterMode.Closed && spent != 0) {
+    if (
+      !isStoryteller && character.mode == CharacterMode.Closed && spent != 0
+    ) {
       throw new InteractionResponseError(locale.unauthorized);
     }
 
@@ -46,7 +50,7 @@ export function buildCharacterUpdateSolver<T>(
     if (silent) {
       await interaction.respond({
         type: InteractionResponseType.UPDATE_MESSAGE,
-      }); 
+      });
     } else {
       await interaction.respond({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

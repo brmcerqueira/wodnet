@@ -45,32 +45,36 @@ export async function characterSolver(
       ? await chronicle.getCharacter(id, true)
       : null;
 
-    await interaction.respond({
-      type: input.choose.isSelect
-        ? InteractionResponseType.UPDATE_MESSAGE
-        : InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      embeds: [{
-        title: character?.name || locale.none,
-        color: colors.gray,
-        image: character
-          ? {
-            url: character.image,
-          }
+    if (input.choose.isSelect) {
+      await interaction.respond({
+        type: InteractionResponseType.UPDATE_MESSAGE,
+      });
+    } else {
+      await interaction.respond({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        embeds: [{
+          title: character?.name || locale.none,
+          color: colors.gray,
+          image: character
+            ? {
+              url: character.image,
+            }
+            : undefined,
+        }],
+        components: character && input.choose.buttons
+          ? [{
+            type: MessageComponentType.ACTION_ROW,
+            components: [
+              selectButton(
+                { label: locale.select },
+                character.id,
+              ),
+              characterLinkButton(chronicle.id, id!),
+            ],
+          }]
           : undefined,
-      }],
-      components: character && input.choose.buttons
-        ? [{
-          type: MessageComponentType.ACTION_ROW,
-          components: [
-            selectButton(
-              { label: locale.select },
-              character.id,
-            ),
-            characterLinkButton(chronicle.id, id!),
-          ],
-        }]
-        : undefined,
-    });
+      });
+    }
   } else if (input.mode) {
     await chronicle.updateCharacterMode(
       CharacterMode[
