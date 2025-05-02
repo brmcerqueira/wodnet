@@ -7,22 +7,23 @@ import { InteractionResponseError } from "../utils.ts";
 
 export async function reRollSolver(interaction: Interaction, chronicle: Chronicle, dices: number) {
   const roll = await chronicle.getLastRollByUserId(interaction.user.id);
-  if (roll && (roll.amount - roll.hunger) > 0) {
+  if (roll && (roll.result.amount - roll.result.hunger) > 0) {
     const character = await chronicle.getCharacterByUserId(interaction.user.id);
       
     await interaction.respond({
       type: InteractionResponseType.UPDATE_MESSAGE,
+      content: roll.content,
       components: [],
     });
 
     const message = await buildRollMessage(
-      reRoll(roll, dices),
+      reRoll(roll.result, dices),
       interaction.user.id,
       sprintf(locale.reRollHelperText, dices),
       character
     );
 
-    interaction.message!.channel.send({
+    interaction.message!.reply({
       content: message.content,
       embeds: [message.embed],
     });

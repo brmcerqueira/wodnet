@@ -89,7 +89,10 @@ export async function sendRoll(
     }];
   }
 
-  await chronicle.setLastRoll(character ? character.id : authorId, result);
+  await chronicle.setLastRoll(character ? character.id : authorId, {
+    content: message.content,
+    result: result,
+  });
 
   const channelId = await chronicle.rollChannel();
 
