@@ -379,14 +379,19 @@ export type LocaleType = {
       json: CommandOption;
     } & CommandOption;
     export: CommandOption;
-    macro: {
-      panel: {
+    panel: {
+      health: CommandOption,
+      willpower: CommandOption,
+      hunger: CommandOption,
+      macro: {
         title: CommandOption;
         descriptionField: CommandOption;
         character: CommandOption;
         image: CommandOption;
         thumbnail: CommandOption;
       } & CommandOption;
+    } & CommandOption;
+    macro: {
       name: string;
       buttons: string;
       code: string;

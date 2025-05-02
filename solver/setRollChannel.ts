@@ -6,7 +6,7 @@ import { Chronicle } from "../repository.ts";
 export async function setRollChannel(
   interaction: Interaction,
   chronicle: Chronicle,
-  input: { channel?: { value: string }, clear?: boolean; },
+  input: { channel?: { value: string }; clear?: boolean },
 ) {
   if (!(await chronicle.isStoryteller(interaction.user.id))) {
     throw new InteractionResponseError(locale.unauthorized);

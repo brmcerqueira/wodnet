@@ -192,36 +192,53 @@ commands[treatKey(locale.commands.rollChannel.name)] = {
     }).build,
   }).build,
 };
-commands[treatKey(locale.commands.macro.panel.name)] = {
-  description: locale.commands.macro.panel.description,
+commands[treatKey(locale.commands.panel.name)] = {
+  description: locale.commands.panel.description,
   solve: panelSolver,
-  options: option(locale.commands.macro.panel.title.name, {
-    property: "title",
-    description: locale.commands.macro.panel.title.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    minLength: 1,
-    maxLength: 100,
-  }).option(locale.commands.macro.panel.descriptionField.name, {
-    property: "description",
-    description: locale.commands.macro.panel.descriptionField.description,
-    type: CommandOptionType.STRING,
-    minLength: 1,
-    maxLength: 6000,
-  }).option(locale.commands.macro.panel.character.name, {
-    property: "character",
-    description: locale.commands.macro.panel.character.description,
-    type: CommandOptionType.STRING,
-    autocomplete: true,
-  }).option(locale.commands.macro.panel.image.name, {
-    property: "image",
-    description: locale.commands.macro.panel.image.description,
-    type: CommandOptionType.ATTACHMENT,
-  }).option(locale.commands.macro.panel.thumbnail.name, {
-    property: "thumbnail",
-    description: locale.commands.macro.panel.thumbnail.description,
-    type: CommandOptionType.STRING,
-    choices: booleanChoices(),
+  options: option(locale.commands.panel.health.name, {
+    property: "health",
+    description: locale.commands.panel.health.description,
+    type: CommandOptionType.SUB_COMMAND,
+  }).option(locale.commands.panel.willpower.name, {
+    property: "willpower",
+    description: locale.commands.panel.willpower.description,
+    type: CommandOptionType.SUB_COMMAND,
+  }).option(locale.commands.panel.hunger.name, {
+    property: "hunger",
+    description: locale.commands.panel.hunger.description,
+    type: CommandOptionType.SUB_COMMAND,
+  }).option(locale.commands.panel.macro.name, {
+    property: "macro",
+    description: locale.commands.panel.macro.description,
+    type: CommandOptionType.SUB_COMMAND,
+    options: option(locale.commands.panel.macro.title.name, {
+      property: "title",
+      description: locale.commands.panel.macro.title.description,
+      type: CommandOptionType.STRING,
+      required: true,
+      minLength: 1,
+      maxLength: 100,
+    }).option(locale.commands.panel.macro.descriptionField.name, {
+      property: "description",
+      description: locale.commands.panel.macro.descriptionField.description,
+      type: CommandOptionType.STRING,
+      minLength: 1,
+      maxLength: 6000,
+    }).option(locale.commands.panel.macro.character.name, {
+      property: "character",
+      description: locale.commands.panel.macro.character.description,
+      type: CommandOptionType.STRING,
+      autocomplete: true,
+    }).option(locale.commands.panel.macro.image.name, {
+      property: "image",
+      description: locale.commands.panel.macro.image.description,
+      type: CommandOptionType.ATTACHMENT,
+    }).option(locale.commands.panel.macro.thumbnail.name, {
+      property: "thumbnail",
+      description: locale.commands.panel.macro.thumbnail.description,
+      type: CommandOptionType.STRING,
+      choices: booleanChoices(),
+    }).build,
   }).build,
 };
 commands[locale.commands.macro.name] = {

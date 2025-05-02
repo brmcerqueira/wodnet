@@ -4,5 +4,6 @@ export * from "./selectButton.ts";
 export * from "./macroButton.ts";
 export * from "./editModal.ts";
 export * from "./macroModal.ts";
+export * from "./updateNumberFieldButton.ts";
 export { interactionCustomId } from "./common.ts";
 export type { ModalInput } from "./common.ts";

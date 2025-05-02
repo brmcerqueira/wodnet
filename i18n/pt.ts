@@ -580,10 +580,22 @@ export const pt: LocaleType = {
         description: "O narrador limpa a escolha de personagem",
       },
     },
-    macro: {
-      panel: {
-        name: "painel",
-        description: "Cria um painel",
+    panel: {
+      health: {
+        name: "vitalidade",
+        description: "Cria um painel para ajustar a Vitalidade",
+      },
+      willpower: {
+        name: "força-de-vontade",
+        description: "Cria um painel para ajustar a Força de Vontade",
+      },
+      hunger: {
+        name: "fome",
+        description: "Cria um painel para ajustar a fome",
+      },
+      macro: {
+        name: "macro",
+        description: "Cria um painel para um macro",
         title: {
           name: "título",
           description: "Título do painel",
@@ -605,6 +617,10 @@ export const pt: LocaleType = {
           description: "Se a imagem deve ser miniatura ou não",
         }
       },
+      name: "painel",
+      description: "Cria um painel",
+    },
+    macro: {
       name: "Macro",
       code: "Código",
       buttons: "Botões",
