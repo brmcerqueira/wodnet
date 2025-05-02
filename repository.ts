@@ -1,15 +1,11 @@
 
 import { Character, CharacterMode } from "./character.ts";
 import { config } from "./config.ts";
-import { ApplicationCommandChoice, connect, EmbedPayload } from "./deps.ts";
+import { ApplicationCommandChoice, connect } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
 import { Macro } from "./transpile.ts";
 
-type LastRoll = {
-  embed: EmbedPayload;
-  result: RollResult;
-}
 
 const repository = await connect(config.redis);
 
@@ -56,7 +52,7 @@ export class Chronicle {
     return this.chronicleId;
   }
 
-  public async lastRoll(id: string): Promise<LastRoll | null> {
+  public async lastRoll(id: string): Promise<RollResult | null> {
     const key = `${lastRollKey}:${this.chronicleId}:${id}`;
     const bulk = await repository.get(key);
     if (bulk != null) {
@@ -66,12 +62,12 @@ export class Chronicle {
     return null;
   }
 
-  public async getLastRollByUserId(userId: string): Promise<LastRoll | null> {
+  public async getLastRollByUserId(userId: string): Promise<RollResult | null> {
     const currentCharacter = await this.currentCharacter();
     return await this.lastRoll(await this.isStoryteller(userId) && currentCharacter ? currentCharacter : userId);
   }
   
-  public async setLastRoll(id: string, value: LastRoll) {
+  public async setLastRoll(id: string, value: RollResult) {
     await repository.set(`${lastRollKey}:${this.chronicleId}:${id}`, JSON.stringify(value));
   }
 
