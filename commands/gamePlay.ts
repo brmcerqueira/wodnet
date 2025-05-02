@@ -12,6 +12,7 @@ import {
   booleanChoices,
   buildChoices,
   CommandOptionType,
+  CommandOptions,
   commands,
   option,
   property,
@@ -32,6 +33,18 @@ const attributeChoices = [
   ...buildChoices(locale.attributes.social),
   ...buildChoices(locale.attributes.mental),
 ];
+
+function buildDamageOptions(): CommandOptions {
+  return option(locale.damage.superficial, {
+    property: "superficial",
+    description: locale.damage.superficial,
+    type: CommandOptionType.SUB_COMMAND,
+  }).option(locale.damage.aggravated, {
+    property: "aggravated",
+    description: locale.damage.aggravated,
+    type: CommandOptionType.SUB_COMMAND,
+  }).build;
+}
 
 commands[treatKey(locale.commands.roll.name)] = {
   description: locale.commands.roll.description,
@@ -198,11 +211,13 @@ commands[treatKey(locale.commands.panel.name)] = {
   options: option(locale.commands.panel.health.name, {
     property: "health",
     description: locale.commands.panel.health.description,
-    type: CommandOptionType.SUB_COMMAND,
+    type: CommandOptionType.SUB_COMMAND_GROUP,
+    options: buildDamageOptions()
   }).option(locale.commands.panel.willpower.name, {
     property: "willpower",
     description: locale.commands.panel.willpower.description,
-    type: CommandOptionType.SUB_COMMAND,
+    type: CommandOptionType.SUB_COMMAND_GROUP,
+    options: buildDamageOptions()
   }).option(locale.commands.panel.hunger.name, {
     property: "hunger",
     description: locale.commands.panel.hunger.description,

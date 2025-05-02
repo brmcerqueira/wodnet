@@ -199,9 +199,13 @@ export async function panelSolver(
   },
 ) {
   if (input.health) {
-    await interaction.respond(buildDamageInteractionResponse(locale.health, false, updateHealthButton));
+    await interaction.respond(buildDamageInteractionResponse(`${locale.health} - ${locale.damage.superficial}`, false, updateHealthButton));
+  } else if (input.health) {
+    await interaction.respond(buildDamageInteractionResponse(`${locale.health} - ${locale.damage.aggravated}`, true, updateHealthButton));
   } else if (input.willpower) {
-    await interaction.respond(buildDamageInteractionResponse(locale.willpower, false, updateWillpowerButton));
+    await interaction.respond(buildDamageInteractionResponse(`${locale.willpower} - ${locale.damage.superficial}`, false, updateWillpowerButton));
+  } else  if (input.willpower) {
+    await interaction.respond(buildDamageInteractionResponse(`${locale.willpower} - ${locale.damage.aggravated}`, true, updateWillpowerButton));
   } else if (input.hunger) {
     await interaction.respond({
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
