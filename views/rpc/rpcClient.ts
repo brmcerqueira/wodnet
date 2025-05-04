@@ -1,19 +1,66 @@
-import {
-  OAUTH2_CLIENT_ID,
-  RPCCommands,
-  RPCErrors,
-  RPCEvents,
-  TOKEN_ENDPOINT,
-} from "./constants.ts";
 import { EventEmitter } from "./eventEmitter.ts";
 import Storage from "./storage.ts";
 
-function getEventName(cmd: string, nonce: string | null, evt: string | null) {
-  return `${cmd}:${nonce || evt}`;
+declare const context: {
+  oauth2ClientId: string;
+};
+
+export enum RPCCommand {
+  DISPATCH = "DISPATCH",
+
+  AUTHORIZE = "AUTHORIZE",
+  AUTHENTICATE = "AUTHENTICATE",
+
+  GET_GUILD = "GET_GUILD",
+  GET_GUILDS = "GET_GUILDS",
+  GET_CHANNEL = "GET_CHANNEL",
+  GET_CHANNELS = "GET_CHANNELS",
+  CREATE_CHANNEL_INVITE = "CREATE_CHANNEL_INVITE",
+
+  SUBSCRIBE = "SUBSCRIBE",
+  UNSUBSCRIBE = "UNSUBSCRIBE",
+
+  SET_LOCAL_VOLUME = "SET_LOCAL_VOLUME",
+  SELECT_VOICE_CHANNEL = "SELECT_VOICE_CHANNEL",
+}
+
+export enum RPCEvent {
+  GUILD_STATUS = "GUILD_STATUS",
+
+  VOICE_STATE_CREATE = "VOICE_STATE_CREATE",
+  VOICE_STATE_DELETE = "VOICE_STATE_DELETE",
+  VOICE_STATE_UPDATE = "VOICE_STATE_UPDATE",
+  SPEAKING_START = "SPEAKING_START",
+  SPEAKING_STOP = "SPEAKING_STOP",
+
+  MESSAGE_CREATE = "MESSAGE_CREATE",
+  MESSAGE_UPDATE = "MESSAGE_UPDATE",
+  MESSAGE_DELETE = "MESSAGE_DELETE",
+
+  READY = "READY",
+  ERROR = "ERROR",
+}
+
+export enum RPCErrorKind {
+  UNKNOWN_ERROR = 1000,
+
+  INVALID_PAYLOAD = 4000,
+  INVALID_VERSION = 4001,
+  INVALID_COMMAND = 4002,
+  INVALID_GUILD = 4003,
+  INVALID_EVENT = 4004,
+  INVALID_CHANNEL = 4005,
+  INVALID_PERMISSIONS = 4006,
+  INVALID_CLIENTID = 4007,
+  INVALID_ORIGIN = 4008,
+  INVALID_TOKEN = 4009,
+  INVALID_USER = 4010,
+
+  OAUTH2_ERROR = 5000,
 }
 
 type Callback = (
-  err: RPCError | null,
+  error: RPCError | null,
   response: { [key: string]: any } | null,
 ) => any;
 
@@ -32,10 +79,10 @@ interface RPCClientUser {
 }
 
 class RPCClient {
-  evts: EventEmitter;
+  eventEmitter: EventEmitter;
   accessToken: string | null | undefined;
   activeSubscriptions: Array<{
-    evt: RPCEvents;
+    event: RPCEvent;
     args: { [key: string]: any };
     callback: Callback;
   }>;
@@ -50,7 +97,7 @@ class RPCClient {
   user: RPCClientUser | null;
 
   constructor() {
-    this.evts = new EventEmitter();
+    this.eventEmitter = new EventEmitter();
     this.accessToken = Storage.get("accessToken");
     this.activeSubscriptions = [];
     this.queue = [];
@@ -78,7 +125,7 @@ class RPCClient {
     window.rpc = this;
   }
 
-  connect(tries = 0) {
+  public connect(tries = 0) {
     if (this.connected) {
       return;
     }
@@ -87,19 +134,19 @@ class RPCClient {
 
     try {
       this.socket = new WebSocket(
-        `ws://127.0.0.1:${port}/?v=1&client_id=${OAUTH2_CLIENT_ID}`,
+        `ws://127.0.0.1:${port}/?v=1&client_id=${context.oauth2ClientId}`,
       );
     } catch (_) {
-      this._handleClose({ code: 1006 });
+      this.handleClose({ code: 1006 });
       return;
     }
 
-    this.socket.onopen = this._handleOpen.bind(this);
-    this.socket.onclose = this._handleClose.bind(this);
-    this.socket.onmessage = this._handleMessage.bind(this);
+    this.socket.onopen = this.handleOpen.bind(this);
+    this.socket.onclose = this.handleClose.bind(this);
+    this.socket.onmessage = this.handleMessage.bind(this);
   }
 
-  disconnect() {
+  private disconnect() {
     if (!this.connected) {
       return;
     }
@@ -109,201 +156,167 @@ class RPCClient {
     this.socket?.close();
   }
 
-  reconnect() {
-    if (!this.connected) {
-      return;
-    }
-
-    this.socket?.close();
-  }
-
-  authenticate() {
+  private async authenticate() {
     if (this.authenticated) {
       return;
     }
 
     if (!this.accessToken) {
-      this.authorize();
+      await this.authorize();
       return;
     }
 
     this.request(
-      RPCCommands.AUTHENTICATE,
+      RPCCommand.AUTHENTICATE,
       {
         access_token: this.accessToken,
       },
-      (e, r) => {
-        if (e && e.code === RPCErrors.INVALID_TOKEN) {
-          this.authorize();
+      async (error, response) => {
+        if (error && error.code === RPCErrorKind.INVALID_TOKEN) {
+          await this.authorize();
           return;
         }
 
         this.authenticated = true;
 
-        if (r) {
-          this.user = r.user;
+        if (response) {
+          this.user = response.user;
         }
 
         this.flushQueue();
 
         this.activeSubscriptions.forEach((s) =>
-          this.subscribe(s.evt, s.args, s.callback)
+          this.subscribe(s.event, s.args, s.callback)
         );
       },
     );
   }
 
-  flushQueue() {
+  private flushQueue() {
     const queue = this.queue;
     this.queue = [];
     queue.forEach((c) => c());
   }
 
-  authorize(tries = 0) {
+  private async authorize(tries = 0) {
     if (this.authenticated) {
       return;
     }
 
-    this.request(RPCCommands.AUTHORIZE, {
-      client_id: OAUTH2_CLIENT_ID,
-      scopes: ["rpc", "messages.read"],
-      prompt: "none",
-    })
-      .then((r) =>
-        fetch(TOKEN_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ code: r?.code }),
-        })
-      ).then((res) => res.json())
-      .then((r) => {
-        if (!r.ok) {
-          throw new Error("no access token");
-        }
-
-        this.accessToken = r.body.access_token;
-        Storage.set("accessToken", this.accessToken);
-
-        this.authenticate();
-      })
-      .catch((e) => {
-        console.log("Authorize Error", e);
-        const backoff = Math.pow(2, tries);
-        setTimeout(() => this.authorize(tries + 1), backoff);
+    try {
+      const response = await this.request(RPCCommand.AUTHORIZE, {
+        client_id: context.oauth2ClientId,
+        scopes: ["rpc", "messages.read"],
+        prompt: "none",
       });
+
+      const tokenResponse = await fetch("overlay/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code: response?.code }),
+      });
+
+      const json = await tokenResponse.json();
+
+      if (!json.ok) {
+        throw new Error("no access token");
+      }
+
+      this.accessToken = json.body.access_token;
+
+      Storage.set("accessToken", this.accessToken);
+
+      await this.authenticate();
+    } catch (error) {
+      console.log("Authorize Error", error);
+      setTimeout(
+        async () => await this.authorize(tries + 1),
+        Math.pow(2, tries),
+      );
+    }
   }
 
-  request(
-    cmd: RPCCommands,
+  private request(
+    cmd: RPCCommand,
     args: { [key: string]: any },
-    evt: RPCEvents | Callback | undefined = undefined,
+    eventOrCallback: RPCEvent | Callback | undefined = undefined,
     callback: Callback | undefined = undefined,
   ): Promise<{ [key: string]: any } | null> {
-    if (typeof evt === "function") {
-      callback = evt;
-      evt = undefined;
+    if (typeof eventOrCallback === "function") {
+      callback = eventOrCallback;
+      eventOrCallback = undefined;
     }
 
     return new Promise((resolve, reject) => {
+      const treatPromise: Callback = async (error, response) => {
+        if (callback) {
+          await callback(error, response);
+        }
+
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      };
+
       if (
         !this.connected ||
         !this.ready ||
         (!this.authenticated &&
-          [RPCCommands.AUTHORIZE, RPCCommands.AUTHENTICATE].indexOf(cmd) === -1)
+          [RPCCommand.AUTHORIZE, RPCCommand.AUTHENTICATE].indexOf(cmd) === -1)
       ) {
         this.queue.push(() =>
-          this.request(cmd, args, evt, (err, res) => {
-            if (callback) {
-              callback(err, res);
-            }
-
-            if (err) {
-              reject(err);
-            } else {
-              resolve(res);
-            }
-          })
+          this.request(cmd, args, eventOrCallback, treatPromise)
         );
         return;
       }
 
       const nonce = crypto.randomUUID();
 
-      this.evts.once(
-        getEventName(RPCCommands.DISPATCH, nonce, null),
-        (err, res) => {
-          if (callback) {
-            callback(err, res);
-          }
-
-          if (err) {
-            reject(err);
-          } else {
-            resolve(res);
-          }
-        },
+      this.eventEmitter.once(
+        this.getEventName(RPCCommand.DISPATCH, nonce),
+        treatPromise,
       );
 
-      this.socket?.send(JSON.stringify({ cmd, args, evt, nonce }));
+      this.socket?.send(
+        JSON.stringify({ cmd, args, evt: eventOrCallback, nonce }),
+      );
     });
   }
 
-  subscribe(evt: RPCEvents, args: { [key: string]: any }, callback: Callback) {
-    this.request(RPCCommands.SUBSCRIBE, args, evt, (error) => {
+  public subscribe(
+    event: RPCEvent,
+    args: { [key: string]: any },
+    callback: Callback,
+  ) {
+    this.request(RPCCommand.SUBSCRIBE, args, event, (error) => {
       if (error) {
         callback(error, null);
         return;
       }
 
-      // on reconnect we resub to events, so don't dup listens
       if (
         !this.activeSubscriptions.find((s) => {
           return callback === s.callback;
         })
       ) {
-        this.activeSubscriptions.push({ evt, args, callback });
-        this.evts.on(
-          getEventName(RPCCommands.DISPATCH, null, evt),
+        this.activeSubscriptions.push({ event, args, callback });
+        this.eventEmitter.on(
+          this.getEventName(RPCCommand.DISPATCH, event),
           (d) => callback(null, d),
         );
       }
     });
   }
 
-  unsubscribe(
-    evt: RPCEvents,
-    args: { [key: string]: any },
-    callback: Callback | null | undefined = undefined,
-  ) {
-    this.request(RPCCommands.UNSUBSCRIBE, args, evt, (error) => {
-      if (error) {
-        if (callback) {
-          callback(error, null);
-        }
-        return;
-      }
-
-      this.activeSubscriptions = this.activeSubscriptions.filter((s) => {
-        return !(evt === s.evt &&
-          JSON.stringify(args) === JSON.stringify(s.args));
-      });
-
-      const eventName = getEventName(RPCCommands.DISPATCH, null, evt);
-
-      this.evts.listeners(eventName).forEach((cb) => {
-        // @ts-expect-error unclear type
-        this.evts.removeListener(eventName, cb);
-      });
-
-      if (callback) {
-        callback(null, null);
-      }
-    });
+  private getEventName(command: RPCCommand, event: string) {
+    return `${command}:${event}`;
   }
 
-  _handleOpen() {
+  private handleOpen() {
     this.connected = true;
 
     console.log("WS Open");
@@ -311,7 +324,7 @@ class RPCClient {
     this.authenticate();
   }
 
-  _handleClose(e: CloseEvent | { code: number }) {
+  private handleClose(e: CloseEvent | { code: number }) {
     this.connected = false;
     this.authenticated = false;
     this.ready = false;
@@ -325,55 +338,57 @@ class RPCClient {
 
     try {
       this.socket?.close();
-    } catch (e) {}
+    } catch {}
 
     const tries = e.code === 1006 ? ++this.connectionTries : 0;
     const backoff = Math.pow(2, Math.floor(tries / 10));
     setTimeout(() => this.connect(tries), backoff);
   }
 
-  _handleMessage(message: MessageEvent) {
-    let payload = null;
+  private handleMessage(message: MessageEvent) {
+    let payload: {
+      cmd: RPCCommand;
+      evt: RPCEvent;
+      nonce: string;
+      data: any;
+    } | undefined;
 
     try {
       payload = JSON.parse(message.data);
-    } catch (e) {
+    } catch {
       console.error("Payload not JSON: ", payload);
       return;
     }
 
-    let { cmd, evt, nonce, data } = payload;
-
     console.log("Incoming Payload: ", payload);
 
-    if (cmd === RPCCommands.DISPATCH) {
-      if (evt === RPCEvents.READY) {
-        this.config = data.config;
+    if (payload!.cmd === RPCCommand.DISPATCH) {
+      if (payload!.evt === RPCEvent.READY) {
+        this.config = payload!.data.config;
         this.ready = true;
         this.flushQueue();
         return;
       }
 
-      if (evt === RPCEvents.ERROR) {
-        console.error("Dispatched Error: ", data);
+      if (payload!.evt === RPCEvent.ERROR) {
+        console.error("Dispatched Error: ", payload!.data);
         this.socket?.close();
         return;
       }
 
-      this.evts.emit(getEventName(RPCCommands.DISPATCH, null, evt), data);
+      this.eventEmitter.emit(
+        this.getEventName(RPCCommand.DISPATCH, payload!.evt),
+        payload!.data,
+      );
       return;
     }
 
-    let error = null;
-    if (evt === RPCEvents.ERROR) {
-      error = new RPCError(data.message, data.code);
-      data = null;
-    }
-
-    this.evts.emit(
-      getEventName(RPCCommands.DISPATCH, nonce, null),
-      error,
-      data,
+    this.eventEmitter.emit(
+      this.getEventName(RPCCommand.DISPATCH, payload!.nonce),
+      payload!.evt === RPCEvent.ERROR
+        ? new RPCError(payload?.data.message, payload!.data.code)
+        : null,
+      payload!.evt === RPCEvent.ERROR ? null : payload?.data,
     );
   }
 }

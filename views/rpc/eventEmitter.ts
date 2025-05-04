@@ -23,14 +23,14 @@ export class EventEmitter {
   emit(event: string, ...args: any[]): void {
     const listeners = this.events.get(event);
     if (listeners) {
-      listeners.forEach((listener) => listener(...args));
+      listeners.forEach(async (listener) => await listener(...args));
     }
   }
 
   once(event: string, listener: Listener): void {
-    const onceWrapper = (...args: any[]) => {
+    const onceWrapper = async (...args: any[]) => {
       this.off(event, onceWrapper);
-      listener(...args);
+      await listener(...args);
     };
     this.on(event, onceWrapper);
   }
