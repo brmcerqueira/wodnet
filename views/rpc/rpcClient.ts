@@ -210,21 +210,20 @@ class RPCClient {
         prompt: "none",
       });
 
-      const tokenResponse = await fetch("overlay/token", {
-        method: "POST",
+      const tokenResponse = await fetch(`rpc/token?code=${response?.code}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ code: response?.code }),
       });
 
-      const json = await tokenResponse.json();
-
-      if (!json.ok) {
+      if (!tokenResponse.ok) {
         throw new Error("no access token");
       }
 
-      this.accessToken = json.body.access_token;
+      const json = await tokenResponse.json();
+
+      this.accessToken = json.body.accessToken;
 
       Storage.set("accessToken", this.accessToken);
 

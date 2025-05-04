@@ -136,7 +136,7 @@ async function cleanCommands(
 }
 
 const client = new Client({
-  token: config.discordToken,
+  token: config.discord.token,
   intents: [
     GatewayIntents.GUILDS,
     GatewayIntents.GUILD_MESSAGES,

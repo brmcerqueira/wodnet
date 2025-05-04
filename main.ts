@@ -6,6 +6,7 @@ import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
 import { locale } from "./i18n/locale.ts";
 import { transpile } from "./transpile.ts";
+import { rpcToken } from "./utils.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -143,6 +144,20 @@ Deno.serve(
         ),
         { headers: [["Content-Type", "application/json"], ["Refresh", "300"]] },
       );
+    },
+  }, {
+    path: "rpc/token",
+    go: async (context: RouteContext): Promise<void | Response> => {
+      if (context.code) {
+        return new Response(
+          JSON.stringify(
+            {
+              accessToken: await rpcToken(context.code),
+            },
+          ),
+          { headers: [["Content-Type", "application/json"], ["Refresh", "300"]] },
+        );
+      }
     },
   }, {
     path: "/check",

@@ -35,6 +35,24 @@ export function treatDiscipline(text: string): { name: string; value: number } {
   };
 }
 
+export async function rpcToken(code: string): Promise<string> {
+  const tokenResponse = await fetch("https://discord.com/api/oauth2/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      'Authorization': `Basic ${btoa(`${config.discord.oauth.clientId}:${config.discord.oauth.clientSecret}`)}`,
+    },
+    body: new URLSearchParams({
+      grant_type: "authorization_code",
+      code,
+    }),
+  });
+
+  const tokenData = await tokenResponse.json();
+
+  return tokenData.access_token;
+}
+
 export async function uploadImage(url: string): Promise<string> {
   const body = new FormData();
 

@@ -58,4 +58,8 @@ export class RouteContext {
   public get versionstamp(): string | null {
     return this._url.searchParams.get("versionstamp");
   }
+
+  public get code(): string | null {
+    return this._url.searchParams.get("code");
+  }
 }
