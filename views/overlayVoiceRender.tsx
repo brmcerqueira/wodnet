@@ -1,8 +1,8 @@
+import { config } from "../config.ts";
 import React, { TsxComplexElement } from "../deps.ts";
 
 export const voiceOverlayRender = (
-  oauth2ClientId: string,
-  channelId: string,
+  channelId: string
 ): TsxComplexElement => {
   return (
     <html>
@@ -12,12 +12,12 @@ export const voiceOverlayRender = (
         <script>
           {`const context = ${
             JSON.stringify({
-              oauth2ClientId,
+              oauth2ClientId: config.discord.oauth.clientId,
               channelId
             })
           };`}
         </script>
-        <script src="/scripts/voiceOverlayScript.js" />
+        <script src="/scripts/overlayVoiceScript.js" />
       </head>
       <body>
       </body>

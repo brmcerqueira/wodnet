@@ -11,6 +11,7 @@ rpc.request(
   { channel_id: context.channelId },
   (error, data) => {
     if (error || data == null) return;
+    console.log(data.voice_states);
     /*this.setState({
     voiceStates: data.voice_states,
   });*/

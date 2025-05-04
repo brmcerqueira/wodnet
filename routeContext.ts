@@ -31,8 +31,8 @@ export class RouteContext {
 
   public get chronicleId(): string | null {
     return this._url.searchParams.has("chronicleId")
-    ? this._url.searchParams.get("chronicleId")
-    : null;
+      ? this._url.searchParams.get("chronicleId")
+      : null;
   }
 
   public get chronicle(): Chronicle | null {
@@ -52,7 +52,7 @@ export class RouteContext {
   public get update(): number {
     return this._url.searchParams.has("update")
       ? parseInt(this._url.searchParams.get("update")!)
-      : 20000;
+      : 5000;
   }
 
   public get versionstamp(): string | null {
@@ -61,5 +61,9 @@ export class RouteContext {
 
   public get code(): string | null {
     return this._url.searchParams.get("code");
+  }
+
+  public get channelId(): string | null {
+    return this._url.searchParams.get("channelId");
   }
 }
