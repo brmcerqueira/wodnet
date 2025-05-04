@@ -120,9 +120,6 @@ class RPCClient {
     window.addEventListener("beforeunload", () => {
       this.disconnect();
     });
-
-    // @ts-expect-error attach debugging handle to window
-    window.rpc = this;
   }
 
   public connect(tries = 0) {
@@ -237,7 +234,7 @@ class RPCClient {
     }
   }
 
-  private request(
+  public request(
     cmd: RPCCommand,
     args: { [key: string]: any },
     eventOrCallback: RPCEvent | Callback | undefined = undefined,
@@ -392,4 +389,4 @@ class RPCClient {
   }
 }
 
-export default new RPCClient();
+export const rpc = new RPCClient();
