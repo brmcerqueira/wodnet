@@ -155,7 +155,7 @@ Deno.serve(
               accessToken: await rpcToken(context.code),
             },
           ),
-          { headers: [["Content-Type", "application/json"], ["Refresh", "300"]] },
+          { headers: [["Content-Type", "application/json"]] },
         );
       }
     },
