@@ -147,7 +147,7 @@ Deno.serve(
       );
     },
   }, {
-    path: "discord/oauth/token",
+    path: "/discord/oauth/token",
     go: async (context: RouteContext): Promise<void | Response> => {
       if (context.code) {
         return new Response(
