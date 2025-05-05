@@ -151,11 +151,7 @@ Deno.serve(
     go: async (context: RouteContext): Promise<void | Response> => {
       if (context.code) {
         return new Response(
-          JSON.stringify(
-            {
-              accessToken: await rpcToken(context.code),
-            },
-          ),
+          JSON.stringify(await rpcToken(context.code)),
           { headers: [["Content-Type", "application/json"]] },
         );
       }
