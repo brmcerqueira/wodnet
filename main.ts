@@ -6,6 +6,7 @@ import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
 import { locale } from "./i18n/locale.ts";
 import { transpile } from "./transpile.ts";
+import { overlayVoiceCss } from "./overlay.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -109,6 +110,15 @@ Deno.serve(
       if (styles[path]) {
         return new Response(styles[path], {
           headers: [["Content-Type", "application/css"]],
+        });
+      }
+    },
+  }, {
+    path: "/overlay/voice.css",
+    go: async (context: RouteContext): Promise<void | Response> => {
+      if (context.chronicle && context.chronicleId && context.hide) {
+        return new Response(await overlayVoiceCss(context.chronicleId, context.hide), {
+          headers: [["Content-Type", "text/css"]],
         });
       }
     },

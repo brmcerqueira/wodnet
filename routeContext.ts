@@ -59,11 +59,7 @@ export class RouteContext {
     return this._url.searchParams.get("versionstamp");
   }
 
-  public get code(): string | null {
-    return this._url.searchParams.get("code");
-  }
-
-  public get channelId(): string | null {
-    return this._url.searchParams.get("channelId");
+  public get hide(): string[] | null {
+    return this._url.searchParams.getAll("hide");
   }
 }
