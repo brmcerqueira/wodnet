@@ -220,7 +220,7 @@ class RPCClient {
 
       const json = await tokenResponse.json();
 
-      this.accessToken = json.body.accessToken;
+      this.accessToken = json.body.access_token;
 
       Storage.set("accessToken", this.accessToken);
 
