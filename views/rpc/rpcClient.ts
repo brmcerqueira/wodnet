@@ -207,7 +207,7 @@ class RPCClient {
         prompt: "none",
       });
 
-      const tokenResponse = await fetch(`rpc/token?code=${response?.code}`, {
+      const tokenResponse = await fetch(`discord/oauth/token?code=${response?.code}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
