@@ -12,10 +12,6 @@ export const config = {
     botStart: Deno.env.has("BOT_START"),
     discord: {
         token: Deno.env.get("DISCORD_TOKEN")!,
-        oauth: {
-            clientId: Deno.env.get("DISCORD_OAUTH_CLIENT_ID")!,
-            clientSecret: Deno.env.get("DISCORD_OAUTH_CLIENT_SECRET")!,
-        },
     },
     level: (Deno.env.get("LOG_LEVEL") || "DEBUG") as LevelName
 };

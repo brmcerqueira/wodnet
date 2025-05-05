@@ -1,7 +1,6 @@
 import React from "https://deno.land/x/tsx_render@1.0/mod.ts";
 
 export * from "npm:terser";
-export * as emit from "jsr:@deno/emit";
 export * from "jsr:@ts-morph/ts-morph";
 export * from "jsr:@db/redis";
 export * from "https://deno.land/x/tsx_render@1.6/mod.ts";

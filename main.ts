@@ -1,12 +1,11 @@
-import { emit, join } from "./deps.ts";
+import { join } from "./deps.ts";
 import { characterRender } from "./views/characterRender.tsx";
 import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
 import { RouteContext } from "./routeContext.ts";
 import { locale } from "./i18n/locale.ts";
-import { rpcToken } from "./utils.ts";
-import { voiceOverlayRender } from "./views/overlayVoiceRender.tsx";
+import { transpile } from "./transpile.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -29,8 +28,7 @@ async function loadFiles(
 }
 
 const scripts = await loadFiles("./views/scripts", async (path) => {
-  const result = await emit.bundle(path,{ minify: true });
-  return result.code;
+  return await transpile(path, await Deno.readTextFile(path));
 });
 
 const styles = await loadFiles("./views/styles", async (path) => {
@@ -147,16 +145,6 @@ Deno.serve(
       );
     },
   }, {
-    path: "/discord/oauth/token",
-    go: async (context: RouteContext): Promise<void | Response> => {
-      if (context.code) {
-        return new Response(
-          JSON.stringify(await rpcToken(context.code)),
-          { headers: [["Content-Type", "application/json"]] },
-        );
-      }
-    },
-  }, {
     path: "/check",
     go: async (context: RouteContext): Promise<void | Response> => {
       if (context.chronicle && context.decodeId) {
@@ -168,16 +156,6 @@ Deno.serve(
             ),
           }),
           { headers: [["Content-Type", "application/json"]] },
-        );
-      }
-    },
-  }, {
-    path: "/overlay/voice",
-    go: async (context: RouteContext): Promise<void | Response> => {
-      if (context.channelId) {
-        return new Response(
-          await voiceOverlayRender(context.channelId).render(),
-          { headers: [["Content-Type", "text/html"]] },
         );
       }
     },
