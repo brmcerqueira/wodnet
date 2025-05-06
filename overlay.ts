@@ -35,10 +35,12 @@ export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Pro
         background-repeat: no-repeat;
         vertical-align: middle;
         background-image: url(${image});
-    }`).join("\n\n")}
+    }
+    `).join("\n    ")}
 
     ${hide.map(id => `[data-userid="${id}"] {
       display: none;
-    }`).join("\n\n")}
+    }
+    `).join("\n    ")}
   `;
 }
