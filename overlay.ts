@@ -1,5 +1,7 @@
 import { Chronicle } from "./repository.ts";
 
+
+
 export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Promise<string> {
   const images = await chronicle.getCharactersImage();
 
@@ -16,12 +18,21 @@ export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Pro
       padding-right: 10px;
     }
 
+    .voice_state img {
+      display: none;
+    }
+
+    .wrapper_speaking .voice_username::before {
+        border: 2px solid green;
+    }
+
     ${images.map(image => `.voice_username::before {
         content: "";
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: 45px;
+        height: 45px;
         margin-right: 6px;
+        border-radius: 50%;
         background-size: contain;
         background-repeat: no-repeat;
         vertical-align: middle;
