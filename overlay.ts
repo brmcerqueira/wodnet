@@ -1,7 +1,5 @@
 import { Chronicle } from "./repository.ts";
 
-
-
 export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Promise<string> {
   const images = await chronicle.getCharactersImage();
 
