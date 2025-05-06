@@ -1,7 +1,9 @@
 import { Chronicle } from "./repository.ts";
 
-export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Promise<string> {
-  const images = await chronicle.getCharactersImage();
+export async function overlayVoiceCss(guildId: string, hide: string[]): Promise<string> {
+  const chronicle = new Chronicle(guildId);
+
+  const characters = await chronicle.getAllCharacters();
 
   return `
     body {
@@ -21,10 +23,10 @@ export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Pro
     }
 
     .wrapper_speaking .voice_username::before {
-        border: 0.125em solid #3ba53b;
+        border: 0.125em solid #3ba53b !important;
     }
 
-    ${images.map(image => `.voice_username::before {
+    ${characters.map(character => `li[data-userid="${character.id}"] .voice_username::before {
         content: "";
         display: inline-block;
         width: 2.813em;
@@ -35,11 +37,11 @@ export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Pro
         background-size: contain;
         background-repeat: no-repeat;
         vertical-align: middle;
-        background-image: url(${image});
+        background-image: url(${character.image});
     }
     `).join("\n    ")}
 
-    ${hide.map(id => `[data-userid="${id}"] {
+    ${hide.map(id => `li[data-userid="${id}"] {
       display: none;
     }
     `).join("\n    ")}

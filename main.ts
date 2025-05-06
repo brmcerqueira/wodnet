@@ -116,8 +116,8 @@ Deno.serve(
   }, {
     path: "/overlay/voice.css",
     go: async (context: RouteContext): Promise<void | Response> => {
-      if (context.chronicle && context.hide) {
-        return new Response(await overlayVoiceCss(context.chronicle, context.hide), {
+      if (context.guildId && context.hide) {
+        return new Response(await overlayVoiceCss(context.guildId, context.hide), {
           headers: [["Content-Type", "text/css"]],
         });
       }

@@ -62,4 +62,8 @@ export class RouteContext {
   public get hide(): string[] | null {
     return this._url.searchParams.getAll("hide");
   }
+
+  public get guildId(): string | null {
+    return this._url.searchParams.get("guildId");
+  }
 }

@@ -356,9 +356,9 @@ export class Chronicle {
     await repository.exec();
   }
 
-  public async getCharactersImage(): Promise<string[]> {
+  public async getAllCharacters(): Promise<Character[]> {
     let cursor = 0;
-    const result: string[] = [];
+    const result: Character[] = [];
   
     do {
       const [nextCursor, keys] = await repository.scan(cursor, {
@@ -370,8 +370,7 @@ export class Chronicle {
 
       for (const key of keys) {
         const bulk = await repository.hget(key, sheetKey);
-        const character: Character = JSON.parse(bulk!);
-        result.push(character.image);
+        result.push(JSON.parse(bulk!));
       }
     } while (cursor !== 0);
 
