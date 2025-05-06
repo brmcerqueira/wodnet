@@ -31,6 +31,7 @@ export async function overlayVoiceCss(chronicle: Chronicle, hide: string[]): Pro
         height: 45px;
         margin-right: 6px;
         border-radius: 50%;
+        border: 2px solid transparent;
         background-size: contain;
         background-repeat: no-repeat;
         vertical-align: middle;
