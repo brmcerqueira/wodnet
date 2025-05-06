@@ -356,6 +356,28 @@ export class Chronicle {
     await repository.exec();
   }
 
+  public async getCharactersImage(): Promise<string[]> {
+    let cursor = 0;
+    const result: string[] = [];
+  
+    do {
+      const [nextCursor, keys] = await repository.scan(cursor, {
+        pattern: `${characterKey}:${this.chronicleId}:*`,
+        count: 100
+      });
+
+      cursor = parseInt(nextCursor);
+
+      for (const key of keys) {
+        const bulk = await repository.hget(key, sheetKey);
+        const character: Character = JSON.parse(bulk!);
+        result.push(character.image);
+      }
+    } while (cursor !== 0);
+
+    return result;
+  }
+
   public async checkCharacter(
     id: string,
     versionstamp: string,

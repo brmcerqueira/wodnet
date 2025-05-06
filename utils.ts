@@ -38,16 +38,19 @@ export function treatDiscipline(text: string): { name: string; value: number } {
 export async function uploadImage(url: string): Promise<string> {
   const body = new FormData();
 
-  body.set("image", url);
+  body.set("image", url);  
 
-  const response = await fetch(`https://api.imgbb.com/1/upload?key=${config.imgbbKey}`, {
+  const response = await fetch("https://api.imgur.com/3/image", {
     method: "POST",
+    headers: {
+      Authorization: `Authorization: Client-ID ${config.imgurClientId}`
+    },
     body
   });
 
-  const json: { data: { url: string; }; } = await response.json();
+  const json: { data: { link: string; }; } = await response.json();
 
-  return json.data.url;
+  return json.data.link;
 }
 
 export function jsonRelaxedKeysParse<T>(json: string): T {
