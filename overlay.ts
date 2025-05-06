@@ -23,7 +23,7 @@ export async function overlayVoiceCss(guildId: string, hide: string[]): Promise<
     }
 
     .wrapper_speaking .voice_username::before {
-        border: 0.125em solid #3ba53b !important;
+        border: 0.125em solid #C71585 !important;
     }
 
     ${characters.map(character => `li[data-userid="${character.id}"] .voice_username::before {
@@ -38,6 +38,12 @@ export async function overlayVoiceCss(guildId: string, hide: string[]): Promise<
         background-repeat: no-repeat;
         vertical-align: middle;
         background-image: url(${character.image});
+    }
+
+    li[data-userid="${character.id}"] .voice_username span::after {
+      content: "(${character.player})";
+      color: #DC143C;
+      margin-left: 0.375em;
     }
     `).join("\n    ")}
 
