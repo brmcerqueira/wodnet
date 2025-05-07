@@ -59,6 +59,8 @@ function route(
     if (request.method == "GET") {
       const context = new RouteContext(request.url);
 
+      await context.load();
+
       for (const item of params) {
         if (item.path instanceof RegExp) {
           const regex = item.path.exec(context.url.pathname);
@@ -117,9 +119,12 @@ Deno.serve(
     path: "/overlay/voice.css",
     go: async (context: RouteContext): Promise<void | Response> => {
       if (context.guildId && context.hide) {
-        return new Response(await overlayVoiceCss(context.guildId, context.hide), {
-          headers: [["Content-Type", "text/css"]],
-        });
+        return new Response(
+          await overlayVoiceCss(context.guildId, context.hide),
+          {
+            headers: [["Content-Type", "text/css"]],
+          },
+        );
       }
     },
   }, {
@@ -157,11 +162,11 @@ Deno.serve(
   }, {
     path: "/check",
     go: async (context: RouteContext): Promise<void | Response> => {
-      if (context.chronicle && context.decodeId) {
+      if (context.chronicle && context.characterId) {
         return new Response(
           JSON.stringify({
             update: await context.chronicle.checkCharacter(
-              context.decodeId,
+              context.characterId,
               context.versionstamp!,
             ),
           }),
@@ -173,14 +178,12 @@ Deno.serve(
     path: ["/dark", "/"],
     go: async (context: RouteContext): Promise<void | Response> => {
       if (
-        context.chronicle && context.id && context.chronicleId &&
-        context.decodeId
+        context.token && context.chronicle && context.characterId
       ) {
         return new Response(
           await characterRender(
-            await context.chronicle.getCharacter(context.decodeId, true),
-            context.chronicleId,
-            context.id,
+            await context.chronicle.getCharacter(context.characterId, true),
+            context.token,
             context.url.pathname == "/dark",
             context.update,
           ).render(),

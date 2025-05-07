@@ -1,17 +1,16 @@
 import { config } from "../config.ts";
 import { ButtonComponent, ButtonStyle, encodeBase64Url, MessageComponentType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
+import { encryptToken } from "../token.ts";
 
-export function characterLinkButton(
+export async function characterLinkButton(
     chronicleId: string,
     id: string,
-  ): ButtonComponent {
+  ): Promise<ButtonComponent> {
     return {
       type: MessageComponentType.BUTTON,
       label: locale.open,
       style: ButtonStyle.LINK,
-      url: `${config.host}/dark?chronicleId=${encodeBase64Url(chronicleId)}&id=${
-        encodeBase64Url(id)
-      }`,
+      url: `${config.host}/dark?token=${encodeBase64Url(await encryptToken(chronicleId, id))}`,
     };
   }

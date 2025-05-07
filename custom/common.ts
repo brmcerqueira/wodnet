@@ -12,6 +12,7 @@ import {
   MessageComponentType,
   TextInputStyle,
 } from "../deps.ts";
+import { separator } from "../utils.ts";
 
 export type DamageInput = { superficial?: number; aggravated?: number; add?: boolean }
 
@@ -40,8 +41,6 @@ export type ModalInput<T extends { [key: string]: string }> = {
   context: string[],
   fields: T
 }
-
-const separator = "^";
 
 const custom: {
   parse: (context: string[], data?: any) => any;

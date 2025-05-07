@@ -13,5 +13,6 @@ export const config = {
     discord: {
         token: Deno.env.get("DISCORD_TOKEN")!,
     },
+    cryptoKey: Deno.env.get("CRYPTO_KEY")!,
     level: (Deno.env.get("LOG_LEVEL") || "DEBUG") as LevelName
 };

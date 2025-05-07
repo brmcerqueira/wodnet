@@ -39,7 +39,7 @@ export async function characterLinkSolver(
     }],
     components: [{
       type: MessageComponentType.ACTION_ROW,
-      components: [characterLinkButton(chronicle.id, character.id)],
+      components: [await characterLinkButton(chronicle.id, character.id)],
     }],
   });
 }

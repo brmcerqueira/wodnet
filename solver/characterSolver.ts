@@ -69,7 +69,7 @@ export async function characterSolver(
                 { label: locale.select },
                 character.id,
               ),
-              characterLinkButton(chronicle.id, id!),
+              await characterLinkButton(chronicle.id, id!),
             ],
           }]
           : undefined,

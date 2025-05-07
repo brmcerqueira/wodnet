@@ -1,13 +1,12 @@
 // deno-lint-ignore-file no-window
 declare const context: {
-    chronicleId: string;
-    id: string;
+    token: string;
     versionstamp: string;
     update: number;
 }
 
 setInterval(async () => {
-    const response = await fetch(`check?chronicleId=${context.chronicleId}&id=${context.id}&versionstamp=${context.versionstamp}`, {
+    const response = await fetch(`check?token=${context.token}&versionstamp=${context.versionstamp}`, {
         method: "GET"
     });
 

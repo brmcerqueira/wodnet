@@ -1,52 +1,43 @@
 import { Chronicle } from "./repository.ts";
 import { decodeBase64Url } from "./deps.ts";
-
-const textDecoder = new TextDecoder();
+import { decryptToken, TokenData } from "./token.ts";
 
 export class RouteContext {
   private _url: URL;
-  private _decodeId: string | null | undefined;
   private _chronicle: Chronicle | null | undefined;
+  private _tokenData: TokenData | null | undefined;
 
   constructor(url: string) {
     this._url = new URL(url);
+  }
+
+  public async load() {
+    if (this._url.searchParams.has("token")) {
+      this._tokenData = await decryptToken(
+        decodeBase64Url(this._url.searchParams.get("token")!),
+      );
+      this._chronicle = new Chronicle(this._tokenData.chronicleId);
+    }
   }
 
   public get url(): URL {
     return this._url;
   }
 
-  public get id(): string | null {
-    return this._url.searchParams.get("id");
-  }
-
-  public get decodeId(): string | null {
-    if (this._decodeId == undefined) {
-      this._decodeId = this.id
-        ? textDecoder.decode(decodeBase64Url(this.id))
-        : null;
-    }
-    return this._decodeId;
+  public get token(): string | null {
+    return this._url.searchParams.get("token");
   }
 
   public get chronicleId(): string | null {
-    return this._url.searchParams.has("chronicleId")
-      ? this._url.searchParams.get("chronicleId")
-      : null;
+    return this._tokenData?.chronicleId || null;
+  }
+
+  public get characterId(): string | null {
+    return this._tokenData?.characterId || null;
   }
 
   public get chronicle(): Chronicle | null {
-    if (this._chronicle == undefined) {
-      this._chronicle = this._url.searchParams.has("chronicleId")
-        ? new Chronicle(
-          textDecoder.decode(
-            decodeBase64Url(this._url.searchParams.get("chronicleId")!),
-          ),
-        )
-        : null;
-    }
-
-    return this._chronicle;
+    return this._chronicle || null;
   }
 
   public get update(): number {

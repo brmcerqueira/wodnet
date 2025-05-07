@@ -2,6 +2,8 @@
 import { config } from "./config.ts";
 import { EmojiPayload } from "./deps.ts";
 
+export const separator = "^";
+
 export const colors = {
   red: 15158332,
   green: 3066993,
@@ -62,3 +64,4 @@ export function jsonRelaxedKeysParse<T>(json: string): T {
 export function jsonRelaxedKeysStringify(value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string {
   return JSON.stringify(value, replacer, space).replace(/"([^"]+)":/g, "$1:");
 }
+
