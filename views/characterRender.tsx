@@ -232,7 +232,7 @@ export const characterRender = (character: Character, token: string, dark: boole
                             <div class="col text-center"><b>{locale.hunger}</b></div>
                         </div>
                         <div class="row align-items-center trait">
-                            <div class="col text-center"><DualMeter value={character.hunger} total={5} empty={Square} fill={XSquare} /></div>
+                            <div class="col text-center"><DualMeter value={character.hungerOrRage} total={5} empty={Square} fill={XSquare} /></div>
                         </div>
                     </div>
                     <div class="col-sm-2">

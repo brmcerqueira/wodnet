@@ -4,6 +4,11 @@ export enum CharacterMode {
   Closed
 }
 
+export enum CharacterKind {
+  Vampire,
+  Werewolf,
+}
+
 export type Damage = {
   superficial: number;
   aggravated: number;
@@ -26,13 +31,8 @@ export type Character = {
   image: string;
   name: string;
   player: string;
-  resonance: string;
-  ambition: string;
-  desire: string;
-  predator: string;
-  clan: string;
-  generation: number;
   mode: CharacterMode;
+  kind: CharacterKind;
   versionstamp: string;
   attributes: {
     physical: {
@@ -90,12 +90,6 @@ export type Character = {
     start: number;
   };
   willpower: Damage;
-  humanity: {
-    total: number;
-    stains: number;
-  };
-  bloodPotency: number;
-  hunger: number;
   experience: {
     total: number;
     spent: number;
@@ -105,6 +99,19 @@ export type Character = {
   };
   advantages: AdvantageFlaw;
   flaws: AdvantageFlaw;
+  hungerOrRage: number;
+  //Vampire
+  resonance: string;
+  ambition: string;
+  desire: string;
+  predator: string;
+  clan: string;
+  generation: number;
+  humanity: {
+    total: number;
+    stains: number;
+  };
+  bloodPotency: number;
   disciplines: {
     animalism?: string[];
     auspex?: string[];
@@ -120,4 +127,15 @@ export type Character = {
     rituals?: string[];
     thinBloodAlchemy?: string[];
   };
+  //Werewolf
+  auspice: string;
+  tribe: string;
+  renown: {
+    glory: number;
+    honor: number;
+    wisdom: number;
+  }
+  harano: number;
+  hauglosk: number;
+  giftsAndRites:{}
 };

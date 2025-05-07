@@ -68,7 +68,7 @@ export async function dicePoolSolver(
     interaction,
     chronicle,
     dices,
-    character.hunger,
+    character.hungerOrRage,
     input.difficulty || 1,
     input.modifier || 0,
     description.join(" + "),

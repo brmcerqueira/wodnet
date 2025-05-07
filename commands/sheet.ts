@@ -128,7 +128,7 @@ commands[treatKey(locale.bloodPotency)] = {
 commands[treatKey(locale.hunger)] = {
   description: `${locale.commands.sheet.description} ${locale.hunger}`,
   options: buildIntegerOptions(0, 5),
-  solve: buildCharacterUpdateSolver(parseField<number>((c, v) => c.hunger = v), false),
+  solve: buildCharacterUpdateSolver(parseField<number>((c, v) => c.hungerOrRage = v), false),
 };
 commands[treatKey(locale.humanity)] = {
   description: `${locale.commands.sheet.description} ${locale.humanity}`,
