@@ -346,6 +346,14 @@ export type LocaleType = {
       crowsLaughter: string;
       gremlins: string;
       spidersSong: string;
+      blurOfTheMilkyEye: string;
+      openSeal: string;
+      pulseOfThePrey: string;
+      scentOfRunningWater: string;
+      lunasBlessing: string;
+      thievingTalonsOfTheMagpie: string;
+      theThousandForms: string;
+      whelpBody: string;
     }
   };
   reRollHelperText: string;
