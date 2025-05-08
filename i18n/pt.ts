@@ -405,6 +405,12 @@ export const pt: LocaleType = {
       penumbralSenses: "Sentidos Crepusculares",
       ragingStrike: "Pancada Furiosa",
       staredown: "Olhar Desconcertante",
+      sharpenedSenses: "Sentidos Aguçados",
+      spiritOfTheFray: "Espírito da Batalha",
+      thwartingTheArrow: "O Tolher da Flecha",
+      bodyShift: "Mudar o Corpo",
+      jamTechnology: "Perturbar Tecnologia",
+      tongueOfTheBeasts: "Língua dos Bichos",
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",

@@ -334,6 +334,12 @@ export type LocaleType = {
       penumbralSenses: string;
       ragingStrike: string;
       staredown: string;
+      sharpenedSenses: string;
+      spiritOfTheFray: string;
+      thwartingTheArrow: string;
+      bodyShift: string;
+      jamTechnology: string;
+      tongueOfTheBeasts: string;
     }
   };
   reRollHelperText: string;
