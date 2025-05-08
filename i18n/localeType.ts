@@ -327,6 +327,14 @@ export type LocaleType = {
   };
   giftsAndRites: {
     name: string;
+    native: {
+      catfeet: string;
+      eyesOfTheOwl: string;
+      haresLeap: string;
+      penumbralSenses: string;
+      ragingStrike: string;
+      staredown: string;
+    }
   };
   reRollHelperText: string;
   unauthorized: string;

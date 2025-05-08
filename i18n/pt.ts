@@ -397,7 +397,15 @@ export const pt: LocaleType = {
     },
   },
   giftsAndRites: {
-    name: "Dons & Rituais"
+    name: "Dons & Rituais",
+    native: {
+      catfeet: "Pés de Gato",
+      eyesOfTheOwl: "Olhos da Coruja",
+      haresLeap: "Salto da Lebre",
+      penumbralSenses: "Sentidos Crepusculares",
+      ragingStrike: "Pancada Furiosa",
+      staredown: "Olhar Desconcertante",
+    }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",
