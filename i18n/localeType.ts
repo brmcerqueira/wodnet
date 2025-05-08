@@ -340,6 +340,12 @@ export type LocaleType = {
       bodyShift: string;
       jamTechnology: string;
       tongueOfTheBeasts: string;
+    };
+    ragabash: {
+      blissfulIgnorance: string;
+      crowsLaughter: string;
+      gremlins: string;
+      spidersSong: string;
     }
   };
   reRollHelperText: string;
