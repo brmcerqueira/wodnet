@@ -8,6 +8,10 @@ export const pt: LocaleType = {
   character: "Personagem",
   storyteller: "Narrador",
   storytellerUpdate: "O narrador foi alterado...",
+  kind: [
+    "Vampiro",
+    "Lobisomem"
+  ],
   mode: [
     "Aberto",
     "Rastreado",
@@ -28,6 +32,39 @@ export const pt: LocaleType = {
   name: "Nome",
   image: "Imagem",
   player: "Jogador",
+  auspice: {
+    name: "Augúrio",
+    options: [
+      "Ragabash",
+      "Theurge",
+      "Philodox",
+      "Galliard",
+      "Ahroun"
+    ],
+  },
+  tribe: {
+    name: "Tribo",
+    options: [
+      "Andarilhos do Asfalto",
+      "Conselho dos Fantasmas",
+      "Espreitadores do Vento",
+      "Filhos de Gaia",
+      "Fúrias Negras",
+      "Garras Vermelhas",
+      "Guardadores do Galhado",
+      "Peregrinos Silenciosos",
+      "Presas de Prata",
+      "Roedores de Ossos",
+      "Senhores das Sombras",
+    ],
+  },
+  renown: {
+    glory: "Glória",
+    honor: "Honra",
+    wisdom: "Sabedoria",
+  },
+  harano: "Harano",
+  hauglosk: "Hauglosk",
   resonance: {
     name: "Ressonância",
     options: [
@@ -358,6 +395,9 @@ export const pt: LocaleType = {
       airborneMomentum: "●●●● Ímpeto Aéreo",
       awakenTheSleeper: "●●●●● Despertar Adormecido",
     },
+  },
+  giftsAndRites: {
+    name: "Dons & Rituais"
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",

@@ -14,6 +14,7 @@ export type LocaleType = {
   select: string;
   open: string;
   character: string;
+  kind: string[];
   mode: string[];
   specialties: {
     name: string;
@@ -25,6 +26,15 @@ export type LocaleType = {
   name: string;
   image: string;
   player: string;
+  auspice: OptionsLocale;
+  tribe: OptionsLocale;
+  renown: {
+    glory: string;
+    honor: string;
+    wisdom: string;
+  }
+  harano: string;
+  hauglosk: string;
   resonance: OptionsLocale;
   ambition: string;
   desire: string;
@@ -314,6 +324,9 @@ export type LocaleType = {
       airborneMomentum: string;
       awakenTheSleeper: string;
     };
+  };
+  giftsAndRites: {
+    name: string;
   };
   reRollHelperText: string;
   unauthorized: string;
