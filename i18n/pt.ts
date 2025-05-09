@@ -539,6 +539,14 @@ export const pt: LocaleType = {
       bloodOfTheWastes: "●●●●● ●●●● Sangue dos Desertos",
       clawsOfFrozenDeath: "●●●●● ●●●● Garras da Morte Gélida",
       oathbreakersBane: "●●●●● ●●●● Ruína do Perjuro",
+    },
+    ghostCouncil: {
+      name: "Conselho dos Fantasmas",
+      augur: "●●● Especulário",
+      senseDanger: "●●● Sentir o Perigo",
+      blackout: "●●● Apagão",
+      serpentsCoil: "●●●●● ● Anel da Serpente",
+      handsOfTheEarth: "●●●●● ● Mãos Da Terra"
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",

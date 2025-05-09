@@ -468,6 +468,14 @@ export type LocaleType = {
       bloodOfTheWastes: string;
       clawsOfFrozenDeath: string;
       oathbreakersBane: string;
+    };
+    ghostCouncil: {
+      name: string;
+      augur: string;
+      senseDanger: string;
+      blackout: string;
+      serpentsCoil: string;
+      handsOfTheEarth: string;
     }
   };
   reRollHelperText: string;
