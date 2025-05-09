@@ -442,6 +442,19 @@ export type LocaleType = {
       aThousandEyes: string;
       betweenTheCracks: string;
       defyDeath: string; 
+    };
+    childrenOfGaia: {
+      name: string;
+      brothersScent: string;
+      mothersTouch: string;
+      senseTheTrueForm: string;
+      songOfSerenity: string;
+      calmTheFuriousBeast: string;
+      openSeal: string;
+      revealTrauma: string;
+      lunasArmor: string;
+      lifesPresence: string;
+      shareThePain: string;
     }
   };
   reRollHelperText: string;
