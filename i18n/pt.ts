@@ -10,7 +10,7 @@ export const pt: LocaleType = {
   storytellerUpdate: "O narrador foi alterado...",
   kind: [
     "Vampiro",
-    "Lobisomem"
+    "Lobisomem",
   ],
   mode: [
     "Aberto",
@@ -39,7 +39,7 @@ export const pt: LocaleType = {
       "Theurge",
       "Philodox",
       "Galliard",
-      "Ahroun"
+      "Ahroun",
     ],
   },
   tribe: {
@@ -441,7 +441,7 @@ export const pt: LocaleType = {
       commandSpirit: "●●●●● ●●● Comandar Espírito",
       drainSpirit: "●●●●● ●●● Dessangrar Espírito",
       feralRegression: "●●●●● ●●● Regressão Selvagem",
-      livingWard: "●●●●● ●●● Proteção Viva"
+      livingWard: "●●●●● ●●● Proteção Viva",
     },
     philodox: {
       name: "Philodox",
@@ -456,7 +456,7 @@ export const pt: LocaleType = {
       geas: "●●●●● ●●● Geas",
       oathbreakersBane: "●●●●● ●●● Ruína do Perjuro",
       strengthOfPurpose: "●●●●● ●●● Perseverança",
-      takeTheTrueForm: "●●●●● ●●● Assumir a Forma Verdadeira"
+      takeTheTrueForm: "●●●●● ●●● Assumir a Forma Verdadeira",
     },
     galliard: {
       name: "Galliard",
@@ -471,8 +471,23 @@ export const pt: LocaleType = {
       againstTheOdds: "●●●●● ●●● Contra Tudo e Todos",
       breakTheShackles: "●●●●● ●●● Romper os Grilhões",
       defyDeath: "●●●●● ●●● Desafiar a Morte",
-      dreamwalk: "●●●●● ●●● Passeio Onírico"
-    }
+      dreamwalk: "●●●●● ●●● Passeio Onírico",
+    },
+    ahroun: {
+      name: "Ahroun",
+      haltTheCowardsFlight: "●● Deter a Fuga do Covarde",
+      rapidShift: "●● Transformação Rápida",
+      razorClaws: "●● Garras Afiadas",
+      senseDanger: "●● Sentir o Perigo",
+      primalAnger: "●●●●● Raiva Primordial",
+      snarlOfChallenge: "●●●●● Rosnado Desafiador",
+      trueFear: "●●●●● Medo Verdadeiro",
+      windClaws: "●●●●● Garras Alísias",
+      closingTheGap: "●●●●● ●●● Encurtar A Distância",
+      kissOfHelios: "●●●●● ●●● Beijo De Hélios",
+      lunasArmor: "●●●●● ●●● Armadura De Luna",
+      silverClaws: "●●●●● ●●● Garras De Prata",
+    },
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",
@@ -483,7 +498,8 @@ export const pt: LocaleType = {
   storytellerChangeRollChannel: "O narrador mudou o canal de rolagem.",
   storytellerDeleteCharacter: "O personagem foi excluído!",
   storytellerClearCurrentCharacter: "O narrador limpou a seleção.",
-  storytellerClearRollChannel: "O narrador limpou a seleção do canal de rolagem.",
+  storytellerClearRollChannel:
+    "O narrador limpou a seleção do canal de rolagem.",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
   storytellerChangeAllCharacterMode:
     "O modo de todos os personagens foi alterado!",
@@ -676,7 +692,8 @@ export const pt: LocaleType = {
       },
       choose: {
         name: "escolher",
-        description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
+        description:
+          "O narrador escolhe o personagem corrente para ser usado na parada de dados",
         buttons: {
           name: "botões",
           description: "Gerar os botões de interação do personagem",
@@ -684,7 +701,8 @@ export const pt: LocaleType = {
       },
       mode: {
         name: "modo",
-        description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
+        description:
+          "O narrador escolhe o modo para um personagem ou para todos os personagens",
       },
       remove: {
         name: "excluir",
@@ -730,7 +748,7 @@ export const pt: LocaleType = {
         thumbnail: {
           name: "miniatura",
           description: "Se a imagem deve ser miniatura ou não",
-        }
+        },
       },
       name: "painel",
       description: "Cria um painel",
@@ -741,8 +759,8 @@ export const pt: LocaleType = {
       buttons: "Botões",
       saved: "O Macro foi salvo!",
       loading: "Atualizando...",
-      error: "O Macro contém os seguintes erros..." 
-    }
+      error: "O Macro contém os seguintes erros...",
+    },
   },
   actions: [
     "Ataque com os punhos [Força + Briga]",

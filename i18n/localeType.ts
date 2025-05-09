@@ -32,7 +32,7 @@ export type LocaleType = {
     glory: string;
     honor: string;
     wisdom: string;
-  }
+  };
   harano: string;
   hauglosk: string;
   resonance: OptionsLocale;
@@ -42,7 +42,7 @@ export type LocaleType = {
   clan: {
     name: string;
     options: { [name: string]: string[] | null };
-  },
+  };
   generation: {
     name: string;
     suffix: string;
@@ -142,7 +142,7 @@ export type LocaleType = {
       name: string;
       heightenedSenses: string;
       senseTheUnseen: string;
-      obeah: string,
+      obeah: string;
       premonition: string;
       scryTheSoul: string;
       shareTheSenses: string;
@@ -256,7 +256,7 @@ export type LocaleType = {
       skuldFulfilled: string;
       tenebrousAvatar: string;
       witheringSpirit: string;
-    },
+    };
     presence: {
       name: string;
       awe: string;
@@ -401,7 +401,22 @@ export type LocaleType = {
       breakTheShackles: string;
       defyDeath: string;
       dreamwalk: string;
-    }
+    };
+    ahroun: {
+      name: string;
+      haltTheCowardsFlight: string;
+      rapidShift: string;
+      razorClaws: string;
+      senseDanger: string;
+      primalAnger: string;
+      snarlOfChallenge: string;
+      trueFear: string;
+      windClaws: string;
+      closingTheGap: string;
+      kissOfHelios: string;
+      lunasArmor: string;
+      silverClaws: string;
+    };
   };
   reRollHelperText: string;
   unauthorized: string;
@@ -461,16 +476,16 @@ export type LocaleType = {
       common: CommandOption;
       level: CommandOption;
       wards: CommandOption;
-      circles: CommandOption; 
+      circles: CommandOption;
     };
     import: {
       json: CommandOption;
     } & CommandOption;
     export: CommandOption;
     panel: {
-      health: CommandOption,
-      willpower: CommandOption,
-      hunger: CommandOption,
+      health: CommandOption;
+      willpower: CommandOption;
+      hunger: CommandOption;
       macro: {
         title: CommandOption;
         descriptionField: CommandOption;
@@ -486,7 +501,7 @@ export type LocaleType = {
       saved: string;
       loading: string;
       error: string;
-    }
+    };
     actions: {
       action: CommandOption;
     } & CommandOption;
@@ -510,7 +525,7 @@ export type LocaleType = {
     } & CommandOption;
     character: {
       characterArg: CommandOption;
-      choose: {     
+      choose: {
         buttons: CommandOption;
       } & CommandOption;
       mode: CommandOption;
