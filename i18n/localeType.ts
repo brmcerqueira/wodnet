@@ -354,6 +354,20 @@ export type LocaleType = {
       thievingTalonsOfTheMagpie: string;
       theThousandForms: string;
       whelpBody: string;
+    };
+    theurge: {
+      ensnareSpirit: string;
+      mothersTouch: string;
+      shadowSense: string;
+      sightFromBeyond: string;
+      banishSpirit: string;
+      graspFromBeyond: string;
+      mindspeak: string;
+      umbralTether: string;
+      commandSpirit: string;
+      drainSpirit: string;
+      feralRegression: string;
+      livingWard: string;
     }
   };
   reRollHelperText: string;

@@ -425,6 +425,20 @@ export const pt: LocaleType = {
       thievingTalonsOfTheMagpie: "●●●●● ●●● Unhas Ladinas da Gralha",
       theThousandForms: "●●●●● ●●● As Mil Formas",
       whelpBody: "●●●●● ●●● Corpo de Filhote",
+    },
+    theurge: {
+      ensnareSpirit: "●● Enredar Espírito",
+      mothersTouch: "●● Toque de Mãe",
+      shadowSense: "●● Sentido Umbroso",
+      sightFromBeyond: "●● Vislumbre do Além",
+      banishSpirit: "●●●●● Banir Espírito",
+      graspFromBeyond: "●●●●● Mãos do Além",
+      mindspeak: "●●●●● Conversa Mental",
+      umbralTether: "●●●●● Amarra Umbrática",
+      commandSpirit: "●●●●● ●●● Comandar Espírito",
+      drainSpirit: "●●●●● ●●● Dessangrar Espírito",
+      feralRegression: "●●●●● ●●● Regressão Selvagem",
+      livingWard: "●●●●● ●●● Proteção Viva"
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
