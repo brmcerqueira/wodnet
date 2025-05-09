@@ -429,6 +429,19 @@ export type LocaleType = {
       drainSpirit: string;
       gorgonsVisage: string;
       whelpBody: string;
+    };
+    boneGnawers: {
+      name: string;
+      blissfulIgnorance: string;
+      rapidShift: string;
+      sightFromBeyond: string;
+      odiousAroma: string;
+      faceInTheCrowd: string;
+      scentOfThePast: string;
+      streetsTellStories: string;
+      aThousandEyes: string;
+      betweenTheCracks: string;
+      defyDeath: string; 
     }
   };
   reRollHelperText: string;

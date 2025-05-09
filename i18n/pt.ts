@@ -500,6 +500,19 @@ export const pt: LocaleType = {
       drainSpirit: "●●●●● ●●●● Dessangrar Espírito",
       gorgonsVisage: "●●●●● ●●●● Semblante da Górgona",
       whelpBody: "●●●●● ●●●● Corpo de Filhote"
+    },
+    boneGnawers: {
+      name: "Roedores de Ossos",
+      blissfulIgnorance: "●●● Abençoada Ignorância",
+      rapidShift: "●●● Transformação Rápida",
+      sightFromBeyond: "●●● Vislumbre do Além",
+      odiousAroma: "●●● Odor Repugnante",
+      faceInTheCrowd: "●●●●● ● Rosto na Multidão",
+      scentOfThePast: "●●●●● ● Rastro do Passado",
+      streetsTellStories: "●●●●● ● Histórias que a Rua Conta",
+      aThousandEyes: "●●●●● ●●●● Mil Olhos",
+      betweenTheCracks: "●●●●● ●●●● Pelas Brechas da Parede",
+      defyDeath: "●●●●● ●●●● Desafiar a Morte",
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
