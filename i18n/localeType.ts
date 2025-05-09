@@ -328,6 +328,7 @@ export type LocaleType = {
   giftsAndRites: {
     name: string;
     native: {
+      name: string;
       catfeet: string;
       eyesOfTheOwl: string;
       haresLeap: string;
@@ -342,6 +343,7 @@ export type LocaleType = {
       tongueOfTheBeasts: string;
     };
     ragabash: {
+      name: string;
       blissfulIgnorance: string;
       crowsLaughter: string;
       gremlins: string;
@@ -356,6 +358,7 @@ export type LocaleType = {
       whelpBody: string;
     };
     theurge: {
+      name: string;
       ensnareSpirit: string;
       mothersTouch: string;
       shadowSense: string;
@@ -370,6 +373,7 @@ export type LocaleType = {
       livingWard: string;
     };
     philodox: {
+      name: string;
       ancestralConviction: string;
       gaiasCandor: string;
       porcupinesReprisal: string;
@@ -382,6 +386,10 @@ export type LocaleType = {
       oathbreakersBane: string;
       strengthOfPurpose: string;
       takeTheTrueForm: string;
+    };
+    galliard: {
+      name: string;
+      animalMagnetism: string;
     }
   };
   reRollHelperText: string;

@@ -399,6 +399,7 @@ export const pt: LocaleType = {
   giftsAndRites: {
     name: "Dons & Rituais",
     native: {
+      name: "Inatos",
       catfeet: "● Pés de Gato",
       eyesOfTheOwl: "● Olhos da Coruja",
       haresLeap: "● Salto da Lebre",
@@ -413,6 +414,7 @@ export const pt: LocaleType = {
       tongueOfTheBeasts: "●●●●● ●● Língua dos Bichos",
     },
     ragabash: {
+      name: "Ragabash",
       blissfulIgnorance: "●● Abençoada Ignorância",
       crowsLaughter: "●● Riso do Corvo",
       gremlins: "●● Gremlins",
@@ -427,6 +429,7 @@ export const pt: LocaleType = {
       whelpBody: "●●●●● ●●● Corpo de Filhote",
     },
     theurge: {
+      name: "Theurge",
       ensnareSpirit: "●● Enredar Espírito",
       mothersTouch: "●● Toque de Mãe",
       shadowSense: "●● Sentido Umbroso",
@@ -441,6 +444,7 @@ export const pt: LocaleType = {
       livingWard: "●●●●● ●●● Proteção Viva"
     },
     philodox: {
+      name: "Philodox",
       ancestralConviction: "●● Convicção Ancestral",
       gaiasCandor: "●● Candura de Gaia",
       porcupinesReprisal: "●● Desforra do Porco Espinho",
@@ -453,6 +457,10 @@ export const pt: LocaleType = {
       oathbreakersBane: "●●●●● ●●● Ruína do Perjuro",
       strengthOfPurpose: "●●●●● ●●● Perseverança",
       takeTheTrueForm: "●●●●● ●●● Assumir a Forma Verdadeira"
+    },
+    galliard: {
+      name: "Galliard",
+      animalMagnetism: "●● Magnetismo Animal"
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
