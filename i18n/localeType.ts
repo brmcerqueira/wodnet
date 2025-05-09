@@ -455,6 +455,19 @@ export type LocaleType = {
       lunasArmor: string;
       lifesPresence: string;
       shareThePain: string;
+    };
+    galestalkers: {
+      name: string;
+      camouflage: string;
+      ensnareSpirit: string;
+      laceratingWind: string;
+      chillCloak: string;
+      callTheRidden: string;
+      pulseOfThePrey: string;
+      windClaws: string;
+      bloodOfTheWastes: string;
+      clawsOfFrozenDeath: string;
+      oathbreakersBane: string;
     }
   };
   reRollHelperText: string;

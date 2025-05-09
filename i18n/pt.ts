@@ -526,6 +526,19 @@ export const pt: LocaleType = {
       lunasArmor: "●●●●● ●●●● Armadura de Luna",
       lifesPresence: "●●●●● ●●●● Presença de Vida",
       shareThePain: "●●●●● ●●●● Partilhar a Dor"
+    },
+    galestalkers: {
+      name: "Espreitadores do Vento",
+      camouflage: "●●● Camuflagem",
+      ensnareSpirit: "●●● Enredar Espírito",
+      laceratingWind: "●●● Vento Fustigante",
+      chillCloak: "●●●●● ● Manto Gélido",
+      callTheRidden: "●●●●● ● Convocar os Dominados",
+      pulseOfThePrey: "●●●●● ● Pulsação da Presa",
+      windClaws: "●●●●● ● Garras Alísias",
+      bloodOfTheWastes: "●●●●● ●●●● Sangue dos Desertos",
+      clawsOfFrozenDeath: "●●●●● ●●●● Garras da Morte Gélida",
+      oathbreakersBane: "●●●●● ●●●● Ruína do Perjuro",
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
