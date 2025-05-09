@@ -488,6 +488,19 @@ export const pt: LocaleType = {
       lunasArmor: "●●●●● ●●● Armadura De Luna",
       silverClaws: "●●●●● ●●● Garras De Prata",
     },
+    blackFuries: {
+      name: "Fúrias Negras",
+      curseOfAeolus: "●●● Maldição de Éolo",
+      haltTheCowardsFlight: "●●● Deter a Fuga do Covarde",
+      porcupinesReprisal: "●●● Desforra do Porco Espinho",
+      coupDeGrace: "●●●●● ● Golpe De Misericórdia",
+      kalisScar: "●●●●● ● Escara de Kali",
+      waspTalons: "●●●●● ● Ferrões Da Vespa",
+      breakTheShackles: "●●●●● ●●●● Romper os Grilhões",
+      drainSpirit: "●●●●● ●●●● Dessangrar Espírito",
+      gorgonsVisage: "●●●●● ●●●● Semblante da Górgona",
+      whelpBody: "●●●●● ●●●● Corpo de Filhote"
+    }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",

@@ -417,6 +417,19 @@ export type LocaleType = {
       lunasArmor: string;
       silverClaws: string;
     };
+    blackFuries: {
+      name: string,
+      curseOfAeolus: string;
+      haltTheCowardsFlight: string;
+      porcupinesReprisal: string;
+      coupDeGrace: string;
+      kalisScar: string;
+      waspTalons: string;
+      breakTheShackles: string;
+      drainSpirit: string;
+      gorgonsVisage: string;
+      whelpBody: string;
+    }
   };
   reRollHelperText: string;
   unauthorized: string;
