@@ -460,7 +460,18 @@ export const pt: LocaleType = {
     },
     galliard: {
       name: "Galliard",
-      animalMagnetism: "●● Magnetismo Animal"
+      animalMagnetism: "●● Magnetismo Animal",
+      howlOfAssembly: "●● Uivo de Reunião",
+      songOfRage: "●● Canção da Fúria",
+      songOfSerenity: "●● Canção da Serenidade",
+      callTheRidden: "●●●●● Convocar os Dominados",
+      eyesOfTheCobra: "●●●●● Olhos da Naja",
+      songOfValor: "●●●●● Canção da Bravura",
+      songOfInspiration: "●●●●● Canção da Inspiração",
+      againstTheOdds: "●●●●● ●●● Contra Tudo e Todos",
+      breakTheShackles: "●●●●● ●●● Romper os Grilhões",
+      defyDeath: "●●●●● ●●● Desafiar a Morte",
+      dreamwalk: "●●●●● ●●● Passeio Onírico"
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",

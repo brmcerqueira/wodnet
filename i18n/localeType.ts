@@ -390,6 +390,17 @@ export type LocaleType = {
     galliard: {
       name: string;
       animalMagnetism: string;
+      howlOfAssembly: string;
+      songOfRage: string;
+      songOfSerenity: string;
+      callTheRidden: string;
+      eyesOfTheCobra: string;
+      songOfValor: string;
+      songOfInspiration: string;
+      againstTheOdds: string;
+      breakTheShackles: string;
+      defyDeath: string;
+      dreamwalk: string;
     }
   };
   reRollHelperText: string;
