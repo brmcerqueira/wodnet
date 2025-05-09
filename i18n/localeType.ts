@@ -368,6 +368,20 @@ export type LocaleType = {
       drainSpirit: string;
       feralRegression: string;
       livingWard: string;
+    };
+    philodox: {
+      ancestralConviction: string;
+      gaiasCandor: string;
+      porcupinesReprisal: string;
+      senseTheTrueForm: string;
+      beastsFealty: string;
+      commandTheGathering: string;
+      fangsOfJudgement: string;
+      scentOfThePast: string;
+      geas: string;
+      oathbreakersBane: string;
+      strengthOfPurpose: string;
+      takeTheTrueForm: string;
     }
   };
   reRollHelperText: string;

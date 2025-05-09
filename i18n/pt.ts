@@ -439,6 +439,20 @@ export const pt: LocaleType = {
       drainSpirit: "●●●●● ●●● Dessangrar Espírito",
       feralRegression: "●●●●● ●●● Regressão Selvagem",
       livingWard: "●●●●● ●●● Proteção Viva"
+    },
+    philodox: {
+      ancestralConviction: "●● Convicção Ancestral",
+      gaiasCandor: "●● Candura de Gaia",
+      porcupinesReprisal: "●● Desforra do Porco Espinho",
+      senseTheTrueForm: "●● Sentir a Forma Verdadeira",
+      beastsFealty: "●●●●● Animal Avassalado",
+      commandTheGathering: "●●●●● Dominar a Multidão",
+      fangsOfJudgement: "●●●●● Presas do Veredito",
+      scentOfThePast: "●●●●● Rastro do Passado",
+      geas: "●●●●● ●●● Geas",
+      oathbreakersBane: "●●●●● ●●● Ruína do Perjuro",
+      strengthOfPurpose: "●●●●● ●●● Perseverança",
+      takeTheTrueForm: "●●●●● ●●● Assumir a Forma Verdadeira"
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
