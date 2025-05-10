@@ -419,120 +419,158 @@ export type LocaleType = {
     };
     blackFuries: {
       name: string;
-      curseOfAeolus: string;
-      haltTheCowardsFlight: string;
-      porcupinesReprisal: string;
-      coupDeGrace: string;
-      kalisScar: string;
-      waspTalons: string;
-      breakTheShackles: string;
-      drainSpirit: string;
-      gorgonsVisage: string;
-      whelpBody: string;
+      three: {
+        curseOfAeolus: string;
+        haltTheCowardsFlight: string;
+        porcupinesReprisal: string;
+      };
+      six: { coupDeGrace: string; kalisScar: string; waspTalons: string };
+      nine: {
+        breakTheShackles: string;
+        drainSpirit: string;
+        gorgonsVisage: string;
+        whelpBody: string;
+      };
     };
     boneGnawers: {
       name: string;
-      blissfulIgnorance: string;
-      rapidShift: string;
-      sightFromBeyond: string;
-      odiousAroma: string;
-      faceInTheCrowd: string;
-      scentOfThePast: string;
-      streetsTellStories: string;
-      aThousandEyes: string;
-      betweenTheCracks: string;
-      defyDeath: string;
+      three: {
+        blissfulIgnorance: string;
+        rapidShift: string;
+        sightFromBeyond: string;
+        odiousAroma: string;
+      };
+      six: {
+        faceInTheCrowd: string;
+        scentOfThePast: string;
+        streetsTellStories: string;
+      };
+      nine: {
+        aThousandEyes: string;
+        betweenTheCracks: string;
+        defyDeath: string;
+      };
     };
     childrenOfGaia: {
       name: string;
-      brothersScent: string;
-      mothersTouch: string;
-      senseTheTrueForm: string;
-      songOfSerenity: string;
-      calmTheFuriousBeast: string;
-      openSeal: string;
-      revealTrauma: string;
-      lunasArmor: string;
-      lifesPresence: string;
-      shareThePain: string;
+      three: {
+        brothersScent: string;
+        mothersTouch: string;
+        senseTheTrueForm: string;
+        songOfSerenity: string;
+      };
+      six: {
+        calmTheFuriousBeast: string;
+        openSeal: string;
+        revealTrauma: string;
+      };
+      nine: { lunasArmor: string; lifesPresence: string; shareThePain: string };
     };
     galestalkers: {
       name: string;
-      camouflage: string;
-      ensnareSpirit: string;
-      laceratingWind: string;
-      chillCloak: string;
-      callTheRidden: string;
-      pulseOfThePrey: string;
-      windClaws: string;
-      bloodOfTheWastes: string;
-      clawsOfFrozenDeath: string;
-      oathbreakersBane: string;
+      three: {
+        camouflage: string;
+        ensnareSpirit: string;
+        laceratingWind: string;
+      };
+      six: {
+        chillCloak: string;
+        callTheRidden: string;
+        pulseOfThePrey: string;
+        windClaws: string;
+      };
+      nine: {
+        bloodOfTheWastes: string;
+        clawsOfFrozenDeath: string;
+        oathbreakersBane: string;
+      };
     };
     ghostCouncil: {
       name: string;
-      augur: string;
-      senseDanger: string;
-      blackout: string;
-      serpentsCoil: string;
-      handsOfTheEarth: string;
-      mindspeak: string;
-      dreamwalk: string;
-      shroudedAspect: string;
-      takeTheTrueForm: string;
-      thievingTalonsOfTheMagpie: string;
+      three: { augur: string; senseDanger: string; blackout: string };
+      six: { serpentsCoil: string; handsOfTheEarth: string; mindspeak: string };
+      nine: {
+        dreamwalk: string;
+        shroudedAspect: string;
+        takeTheTrueForm: string;
+        thievingTalonsOfTheMagpie: string;
+      };
     };
     glassWalkers: {
       name: string;
-      animalMagnetism: string;
-      gaiasCandor: string;
-      skinbind: string;
-      spidersSong: string;
-      graspFromBeyond: string;
-      energize: string;
-      snarlOfChallenge: string;
-      controlMachine: string;
-      doppelganger: string;
-      recoverMemory: string;
+      three: {
+        animalMagnetism: string;
+        gaiasCandor: string;
+        skinbind: string;
+        spidersSong: string;
+      };
+      six: {
+        graspFromBeyond: string;
+        energize: string;
+        snarlOfChallenge: string;
+      };
+      nine: {
+        controlMachine: string;
+        doppelganger: string;
+        recoverMemory: string;
+      };
     };
     hartWardens: {
       name: string;
-      crowsLaughter: string;
-      sacredBoundary: string;
-      blessedBrew: string;
-      beastsFealty: string;
-      songOfInspiration: string;
-      territorialDominance: string;
-      balorsGaze: string;
-      theLivingWood: string;
-      kissOfHelios: string;
-      livingWard: string;
+      three: {
+        crowsLaughter: string;
+        sacredBoundary: string;
+        blessedBrew: string;
+      };
+      six: {
+        beastsFealty: string;
+        songOfInspiration: string;
+        territorialDominance: string;
+      };
+      nine: {
+        balorsGaze: string;
+        theLivingWood: string;
+        kissOfHelios: string;
+        livingWard: string;
+      };
     };
     redTalons: {
       name: string;
-      hiddenKiller: string;
-      razorClaws: string;
-      renderDown: string;
-      songOfRage: string;
-      fangsOfJudgement: string;
-      gaiasEmbrace: string;
-      quicksand: string;
-      feralRegression: string;
-      shieldOfTheWyld: string;
-      theThousandForms: string;
+      three: {
+        hiddenKiller: string;
+        razorClaws: string;
+        renderDown: string;
+        songOfRage: string;
+      };
+      six: {
+        fangsOfJudgement: string;
+        gaiasEmbrace: string;
+        quicksand: string;
+      };
+      nine: {
+        feralRegression: string;
+        shieldOfTheWyld: string;
+        theThousandForms: string;
+      };
     };
     shadowLords: {
       name: string;
-      fatalFlaw: string;
-      icyChillOfDespair: string;
-      shadowSense: string;
-      blurOfTheMilkyEye: string;
-      direDistraction: string;
-      eyesOfTheCobra: string;
-      trueFear: string;
-      geas: string;
-      thunderclap: string;
-      underTheGun: string;
+      three: {
+        fatalFlaw: string;
+        icyChillOfDespair: string;
+        shadowSense: string;
+      };
+      six: {
+        blurOfTheMilkyEye: string;
+        direDistraction: string;
+        eyesOfTheCobra: string;
+        trueFear: string;
+      };
+      nine: {
+        geas: string;
+        thunderclap: string;
+        underTheGun: string;
+      };
     };
     silentStriders: {
       name: string;
