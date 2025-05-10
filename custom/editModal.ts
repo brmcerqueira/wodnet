@@ -82,6 +82,6 @@ export const editModal = modal(
       }
 
       return 0;
-    },
+    }, false
   ),
 );
