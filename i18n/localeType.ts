@@ -560,6 +560,52 @@ export type LocaleType = {
       lunasBlessing: string;
       silverClaws: string;
     };
+    rites: {
+      common: {
+        riteOfAbjuration: string;
+        riteOfRage: string;
+        riteOfTranquility: string;
+        riteOfContrition: string;
+        riteOfForgetfulRecord: string;
+        riteOfTheLivingCaern: string;
+        riteOfShadowPassage: string;
+        riteOfDedication: string;
+        riteOfKinseeking: string;
+        riteOfSpiritSummoning: string;
+        riteOfBinding: string;
+        riteOfShame: string;
+        riteOfPatronage: string;
+        riteOfCelebration: string;
+        riteOfCaernBuilding: string;
+        riteOfTheWolfReborn: string;
+        riteOfTheWhisperingField: string;
+        riteOfTheShroudedGlen: string;
+      };
+      social: {
+        riteOfPassage: string;
+        satireRite: string;
+        riteOfAccomplishment: string;
+        gatheringForTheDeparted: string;
+        riteOfTheWinterWolf: string;
+        riteOfTheBanShared: string;
+        cleansingRite: string;
+        theLongVigil: string;
+        pledgingRite: string;
+        theRenewalCircle: string;
+      };
+      mystical: {
+        riteOfTheBorneWord: string;
+        riteOfTheBrokenSun: string;
+        riteOfCaging: string;
+        riteOfChiminage: string;
+        riteOfTheGrimReach: string;
+        riteOfTheLivingTale: string;
+        riteOfTheMoonsFickleGrace: string;
+        riteOfRenunciation: string;
+        riteOfTheSacredScar: string;
+        riteOfSharedFury: string;
+      };
+    };
   };
   reRollHelperText: string;
   unauthorized: string;
