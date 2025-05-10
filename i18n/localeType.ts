@@ -507,6 +507,19 @@ export type LocaleType = {
       theLivingWood: string;
       kissOfHelios: string;
       livingWard: string;
+    };
+    redTalons:{
+      name: string;
+      hiddenKiller: string;
+      razorClaws: string;
+      renderDown: string;
+      songOfRage: string;
+      fangsOfJudgement: string;
+      gaiasEmbrace: string;
+      quicksand: string;
+      feralRegression: string;
+      shieldOfTheWyld: string;
+      theThousandForms: string;
     }
   };
   reRollHelperText: string;
