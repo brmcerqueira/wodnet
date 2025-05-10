@@ -495,6 +495,19 @@ export type LocaleType = {
       doppelganger: string;
       recoverMemory: string;
     };
+    hartWardens: {
+      name: string;
+      crowsLaughter: string;
+      sacredBoundary: string;
+      blessedBrew: string;
+      beastsFealty: string;
+      songOfInspiration: string;
+      territorialDominance: string;
+      balorsGaze: string;
+      theLivingWood: string;
+      kissOfHelios: string;
+      livingWard: string;
+    }
   };
   reRollHelperText: string;
   unauthorized: string;
