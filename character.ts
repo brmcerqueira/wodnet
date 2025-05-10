@@ -137,5 +137,6 @@ export type Character = {
   }
   harano: number;
   hauglosk: number;
-  giftsAndRites: string[];
+  gifts: string[];
+  rites: string[];
 };

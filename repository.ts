@@ -301,7 +301,8 @@ export class Chronicle {
         },
         harano: 0,
         hauglosk: 0,
-        giftsAndRites: []
+        gifts: [],
+        rites: []
       };
 
       if (!ignorePersist) {
