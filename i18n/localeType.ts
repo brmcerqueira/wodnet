@@ -534,6 +534,19 @@ export type LocaleType = {
       thunderclap: string;
       underTheGun: string;
     };
+    silentStriders: {
+      name: string;
+      fetchBounty: string;
+      speechOfTheWorld: string;
+      whisperedPassage: string;
+      burrow: string;
+      scentOfRunningWater: string;
+      umbralTether: string;
+      againstTheOdds: string;
+      closingTheGap: string;
+      theGoldenPath: string;
+      strengthOfPurpose: string;
+    };
   };
   reRollHelperText: string;
   unauthorized: string;
