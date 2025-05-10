@@ -8,10 +8,13 @@ export const pt: LocaleType = {
   character: "Personagem",
   storyteller: "Narrador",
   storytellerUpdate: "O narrador foi alterado...",
-  kind: [
-    "Vampiro",
-    "Lobisomem",
-  ],
+  kind: {
+    name: "Tipo",
+    options: [
+      "Vampiro",
+      "Lobisomem",
+    ],
+  },
   mode: [
     "Aberto",
     "Rastreado",
@@ -32,6 +35,7 @@ export const pt: LocaleType = {
   name: "Nome",
   image: "Imagem",
   player: "Jogador",
+  rage: "Fúria",
   auspice: {
     name: "Augúrio",
     options: [

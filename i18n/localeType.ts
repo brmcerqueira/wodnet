@@ -14,7 +14,7 @@ export type LocaleType = {
   select: string;
   open: string;
   character: string;
-  kind: string[];
+  kind: OptionsLocale;
   mode: string[];
   specialties: {
     name: string;
@@ -26,6 +26,7 @@ export type LocaleType = {
   name: string;
   image: string;
   player: string;
+  rage: string;
   auspice: OptionsLocale;
   tribe: OptionsLocale;
   renown: {
