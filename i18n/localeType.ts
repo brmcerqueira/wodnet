@@ -476,6 +476,11 @@ export type LocaleType = {
       blackout: string;
       serpentsCoil: string;
       handsOfTheEarth: string;
+      mindspeak: string;
+      dreamwalk: string;
+      shroudedAspect: string;
+      takeTheTrueForm: string;
+      thievingTalonsOfTheMagpie: string;
     }
   };
   reRollHelperText: string;

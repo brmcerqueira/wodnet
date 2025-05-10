@@ -546,7 +546,12 @@ export const pt: LocaleType = {
       senseDanger: "●●● Sentir o Perigo",
       blackout: "●●● Apagão",
       serpentsCoil: "●●●●● ● Anel da Serpente",
-      handsOfTheEarth: "●●●●● ● Mãos Da Terra"
+      handsOfTheEarth: "●●●●● ● Mãos Da Terra",
+      mindspeak: "●●●●● ● Conversa Mental",
+      dreamwalk: "●●●●● ●●●● Passeio Onírico",
+      shroudedAspect: "●●●●● ●●●● Aspecto Velado",
+      takeTheTrueForm: "●●●●● ●●●● Assumir a Forma Verdadeira",
+      thievingTalonsOfTheMagpie: "●●●●● ●●●● Unhas Ladinas da Gralha",
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
