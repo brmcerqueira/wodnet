@@ -61,6 +61,7 @@ commands[treatKey(locale.skills.mental.investigation)] = {
     false,
   ),
 };
+/*
 commands[treatKey(locale.skills.mental.medicine)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.medicine}`,
@@ -73,7 +74,7 @@ commands[treatKey(locale.skills.mental.medicine)] = {
     ),
     false,
   ),
-};
+};*/
 commands[treatKey(locale.skills.mental.occult)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.occult}`,

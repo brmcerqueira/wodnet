@@ -9,6 +9,7 @@ import { rollSolver } from "../solver/rollSolver.ts";
 import { setDifficultySolver } from "../solver/setDifficultySolver.ts";
 import { setModifierSolver } from "../solver/setModifierSolver.ts";
 import {
+attributeChoices,
   booleanChoices,
   buildChoices,
   CommandOptions,
@@ -27,12 +28,6 @@ import { ApplicationCommandType, ChannelTypes } from "../deps.ts";
 import { panelSolver } from "../solver/panelSolver.ts";
 import { macroModal } from "../custom/module.ts";
 import { setRollChannel } from "../solver/setRollChannel.ts";
-
-const attributeChoices = [
-  ...buildChoices(locale.attributes.physical),
-  ...buildChoices(locale.attributes.social),
-  ...buildChoices(locale.attributes.mental),
-];
 
 function buildDamageOptions(): CommandOptions {
   return option(locale.damage.superficial, {

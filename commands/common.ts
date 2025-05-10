@@ -91,6 +91,12 @@ export function option(name: string, option: CommandOption): BuildOptions {
   return new BuildOptions().option(name, option);
 }
 
+export function apply(builder: (buildOptions: BuildOptions) => void): BuildOptions {
+  const buildOptions = new BuildOptions()
+  builder(buildOptions);
+  return buildOptions;
+}
+
 export function treatKey(key: string | number): string {
   const data = treatDiscipline(key.toString()).name;
   return data.toLowerCase().replaceAll(/\s/g, "-");
@@ -104,6 +110,12 @@ export function buildChoices<T extends object>(o: T): CommandChoice[] {
     };
   });
 }
+
+export const attributeChoices = [
+  ...buildChoices(locale.attributes.physical),
+  ...buildChoices(locale.attributes.social),
+  ...buildChoices(locale.attributes.mental),
+];
 
 export const value = locale.commands.sheet.value.name;
 export const property = "value";

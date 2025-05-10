@@ -2,6 +2,8 @@ import { detailsModal } from "../custom/module.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
+apply,
+attributeChoices,
   buildChoicesOptions,
   buildIntegerOptions,
   BuildOptions,
@@ -28,7 +30,7 @@ function buildSkillOptions(
 
   for (const key in group) {
     const item = group[key];
-    result.option(treatKey(item), {
+    result.option(item, {
       property: key,
       description: `${locale.commands.sheet.description} ${item}`,
       type: CommandOptionType.SUB_COMMAND,
@@ -85,6 +87,20 @@ commands[treatKey(locale.image)] = {
     },
     false,
   ),
+};
+commands[treatKey(locale.attributes.name)] = {
+  description: `${locale.commands.sheet.description} ${locale.attributes.name}`,
+  solve: characterSolver,
+  options: apply(builder => {
+    for (const item of attributeChoices) {
+      builder.option(item.name, {
+        property: item.value,
+        description: `${locale.commands.sheet.description} ${item.name}`,
+        type: CommandOptionType.SUB_COMMAND,
+        options: buildIntegerOptions(0, 5),
+      });
+    }
+  }).build,
 };
 commands[treatKey(locale.skills.name)] = {
   description: `${locale.commands.sheet.description} ${locale.skills.name}`,
