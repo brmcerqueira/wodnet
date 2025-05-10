@@ -536,29 +536,41 @@ export type LocaleType = {
     };
     silentStriders: {
       name: string;
-      fetchBounty: string;
-      speechOfTheWorld: string;
-      whisperedPassage: string;
-      burrow: string;
-      scentOfRunningWater: string;
-      umbralTether: string;
-      againstTheOdds: string;
-      closingTheGap: string;
-      theGoldenPath: string;
-      strengthOfPurpose: string;
+      three: {
+        fetchBounty: string;
+        speechOfTheWorld: string;
+        whisperedPassage: string;
+      };
+      six: {
+        burrow: string;
+        scentOfRunningWater: string;
+        umbralTether: string;
+      };
+      nine: {
+        againstTheOdds: string;
+        closingTheGap: string;
+        theGoldenPath: string;
+        strengthOfPurpose: string;
+      };
     };
     silverFangs: {
       name: string;
-      howlOfAssembly: string;
-      packInstinct: string;
-      theSilverCompact: string;
-      bloodOfThePack: string;
-      commandTheGathering: string;
-      unityOfThePack: string;
-      commandSpirit: string;
-      lunasAvenger: string;
-      lunasBlessing: string;
-      silverClaws: string;
+      three: {
+        howlOfAssembly: string;
+        packInstinct: string;
+        theSilverCompact: string;
+      };
+      six: {
+        bloodOfThePack: string;
+        commandTheGathering: string;
+        unityOfThePack: string;
+      };
+      nine: {
+        commandSpirit: string;
+        lunasAvenger: string;
+        lunasBlessing: string;
+        silverClaws: string;
+      };
     };
     rites: {
       common: {
