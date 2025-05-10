@@ -953,9 +953,9 @@ export const pt: LocaleType = {
       },
     },
     editModal: {
-      name: "editar",
+      name: "detalhes",
       description: "Modal para edição dos campos textos do personagem",
-      title: "Modal para edição",
+      title: "Modal para edição dos detalhes",
     },
     character: {
       name: "personagem",

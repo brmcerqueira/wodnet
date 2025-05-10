@@ -15,18 +15,6 @@ import {
 } from "./common.ts";
 import { uploadImage } from "../utils.ts";
 
-commands[treatKey(locale.name)] = {
-  description: `${locale.commands.sheet.description} ${locale.name}`,
-  options: option(value, {
-    property: property,
-    description: locale.commands.sheet.value.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    minLength: 1,
-    maxLength: 50,
-  }).build,
-  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.name = v), false),
-};
 commands[treatKey(locale.image)] = {
   description: `${locale.commands.sheet.description} ${locale.image}`,
   options: option(value, {
@@ -40,50 +28,12 @@ commands[treatKey(locale.image)] = {
     return 0;
   }, false),
 };
-commands[treatKey(locale.player)] = {
-  description: `${locale.commands.sheet.description} ${locale.player}`,
-  options: option(value, {
-    property: property,
-    description: locale.commands.sheet.value.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    minLength: 1,
-    maxLength: 50,
-  }).build,
-  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.player = v), false),
-};
 commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
   options: buildChoicesOptions(locale.resonance.options, true),
   solve: buildCharacterUpdateSolver(
     parseField<string>((c, v) => c.resonance = v), false
   ),
-};
-commands[treatKey(locale.ambition)] = {
-  description: `${locale.commands.sheet.description} ${locale.ambition}`,
-  options: option(value, {
-    property: property,
-    description: locale.commands.sheet.value.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    minLength: 1,
-    maxLength: 150,
-  }).build,
-  solve: buildCharacterUpdateSolver(
-    parseField<string>((c, v) => c.ambition = v), false
-  ),
-};
-commands[treatKey(locale.desire)] = {
-  description: `${locale.commands.sheet.description} ${locale.desire}`,
-  options: option(value, {
-    property: property,
-    description: locale.commands.sheet.value.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    minLength: 1,
-    maxLength: 150,
-  }).build,
-  solve: buildCharacterUpdateSolver(parseField<string>((c, v) => c.desire = v), false),
 };
 commands[treatKey(locale.predator.name)] = {
   description: `${locale.commands.sheet.description} ${locale.predator.name}`,
@@ -102,20 +52,6 @@ commands[treatKey(locale.generation.name)] = {
   options: buildIntegerOptions(4, 16),
   solve: buildCharacterUpdateSolver(
     parseField<number>((c, v) => c.generation = v),false
-  ),
-};
-commands[treatKey(locale.details)] = {
-  description: `${locale.commands.sheet.description} ${locale.details}`,
-  options: option(value, {
-    property: property,
-    description: locale.commands.sheet.value.description,
-    type: CommandOptionType.STRING,
-    required: true,
-    minLength: 1,
-    maxLength: 1000,
-  }).build,
-  solve: buildCharacterUpdateSolver(
-    parseField<string>((c, v) => c.details = v),false
   ),
 };
 commands[treatKey(locale.bloodPotency)] = {
