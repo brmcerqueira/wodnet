@@ -34,10 +34,11 @@ export async function overlayVoiceCss(guildId: string, hide: string[]): Promise<
         margin-right: 0.375em;
         border-radius: 1em;
         border: 0.125em solid transparent;
-        background-size: contain;
+        background-image: url(${character.image});
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
         vertical-align: middle;
-        background-image: url(${character.image});
     }
 
     li[data-userid="${character.id}"] .voice_username span::after {
