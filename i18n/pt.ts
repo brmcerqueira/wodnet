@@ -591,6 +591,13 @@ export const pt: LocaleType = {
       feralRegression: "●●●●● ●●●● Regressão Selvagem",
       shieldOfTheWyld: "●●●●● ●●●● Escudo da Wyld",
       theThousandForms: "●●●●● ●●●● As Mil Formas",
+    },
+    shadowLords: {
+      name: "Senhores das Sombras",
+      fatalFlaw: "●●● Fraqueza Fatal",
+      icyChillOfDespair: "●●● Calafrio De Desespero",
+      shadowSense: "●●● Sentido Umbroso",
+      blurOfTheMilkyEye: "●●●●● ● Embaçamento da Própria Forma",
     }
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",

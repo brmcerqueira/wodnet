@@ -520,6 +520,13 @@ export type LocaleType = {
       feralRegression: string;
       shieldOfTheWyld: string;
       theThousandForms: string;
+    };
+    shadowLords: {
+      name: string;
+      fatalFlaw: string;
+      icyChillOfDespair: string;
+      shadowSense: string;
+      blurOfTheMilkyEye: string;
     }
   };
   reRollHelperText: string;
