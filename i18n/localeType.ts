@@ -325,7 +325,7 @@ export type LocaleType = {
       awakenTheSleeper: string;
     };
   };
-  giftsAndRites: {
+  gifts: {
     name: string;
     native: {
       name: string;
@@ -646,34 +646,34 @@ export type LocaleType = {
         silverClaws: string;
       };
     };
-    rites: {
-      common: {
-        riteOfAbjuration: string;
-        riteOfRage: string;
-        riteOfTranquility: string;
-        riteOfContrition: string;
-        riteOfForgetfulRecord: string;
-        riteOfTheLivingCaern: string;
-        riteOfShadowPassage: string;
-        riteOfDedication: string;
-        riteOfKinseeking: string;
-        riteOfSpiritSummoning: string;
-        riteOfBinding: string;
-        riteOfShame: string;
-        riteOfPatronage: string;
-        riteOfCelebration: string;
-        riteOfCaernBuilding: string;
-        riteOfTheWolfReborn: string;
-        riteOfTheWhisperingField: string;
-        riteOfTheShroudedGlen: string;
-      };
-      social: {
-        riteOfPassage: string;
-        satireRite: string;
-        riteOfAccomplishment: string;
-        gatheringForTheDeparted: string;
-        riteOfTheWinterWolf: string;
-      };
+  };
+  rites: {
+    common: {
+      riteOfAbjuration: string;
+      riteOfRage: string;
+      riteOfTranquility: string;
+      riteOfContrition: string;
+      riteOfForgetfulRecord: string;
+      riteOfTheLivingCaern: string;
+      riteOfShadowPassage: string;
+      riteOfDedication: string;
+      riteOfKinseeking: string;
+      riteOfSpiritSummoning: string;
+      riteOfBinding: string;
+      riteOfShame: string;
+      riteOfPatronage: string;
+      riteOfCelebration: string;
+      riteOfCaernBuilding: string;
+      riteOfTheWolfReborn: string;
+      riteOfTheWhisperingField: string;
+      riteOfTheShroudedGlen: string;
+    };
+    social: {
+      riteOfPassage: string;
+      satireRite: string;
+      riteOfAccomplishment: string;
+      gatheringForTheDeparted: string;
+      riteOfTheWinterWolf: string;
     };
   };
   reRollHelperText: string;
