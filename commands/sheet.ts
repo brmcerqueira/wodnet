@@ -1,4 +1,4 @@
-import { editModal } from "../custom/module.ts";
+import { detailsModal } from "../custom/module.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
@@ -80,7 +80,7 @@ commands[treatKey(locale.stains)] = {
     parseField<number>((c, v) => c.humanity.stains = v),false
   ),
 };
-commands[treatKey(locale.commands.editModal.name)] = {
-  description: locale.commands.editModal.description,
-  solve: editModal,
+commands[treatKey(locale.commands.detailsModal.name)] = {
+  description: locale.commands.detailsModal.description,
+  solve: detailsModal,
 };

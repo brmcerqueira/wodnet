@@ -778,7 +778,7 @@ export type LocaleType = {
     rollChannel: {
       channel: CommandOption;
     } & CommandOption;
-    editModal: {
+    detailsModal: {
       title: string;
     } & CommandOption;
     character: {

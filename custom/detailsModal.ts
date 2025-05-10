@@ -3,14 +3,14 @@ import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import { modal, ModalInput, ModalOptions } from "./common.ts";
 
-export const editModal = modal(
+export const detailsModal = modal(
   async (interaction, chronicle): Promise<ModalOptions> => {
     const id = await chronicle.getOrCreateCharacterId(interaction.user.id);
 
     const character = await chronicle.getCharacter(id);
 
     return {
-      title: locale.commands.editModal.title,
+      title: locale.commands.detailsModal.title,
       fields: {
         name: {
           label: locale.name,

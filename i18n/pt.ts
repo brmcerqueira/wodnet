@@ -952,7 +952,7 @@ export const pt: LocaleType = {
         description: "Círculos",
       },
     },
-    editModal: {
+    detailsModal: {
       name: "detalhes",
       description: "Modal para edição dos campos textos do personagem",
       title: "Modal para edição dos detalhes",
