@@ -329,93 +329,129 @@ export type LocaleType = {
     name: string;
     native: {
       name: string;
-      catfeet: string;
-      eyesOfTheOwl: string;
-      haresLeap: string;
-      penumbralSenses: string;
-      ragingStrike: string;
-      staredown: string;
-      sharpenedSenses: string;
-      spiritOfTheFray: string;
-      thwartingTheArrow: string;
-      bodyShift: string;
-      jamTechnology: string;
-      tongueOfTheBeasts: string;
+      one: {
+        catfeet: string;
+        eyesOfTheOwl: string;
+        haresLeap: string;
+        penumbralSenses: string;
+        ragingStrike: string;
+        staredown: string;
+      };
+      four: {
+        sharpenedSenses: string;
+        spiritOfTheFray: string;
+        thwartingTheArrow: string;
+      };
+      seven: {
+        bodyShift: string;
+        jamTechnology: string;
+        tongueOfTheBeasts: string;
+      };
     };
     ragabash: {
       name: string;
-      blissfulIgnorance: string;
-      crowsLaughter: string;
-      gremlins: string;
-      spidersSong: string;
-      blurOfTheMilkyEye: string;
-      openSeal: string;
-      pulseOfThePrey: string;
-      scentOfRunningWater: string;
-      lunasBlessing: string;
-      thievingTalonsOfTheMagpie: string;
-      theThousandForms: string;
-      whelpBody: string;
+      two: {
+        blissfulIgnorance: string;
+        crowsLaughter: string;
+        gremlins: string;
+        spidersSong: string;
+      };
+      five: {
+        blurOfTheMilkyEye: string;
+        openSeal: string;
+        pulseOfThePrey: string;
+        scentOfRunningWater: string;
+      };
+      eight: {
+        lunasBlessing: string;
+        thievingTalonsOfTheMagpie: string;
+        theThousandForms: string;
+        whelpBody: string;
+      };
     };
     theurge: {
       name: string;
-      ensnareSpirit: string;
-      mothersTouch: string;
-      shadowSense: string;
-      sightFromBeyond: string;
-      banishSpirit: string;
-      graspFromBeyond: string;
-      mindspeak: string;
-      umbralTether: string;
-      commandSpirit: string;
-      drainSpirit: string;
-      feralRegression: string;
-      livingWard: string;
+      two: {
+        ensnareSpirit: string;
+        mothersTouch: string;
+        shadowSense: string;
+        sightFromBeyond: string;
+      };
+      five: {
+        banishSpirit: string;
+        graspFromBeyond: string;
+        mindspeak: string;
+        umbralTether: string;
+      };
+      eight: {
+        commandSpirit: string;
+        drainSpirit: string;
+        feralRegression: string;
+        livingWard: string;
+      };
     };
     philodox: {
       name: string;
-      ancestralConviction: string;
-      gaiasCandor: string;
-      porcupinesReprisal: string;
-      senseTheTrueForm: string;
-      beastsFealty: string;
-      commandTheGathering: string;
-      fangsOfJudgement: string;
-      scentOfThePast: string;
-      geas: string;
-      oathbreakersBane: string;
-      strengthOfPurpose: string;
-      takeTheTrueForm: string;
+      two: {
+        ancestralConviction: string;
+        gaiasCandor: string;
+        porcupinesReprisal: string;
+        senseTheTrueForm: string;
+      };
+      five: {
+        beastsFealty: string;
+        commandTheGathering: string;
+        fangsOfJudgement: string;
+        scentOfThePast: string;
+      };
+      eight: {
+        geas: string;
+        oathbreakersBane: string;
+        strengthOfPurpose: string;
+        takeTheTrueForm: string;
+      };
     };
     galliard: {
       name: string;
-      animalMagnetism: string;
-      howlOfAssembly: string;
-      songOfRage: string;
-      songOfSerenity: string;
-      callTheRidden: string;
-      eyesOfTheCobra: string;
-      songOfValor: string;
-      songOfInspiration: string;
-      againstTheOdds: string;
-      breakTheShackles: string;
-      defyDeath: string;
-      dreamwalk: string;
+      two: {
+        animalMagnetism: string;
+        howlOfAssembly: string;
+        songOfRage: string;
+        songOfSerenity: string;
+      };
+      five: {
+        callTheRidden: string;
+        eyesOfTheCobra: string;
+        songOfValor: string;
+        songOfInspiration: string;
+      };
+      eight: {
+        againstTheOdds: string;
+        breakTheShackles: string;
+        defyDeath: string;
+        dreamwalk: string;
+      };
     };
     ahroun: {
       name: string;
-      haltTheCowardsFlight: string;
-      rapidShift: string;
-      razorClaws: string;
-      senseDanger: string;
-      primalAnger: string;
-      snarlOfChallenge: string;
-      trueFear: string;
-      windClaws: string;
-      closingTheGap: string;
-      kissOfHelios: string;
-      lunasArmor: string;
-      silverClaws: string;
+      two: {
+        haltTheCowardsFlight: string;
+        rapidShift: string;
+        razorClaws: string;
+        senseDanger: string;
+      };
+      five: {
+        primalAnger: string;
+        snarlOfChallenge: string;
+        trueFear: string;
+        windClaws: string;
+      };
+      eight: {
+        closingTheGap: string;
+        kissOfHelios: string;
+        lunasArmor: string;
+        silverClaws: string;
+      };
     };
     blackFuries: {
       name: string;
