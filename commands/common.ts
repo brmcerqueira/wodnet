@@ -49,6 +49,8 @@ export type Solver = (
   input?: any,
 ) => Promise<void>;
 
+export type Level = { level: string; value: boolean };
+
 export const commands: {
   [name: string]: {
     solve: Solver;
