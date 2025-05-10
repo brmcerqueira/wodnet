@@ -547,6 +547,19 @@ export type LocaleType = {
       theGoldenPath: string;
       strengthOfPurpose: string;
     };
+    silverFangs: {
+      name: string;
+      howlOfAssembly: string;
+      packInstinct: string;
+      theSilverCompact: string;
+      bloodOfThePack: string;
+      commandTheGathering: string;
+      unityOfThePack: string;
+      commandSpirit: string;
+      lunasAvenger: string;
+      lunasBlessing: string;
+      silverClaws: string;
+    };
   };
   reRollHelperText: string;
   unauthorized: string;
