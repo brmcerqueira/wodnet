@@ -587,23 +587,6 @@ export type LocaleType = {
         riteOfAccomplishment: string;
         gatheringForTheDeparted: string;
         riteOfTheWinterWolf: string;
-        riteOfTheBanShared: string;
-        cleansingRite: string;
-        theLongVigil: string;
-        pledgingRite: string;
-        theRenewalCircle: string;
-      };
-      mystical: {
-        riteOfTheBorneWord: string;
-        riteOfTheBrokenSun: string;
-        riteOfCaging: string;
-        riteOfChiminage: string;
-        riteOfTheGrimReach: string;
-        riteOfTheLivingTale: string;
-        riteOfTheMoonsFickleGrace: string;
-        riteOfRenunciation: string;
-        riteOfTheSacredScar: string;
-        riteOfSharedFury: string;
       };
     };
   };
