@@ -22,7 +22,7 @@ commands[treatKey(locale.skills.mental.science)] = {
     false,
   ),
 };
-commands[treatKey(locale.skills.mental.academics)] = {
+/*commands[treatKey(locale.skills.mental.academics)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.academics}`,
   options: buildIntegerOptions(0, 5),
@@ -34,7 +34,7 @@ commands[treatKey(locale.skills.mental.academics)] = {
     ),
     false,
   ),
-};
+};*/
 commands[treatKey(locale.skills.mental.finance)] = {
   description:
     `${locale.commands.sheet.description} ${locale.skills.mental.finance}`,

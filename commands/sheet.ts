@@ -4,6 +4,8 @@ import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver
 import {
   buildChoicesOptions,
   buildIntegerOptions,
+  BuildOptions,
+  CommandOptions,
   CommandOptionType,
   commands,
   option,
@@ -15,6 +17,27 @@ import {
 } from "./common.ts";
 import { keys, uploadImage } from "../utils.ts";
 import { CharacterKind } from "../character.ts";
+import { characterSolver } from "../solver/characterSolver.ts";
+import { LocaleType } from "../i18n/localeType.ts";
+
+function buildSkillOptions(
+  key: Exclude<keyof LocaleType["skills"], "name">,
+): CommandOptions {
+  const result = new BuildOptions();
+  const group = locale.skills[key] as Record<string, string>;
+
+  for (const key in group) {
+    const item = group[key];
+    result.option(treatKey(item), {
+      property: key,
+      description: `${locale.commands.sheet.description} ${item}`,
+      type: CommandOptionType.SUB_COMMAND,
+      options: buildIntegerOptions(0, 5),
+    });
+  }
+
+  return result.build;
+}
 
 commands[treatKey(locale.kind.name)] = {
   description: `${locale.commands.sheet.description} ${locale.kind.name}`,
@@ -62,6 +85,26 @@ commands[treatKey(locale.image)] = {
     },
     false,
   ),
+};
+commands[treatKey(locale.skills.name)] = {
+  description: `${locale.commands.sheet.description} ${locale.skills.name}`,
+  solve: characterSolver,
+  options: option(locale.physical, {
+    property: "physical",
+    description: `${locale.commands.sheet.description} ${locale.physical}`,
+    type: CommandOptionType.SUB_COMMAND_GROUP,
+    options: buildSkillOptions("physical"),
+  }).option(locale.social, {
+    property: "social",
+    description: `${locale.commands.sheet.description} ${locale.social}`,
+    type: CommandOptionType.SUB_COMMAND_GROUP,
+    options: buildSkillOptions("social"),
+  }).option(locale.mental, {
+    property: "mental",
+    description: `${locale.commands.sheet.description} ${locale.mental}`,
+    type: CommandOptionType.SUB_COMMAND_GROUP,
+    options: buildSkillOptions("mental"),
+  }).build,
 };
 //vampire
 commands[treatKey(locale.resonance.name)] = {
