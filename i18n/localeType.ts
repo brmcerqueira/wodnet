@@ -508,7 +508,7 @@ export type LocaleType = {
       kissOfHelios: string;
       livingWard: string;
     };
-    redTalons:{
+    redTalons: {
       name: string;
       hiddenKiller: string;
       razorClaws: string;
@@ -527,7 +527,13 @@ export type LocaleType = {
       icyChillOfDespair: string;
       shadowSense: string;
       blurOfTheMilkyEye: string;
-    }
+      direDistraction: string;
+      eyesOfTheCobra: string;
+      trueFear: string;
+      geas: string;
+      thunderclap: string;
+      underTheGun: string;
+    };
   };
   reRollHelperText: string;
   unauthorized: string;

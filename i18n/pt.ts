@@ -579,7 +579,7 @@ export const pt: LocaleType = {
       kissOfHelios: "●●●●● ●●●● Beijo de Hélios",
       livingWard: "●●●●● ●●●● Proteção Viva",
     },
-    redTalons:{
+    redTalons: {
       name: "Garras Vermelhas",
       hiddenKiller: "●●● Matador Misterioso",
       razorClaws: "●●● Garras Afiadas",
@@ -598,7 +598,13 @@ export const pt: LocaleType = {
       icyChillOfDespair: "●●● Calafrio De Desespero",
       shadowSense: "●●● Sentido Umbroso",
       blurOfTheMilkyEye: "●●●●● ● Embaçamento da Própria Forma",
-    }
+      direDistraction: "●●●●● ● Distração Atroz",
+      eyesOfTheCobra: "●●●●● ● Olhos da Naja",
+      trueFear: "●●●●● ● Medo Verdadeiro",
+      geas: "●●●●● ●●●● Geas",
+      thunderclap: "●●●●● ●●●● Aplauso Trovejante",
+      underTheGun: "●●●●● ●●●● Na Mira do Atirador",
+    },
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",
