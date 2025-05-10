@@ -499,7 +499,7 @@ export const pt: LocaleType = {
       breakTheShackles: "●●●●● ●●●● Romper os Grilhões",
       drainSpirit: "●●●●● ●●●● Dessangrar Espírito",
       gorgonsVisage: "●●●●● ●●●● Semblante da Górgona",
-      whelpBody: "●●●●● ●●●● Corpo de Filhote"
+      whelpBody: "●●●●● ●●●● Corpo de Filhote",
     },
     boneGnawers: {
       name: "Roedores de Ossos",
@@ -525,7 +525,7 @@ export const pt: LocaleType = {
       revealTrauma: "●●●●● ● Revelar Trauma",
       lunasArmor: "●●●●● ●●●● Armadura de Luna",
       lifesPresence: "●●●●● ●●●● Presença de Vida",
-      shareThePain: "●●●●● ●●●● Partilhar a Dor"
+      shareThePain: "●●●●● ●●●● Partilhar a Dor",
     },
     galestalkers: {
       name: "Espreitadores do Vento",
@@ -552,7 +552,20 @@ export const pt: LocaleType = {
       shroudedAspect: "●●●●● ●●●● Aspecto Velado",
       takeTheTrueForm: "●●●●● ●●●● Assumir a Forma Verdadeira",
       thievingTalonsOfTheMagpie: "●●●●● ●●●● Unhas Ladinas da Gralha",
-    }
+    },
+    glassWalkers: {
+      name: "Andarilhos do Asfalto",
+      animalMagnetism: "●●● Magnetismo Animal",
+      gaiasCandor: "●●● Candura de Gaia",
+      skinbind: "●●● Confinar à Pele",
+      spidersSong: "●●● Canção da Aranha",
+      graspFromBeyond: "●●●●● ● Mãos do Além",
+      energize: "●●●●● ● Energizar",
+      snarlOfChallenge: "●●●●● ● Rosnado Desafiador",
+      controlMachine: "●●●●● ●●●● Controlar Máquina",
+      doppelganger: "●●●●● ●●●● Doppelgãnger",
+      recoverMemory: "●●●●● ●●●● Recuperar Memória",
+    },
   },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",

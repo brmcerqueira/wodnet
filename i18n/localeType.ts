@@ -418,7 +418,7 @@ export type LocaleType = {
       silverClaws: string;
     };
     blackFuries: {
-      name: string,
+      name: string;
       curseOfAeolus: string;
       haltTheCowardsFlight: string;
       porcupinesReprisal: string;
@@ -441,7 +441,7 @@ export type LocaleType = {
       streetsTellStories: string;
       aThousandEyes: string;
       betweenTheCracks: string;
-      defyDeath: string; 
+      defyDeath: string;
     };
     childrenOfGaia: {
       name: string;
@@ -481,7 +481,20 @@ export type LocaleType = {
       shroudedAspect: string;
       takeTheTrueForm: string;
       thievingTalonsOfTheMagpie: string;
-    }
+    };
+    glassWalkers: {
+      name: string;
+      animalMagnetism: string;
+      gaiasCandor: string;
+      skinbind: string;
+      spidersSong: string;
+      graspFromBeyond: string;
+      energize: string;
+      snarlOfChallenge: string;
+      controlMachine: string;
+      doppelganger: string;
+      recoverMemory: string;
+    };
   };
   reRollHelperText: string;
   unauthorized: string;
