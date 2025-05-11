@@ -33,6 +33,8 @@ export const pt: LocaleType = {
     "O link da ficha do seu personagem foi enviado no seu chat privado!",
   details: "Detalhes",
   name: "Nome",
+  yes: "Sim",
+  no: "Não",
   image: "Imagem",
   player: "Jogador",
   rage: "Fúria",
