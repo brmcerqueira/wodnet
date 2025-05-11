@@ -4,10 +4,12 @@ import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver
 import {
   apply,
   attributeChoices,
+  booleanChoices,
   buildChoicesOptions,
   buildIntegerOptions,
   BuildOptions,
   calculateSpent,
+  CommandChoice,
   CommandOptions,
   CommandOptionType,
   commands,
@@ -21,6 +23,7 @@ import {
 import { keys, uploadImage } from "../utils.ts";
 import { Character, CharacterKind } from "../character.ts";
 import { LocaleType } from "../i18n/localeType.ts";
+import { Command } from "../deps.ts";
 
 type NumberValueInput = { value: number };
 
@@ -55,6 +58,34 @@ function buildSkillOptions(
   }
 
   return result.build;
+}
+
+function buildRitesOptions(key: Exclude<keyof LocaleType["rites"], "name">,): CommandOptions {
+  const choices: CommandChoice[] = [];
+  const group = locale.rites[key] as Record<string, string>;
+
+  for (const key in group) {
+    if (key !== "name") {
+      choices.push({
+        name: group[key],
+        value: key
+      })
+    }
+  }
+
+  return option(locale.commands.sheet.level.name, {
+    property: "level",
+    description: locale.commands.sheet.level.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    choices: choices,
+  }).option(locale.commands.sheet.value.name, {
+    property: property,
+    description: locale.commands.sheet.value.description,
+    type: CommandOptionType.STRING,
+    required: true,
+    choices: booleanChoices(),
+  }).build
 }
 
 commands[treatKey(locale.kind.name)] = {
@@ -357,13 +388,13 @@ commands[treatKey(locale.rites.name)] = {
   options: option(locale.rites.common.name, {
     property: "common",
     description: `${locale.commands.sheet.description} ${locale.rites.common.name}`,
-    type: CommandOptionType.SUB_COMMAND_GROUP,
-    options: buildSkillOptions("physical"),
+    type: CommandOptionType.SUB_COMMAND,
+    options: buildRitesOptions("common"),
   }).option(locale.rites.social.name, {
     property: "social",
     description: `${locale.commands.sheet.description} ${locale.rites.social.name}`,
-    type: CommandOptionType.SUB_COMMAND_GROUP,
-    options: buildSkillOptions("social"),
+    type: CommandOptionType.SUB_COMMAND,
+    options: buildRitesOptions("social"),
   }).build,
   solve: buildCharacterUpdateSolver((character, input: any) => {
 
