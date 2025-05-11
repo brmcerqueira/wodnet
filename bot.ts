@@ -123,7 +123,7 @@ async function cleanCommands(
 ) {
   for (let index = 0; index < discordCommands.length; index++) {
     const command = discordCommands[index];
-    if (!keys || (keys && keys.indexOf(command.name) > -1)) {
+    if (keys.length == 0 || (keys && keys.indexOf(command.name) > -1)) {
       await client.rest.endpoints.deleteGlobalApplicationCommand(
         client.applicationID!,
         command.id,
