@@ -57,7 +57,7 @@ export async function macroSolver(
     interaction,
     chronicle,
     result.dices,
-    character.hunger,
+    character.hungerOrRage,
     result.difficulty,
     result.modifier,
     description,

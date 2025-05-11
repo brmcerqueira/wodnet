@@ -1,5 +1,5 @@
 
-import { Character, CharacterMode } from "./character.ts";
+import { Character, CharacterKind, CharacterMode } from "./character.ts";
 import { config } from "./config.ts";
 import { ApplicationCommandChoice, connect } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
@@ -204,13 +204,8 @@ export class Chronicle {
         image: "",
         name: "",
         player: "",
-        resonance: "",
-        ambition: "",
-        desire: "",
-        predator: "",
-        clan: "",
-        generation: 0,
         mode: CharacterMode.Opened,
+        kind: CharacterKind.Vampire,
         versionstamp: crypto.randomUUID(),
         attributes: {
           physical: {
@@ -275,12 +270,6 @@ export class Chronicle {
           aggravated: 0,
           penalty: 0,
         },
-        humanity: {
-          total: 0,
-          stains: 0,
-        },
-        bloodPotency: 0,
-        hunger: 0,
         experience: {
           total: 0,
           spent: 0,
@@ -288,7 +277,32 @@ export class Chronicle {
         specialties: {},
         advantages: {},
         flaws: {},
+        hungerOrRage: 0,
+        //Vampire
+        resonance: "",
+        ambition: "",
+        desire: "",
+        predator: "",
+        clan: "",
+        generation: 0,
+        humanity: {
+          total: 0,
+          stains: 0,
+        },
+        bloodPotency: 0,
         disciplines: {},
+        //Werewolf
+        auspice: "",
+        tribe: "",
+        renown: {
+          glory: 0,
+          honor: 0,
+          wisdom: 0,
+        },
+        harano: 0,
+        hauglosk: 0,
+        gifts: [],
+        rites: []
       };
 
       if (!ignorePersist) {

@@ -7,8 +7,7 @@ import { locale } from "../i18n/locale.ts";
 import { Chronicle } from "../repository.ts";
 import { InteractionResponseError } from "../utils.ts";
 
-type AttributeType =
-  | keyof LocaleType["attributes"]["physical"]
+type AttributeType = keyof LocaleType["attributes"]["physical"]
   | keyof LocaleType["attributes"]["social"]
   | keyof LocaleType["attributes"]["mental"];
 
@@ -68,7 +67,7 @@ export async function dicePoolSolver(
     interaction,
     chronicle,
     dices,
-    character.hunger,
+    character.hungerOrRage,
     input.difficulty || 1,
     input.modifier || 0,
     description.join(" + "),

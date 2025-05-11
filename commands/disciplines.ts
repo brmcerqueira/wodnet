@@ -10,12 +10,12 @@ import {
   CommandOptions,
   CommandOptionType,
   commands,
+  Level,
   option,
   property,
   treatKey,
 } from "./common.ts";
 
-type Level = { level: string; value: boolean };
 type Input = Level | { [key: string]: Level };
 
 function getMultiplier(

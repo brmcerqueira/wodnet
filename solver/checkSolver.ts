@@ -24,11 +24,11 @@ export async function checkSolver(
   const failed = !check(input?.dices || 1);
 
   if (failed) {
-    character.hunger += 1;
+    character.hungerOrRage += 1;
     await chronicle.updateCharacter(character);
     fields.push({
       name: locale.hunger,
-      value: `**${character.hunger}**`,
+      value: `**${character.hungerOrRage}**`,
       inline: true,
     });
   }

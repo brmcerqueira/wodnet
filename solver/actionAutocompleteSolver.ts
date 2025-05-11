@@ -60,7 +60,7 @@ export async function actionAutocompleteSolver(
       interaction,
       chronicle,
       result.dices,
-      character.hunger,
+      character.hungerOrRage,
       result.difficulty,
       result.modifier,
       locale.actions[index],

@@ -8,6 +8,13 @@ export const pt: LocaleType = {
   character: "Personagem",
   storyteller: "Narrador",
   storytellerUpdate: "O narrador foi alterado...",
+  kind: {
+    name: "Tipo",
+    options: [
+      "Vampiro",
+      "Lobisomem",
+    ],
+  },
   mode: [
     "Aberto",
     "Rastreado",
@@ -26,8 +33,44 @@ export const pt: LocaleType = {
     "O link da ficha do seu personagem foi enviado no seu chat privado!",
   details: "Detalhes",
   name: "Nome",
+  yes: "Sim",
+  no: "Não",
   image: "Imagem",
   player: "Jogador",
+  rage: "Fúria",
+  auspice: {
+    name: "Augúrio",
+    options: [
+      "Ragabash",
+      "Theurge",
+      "Philodox",
+      "Galliard",
+      "Ahroun",
+    ],
+  },
+  tribe: {
+    name: "Tribo",
+    options: [
+      "Andarilhos do Asfalto",
+      "Conselho dos Fantasmas",
+      "Espreitadores do Vento",
+      "Filhos de Gaia",
+      "Fúrias Negras",
+      "Garras Vermelhas",
+      "Guardadores do Galhado",
+      "Peregrinos Silenciosos",
+      "Presas de Prata",
+      "Roedores de Ossos",
+      "Senhores das Sombras",
+    ],
+  },
+  renown: {
+    glory: "Glória",
+    honor: "Honra",
+    wisdom: "Sabedoria",
+  },
+  harano: "Harano",
+  hauglosk: "Hauglosk",
   resonance: {
     name: "Ressonância",
     options: [
@@ -359,6 +402,376 @@ export const pt: LocaleType = {
       awakenTheSleeper: "●●●●● Despertar Adormecido",
     },
   },
+  gifts: {
+    name: "Dons & Rituais",
+    native: {
+      name: "Inatos",
+      one: {
+        catfeet: "● Pés de Gato",
+        eyesOfTheOwl: "● Olhos da Coruja",
+        haresLeap: "● Salto da Lebre",
+        penumbralSenses: "● Sentidos Crepusculares",
+        ragingStrike: "● Pancada Furiosa",
+        staredown: "● Olhar Desconcertante",
+      },
+      four: {
+        sharpenedSenses: "●●●● Sentidos Aguçados",
+        spiritOfTheFray: "●●●● Espírito da Batalha",
+        thwartingTheArrow: "●●●● O Tolher da Flecha",
+      },
+      seven: {
+        bodyShift: "●●●●● ●● Mudar o Corpo",
+        jamTechnology: "●●●●● ●● Perturbar Tecnologia",
+        tongueOfTheBeasts: "●●●●● ●● Língua dos Bichos",
+      },
+    },
+    ragabash: {
+      name: "Ragabash",
+      two: {
+        blissfulIgnorance: "●● Abençoada Ignorância",
+        crowsLaughter: "●● Riso do Corvo",
+        gremlins: "●● Gremlins",
+        spidersSong: "●● Canção da Aranha",
+      },
+      five: {
+        blurOfTheMilkyEye: "●●●●● Embaçamento da Própria Forma",
+        openSeal: "●●●●● Romper o Lacre",
+        pulseOfThePrey: "●●●●● Pulsação da Presa",
+        scentOfRunningWater: "●●●●● Rastro de Água Corrente",
+      },
+      eight: {
+        lunasBlessing: "●●●●● ●●● Bênção de Luna",
+        thievingTalonsOfTheMagpie: "●●●●● ●●● Unhas Ladinas da Gralha",
+        theThousandForms: "●●●●● ●●● As Mil Formas",
+        whelpBody: "●●●●● ●●● Corpo de Filhote",
+      },
+    },
+    theurge: {
+      name: "Theurge",
+      two: {
+        ensnareSpirit: "●● Enredar Espírito",
+        mothersTouch: "●● Toque de Mãe",
+        shadowSense: "●● Sentido Umbroso",
+        sightFromBeyond: "●● Vislumbre do Além",
+      },
+      five: {
+        banishSpirit: "●●●●● Banir Espírito",
+        graspFromBeyond: "●●●●● Mãos do Além",
+        mindspeak: "●●●●● Conversa Mental",
+        umbralTether: "●●●●● Amarra Umbrática",
+      },
+      eight: {
+        commandSpirit: "●●●●● ●●● Comandar Espírito",
+        drainSpirit: "●●●●● ●●● Dessangrar Espírito",
+        feralRegression: "●●●●● ●●● Regressão Selvagem",
+        livingWard: "●●●●● ●●● Proteção Viva",
+      },
+    },
+    philodox: {
+      name: "Philodox",
+      two: {
+        ancestralConviction: "●● Convicção Ancestral",
+        gaiasCandor: "●● Candura de Gaia",
+        porcupinesReprisal: "●● Desforra do Porco Espinho",
+        senseTheTrueForm: "●● Sentir a Forma Verdadeira",
+      },
+      five: {
+        beastsFealty: "●●●●● Animal Avassalado",
+        commandTheGathering: "●●●●● Dominar a Multidão",
+        fangsOfJudgement: "●●●●● Presas do Veredito",
+        scentOfThePast: "●●●●● Rastro do Passado",
+      },
+      eight: {
+        geas: "●●●●● ●●● Geas",
+        oathbreakersBane: "●●●●● ●●● Ruína do Perjuro",
+        strengthOfPurpose: "●●●●● ●●● Perseverança",
+        takeTheTrueForm: "●●●●● ●●● Assumir a Forma Verdadeira",
+      },
+    },
+    galliard: {
+      name: "Galliard",
+      two: {
+        animalMagnetism: "●● Magnetismo Animal",
+        howlOfAssembly: "●● Uivo de Reunião",
+        songOfRage: "●● Canção da Fúria",
+        songOfSerenity: "●● Canção da Serenidade",
+      },
+      five: {
+        callTheRidden: "●●●●● Convocar os Dominados",
+        eyesOfTheCobra: "●●●●● Olhos da Naja",
+        songOfValor: "●●●●● Canção da Bravura",
+        songOfInspiration: "●●●●● Canção da Inspiração",
+      },
+      eight: {
+        againstTheOdds: "●●●●● ●●● Contra Tudo e Todos",
+        breakTheShackles: "●●●●● ●●● Romper os Grilhões",
+        defyDeath: "●●●●● ●●● Desafiar a Morte",
+        dreamwalk: "●●●●● ●●● Passeio Onírico",
+      },
+    },
+    ahroun: {
+      name: "Ahroun",
+      two: {
+        haltTheCowardsFlight: "●● Deter a Fuga do Covarde",
+        rapidShift: "●● Transformação Rápida",
+        razorClaws: "●● Garras Afiadas",
+        senseDanger: "●● Sentir o Perigo",
+      },
+      five: {
+        primalAnger: "●●●●● Raiva Primordial",
+        snarlOfChallenge: "●●●●● Rosnado Desafiador",
+        trueFear: "●●●●● Medo Verdadeiro",
+        windClaws: "●●●●● Garras Alísias",
+      },
+      eight: {
+        closingTheGap: "●●●●● ●●● Encurtar a Distância",
+        kissOfHelios: "●●●●● ●●● Beijo de Hélios",
+        lunasArmor: "●●●●● ●●● Armadura de Luna",
+        silverClaws: "●●●●● ●●● Garras de Prata",
+      },
+    },
+    blackFuries: {
+      name: "Fúrias Negras",
+      three: {
+        curseOfAeolus: "●●● Maldição de Éolo",
+        haltTheCowardsFlight: "●●● Deter a Fuga do Covarde",
+        porcupinesReprisal: "●●● Desforra do Porco Espinho",
+      },
+      six: {
+        coupDeGrace: "●●●●● ● Golpe De Misericórdia",
+        kalisScar: "●●●●● ● Escara de Kali",
+        waspTalons: "●●●●● ● Ferrões Da Vespa",
+      },
+      nine: {
+        breakTheShackles: "●●●●● ●●●● Romper os Grilhões",
+        drainSpirit: "●●●●● ●●●● Dessangrar Espírito",
+        gorgonsVisage: "●●●●● ●●●● Semblante da Górgona",
+        whelpBody: "●●●●● ●●●● Corpo de Filhote",
+      },
+    },
+    boneGnawers: {
+      name: "Roedores de Ossos",
+      three: {
+        blissfulIgnorance: "●●● Abençoada Ignorância",
+        rapidShift: "●●● Transformação Rápida",
+        sightFromBeyond: "●●● Vislumbre do Além",
+        odiousAroma: "●●● Odor Repugnante",
+      },
+      six: {
+        faceInTheCrowd: "●●●●● ● Rosto na Multidão",
+        scentOfThePast: "●●●●● ● Rastro do Passado",
+        streetsTellStories: "●●●●● ● Histórias que a Rua Conta",
+      },
+      nine: {
+        aThousandEyes: "●●●●● ●●●● Mil Olhos",
+        betweenTheCracks: "●●●●● ●●●● Pelas Brechas da Parede",
+        defyDeath: "●●●●● ●●●● Desafiar a Morte",
+      },
+    },
+    childrenOfGaia: {
+      name: "Filhos de Gaia",
+      three: {
+        brothersScent: "●●● Cheiro de Irmão",
+        mothersTouch: "●●● Toque de Mãe",
+        senseTheTrueForm: "●●● Sentir a Forma Verdadeira",
+        songOfSerenity: "●●● Canção da Serenidade",
+      },
+      six: {
+        calmTheFuriousBeast: "●●●●● ● Sossegar a Besta Furiosa",
+        openSeal: "●●●●● ● Romper o Lacre",
+        revealTrauma: "●●●●● ● Revelar Trauma",
+      },
+      nine: {
+        lunasArmor: "●●●●● ●●●● Armadura de Luna",
+        lifesPresence: "●●●●● ●●●● Presença de Vida",
+        shareThePain: "●●●●● ●●●● Partilhar a Dor",
+      },
+    },
+    galestalkers: {
+      name: "Espreitadores do Vento",
+      three: {
+        camouflage: "●●● Camuflagem",
+        ensnareSpirit: "●●● Enredar Espírito",
+        laceratingWind: "●●● Vento Fustigante",
+      },
+      six: {
+        chillCloak: "●●●●● ● Manto Gélido",
+        callTheRidden: "●●●●● ● Convocar os Dominados",
+        pulseOfThePrey: "●●●●● ● Pulsação da Presa",
+        windClaws: "●●●●● ● Garras Alísias",
+      },
+      nine: {
+        bloodOfTheWastes: "●●●●● ●●●● Sangue dos Desertos",
+        clawsOfFrozenDeath: "●●●●● ●●●● Garras da Morte Gélida",
+        oathbreakersBane: "●●●●● ●●●● Ruína do Perjuro",
+      },
+    },
+    ghostCouncil: {
+      name: "Conselho dos Fantasmas",
+      three: {
+        augur: "●●● Especulário",
+        senseDanger: "●●● Sentir o Perigo",
+        blackout: "●●● Apagão",
+      },
+      six: {
+        serpentsCoil: "●●●●● ● Anel da Serpente",
+        handsOfTheEarth: "●●●●● ● Mãos Da Terra",
+        mindspeak: "●●●●● ● Conversa Mental",
+      },
+      nine: {
+        dreamwalk: "●●●●● ●●●● Passeio Onírico",
+        shroudedAspect: "●●●●● ●●●● Aspecto Velado",
+        takeTheTrueForm: "●●●●● ●●●● Assumir a Forma Verdadeira",
+        thievingTalonsOfTheMagpie: "●●●●● ●●●● Unhas Ladinas da Gralha",
+      },
+    },
+    glassWalkers: {
+      name: "Andarilhos do Asfalto",
+      three: {
+        animalMagnetism: "●●● Magnetismo Animal",
+        gaiasCandor: "●●● Candura de Gaia",
+        skinbind: "●●● Confinar à Pele",
+        spidersSong: "●●● Canção da Aranha",
+      },
+      six: {
+        graspFromBeyond: "●●●●● ● Mãos do Além",
+        energize: "●●●●● ● Energizar",
+        snarlOfChallenge: "●●●●● ● Rosnado Desafiador",
+      },
+      nine: {
+        controlMachine: "●●●●● ●●●● Controlar Máquina",
+        doppelganger: "●●●●● ●●●● Doppelgãnger",
+        recoverMemory: "●●●●● ●●●● Recuperar Memória",
+      },
+    },
+    hartWardens: {
+      name: "Guardadores do Galhado",
+      three: {
+        crowsLaughter: "●●● Riso do Corvo",
+        sacredBoundary: "●●● Fronteira Sagrada",
+        blessedBrew: "●●● Tisana Abençoada",
+      },
+      six: {
+        beastsFealty: "●●●●● ● Animal Avassalado",
+        songOfInspiration: "●●●●● ● Canção da Inspiração",
+        territorialDominance: "●●●●● ● Mando do Território",
+      },
+      nine: {
+        balorsGaze: "●●●●● ●●●● O Olhar de Balor",
+        theLivingWood: "●●●●● ●●●● A Floresta Viva",
+        kissOfHelios: "●●●●● ●●●● Beijo de Hélios",
+        livingWard: "●●●●● ●●●● Proteção Viva",
+      },
+    },
+    redTalons: {
+      name: "Garras Vermelhas",
+      three: {
+        hiddenKiller: "●●● Matador Misterioso",
+        razorClaws: "●●● Garras Afiadas",
+        renderDown: "●●● Dissolução",
+        songOfRage: "●●● Canção da Fúria",
+      },
+      six: {
+        fangsOfJudgement: "●●●●● ● Presas do Veredito",
+        gaiasEmbrace: "●●●●● ● Abraço de Gaia",
+        quicksand: "●●●●● ● Areia Movediça",
+      },
+      nine: {
+        feralRegression: "●●●●● ●●●● Regressão Selvagem",
+        shieldOfTheWyld: "●●●●● ●●●● Escudo da Wyld",
+        theThousandForms: "●●●●● ●●●● As Mil Formas",
+      },
+    },
+    shadowLords: {
+      name: "Senhores das Sombras",
+      three: {
+        fatalFlaw: "●●● Fraqueza Fatal",
+        icyChillOfDespair: "●●● Calafrio De Desespero",
+        shadowSense: "●●● Sentido Umbroso",
+      },
+      six: {
+        blurOfTheMilkyEye: "●●●●● ● Embaçamento da Própria Forma",
+        direDistraction: "●●●●● ● Distração Atroz",
+        eyesOfTheCobra: "●●●●● ● Olhos da Naja",
+        trueFear: "●●●●● ● Medo Verdadeiro",
+      },
+      nine: {
+        geas: "●●●●● ●●●● Geas",
+        thunderclap: "●●●●● ●●●● Aplauso Trovejante",
+        underTheGun: "●●●●● ●●●● Na Mira do Atirador",
+      },
+    },
+    silentStriders: {
+      name: "Peregrinos Silenciosos",
+      three: {
+        fetchBounty: "●●● Buscar o Prêmio",
+        speechOfTheWorld: "●●● Linguagem do Mundo",
+        whisperedPassage: "●●● Passagem Murmurada",
+      },
+      six: {
+        burrow: "●●●●● ● Entocar",
+        scentOfRunningWater: "●●●●● ● Rastro de Água Corrente",
+        umbralTether: "●●●●● ● Amarra Umbrática",
+      },
+      nine: {
+        againstTheOdds: "●●●●● ●●●● Contra Tudo e Todos",
+        closingTheGap: "●●●●● ●●●● Encurtar a Distância",
+        theGoldenPath: "●●●●● ●●●● A Senda Dourada",
+        strengthOfPurpose: "●●●●● ●●●● Perseverança",
+      },
+    },
+    silverFangs: {
+      name: "Presas de Prata",
+      three: {
+        howlOfAssembly: "●●● Uivo de Reunião",
+        packInstinct: "●●● Instinto Coletivo",
+        theSilverCompact: "●●● O Pacto de Prata",
+      },
+      six: {
+        bloodOfThePack: "●●●●● ● Sangue da Alcateia",
+        commandTheGathering: "●●●●● ● Dominar a Multidão",
+        unityOfThePack: "●●●●● ● União Da Alcateia",
+      },
+      nine: {
+        commandSpirit: "●●●●● ●●●● Comandar Espírito",
+        lunasAvenger: "●●●●● ●●●● Vingador de Luna",
+        lunasBlessing: "●●●●● ●●●● Bênção de Luna",
+        silverClaws: "●●●●● ●●●● Garras de Prata",
+      },
+    },
+  },
+  rites: {
+    name: "Ritos",
+    common: {
+      name: "Comuns",
+      riteOfAbjuration: "Ritual de Abjuração",
+      riteOfRage: "Ritual da Fúria",
+      riteOfTranquility: "Ritual da Tranquilidade",
+      riteOfContrition: "Ritual de Contrição",
+      riteOfForgetfulRecord: "Ritual da Ficha de Memória Fraca",
+      riteOfTheLivingCaern: "Ritual do Caern Vivente",
+      riteOfShadowPassage: "Ritual da Travessia Umbrática",
+      riteOfDedication: "Ritual de Dedicação",
+      riteOfKinseeking: "Ritual de Buscar Parentes",
+      riteOfSpiritSummoning: "Ritual de Invocação de Espíritos",
+      riteOfBinding: "Ritual de Confinamento",
+      riteOfShame: "Ritual da Vergonha",
+      riteOfPatronage: "Ritual de Apadrinhamento",
+      riteOfCelebration: "Ritual de Comemoração",
+      riteOfCaernBuilding: "Ritual de Criação de Caern",
+      riteOfTheWolfReborn: "Ritual do Lobo Renascido",
+      riteOfTheWhisperingField: "Ritual do Campo Murmurante",
+      riteOfTheShroudedGlen: "Ritual da Ravina Encoberta",
+    },
+    social: {
+      name: "Social",
+      riteOfPassage: "Ritual de Passagem",
+      satireRite: "Ritual Satírico",
+      riteOfAccomplishment: "Ritual de Conquista",
+      gatheringForTheDeparted: "Cerimônia pelos Falecidos",
+      riteOfTheWinterWolf: "Ritual do Lobo do Inverno",
+    },
+  },
   reRollHelperText: "Re-rolando %v dado(s) da última jogada...",
   unauthorized: "Função não autorizada!",
   notFound: "Personagem não encontrado!",
@@ -368,7 +781,8 @@ export const pt: LocaleType = {
   storytellerChangeRollChannel: "O narrador mudou o canal de rolagem.",
   storytellerDeleteCharacter: "O personagem foi excluído!",
   storytellerClearCurrentCharacter: "O narrador limpou a seleção.",
-  storytellerClearRollChannel: "O narrador limpou a seleção do canal de rolagem.",
+  storytellerClearRollChannel:
+    "O narrador limpou a seleção do canal de rolagem.",
   storytellerChangeCharacterMode: "O modo do personagem foi alterado!",
   storytellerChangeAllCharacterMode:
     "O modo de todos os personagens foi alterado!",
@@ -546,11 +960,15 @@ export const pt: LocaleType = {
         name: "círculos",
         description: "Círculos",
       },
+      rite: {
+        name: "rito",
+        description: "Rito"
+      }
     },
-    editModal: {
-      name: "editar",
+    detailsModal: {
+      name: "detalhes",
       description: "Modal para edição dos campos textos do personagem",
-      title: "Modal para edição",
+      title: "Modal para edição dos detalhes",
     },
     character: {
       name: "personagem",
@@ -561,7 +979,8 @@ export const pt: LocaleType = {
       },
       choose: {
         name: "escolher",
-        description: "O narrador escolhe o personagem corrente para ser usado na parada de dados",
+        description:
+          "O narrador escolhe o personagem corrente para ser usado na parada de dados",
         buttons: {
           name: "botões",
           description: "Gerar os botões de interação do personagem",
@@ -569,7 +988,8 @@ export const pt: LocaleType = {
       },
       mode: {
         name: "modo",
-        description: "O narrador escolhe o modo para um personagem ou para todos os personagens",
+        description:
+          "O narrador escolhe o modo para um personagem ou para todos os personagens",
       },
       remove: {
         name: "excluir",
@@ -615,7 +1035,7 @@ export const pt: LocaleType = {
         thumbnail: {
           name: "miniatura",
           description: "Se a imagem deve ser miniatura ou não",
-        }
+        },
       },
       name: "painel",
       description: "Cria um painel",
@@ -626,8 +1046,8 @@ export const pt: LocaleType = {
       buttons: "Botões",
       saved: "O Macro foi salvo!",
       loading: "Atualizando...",
-      error: "O Macro contém os seguintes erros..." 
-    }
+      error: "O Macro contém os seguintes erros...",
+    },
   },
   actions: [
     "Ataque com os punhos [Força + Briga]",

@@ -2,7 +2,7 @@ export * from "./characterLinkButton.ts";
 export * from "./reRollButton.ts";
 export * from "./selectButton.ts";
 export * from "./macroButton.ts";
-export * from "./editModal.ts";
+export * from "./detailsModal.ts";
 export * from "./macroModal.ts";
 export * from "./updateHealthButton.ts";
 export * from "./updateWillpowerButton.ts";

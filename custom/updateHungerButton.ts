@@ -7,5 +7,5 @@ export const updateHungerButton: (
   value: number,
 ) => ButtonComponent = button(
   (context) => parseInt(context[0]),
-  buildCharacterUpdateSolver<number>((c, v) => c.hunger = v, true),
+  buildCharacterUpdateSolver<number>((c, v) => c.hungerOrRage = v, true),
 );

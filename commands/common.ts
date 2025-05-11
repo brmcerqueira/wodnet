@@ -49,6 +49,8 @@ export type Solver = (
   input?: any,
 ) => Promise<void>;
 
+export type Level = { level: string; value: boolean };
+
 export const commands: {
   [name: string]: {
     solve: Solver;
@@ -77,16 +79,22 @@ export class BuildOptions {
 
 export function booleanChoices(): CommandChoice[] {
   return [{
-    name: "👍",
+    name: locale.yes,
     value: "true",
   }, {
-    name: "❌",
+    name: locale.no,
     value: "false",
   }];
 }
 
 export function option(name: string, option: CommandOption): BuildOptions {
   return new BuildOptions().option(name, option);
+}
+
+export function apply(builder: (buildOptions: BuildOptions) => void): BuildOptions {
+  const buildOptions = new BuildOptions()
+  builder(buildOptions);
+  return buildOptions;
 }
 
 export function treatKey(key: string | number): string {
@@ -102,6 +110,12 @@ export function buildChoices<T extends object>(o: T): CommandChoice[] {
     };
   });
 }
+
+export const attributeChoices = [
+  ...buildChoices(locale.attributes.physical),
+  ...buildChoices(locale.attributes.social),
+  ...buildChoices(locale.attributes.mental),
+];
 
 export const value = locale.commands.sheet.value.name;
 export const property = "value";
