@@ -1,9 +1,5 @@
 import "./gamePlay.ts";
 import "./sheet.ts";
-import "./attributes.ts";
-import "./skillsPhysical.ts";
-import "./skillsSocial.ts";
-import "./skillsMental.ts";
 import "./specialties.ts";
 import "./advantageFlaw.ts";
 import "./damage.ts";
