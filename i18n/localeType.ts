@@ -651,7 +651,9 @@ export type LocaleType = {
     };
   };
   rites: {
+    name: string;
     common: {
+      name: string;
       riteOfAbjuration: string;
       riteOfRage: string;
       riteOfTranquility: string;
@@ -672,6 +674,7 @@ export type LocaleType = {
       riteOfTheShroudedGlen: string;
     };
     social: {
+      name: string;
       riteOfPassage: string;
       satireRite: string;
       riteOfAccomplishment: string;

@@ -741,7 +741,9 @@ export const pt: LocaleType = {
     },
   },
   rites: {
+    name: "Ritos",
     common: {
+      name: "Comuns",
       riteOfAbjuration: "Ritual de Abjuração",
       riteOfRage: "Ritual da Fúria",
       riteOfTranquility: "Ritual da Tranquilidade",
@@ -762,6 +764,7 @@ export const pt: LocaleType = {
       riteOfTheShroudedGlen: "Ritual da Ravina Encoberta",
     },
     social: {
+      name: "Social",
       riteOfPassage: "Ritual de Passagem",
       satireRite: "Ritual Satírico",
       riteOfAccomplishment: "Ritual de Conquista",

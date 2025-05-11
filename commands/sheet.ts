@@ -352,3 +352,21 @@ commands[treatKey(locale.hauglosk)] = {
     false,
   ),
 };
+commands[treatKey(locale.rites.name)] = {
+  description: `${locale.commands.sheet.description} ${locale.rites.name}`,
+  options: option(locale.rites.common.name, {
+    property: "common",
+    description: `${locale.commands.sheet.description} ${locale.rites.common.name}`,
+    type: CommandOptionType.SUB_COMMAND_GROUP,
+    options: buildSkillOptions("physical"),
+  }).option(locale.rites.social.name, {
+    property: "social",
+    description: `${locale.commands.sheet.description} ${locale.rites.social.name}`,
+    type: CommandOptionType.SUB_COMMAND_GROUP,
+    options: buildSkillOptions("social"),
+  }).build,
+  solve: buildCharacterUpdateSolver((character, input: any) => {
+
+    return 0;
+  }, false),
+};
