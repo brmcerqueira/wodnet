@@ -37,10 +37,6 @@ export function buildCharacterUpdateSolver<T>(
         : interaction.member!.displayName;
     }
 
-    if (character.image == "") {
-      character.image = await uploadImage(interaction.user.avatarURL());
-    }
-
     if (character.mode != CharacterMode.Opened) {
       character.experience.spent += spent;
     }
