@@ -271,6 +271,14 @@ commands[treatKey(locale.stains)] = {
   ),
 };
 //Werewolf
+commands[treatKey(locale.rage)] = {
+  description: `${locale.commands.sheet.description} ${locale.rage}`,
+  options: buildIntegerOptions(0, 5),
+  solve: buildCharacterUpdateSolver(
+    parseField<number>((c, v) => c.hungerOrRage = v),
+    false,
+  ),
+};
 commands[treatKey(locale.auspice.name)] = {
   description: `${locale.commands.sheet.description} ${locale.auspice.name}`,
   options: buildChoicesOptions(locale.auspice.options),
@@ -287,11 +295,43 @@ commands[treatKey(locale.tribe.name)] = {
     false,
   ),
 };
-commands[treatKey(locale.rage)] = {
-  description: `${locale.commands.sheet.description} ${locale.rage}`,
+commands[treatKey(locale.renown.glory)] = {
+  description: `${locale.commands.sheet.description} ${locale.renown.glory}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseField<number>((c, v) => c.hungerOrRage = v),
+    parseField<number>((c, v) => c.renown.glory = v),
+    false,
+  ),
+};
+commands[treatKey(locale.renown.honor)] = {
+  description: `${locale.commands.sheet.description} ${locale.renown.honor}`,
+  options: buildIntegerOptions(0, 5),
+  solve: buildCharacterUpdateSolver(
+    parseField<number>((c, v) => c.renown.honor = v),
+    false,
+  ),
+};
+commands[treatKey(locale.renown.wisdom)] = {
+  description: `${locale.commands.sheet.description} ${locale.renown.wisdom}`,
+  options: buildIntegerOptions(0, 5),
+  solve: buildCharacterUpdateSolver(
+    parseField<number>((c, v) => c.renown.wisdom = v),
+    false,
+  ),
+};
+commands[treatKey(locale.harano)] = {
+  description: `${locale.commands.sheet.description} ${locale.harano}`,
+  options: buildIntegerOptions(0, 5),
+  solve: buildCharacterUpdateSolver(
+    parseField<number>((c, v) => c.harano = v),
+    false,
+  ),
+};
+commands[treatKey(locale.hauglosk)] = {
+  description: `${locale.commands.sheet.description} ${locale.hauglosk}`,
+  options: buildIntegerOptions(0, 5),
+  solve: buildCharacterUpdateSolver(
+    parseField<number>((c, v) => c.hauglosk = v),
     false,
   ),
 };
