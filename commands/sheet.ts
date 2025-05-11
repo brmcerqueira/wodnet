@@ -2,8 +2,8 @@ import { detailsModal } from "../custom/module.ts";
 import { locale } from "../i18n/locale.ts";
 import { buildCharacterUpdateSolver } from "../solver/buildCharacterUpdateSolver.ts";
 import {
-apply,
-attributeChoices,
+  apply,
+  attributeChoices,
   buildChoicesOptions,
   buildIntegerOptions,
   BuildOptions,
@@ -27,7 +27,10 @@ type NumberValueInput = { value: number };
 type AttributesPhysicalType = keyof Character["attributes"]["physical"];
 type AttributesSocialType = keyof Character["attributes"]["social"];
 type AttributesMentalType = keyof Character["attributes"]["mental"];
-type AttributesType = AttributesPhysicalType | AttributesSocialType | AttributesMentalType;
+type AttributesType =
+  | AttributesPhysicalType
+  | AttributesSocialType
+  | AttributesMentalType;
 
 type SkillsPhysicalType = keyof Character["skills"]["physical"];
 type SkillsSocialType = keyof Character["skills"]["social"];
@@ -103,7 +106,7 @@ commands[treatKey(locale.image)] = {
 };
 commands[treatKey(locale.attributes.name)] = {
   description: `${locale.commands.sheet.description} ${locale.attributes.name}`,
-  options: apply(builder => {
+  options: apply((builder) => {
     for (const item of attributeChoices) {
       builder.option(item.name, {
         property: item.value,
@@ -113,18 +116,24 @@ commands[treatKey(locale.attributes.name)] = {
       });
     }
   }).build,
-  solve: buildCharacterUpdateSolver((character, input: Record<AttributesType, NumberValueInput>) => {
+  solve: buildCharacterUpdateSolver(
+    (character, input: Record<AttributesType, NumberValueInput>) => {
       const key = Object.keys(input)[0];
 
       let group: Record<string, number>;
 
-      if (character.attributes.physical[key as AttributesPhysicalType] !== undefined) {
+      if (
+        character.attributes.physical[key as AttributesPhysicalType] !==
+          undefined
+      ) {
         group = character.attributes["physical"];
-      }
-      else if (character.attributes.social[key as AttributesSocialType] !== undefined) {
+      } else if (
+        character.attributes.social[key as AttributesSocialType] !== undefined
+      ) {
         group = character.attributes["social"];
-      }
-      else if (character.attributes.mental[key as AttributesMentalType] !== undefined) {
+      } else if (
+        character.attributes.mental[key as AttributesMentalType] !== undefined
+      ) {
         group = character.attributes["mental"];
       }
 
@@ -157,10 +166,10 @@ commands[treatKey(locale.skills.name)] = {
     type: CommandOptionType.SUB_COMMAND_GROUP,
     options: buildSkillOptions("mental"),
   }).build,
-  solve: buildCharacterUpdateSolver((character, input: { 
-    physical?: Record<SkillsPhysicalType, NumberValueInput>, 
-    social?: Record<SkillsSocialType, NumberValueInput>,
-    mental?: Record<SkillsMentalType, NumberValueInput>,
+  solve: buildCharacterUpdateSolver((character, input: {
+    physical?: Record<SkillsPhysicalType, NumberValueInput>;
+    social?: Record<SkillsSocialType, NumberValueInput>;
+    mental?: Record<SkillsMentalType, NumberValueInput>;
   }) => {
     if (input.physical) {
       const key = Object.keys(input.physical)[0] as SkillsPhysicalType;
@@ -168,38 +177,34 @@ commands[treatKey(locale.skills.name)] = {
       const old = character.skills.physical[key];
 
       const value = input.physical[key].value;
-  
+
       character.skills.physical[key] = value;
 
       return calculateSpent(old, value, skillsMultiple);
-    }
-    else if (input.social) {
+    } else if (input.social) {
       const key = Object.keys(input.social)[0] as SkillsSocialType;
 
       const old = character.skills.social[key];
 
       const value = input.social[key].value;
-  
+
       character.skills.social[key] = value;
 
       return calculateSpent(old, value, skillsMultiple);
-    }
-    else if (input.mental) {
+    } else if (input.mental) {
       const key = Object.keys(input.mental)[0] as SkillsMentalType;
 
       const old = character.skills.mental[key];
 
       const value = input.mental[key].value;
-  
+
       character.skills.mental[key] = value;
 
       return calculateSpent(old, value, skillsMultiple);
     }
 
     return 0;
-  },
-  false,
-),
+  }, false),
 };
 //Vampire
 commands[treatKey(locale.resonance.name)] = {
@@ -299,7 +304,11 @@ commands[treatKey(locale.renown.glory)] = {
   description: `${locale.commands.sheet.description} ${locale.renown.glory}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseField<number>((c, v) => c.renown.glory = v),
+    parseNumberFieldWithSpent(
+      (c) => c.renown.glory,
+      (c, v) => c.renown.glory = v,
+      5,
+    ),
     false,
   ),
 };
@@ -307,7 +316,11 @@ commands[treatKey(locale.renown.honor)] = {
   description: `${locale.commands.sheet.description} ${locale.renown.honor}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseField<number>((c, v) => c.renown.honor = v),
+    parseNumberFieldWithSpent(
+      (c) => c.renown.honor,
+      (c, v) => c.renown.honor = v,
+      5,
+    ),
     false,
   ),
 };
@@ -315,7 +328,11 @@ commands[treatKey(locale.renown.wisdom)] = {
   description: `${locale.commands.sheet.description} ${locale.renown.wisdom}`,
   options: buildIntegerOptions(0, 5),
   solve: buildCharacterUpdateSolver(
-    parseField<number>((c, v) => c.renown.wisdom = v),
+    parseNumberFieldWithSpent(
+      (c) => c.renown.wisdom,
+      (c, v) => c.renown.wisdom = v,
+      5,
+    ),
     false,
   ),
 };
