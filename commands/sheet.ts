@@ -7,6 +7,7 @@ attributeChoices,
   buildChoicesOptions,
   buildIntegerOptions,
   BuildOptions,
+  calculateSpent,
   CommandOptions,
   CommandOptionType,
   commands,
@@ -18,9 +19,21 @@ attributeChoices,
   value,
 } from "./common.ts";
 import { keys, uploadImage } from "../utils.ts";
-import { CharacterKind } from "../character.ts";
-import { characterSolver } from "../solver/characterSolver.ts";
+import { Character, CharacterKind } from "../character.ts";
 import { LocaleType } from "../i18n/localeType.ts";
+
+type NumberValueInput = { value: number };
+
+type AttributesPhysicalType = keyof Character["attributes"]["physical"];
+type AttributesSocialType = keyof Character["attributes"]["social"];
+type AttributesMentalType = keyof Character["attributes"]["mental"];
+type AttributesType = AttributesPhysicalType | AttributesSocialType | AttributesMentalType;
+
+type SkillsPhysicalType = keyof Character["skills"]["physical"];
+type SkillsSocialType = keyof Character["skills"]["social"];
+type SkillsMentalType = keyof Character["skills"]["mental"];
+
+const skillsMultiple = 3;
 
 function buildSkillOptions(
   key: Exclude<keyof LocaleType["skills"], "name">,
@@ -90,7 +103,6 @@ commands[treatKey(locale.image)] = {
 };
 commands[treatKey(locale.attributes.name)] = {
   description: `${locale.commands.sheet.description} ${locale.attributes.name}`,
-  solve: characterSolver,
   options: apply(builder => {
     for (const item of attributeChoices) {
       builder.option(item.name, {
@@ -101,10 +113,34 @@ commands[treatKey(locale.attributes.name)] = {
       });
     }
   }).build,
+  solve: buildCharacterUpdateSolver((character, input: Record<AttributesType, NumberValueInput>) => {
+      const key = Object.keys(input)[0];
+
+      let group: Record<string, number>;
+
+      if (character.attributes.physical[key as AttributesPhysicalType] !== undefined) {
+        group = character.attributes["physical"];
+      }
+      else if (character.attributes.social[key as AttributesSocialType] !== undefined) {
+        group = character.attributes["social"];
+      }
+      else if (character.attributes.mental[key as AttributesMentalType] !== undefined) {
+        group = character.attributes["mental"];
+      }
+
+      const old = group![key];
+
+      const value = input[key as AttributesType].value;
+
+      group![key] = value;
+
+      return calculateSpent(old, value, 5);
+    },
+    false,
+  ),
 };
 commands[treatKey(locale.skills.name)] = {
   description: `${locale.commands.sheet.description} ${locale.skills.name}`,
-  solve: characterSolver,
   options: option(locale.physical, {
     property: "physical",
     description: `${locale.commands.sheet.description} ${locale.physical}`,
@@ -121,6 +157,49 @@ commands[treatKey(locale.skills.name)] = {
     type: CommandOptionType.SUB_COMMAND_GROUP,
     options: buildSkillOptions("mental"),
   }).build,
+  solve: buildCharacterUpdateSolver((character, input: { 
+    physical?: Record<SkillsPhysicalType, NumberValueInput>, 
+    social?: Record<SkillsSocialType, NumberValueInput>,
+    mental?: Record<SkillsMentalType, NumberValueInput>,
+  }) => {
+    if (input.physical) {
+      const key = Object.keys(input.physical)[0] as SkillsPhysicalType;
+
+      const old = character.skills.physical[key];
+
+      const value = input.physical[key].value;
+  
+      character.skills.physical[key] = value;
+
+      return calculateSpent(old, value, skillsMultiple);
+    }
+    else if (input.social) {
+      const key = Object.keys(input.social)[0] as SkillsSocialType;
+
+      const old = character.skills.social[key];
+
+      const value = input.social[key].value;
+  
+      character.skills.social[key] = value;
+
+      return calculateSpent(old, value, skillsMultiple);
+    }
+    else if (input.mental) {
+      const key = Object.keys(input.mental)[0] as SkillsMentalType;
+
+      const old = character.skills.mental[key];
+
+      const value = input.mental[key].value;
+  
+      character.skills.mental[key] = value;
+
+      return calculateSpent(old, value, skillsMultiple);
+    }
+
+    return 0;
+  },
+  false,
+),
 };
 //vampire
 commands[treatKey(locale.resonance.name)] = {

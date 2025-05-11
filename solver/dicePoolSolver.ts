@@ -7,8 +7,7 @@ import { locale } from "../i18n/locale.ts";
 import { Chronicle } from "../repository.ts";
 import { InteractionResponseError } from "../utils.ts";
 
-type AttributeType =
-  | keyof LocaleType["attributes"]["physical"]
+type AttributeType = keyof LocaleType["attributes"]["physical"]
   | keyof LocaleType["attributes"]["social"]
   | keyof LocaleType["attributes"]["mental"];
 
