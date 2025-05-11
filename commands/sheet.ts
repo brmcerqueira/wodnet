@@ -23,7 +23,6 @@ import {
 import { keys, uploadImage } from "../utils.ts";
 import { Character, CharacterKind } from "../character.ts";
 import { LocaleType } from "../i18n/localeType.ts";
-import { Command } from "../deps.ts";
 
 type NumberValueInput = { value: number };
 
@@ -39,7 +38,10 @@ type SkillsPhysicalType = keyof Character["skills"]["physical"];
 type SkillsSocialType = keyof Character["skills"]["social"];
 type SkillsMentalType = keyof Character["skills"]["mental"];
 
+type RiteInput = { rite: string; value: boolean }
+
 const skillsMultiple = 3;
+const ritesCost = 5;
 
 function buildSkillOptions(
   key: Exclude<keyof LocaleType["skills"], "name">,
@@ -73,9 +75,9 @@ function buildRitesOptions(key: Exclude<keyof LocaleType["rites"], "name">,): Co
     }
   }
 
-  return option(locale.commands.sheet.level.name, {
-    property: "level",
-    description: locale.commands.sheet.level.description,
+  return option(locale.commands.sheet.rite.name, {
+    property: "rite",
+    description: locale.commands.sheet.rite.description,
     type: CommandOptionType.STRING,
     required: true,
     choices: choices,
@@ -396,7 +398,30 @@ commands[treatKey(locale.rites.name)] = {
     type: CommandOptionType.SUB_COMMAND,
     options: buildRitesOptions("social"),
   }).build,
-  solve: buildCharacterUpdateSolver((character, input: any) => {
+  solve: buildCharacterUpdateSolver((character, input: { common?: RiteInput, social?: RiteInput }) => {
+    if (input.common) {
+      const index = character.rites.indexOf(input.common.rite);
+  
+      if (input.common.value) {
+        if (index == -1) {
+          character.rites.push(input.common.rite);
+          return ritesCost;
+        }
+      } else if (index > -1) {
+        character.rites.splice(index, 1);
+        return -ritesCost;
+      }
+    } else if (input.social) {
+      const index = character.rites.indexOf(input.social.rite);
+  
+      if (input.social.value) {
+        if (index == -1) {
+          character.rites.push(input.social.rite);
+        }
+      } else if (index > -1) {
+        character.rites.splice(index, 1);
+      }
+    }
 
     return 0;
   }, false),

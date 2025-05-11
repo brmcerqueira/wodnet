@@ -960,6 +960,10 @@ export const pt: LocaleType = {
         name: "círculos",
         description: "Círculos",
       },
+      rite: {
+        name: "rito",
+        description: "Rito"
+      }
     },
     detailsModal: {
       name: "detalhes",

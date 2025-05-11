@@ -741,6 +741,7 @@ export type LocaleType = {
       level: CommandOption;
       wards: CommandOption;
       circles: CommandOption;
+      rite: CommandOption;
     };
     import: {
       json: CommandOption;
