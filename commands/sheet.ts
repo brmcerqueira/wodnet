@@ -201,7 +201,7 @@ commands[treatKey(locale.skills.name)] = {
   false,
 ),
 };
-//vampire
+//Vampire
 commands[treatKey(locale.resonance.name)] = {
   description: `${locale.commands.sheet.description} ${locale.resonance.name}`,
   options: buildChoicesOptions(locale.resonance.options, true),
@@ -270,7 +270,7 @@ commands[treatKey(locale.stains)] = {
     false,
   ),
 };
-//werewolf
+//Werewolf
 commands[treatKey(locale.auspice.name)] = {
   description: `${locale.commands.sheet.description} ${locale.auspice.name}`,
   options: buildChoicesOptions(locale.auspice.options),

@@ -79,10 +79,10 @@ export class BuildOptions {
 
 export function booleanChoices(): CommandChoice[] {
   return [{
-    name: "👍",
+    name: locale.yes,
     value: "true",
   }, {
-    name: "❌",
+    name: locale.no,
     value: "false",
   }];
 }

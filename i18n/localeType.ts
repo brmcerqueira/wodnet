@@ -24,6 +24,8 @@ export type LocaleType = {
   characterLinkSent: string;
   details: string;
   name: string;
+  yes: string;
+  no: string;
   image: string;
   player: string;
   rage: string;
