@@ -82,11 +82,7 @@ export const detailsModal = modal(
       }
 
       return 0;
-<<<<<<< HEAD:custom/editModal.ts
-    }, false
-=======
     },
     false,
->>>>>>> werewolf:custom/detailsModal.ts
   ),
 );
