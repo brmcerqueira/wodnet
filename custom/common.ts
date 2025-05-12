@@ -22,19 +22,21 @@ export type ButtonOptions = {
   emoji?: MessageComponentEmoji;
 };
 
+export type ModalFields = {
+  [name: string]: {
+    label: string;
+    style: TextInputStyle | keyof typeof TextInputStyle;
+    placeholder?: string;
+    minLength?: number;
+    maxLength?: number;
+    value?: string;
+    required?: boolean;
+  };
+}
+
 export type ModalOptions = {
   title: string;
-  fields: {
-    [name: string]: {
-      label: string;
-      style: TextInputStyle | keyof typeof TextInputStyle;
-      placeholder?: string;
-      minLength?: number;
-      maxLength?: number;
-      value?: string;
-      required?: boolean;
-    };
-  };
+  fields: ModalFields;
 };
 
 export type ModalInput<T extends { [key: string]: string }> = {
