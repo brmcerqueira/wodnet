@@ -79,8 +79,21 @@ commands[treatKey(locale.commands.dicePools.name)] = {
     property: "attribute",
     description: locale.commands.dicePools.attribute.description,
     type: CommandOptionType.STRING,
-    required: true,
+    required: false,
     choices: attributeChoices,
+  }).option(locale.commands.dicePools.renown.name, {
+    property: "renown",
+    description: locale.commands.dicePools.renown.description,
+    type: CommandOptionType.STRING,
+    required: false,
+    choices: keys(locale.renown).map(
+      (key) => {
+        return {
+          name: locale.renown[key],
+          value: key,
+        };
+      },
+    ),
   }).option(locale.commands.dicePools.secondaryAttribute.name, {
     property: "secondaryAttribute",
     description: locale.commands.dicePools.secondaryAttribute.description,
@@ -132,6 +145,13 @@ commands[treatKey(locale.commands.dicePools.name)] = {
     required: false,
     minValue: -10,
     maxValue: 10,
+  }).option(locale.commands.dicePools.descriptionField.name, {
+    property: "description",
+    description: locale.commands.dicePools.descriptionField.description,
+    type: CommandOptionType.STRING,
+    required: false,
+    minLength: 1,
+    maxLength: 6000,
   }).build,
 };
 commands[treatKey(locale.commands.actions.name)] = {

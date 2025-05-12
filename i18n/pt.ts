@@ -845,6 +845,10 @@ export const pt: LocaleType = {
         name: "disciplina",
         description: "Nome da disciplina",
       },
+      renown: {
+        name: "renome",
+        description: "Nome do renome",
+      },
       difficulty: {
         name: "dificuldade",
         description: "Dificuldade da jogada",
@@ -852,6 +856,10 @@ export const pt: LocaleType = {
       modifier: {
         name: "modificador",
         description: "Modificador da jogada",
+      },
+      descriptionField: {
+        name: "descrição",
+        description: "Descrição da jogada",
       },
     },
     import: {

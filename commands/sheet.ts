@@ -26,17 +26,17 @@ import { LocaleType } from "../i18n/localeType.ts";
 
 type NumberValueInput = { value: number };
 
-type AttributesPhysicalType = keyof Character["attributes"]["physical"];
-type AttributesSocialType = keyof Character["attributes"]["social"];
-type AttributesMentalType = keyof Character["attributes"]["mental"];
-type AttributesType =
-  | AttributesPhysicalType
-  | AttributesSocialType
-  | AttributesMentalType;
+type AttributePhysicalType = keyof Character["attributes"]["physical"];
+type AttributeSocialType = keyof Character["attributes"]["social"];
+type AttributeMentalType = keyof Character["attributes"]["mental"];
+type AttributeType =
+  | AttributePhysicalType
+  | AttributeSocialType
+  | AttributeMentalType;
 
-type SkillsPhysicalType = keyof Character["skills"]["physical"];
-type SkillsSocialType = keyof Character["skills"]["social"];
-type SkillsMentalType = keyof Character["skills"]["mental"];
+type SkillPhysicalType = keyof Character["skills"]["physical"];
+type SkillSocialType = keyof Character["skills"]["social"];
+type SkillMentalType = keyof Character["skills"]["mental"];
 
 type RiteInput = { rite: string; value: boolean }
 
@@ -150,29 +150,29 @@ commands[treatKey(locale.attributes.name)] = {
     }
   }).build,
   solve: buildCharacterUpdateSolver(
-    (character, input: Record<AttributesType, NumberValueInput>) => {
+    (character, input: Record<AttributeType, NumberValueInput>) => {
       const key = Object.keys(input)[0];
 
       let group: Record<string, number>;
 
       if (
-        character.attributes.physical[key as AttributesPhysicalType] !==
+        character.attributes.physical[key as AttributePhysicalType] !==
           undefined
       ) {
         group = character.attributes["physical"];
       } else if (
-        character.attributes.social[key as AttributesSocialType] !== undefined
+        character.attributes.social[key as AttributeSocialType] !== undefined
       ) {
         group = character.attributes["social"];
       } else if (
-        character.attributes.mental[key as AttributesMentalType] !== undefined
+        character.attributes.mental[key as AttributeMentalType] !== undefined
       ) {
         group = character.attributes["mental"];
       }
 
       const old = group![key];
 
-      const value = input[key as AttributesType].value;
+      const value = input[key as AttributeType].value;
 
       group![key] = value;
 
@@ -200,12 +200,12 @@ commands[treatKey(locale.skills.name)] = {
     options: buildSkillOptions("mental"),
   }).build,
   solve: buildCharacterUpdateSolver((character, input: {
-    physical?: Record<SkillsPhysicalType, NumberValueInput>;
-    social?: Record<SkillsSocialType, NumberValueInput>;
-    mental?: Record<SkillsMentalType, NumberValueInput>;
+    physical?: Record<SkillPhysicalType, NumberValueInput>;
+    social?: Record<SkillSocialType, NumberValueInput>;
+    mental?: Record<SkillMentalType, NumberValueInput>;
   }) => {
     if (input.physical) {
-      const key = Object.keys(input.physical)[0] as SkillsPhysicalType;
+      const key = Object.keys(input.physical)[0] as SkillPhysicalType;
 
       const old = character.skills.physical[key];
 
@@ -215,7 +215,7 @@ commands[treatKey(locale.skills.name)] = {
 
       return calculateSpent(old, value, skillsMultiple);
     } else if (input.social) {
-      const key = Object.keys(input.social)[0] as SkillsSocialType;
+      const key = Object.keys(input.social)[0] as SkillSocialType;
 
       const old = character.skills.social[key];
 
@@ -225,7 +225,7 @@ commands[treatKey(locale.skills.name)] = {
 
       return calculateSpent(old, value, skillsMultiple);
     } else if (input.mental) {
-      const key = Object.keys(input.mental)[0] as SkillsMentalType;
+      const key = Object.keys(input.mental)[0] as SkillMentalType;
 
       const old = character.skills.mental[key];
 

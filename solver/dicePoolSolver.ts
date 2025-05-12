@@ -7,22 +7,24 @@ import { locale } from "../i18n/locale.ts";
 import { Chronicle } from "../repository.ts";
 import { InteractionResponseError } from "../utils.ts";
 
-type AttributeType = keyof LocaleType["attributes"]["physical"]
-  | keyof LocaleType["attributes"]["social"]
-  | keyof LocaleType["attributes"]["mental"];
+type AttributeType = keyof Character["attributes"]["physical"]
+  | keyof Character["attributes"]["social"]
+  | keyof Character["attributes"]["mental"];
 
 export async function dicePoolSolver(
   interaction: Interaction,
   chronicle: Chronicle,
   input: {
-    attribute: AttributeType;
+    attribute?: AttributeType;
+    renown?: keyof Character["renown"];
     secondaryAttribute?: AttributeType;
-    skillPhysical?: keyof LocaleType["skills"]["physical"];
-    skillSocial?: keyof LocaleType["skills"]["social"];
-    skillMental?: keyof LocaleType["skills"]["mental"];
+    skillPhysical?: keyof Character["skills"]["physical"];
+    skillSocial?: keyof Character["skills"]["social"];
+    skillMental?: keyof Character["skills"]["mental"];
     discipline?: Exclude<keyof LocaleType["disciplines"], "name">;
     difficulty?: number;
-    modifier?: number; 
+    modifier?: number;
+    description?: string; 
   },
 ) {
   const character = await chronicle.getCharacterByUserId(interaction.user.id);
@@ -33,7 +35,20 @@ export async function dicePoolSolver(
 
   const description: string[] = [];
 
-  let dices = getAttributeValue(character, input.attribute, description);
+  let dices = 0;
+
+  if (input.attribute) {
+    dices += getAttributeValue(
+      character,
+      input.attribute,
+      description,
+    );
+  }
+
+  if (input.renown) {
+    description.push(locale.renown[input.renown]);
+    dices += character.renown[input.renown];
+  }
 
   if (input.secondaryAttribute) {
     dices += getAttributeValue(
@@ -70,7 +85,7 @@ export async function dicePoolSolver(
     character.hungerOrRage,
     input.difficulty || 1,
     input.modifier || 0,
-    description.join(" + "),
+    `${input.description ? `${input.description} `:""}[${description.join(" + ")}]`,
     character,
   );
 }
