@@ -1,5 +1,5 @@
 import { join } from "./deps.ts";
-import { characterRender } from "./views/characterRender.tsx";
+import { VampireView } from "./views/vampireView.tsx";
 import * as bot from "./bot.ts";
 import { config } from "./config.ts";
 import { logger } from "./logger.ts";
@@ -7,6 +7,8 @@ import { RouteContext } from "./routeContext.ts";
 import { locale } from "./i18n/locale.ts";
 import { transpile } from "./transpile.ts";
 import { overlayVoiceCss } from "./overlay.ts";
+import { WerewolfView } from "./views/werewolfView.tsx";
+import { CharacterKind } from "./character.ts";
 
 type RouteResult = Promise<Response | void> | Response | void;
 
@@ -180,13 +182,32 @@ Deno.serve(
       if (
         context.token && context.chronicle && context.characterId
       ) {
+        const dark = context.url.pathname == "/dark";
+        const character = await context.chronicle.getCharacter(context.characterId, true);
+
+        let result = "";
+
+        switch (character.kind) {
+          case CharacterKind.Vampire:
+            result = await VampireView(
+              character,
+              context.token,
+              dark,
+              context.update,
+            ).render();
+            break;
+          case CharacterKind.Werewolf:
+            result = await WerewolfView(
+              character,
+              context.token,
+              dark,
+              context.update,
+            ).render();
+            break;
+        }
+
         return new Response(
-          await characterRender(
-            await context.chronicle.getCharacter(context.characterId, true),
-            context.token,
-            context.url.pathname == "/dark",
-            context.update,
-          ).render(),
+          result,
           { headers: [["Content-Type", "text/html"]] },
         );
       }
