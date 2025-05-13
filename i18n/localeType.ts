@@ -32,6 +32,7 @@ export type LocaleType = {
   auspice: OptionsLocale;
   tribe: OptionsLocale;
   renown: {
+    name: string;
     glory: string;
     honor: string;
     wisdom: string;

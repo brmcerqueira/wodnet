@@ -26,14 +26,14 @@ export const WerewolfView = (
     <MasterView character={character} token={token} dark={dark} update={update}>
       <div class="container">
         <div class="row align-items-end mt-2">
-          <div class="col-sm-3 mb-2 text-center">
+          <div class="col-sm-4 mb-2 text-center">
             <img
               class="float-sm-end"
               src={character.image}
               alt={character.name}
             />
           </div>
-          <div class="col-sm-3 mb-2">
+          <div class="col-sm-4 mb-2">
             <div class="row align-items-center">
               <div class="col text-end">
                 <b>{locale.name}:</b>
@@ -67,7 +67,7 @@ export const WerewolfView = (
               </div>
             </div>
           </div>
-          <div class="col-sm-3 mb-2">
+          <div class="col-sm-4 mb-2">
             <div class="row align-items-center">
               <div class="col text-end">
                 <b>{locale.auspice.name}:</b>
@@ -179,6 +179,55 @@ export const WerewolfView = (
       </div>
       <hr />
       <SkillsView character={character} />
+      <hr />
+          <div class="container">
+            <div class="row align-items-center mb-2">
+              <div class="col text-center">
+                <b>{locale.renown.name}</b>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 mb-2">
+                <div class="row align-items-center">
+                  <div class="col text-end">
+                    <b>{locale.renown.glory}</b>
+                  </div>
+                  <div class="col text-center">
+                    <Dots
+                      value={character.renown.glory}
+                      total={5}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 mb-2">
+                <div class="row align-items-center">
+                  <div class="col text-end">
+                    <b>{locale.renown.honor}</b>
+                  </div>
+                  <div class="col text-center">
+                    <Dots
+                      value={character.renown.honor}
+                      total={5}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 mb-2">
+                <div class="row align-items-center">
+                  <div class="col text-end">
+                    <b>{locale.renown.wisdom}</b>
+                  </div>
+                  <div class="col text-center">
+                    <Dots
+                      value={character.renown.wisdom}
+                      total={5}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
       <hr />
       <AdvantagesView character={character} />
       <hr />

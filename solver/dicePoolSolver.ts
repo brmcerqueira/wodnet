@@ -1,7 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { Interaction } from "../deps.ts";
 import { sendRoll } from "../sendRoll.ts";
-import { LocaleType } from "../i18n/localeType.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { Chronicle } from "../repository.ts";
@@ -21,7 +20,7 @@ export async function dicePoolSolver(
     skillPhysical?: keyof Character["skills"]["physical"];
     skillSocial?: keyof Character["skills"]["social"];
     skillMental?: keyof Character["skills"]["mental"];
-    discipline?: Exclude<keyof LocaleType["disciplines"], "name">;
+    discipline?: keyof Character["disciplines"];
     difficulty?: number;
     modifier?: number;
     description?: string; 

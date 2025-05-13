@@ -86,7 +86,7 @@ commands[treatKey(locale.commands.dicePools.name)] = {
     description: locale.commands.dicePools.renown.description,
     type: CommandOptionType.STRING,
     required: false,
-    choices: keys(locale.renown).map(
+    choices: keys(locale.renown).filter((key) => key != "name").map(
       (key) => {
         return {
           name: locale.renown[key],

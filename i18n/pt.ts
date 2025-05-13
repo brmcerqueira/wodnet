@@ -65,6 +65,7 @@ export const pt: LocaleType = {
     ],
   },
   renown: {
+    name: "Renome",
     glory: "Glória",
     honor: "Honra",
     wisdom: "Sabedoria",
