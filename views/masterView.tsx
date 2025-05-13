@@ -6,9 +6,9 @@ import { config } from "../config.ts";
 
 const CircleFill: TsxComplexElement = <i class="bi bi-circle-fill" />;
 const Circle: TsxComplexElement = <i class="bi bi-circle" />;
-const SquareFill: TsxComplexElement = <i class="bi bi-square-fill" />;
+export const SquareFill: TsxComplexElement = <i class="bi bi-square-fill" />;
 export const XSquare: TsxComplexElement = <i class="bi bi-x-square" />;
-const SlashSquare: TsxComplexElement = <i class="bi bi-slash-square" />;
+export const SlashSquare: TsxComplexElement = <i class="bi bi-slash-square" />;
 export const Square: TsxComplexElement = <i class="bi bi-square" />;
 
 export function treatDetails(text: string): string {
@@ -22,7 +22,7 @@ export function localeSkill(key: string | number): string {
     (locale.skills.mental as any)[key];
 }
 
-const Meter = (
+export const Meter = (
   properties: { total: number; put: (index: number) => TsxComplexElement },
 ): TsxComplexElement => {
   const indexSpace = properties.total > 5
@@ -82,26 +82,6 @@ export const Damage = (
           return SlashSquare;
         } else {
           return Square;
-        }
-      }}
-    />
-  );
-};
-
-export const Humanity = (
-  properties: { total: number; stains: number },
-): TsxComplexElement => {
-  const max = 10;
-  return (
-    <Meter
-      total={max}
-      put={(i) => {
-        if (i <= properties.total) {
-          return SquareFill;
-        } else if (i <= max - properties.stains) {
-          return Square;
-        } else {
-          return SlashSquare;
         }
       }}
     />

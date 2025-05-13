@@ -7,15 +7,37 @@ import {
   Damage,
   Dots,
   DualMeter,
-  Humanity,
   MasterView,
+  Meter,
+  SlashSquare,
   Square,
+  SquareFill,
   XSquare,
 } from "./masterView.tsx";
 import { AttributesView } from "./attributesView.tsx";
 import { SkillsView } from "./skillsView.tsx";
 import { AdvantagesView } from "./advantagesView.tsx";
 import { DetailsView } from "./detailsView.tsx";
+
+const Humanity = (
+  properties: { total: number; stains: number },
+): TsxComplexElement => {
+  const max = 10;
+  return (
+    <Meter
+      total={max}
+      put={(i) => {
+        if (i <= properties.total) {
+          return SquareFill;
+        } else if (i <= max - properties.stains) {
+          return Square;
+        } else {
+          return SlashSquare;
+        }
+      }}
+    />
+  );
+};
 
 export const VampireView = (
   character: Character,

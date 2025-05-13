@@ -10,7 +10,6 @@ import {
   Damage,
   Dots,
   DualMeter,
-  Humanity,
   MasterView,
   Square,
   XSquare,
@@ -199,10 +198,7 @@ export const WerewolfView = (
             </div>
             <div class="row align-items-center trait">
               <div class="col text-center">
-                <Humanity
-                  total={character.humanity.total}
-                  stains={character.humanity.stains}
-                />
+       
               </div>
             </div>
           </div>
