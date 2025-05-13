@@ -11,7 +11,8 @@ import {
   DualMeter,
   MasterView,
   Square,
-  XSquare,
+  SquareFill,
+  SquareX,
 } from "./masterView.tsx";
 import { SkillsView } from "./skillsView.tsx";
 
@@ -92,12 +93,17 @@ export const WerewolfView = (
           <div class="col-sm-3">
             <div class="row align-items-center">
               <div class="col text-center">
-                <b>{locale.bloodPotency}</b>
+                <b>{locale.harano}</b>
               </div>
             </div>
             <div class="row align-items-center trait">
               <div class="col text-center">
-                <Dots value={character.bloodPotency} total={10} />
+              <DualMeter
+                  value={character.harano}
+                  total={5}
+                  empty={Square}
+                  fill={SquareFill}
+                />
               </div>
             </div>
           </div>
@@ -121,7 +127,7 @@ export const WerewolfView = (
           <div class="col-sm-2">
             <div class="row align-items-center">
               <div class="col text-center">
-                <b>{locale.hunger}</b>
+                <b>{locale.rage}</b>
               </div>
             </div>
             <div class="row align-items-center trait">
@@ -130,7 +136,7 @@ export const WerewolfView = (
                   value={character.hungerOrRage}
                   total={5}
                   empty={Square}
-                  fill={XSquare}
+                  fill={SquareX}
                 />
               </div>
             </div>
@@ -155,12 +161,17 @@ export const WerewolfView = (
           <div class="col-sm-3">
             <div class="row align-items-center">
               <div class="col text-center">
-                <b>{locale.humanity}</b>
+                <b>{locale.hauglosk}</b>
               </div>
             </div>
             <div class="row align-items-center trait">
               <div class="col text-center">
-       
+              <DualMeter
+                  value={character.hauglosk}
+                  total={5}
+                  empty={Square}
+                  fill={SquareFill}
+                />
               </div>
             </div>
           </div>

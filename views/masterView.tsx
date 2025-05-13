@@ -7,8 +7,8 @@ import { config } from "../config.ts";
 const CircleFill: TsxComplexElement = <i class="bi bi-circle-fill" />;
 const Circle: TsxComplexElement = <i class="bi bi-circle" />;
 export const SquareFill: TsxComplexElement = <i class="bi bi-square-fill" />;
-export const XSquare: TsxComplexElement = <i class="bi bi-x-square" />;
-export const SlashSquare: TsxComplexElement = <i class="bi bi-slash-square" />;
+export const SquareX: TsxComplexElement = <i class="bi bi-x-square" />;
+export const SquareSlash: TsxComplexElement = <i class="bi bi-slash-square" />;
 export const Square: TsxComplexElement = <i class="bi bi-square" />;
 
 export function treatDetails(text: string): string {
@@ -77,9 +77,9 @@ export const Damage = (
       total={properties.total}
       put={(i) => {
         if (i <= indexAggravated) {
-          return XSquare;
+          return SquareX;
         } else if (i <= indexSuperficial) {
-          return SlashSquare;
+          return SquareSlash;
         } else {
           return Square;
         }

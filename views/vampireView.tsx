@@ -9,10 +9,10 @@ import {
   DualMeter,
   MasterView,
   Meter,
-  SlashSquare,
+  SquareSlash,
   Square,
   SquareFill,
-  XSquare,
+  SquareX,
 } from "./masterView.tsx";
 import { AttributesView } from "./attributesView.tsx";
 import { SkillsView } from "./skillsView.tsx";
@@ -32,7 +32,7 @@ const Humanity = (
         } else if (i <= max - properties.stains) {
           return Square;
         } else {
-          return SlashSquare;
+          return SquareSlash;
         }
       }}
     />
@@ -191,7 +191,7 @@ export const VampireView = (
                   value={character.hungerOrRage}
                   total={5}
                   empty={Square}
-                  fill={XSquare}
+                  fill={SquareX}
                 />
               </div>
             </div>
