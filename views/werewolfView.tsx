@@ -2,7 +2,6 @@
 import React, { TsxComplexElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
-import { keys, treatDiscipline } from "../utils.ts";
 import { AdvantagesView } from "./advantagesView.tsx";
 import { AttributesView } from "./attributesView.tsx";
 import { DetailsView } from "./detailsView.tsx";
@@ -70,54 +69,17 @@ export const WerewolfView = (
           <div class="col-sm-3 mb-2">
             <div class="row align-items-center">
               <div class="col text-end">
-                <b>{locale.resonance.name}:</b>
+                <b>{locale.auspice.name}:</b>
               </div>
-              <div class="col text-start">{character.resonance}</div>
+              <div class="col text-start">{character.auspice}</div>
             </div>
             <div class="row align-items-center">
               <div class="col text-end">
-                <b>{locale.ambition}:</b>
+                <b>{locale.tribe.name}:</b>
               </div>
-              <div
-                class="col text-start overflow-ellipsis"
-                data-tooltip={character.ambition}
-              >
-                {character.ambition}
-              </div>
+              <div class="col text-start">{character.tribe}</div>
             </div>
             <div class="row align-items-center">
-              <div class="col text-end">
-                <b>{locale.desire}:</b>
-              </div>
-              <div
-                class="col text-start overflow-ellipsis"
-                data-tooltip={character.desire}
-              >
-                {character.desire}
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3 mb-2">
-            <div class="row align-items-center">
-              <div class="col text-end">
-                <b>{locale.predator.name}:</b>
-              </div>
-              <div class="col text-start">{character.predator}</div>
-            </div>
-            <div class="row align-items-center">
-              <div class="col text-end">
-                <b>{locale.clan.name}:</b>
-              </div>
-              <div class="col text-start">{character.clan}</div>
-            </div>
-            <div class="row align-items-center">
-              <div class="col text-end">
-                <b>{locale.generation.name}:</b>
-              </div>
-              <div class="col text-start">
-                {character.generation}
-                {locale.generation.suffix}
-              </div>
             </div>
           </div>
         </div>
@@ -208,41 +170,6 @@ export const WerewolfView = (
       <SkillsView character={character} />
       <hr />
       <AdvantagesView character={character} />
-      <hr />
-      <div class="container">
-        <div class="row align-items-center mb-2">
-          <div class="col text-center">
-            <b>{locale.disciplines.name}</b>
-          </div>
-        </div>
-        <div class="row">
-          {keys(character.disciplines).map((key) => (
-            <div class="col-sm-4 mb-5">
-              <div class="row align-items-center mb-2">
-                <div class="col text-end">
-                  <b>{locale.disciplines[key].name}</b>
-                </div>
-                <div class="col text-center">
-                  <Dots value={character.disciplines[key]!.length} total={5} />
-                </div>
-              </div>
-              {character.disciplines[key]?.map((name) => {
-                const discipline = treatDiscipline(
-                  (locale.disciplines as any)[key][name],
-                );
-                return (
-                  <div class="row align-items-center">
-                    <div class="col text-end">
-                      <Dots value={discipline.value} total={discipline.value} />
-                    </div>
-                    <div class="col text-start">{discipline.name}</div>
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
       <hr />
       <DetailsView character={character} />
     </MasterView>
