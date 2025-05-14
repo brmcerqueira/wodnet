@@ -240,7 +240,7 @@ export const WerewolfView = (
                 <b>{locale.rites.name}</b>
               </div>
             </div>
-            {keys(character.rites).map((key) => (
+            {character.rites.map((key) => (
               <div class="row align-items-center">
                 <div class="col text-end">
                   {(locale.rites.common as any)[key] ||
