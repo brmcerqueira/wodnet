@@ -404,7 +404,7 @@ export const pt: LocaleType = {
     },
   },
   gifts: {
-    name: "Dons & Rituais",
+    name: "Dons",
     native: {
       name: "Inatos",
       one: {
