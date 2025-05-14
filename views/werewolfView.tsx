@@ -237,6 +237,13 @@ export const WerewolfView = (
           <div class="col-sm-4 mb-2">
             <div class="row align-items-center mb-2">
               <div class="col text-center">
+                <b>{locale.gifts.name}</b>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 mb-2">
+            <div class="row align-items-center mb-2">
+              <div class="col text-center">
                 <b>{locale.rites.name}</b>
               </div>
             </div>
