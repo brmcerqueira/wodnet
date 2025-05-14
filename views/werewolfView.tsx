@@ -17,6 +17,24 @@ import {
 import { SkillsView } from "./skillsView.tsx";
 import { keys, treatPower } from "../utils.ts";
 
+function localeGift(gift: string): string {
+  for (const groupKey in locale.gifts) {
+    if (groupKey != "name") {
+      const group = (locale.gifts as any)[groupKey];
+      for (const levelGroupKey in group) {
+        if (levelGroupKey != "name") {
+          const levelGroup = group[levelGroupKey];
+          if (levelGroup[gift]) {
+            return levelGroup[gift];
+          }
+        }
+      }
+    }
+  }
+
+  return "";
+}
+
 export const WerewolfView = (
   character: Character,
   token: string,
@@ -242,9 +260,7 @@ export const WerewolfView = (
             </div>
             {keys(character.gifts).map((key) => {
               const value = character.gifts[key];
-              const gift = treatPower(
-                (locale.gifts as any)[key],
-              );
+              const gift = treatPower(localeGift(key as string));
               return (
                 <div class="row align-items-center">
                   <div class="col text-end">
