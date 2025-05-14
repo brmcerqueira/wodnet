@@ -2,7 +2,7 @@
 import React, { TsxComplexElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
-import { keys, treatDiscipline } from "../utils.ts";
+import { keys, treatPower } from "../utils.ts";
 import {
   Damage,
   Dots,
@@ -253,7 +253,7 @@ export const VampireView = (
                 </div>
               </div>
               {character.disciplines[key]?.map((name) => {
-                const discipline = treatDiscipline(
+                const discipline = treatPower(
                   (locale.disciplines as any)[key][name],
                 );
                 return (

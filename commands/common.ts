@@ -3,7 +3,7 @@ import { Character } from "../character.ts";
 import { Chronicle } from "../repository.ts";
 import { ApplicationCommandType, ChannelTypes, Interaction } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { keys, treatDiscipline } from "../utils.ts";
+import { keys, treatPower } from "../utils.ts";
 
 export enum CommandOptionType {
   SUB_COMMAND = 1,
@@ -98,7 +98,7 @@ export function apply(builder: (buildOptions: BuildOptions) => void): BuildOptio
 }
 
 export function treatKey(key: string | number): string {
-  const data = treatDiscipline(key.toString()).name;
+  const data = treatPower(key.toString()).name;
   return data.toLowerCase().replaceAll(/\s/g, "-");
 }
 

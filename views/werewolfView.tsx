@@ -15,6 +15,7 @@ import {
   SquareX,
 } from "./masterView.tsx";
 import { SkillsView } from "./skillsView.tsx";
+import { keys } from "../utils.ts";
 
 export const WerewolfView = (
   character: Character,
@@ -230,6 +231,26 @@ export const WerewolfView = (
       </div>
       <hr />
       <AdvantagesView character={character} />
+      <hr />
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4 mb-2">
+            <div class="row align-items-center mb-2">
+              <div class="col text-center">
+                <b>{locale.rites.name}</b>
+              </div>
+            </div>
+            {keys(character.rites).map((key) => (
+              <div class="row align-items-center">
+                <div class="col text-end">
+                  {(locale.rites.common as any)[key] ||
+                    (locale.rites.social as any)[key]}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       <hr />
       <DetailsView character={character} />
     </MasterView>
