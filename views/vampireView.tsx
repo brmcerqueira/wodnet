@@ -259,7 +259,7 @@ export const VampireView = (
                 return (
                   <div class="row align-items-center">
                     <div class="col text-end">
-                      <Dots value={discipline.value} total={discipline.value} />
+                      <Dots value={discipline.index} total={discipline.index} />
                     </div>
                     <div class="col text-start">{discipline.name}</div>
                   </div>

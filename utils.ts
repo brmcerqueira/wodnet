@@ -1,5 +1,4 @@
 // deno-lint-ignore-file no-explicit-any
-import { CHAR_0 } from "https://deno.land/std@0.224.0/path/_common/constants.ts";
 import { config } from "./config.ts";
 import { EmojiPayload } from "./deps.ts";
 
@@ -30,11 +29,11 @@ export function keys<T extends object>(o: T): (keyof T)[] {
   return Object.keys(o) as (keyof T)[];
 }
 
-export function treatPower(text: string): { name: string; value: number } {
+export function treatPower(text: string): { name: string; index: number } {
   const index = text.lastIndexOf("●") + 1;
   return {
     name: text.substring(index).trimStart(),
-    value: text.substring(0, index).replaceAll(/\s/g,"").length,
+    index: index,
   };
 }
 
