@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 import React, { TsxComplexElement, TsxElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
@@ -10,17 +9,6 @@ export const SquareFill: TsxComplexElement = <i class="bi bi-square-fill" />;
 export const SquareX: TsxComplexElement = <i class="bi bi-x-square" />;
 export const SquareSlash: TsxComplexElement = <i class="bi bi-slash-square" />;
 export const Square: TsxComplexElement = <i class="bi bi-square" />;
-
-export function treatDetails(text: string): string {
-  const index = text.indexOf("[");
-  return text.substring(0, index > -1 ? index : text.length);
-}
-
-export function localeSkill(key: string | number): string {
-  return (locale.skills.physical as any)[key] ||
-    (locale.skills.social as any)[key] ||
-    (locale.skills.mental as any)[key];
-}
 
 export const Meter = (
   properties: { total: number; put: (index: number) => TsxComplexElement },

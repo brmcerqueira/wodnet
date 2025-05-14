@@ -15,7 +15,7 @@ import {
   SquareX,
 } from "./masterView.tsx";
 import { SkillsView } from "./skillsView.tsx";
-import { keys } from "../utils.ts";
+import { keys, treatPower } from "../utils.ts";
 
 export const WerewolfView = (
   character: Character,
@@ -240,6 +240,20 @@ export const WerewolfView = (
                 <b>{locale.gifts.name}</b>
               </div>
             </div>
+            {keys(character.gifts).map((key) => {
+              const value = character.gifts[key];
+              const gift = treatPower(
+                (locale.gifts as any)[key],
+              );
+              return (
+                <div class="row align-items-center">
+                  <div class="col text-end">
+                    <Dots value={value} total={value} />
+                  </div>
+                  <div class="col text-start">{gift.name}</div>
+                </div>
+              );
+            })}
           </div>
           <div class="col-sm-4 mb-2">
             <div class="row align-items-center mb-2">

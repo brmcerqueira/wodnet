@@ -2,7 +2,13 @@ import React, { TsxComplexElement } from "../deps.ts";
 import { Character } from "../character.ts";
 import { locale } from "../i18n/locale.ts";
 import { keys } from "../utils.ts";
-import { Dots, localeSkill, treatDetails } from "./masterView.tsx";
+import { Dots } from "./masterView.tsx";
+
+function localeSkill(key: string | number): string {
+  return (locale.skills.physical as any)[key] ||
+    (locale.skills.social as any)[key] ||
+    (locale.skills.mental as any)[key];
+}
 
 export const AdvantagesView = (
   properties: {
@@ -21,7 +27,7 @@ export const AdvantagesView = (
           {keys(properties.character.specialties).map((skill) =>
             properties.character.specialties[skill].map((specialty) => (
               <div class="row align-items-center">
-                <div class="col text-end">{treatDetails(specialty)}</div>
+                <div class="col text-end">{specialty}</div>
                 <div class="col text-start">({localeSkill(skill)})</div>
               </div>
             ))
@@ -35,7 +41,7 @@ export const AdvantagesView = (
           </div>
           {keys(properties.character.advantages).map((key) => (
             <div class="row align-items-center">
-              <div class="col text-end">{treatDetails(key as string)}</div>
+              <div class="col text-end">{key}</div>
               <div class="col text-center">
                 <Dots value={properties.character.advantages[key]} total={5} />
               </div>
@@ -50,7 +56,7 @@ export const AdvantagesView = (
           </div>
           {keys(properties.character.flaws).map((key) => (
             <div class="row align-items-center">
-              <div class="col text-end">{treatDetails(key as string)}</div>
+              <div class="col text-end">{key}</div>
               <div class="col text-center">
                 <Dots value={properties.character.flaws[key]} total={5} />
               </div>
