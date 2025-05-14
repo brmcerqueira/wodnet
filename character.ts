@@ -1,7 +1,7 @@
 export enum CharacterMode {
   Opened,
   Tracked,
-  Closed
+  Closed,
 }
 
 export enum CharacterKind {
@@ -16,8 +16,8 @@ export type Damage = {
 };
 
 export type AdvantageFlaw = {
-  [name: string]: number
-}
+  [name: string]: number;
+};
 
 export type ActionResult = {
   dices: number;
@@ -134,9 +134,9 @@ export type Character = {
     glory: number;
     honor: number;
     wisdom: number;
-  }
+  };
   harano: number;
   hauglosk: number;
-  gifts: string[];
+  gifts: { [gift: string]: number };
   rites: string[];
 };

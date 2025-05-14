@@ -301,7 +301,7 @@ export class Chronicle {
         },
         harano: 0,
         hauglosk: 0,
-        gifts: [],
+        gifts: {},
         rites: []
       };
 

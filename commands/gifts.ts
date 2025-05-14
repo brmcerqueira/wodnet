@@ -68,19 +68,18 @@ function giftParse(
     }
   }
 
-  return (c, input) => {
-    const index = c.gifts.indexOf(input.level);
-
-    const level = levels[input.level];
+  return (character, input) => {
+    const value: number | undefined = character.gifts[input.level];
 
     if (input.value) {
-      if (index == -1) {
-        c.gifts.push(input.level);
+      if (value === undefined) {
+        const level = levels[input.level];
+        character.gifts[input.level] = level;
         return calculateSpent(0, level, multiplier);
       }
-    } else if (index > -1) {
-      c.gifts.splice(index, 1);
-      return calculateSpent(level, 0, multiplier);
+    } else if (value !== undefined) {
+      delete character.gifts[input.level];
+      return calculateSpent(value, 0, multiplier);
     }
 
     return 0;
