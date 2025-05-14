@@ -38,6 +38,7 @@ export const pt: LocaleType = {
   image: "Imagem",
   player: "Jogador",
   rage: "Fúria",
+  native: "Inato",
   auspice: {
     name: "Augúrio",
     options: [

@@ -17,6 +17,26 @@ import {
 import { SkillsView } from "./skillsView.tsx";
 import { keys, treatPower } from "../utils.ts";
 
+function giftGroup(value: number): string {
+  let result = "";
+  switch (value) {
+    case 2:
+    case 5:
+    case 8:
+      result = locale.auspice.name;
+      break;
+    case 3:
+    case 6:
+    case 9:
+      result = locale.tribe.name;
+      break;
+    default:
+      result = locale.native;
+      break
+  }
+  return result;
+}
+
 function localeGift(gift: string): string {
   for (const groupKey in locale.gifts) {
     if (groupKey != "name") {
@@ -252,7 +272,7 @@ export const WerewolfView = (
       <hr />
       <div class="container">
         <div class="row">
-          <div class="col-sm-4 mb-2">
+          <div class="col-sm-8 mb-2">
             <div class="row align-items-center mb-2">
               <div class="col text-center">
                 <b>{locale.gifts.name}</b>
@@ -267,6 +287,7 @@ export const WerewolfView = (
                     <Dots value={value} total={value} />
                   </div>
                   <div class="col text-start">{gift.name}</div>
+                  <div class="col text-start">({giftGroup(value)})</div>
                 </div>
               );
             })}

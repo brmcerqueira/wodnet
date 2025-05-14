@@ -29,6 +29,7 @@ export type LocaleType = {
   image: string;
   player: string;
   rage: string;
+  native: string;
   auspice: OptionsLocale;
   tribe: OptionsLocale;
   renown: {
