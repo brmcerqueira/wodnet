@@ -1,7 +1,7 @@
 import { Character, CharacterMode } from "../character.ts";
 import { Interaction, InteractionResponseType } from "../deps.ts";
 import { locale } from "../i18n/locale.ts";
-import { colors, InteractionResponseError, uploadImage } from "../utils.ts";
+import { colors, InteractionResponseError } from "../utils.ts";
 import { Chronicle } from "../repository.ts";
 import { Solver } from "../commands/module.ts";
 
