@@ -1,5 +1,4 @@
 // deno-lint-ignore-file no-explicit-any
-import { config } from "./config.ts";
 import { EmojiPayload } from "./deps.ts";
 
 export const separator = "^";
@@ -35,28 +34,6 @@ export function treatPower(text: string): { name: string; index: number } {
     name: text.substring(index).trimStart(),
     index: index,
   };
-}
-
-export async function uploadImage(url: string): Promise<string> {
-  const body = new FormData();
-
-  body.set("image", url);
-
-  const response = await fetch("https://api.imgur.com/3/image", {
-    method: "POST",
-    headers: {
-      Authorization: `Authorization: Client-ID ${config.imgurClientId}`
-    },
-    body
-  });
-
-  const json: { data?: { link: string; }; errors?: { id: string, code: string, status: string, detail: string }[] } = await response.json();
-
-  if (json.errors) {
-    throw new Error(json.errors[0].detail);
-  }
-
-  return json.data!.link;
 }
 
 export function jsonRelaxedKeysParse<T>(json: string): T {

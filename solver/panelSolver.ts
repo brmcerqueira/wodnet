@@ -6,7 +6,7 @@ import {
   InteractionResponseType,
   MessageComponentType,
 } from "../deps.ts";
-import { colors, uploadImage } from "../utils.ts";
+import { colors } from "../utils.ts";
 import { Chronicle } from "../repository.ts";
 import { locale } from "../i18n/locale.ts";
 import {
@@ -399,9 +399,7 @@ export async function panelSolver(
     let image: { url: string } | undefined;
 
     if (input.macro.image) {
-      image = {
-        url: await uploadImage(input.macro.image.url),
-      };
+      image = input.macro.image;
     } else if (input.macro.character) {
       const character = await chronicle.getCharacter(
         input.macro.character.value,

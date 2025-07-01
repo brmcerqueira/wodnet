@@ -1,7 +1,6 @@
 import { LevelName } from "./deps.ts";
 
-export const config = {
-    imgurClientId: Deno.env.get("IMGUR_CLIENT_ID")!,  
+export const config = { 
     redis: {
         hostname: Deno.env.get("REDIS_HOST")!,
         port: Deno.env.has("REDIS_PORT") ? parseInt(Deno.env.get("REDIS_PORT")!) : 19857,

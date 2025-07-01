@@ -20,9 +20,10 @@ import {
   treatKey,
   value,
 } from "./common.ts";
-import { keys, uploadImage } from "../utils.ts";
+import { keys } from "../utils.ts";
 import { Character, CharacterKind } from "../character.ts";
 import { LocaleType } from "../i18n/localeType.ts";
+import { imageUpdateSolver } from "../solver/imageUpdateSolver.ts";
 
 type NumberValueInput = { value: number };
 
@@ -129,13 +130,7 @@ commands[treatKey(locale.image)] = {
     type: CommandOptionType.ATTACHMENT,
     required: true,
   }).build,
-  solve: buildCharacterUpdateSolver(
-    async (c, i: { value: { url: string } }) => {
-      c.image = await uploadImage(i.value.url);
-      return 0;
-    },
-    false,
-  ),
+  solve: imageUpdateSolver,
 };
 commands[treatKey(locale.attributes.name)] = {
   description: `${locale.commands.sheet.description} ${locale.attributes.name}`,
