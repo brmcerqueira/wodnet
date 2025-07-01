@@ -412,7 +412,7 @@ export class Chronicle {
 
     for (const array of keys) {
       if (Array.isArray(array)) {
-        const character: Character = JSON.parse(array[3]);
+        const character: Character = JSON.parse(array[array.indexOf(sheetKey) + 1]);
 
         result.push({
           value: character.id,
