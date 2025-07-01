@@ -23,7 +23,7 @@ export const emojis: { [key: string]: EmojiPayload | null } = {
   successRed: null,
 };
 
-export class InteractionResponseError extends Error {}
+export class InteractionResponseError extends Error { }
 
 export function keys<T extends object>(o: T): (keyof T)[] {
   return Object.keys(o) as (keyof T)[];
@@ -40,7 +40,7 @@ export function treatPower(text: string): { name: string; index: number } {
 export async function uploadImage(url: string): Promise<string> {
   const body = new FormData();
 
-  body.set("image", url);  
+  body.set("image", url);
 
   const response = await fetch("https://api.imgur.com/3/image", {
     method: "POST",
@@ -50,9 +50,13 @@ export async function uploadImage(url: string): Promise<string> {
     body
   });
 
-  const json: { data: { link: string; }; } = await response.json();
+  const json: { data?: { link: string; }; errors?: { id: string, code: string, status: string, detail: string }[] } = await response.json();
 
-  return json.data.link;
+  if (json.errors) {
+    throw new Error(json.errors[0].detail);
+  }
+
+  return json.data!.link;
 }
 
 export function jsonRelaxedKeysParse<T>(json: string): T {
