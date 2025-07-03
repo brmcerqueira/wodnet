@@ -1,7 +1,7 @@
 
 import { Character, CharacterKind, CharacterMode } from "./character.ts";
 import { config } from "./config.ts";
-import { ApplicationCommandChoice, connect } from "./deps.ts";
+import { ApplicationCommandChoice, redis } from "./deps.ts";
 import { RollResult } from "./diceRollManager.ts";
 import { logger } from "./logger.ts";
 import { Macro } from "./transpile.ts";
@@ -11,7 +11,7 @@ type LastRoll = {
   result: RollResult;
 }
 
-const repository = await connect(config.redis);
+const repository = await redis.connect(config.redis);
 
 const characterKey = "character";
 const nameKey = "name";
@@ -353,8 +353,6 @@ export class Chronicle {
       ? [`${characterKey}:${this.chronicleId}:${id}`]
       : await repository.hkeys(`${characterKey}:${this.chronicleId}:*`);
 
-    await repository.multi();
-
     for (const key of entries) {
       const character: Character = JSON.parse((await repository.hget(key, sheetKey))!);
 
@@ -366,8 +364,6 @@ export class Chronicle {
 
       await repository.set(key, json);
     }
-
-    await repository.exec();
   }
 
   public async getAllCharacters(): Promise<Character[]> {
