@@ -183,7 +183,7 @@ Deno.serve(
         context.token && context.chronicle && context.characterId
       ) {
         const dark = context.url.pathname == "/dark";
-        const character = await context.chronicle.getCharacter(context.characterId, true);
+        const character = await context.chronicle.getCharacter(context.characterId);
 
         let result = "";
 

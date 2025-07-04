@@ -165,9 +165,9 @@ export class Chronicle {
     const currentCharacter = await this.currentCharacter();
     const character = (await this.isStoryteller(userId))
       ? (currentCharacter
-        ? await this.getCharacter(currentCharacter, true)
+        ? await this.getCharacter(currentCharacter)
         : undefined)
-      : await this.getCharacter(userId, true);
+      : await this.getCharacter(userId);
     return character;
   }
 
@@ -187,10 +187,7 @@ export class Chronicle {
     return id!;
   }
 
-  public async getCharacter(
-    id: string,
-    ignorePersist?: boolean,
-  ): Promise<Character> {
+  public async getCharacter(id: string): Promise<Character> {
     const key = `${characterKey}:${this.chronicleId}:${id}`;
 
     const bulk = await repository.hget(key, sheetKey);
@@ -304,10 +301,6 @@ export class Chronicle {
         gifts: {},
         rites: []
       };
-
-      if (!ignorePersist) {
-        await this.saveCharacter(character);
-      }
     }
     else {
       character = JSON.parse(bulk);

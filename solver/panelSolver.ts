@@ -403,7 +403,6 @@ export async function panelSolver(
     } else if (input.macro.character) {
       const character = await chronicle.getCharacter(
         input.macro.character.value,
-        true,
       );
       image = {
         url: character.image,

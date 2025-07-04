@@ -42,7 +42,7 @@ export async function characterSolver(
       : null;
     await chronicle.setCurrentCharacter(id);
     const character = id != null
-      ? await chronicle.getCharacter(id, true)
+      ? await chronicle.getCharacter(id)
       : null;
 
     if (input.choose.isSelect) {
